@@ -1,0 +1,13 @@
+:host {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem
+}
+
+:host ::ng-deep .reading-block,:host ::ng-deep .reading-affix {
+    font-size: var(--fs-800) !important;
+    font-weight: bold !important;
+    color: var(--on-light-background) !important;
+    opacity: 1 !important; 
+}

@@ -1,0 +1,19 @@
+:host {
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+}
+
+dx-chart {
+    flex-grow: 2;
+}
+.weather-side-info-currently {
+    aspect-ratio: 1/1;
+    width: 75%;
+    height: auto;
+}
+
+
+.currently-icon {
+    width: 25%;
+}

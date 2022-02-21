@@ -1,0 +1,18 @@
+:host {
+    width: 60px;
+    background-color: white;
+}
+
+button {
+    all: unset;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button:hover {
+    background-color: #d4d3d3;
+}
