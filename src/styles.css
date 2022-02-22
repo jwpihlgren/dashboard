@@ -49,6 +49,12 @@
 .span-1 {grid-column: span 1}
 .span-2 {grid-column: span 2}
 .span-4 {grid-column: span 4}
+
+@media screen and (max-width: 768px) {
+    .span-1 {grid-column: span 1}
+    .span-2 {grid-column: span 1}
+    .span-4 {grid-column: span 1}
+}
 .ds-2 { box-shadow: var(--bs-2); }
 .round { border-radius: 1000px; }
 
@@ -62,7 +68,7 @@ h5 { font-size: var(--fs-500); }
 
 
 html, body {
-    height: 100%;
+    
     font-family: 'Raleway', sans-serif;
     font-weight: 600;
     color: var(--on-light-background);

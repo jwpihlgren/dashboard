@@ -14,7 +14,7 @@ export class WeatherCardComponent implements OnInit {
         family: "'Raleway', sans-serif",
         weight: 600,
         size: 16,
-        color: "#767676",
+        color: "#272727",
         horizontalAlignment: "left"
       }
     },
@@ -36,7 +36,8 @@ export class WeatherCardComponent implements OnInit {
         font: {
           family: "'Raleway', sans-serif",
           weight: 600,
-          size: 16
+          size: 16,
+          opacity: 1
         }
       }
     },
@@ -63,11 +64,11 @@ export class WeatherCardComponent implements OnInit {
       name:"Days",
       showInLegend:"false"
       }],
-    palette: ["#3e8ac5", "#ddd321"],
+    palette: ["#3e8ac5"],
     customizePoint: (point: any) => {
       const customProperties: any = {}
       if (point.argument === "Thu") {
-        customProperties['color'] = "#ddd321";
+        customProperties['color'] = "#65ceae";
       }
       return customProperties
     } 
