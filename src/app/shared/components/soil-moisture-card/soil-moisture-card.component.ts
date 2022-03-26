@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { SensorService } from './../../services/sensor.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-soil-moisture-card',
@@ -20,9 +22,9 @@ export class SoilMoistureCardComponent implements OnInit {
     '60': {color: 'rgba(50, 210, 172, 1)'}
     };
 
+ @Input() sensor: any
 
-
-  constructor() { }
+  constructor(private sensorService: SensorService) { }
 
   ngOnInit(): void {
   }

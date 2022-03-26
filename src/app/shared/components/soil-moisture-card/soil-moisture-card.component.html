@@ -1,8 +1,8 @@
 <span class="flex row j-center a-center gap-sm">Plant humidity <img src="../../../../assets/Plant.svg" alt=""/></span>
 <ngx-gauge 
     [type]="gaugeType" 
-    [value]="gaugeValue" 
-    [label]="gaugeLabel"  
+    [value]="sensor.sensorValue.value" 
+    [label]="sensor.sensorAlias"  
     [append]="gaugeAppendText"
     [thick]="gauageThickness"
     [cap]="guageCap"

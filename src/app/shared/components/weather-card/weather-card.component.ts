@@ -27,6 +27,7 @@ export class WeatherCardComponent implements OnInit {
       cornerRadius:"10",
       barWidth:"20",
       minBarSize:"10",
+      color: "#ddd111"
     },
     commonAxisSettings: {
       tick: {
@@ -62,13 +63,13 @@ export class WeatherCardComponent implements OnInit {
       rangeValue1Field:"minTemp",
       rangeValue2Field:"maxTemp",
       name:"Days",
-      showInLegend:"false"
+      showInLegend:"false",
+      color: "rgba(66, 148, 238,1)"
       }],
-    palette: ["#3e8ac5"],
     customizePoint: (point: any) => {
       const customProperties: any = {}
       if (point.argument === "Thu") {
-        customProperties['color'] = "#65ceae";
+        customProperties['color'] = "rgb(35,210,175)";
       }
       return customProperties
     } 

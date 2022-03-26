@@ -1,6 +1,5 @@
 <dx-chart
       id="chart"
-      [palette]="chartSettings.palette"
       [dataSource]="temperatures"
       [commonPaneSettings]="chartSettings.commonPaneSettings"
       [commonSeriesSettings]="chartSettings.commonSeriesSettings"
@@ -15,21 +14,21 @@
 <div class="weather-side-info j-center a-center flex col gap-xl">
     <div class="weather-side-info-details flex row gap-md p-md ds-2 round">
         <div class="detail">
-            <h5 class="detail-title">Wind</h5>
+            <h6 class="detail-title">Wind</h6>
             <span class="detail-data">3m/s SE</span>
         </div>
         <div class="detail">
-            <h5 class="detail-title">Barometer</h5>
+            <h6 class="detail-title">Barometer</h6>
             <span class="detail-data">980Kps</span>
         </div>
         <div class="detail">
-            <h5 class="detail-title">Humidity</h5>
+            <h6 class="detail-title">Humidity</h6>
             <span class="detail-data">80%</span>
         </div>
 
     </div>
     <div class="weather-side-info-currently flex col a-center j-center gap-md p-md ds-2 round">
-        <h5 class="currently-title">Currently</h5>
+        <h6 class="currently-title">Currently</h6>
         <h2 class="currently-degrees">14&deg;C</h2>
         <img class="currently-icon" src="../../../../assets/Sun.svg"/>
     </div>
