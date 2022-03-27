@@ -25,7 +25,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     AuthModule.forRoot({
       ...environment.auth,
       httpInterceptor: {
-        allowedList: [`${environment.dev.serverUrl}/sensors`]
+        allowedList: [
+          `${environment.dev.serverUrl}/sensors`,
+          `${environment.dev.serverUrl}/location`,
+          `${environment.dev.serverUrl}/weather`
+        ]
       }
     }),
   ],

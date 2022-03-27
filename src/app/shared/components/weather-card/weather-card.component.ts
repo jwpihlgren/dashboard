@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { DxDataGridComponent } from "devextreme-angular";
 
 @Component({
   selector: 'app-weather-card',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./weather-card.component.css']
 })
 export class WeatherCardComponent implements OnInit {
+
+  @ViewChild(DxDataGridComponent, { static: false }) dataGrid!: DxDataGridComponent
+
   chartSettings = {
     title: {
       text: "&deg;C",
@@ -52,9 +56,10 @@ export class WeatherCardComponent implements OnInit {
       visible: false
     },
     valueAxis: [{
+      constantLines: [],
       tickInterval:"5",
       visualRange: {
-        startValue: -20,
+        startValue: -15,
         length: 50
       },
       visualRangeUpdateMode: "auto",
@@ -68,56 +73,40 @@ export class WeatherCardComponent implements OnInit {
       }],
     customizePoint: (point: any) => {
       const customProperties: any = {}
-      if (point.argument === "Thu") {
+      if (point.argument === this.epochToDay(Date.now())) {
         customProperties['color'] = "rgb(35,210,175)";
       }
       return customProperties
     } 
   }
 
-  temperatures = [
-    {
-      day: "Mon",
-      minTemp: -2,
-      maxTemp: -2 
-    },
-    {
-      day: "Tue",
-      minTemp: -5,
-      maxTemp: 10 
-    },
-    {
-      day: "Wed",
-      minTemp: -5,
-      maxTemp: 10,
-    },
-    {
-      day: "Thu",
-      minTemp: -5,
-      maxTemp: 25,
-    },
-    {
-      day: "Fri",
-      minTemp: -5,
-      maxTemp: 10 
-    },
-    {
-      day: "Sat",
-      minTemp: -5,
-      maxTemp: 10 
-    },
-    {
-      day: "Sun",
-      minTemp: -4,
-      maxTemp: 10 
-    },
-  ]
+  forecastDataSeries: [] = [] 
 
+
+  @Input() forecast: any
 
 
   constructor() { }
 
   ngOnInit(): void {
+    this.forecastDataSeries = this.createForecastDataSeries(this.forecast.daily)
+  }
+
+  epochToDay(epoch: any): string {
+    const weekday = ["Sön","Mån","Tis","Ons","Tor","Fre","Lör"];
+    const day = new Date(epoch)
+    return `${weekday[day.getDay()]}`
+  }
+
+  createForecastDataSeries(forecastDays: any[]): any {
+    const forecastDataSeries = forecastDays.map((day: any) => {
+      return {
+        day: this.epochToDay(day.dt * 1000),
+        minTemp: Math.round(day.temp.min),
+        maxTemp: Math.round(day.temp.max),
+      }
+    })
+    return forecastDataSeries.slice(0, forecastDataSeries.length - 1)
   }
 
 }

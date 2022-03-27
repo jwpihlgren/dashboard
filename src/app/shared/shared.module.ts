@@ -6,6 +6,8 @@ import { WeatherCardComponent } from './components/weather-card/weather-card.com
 import { DxChartModule } from 'devextreme-angular';
 import { NgxGaugeModule } from 'ngx-gauge';
 import { SoilMoistureCardComponent } from './components/soil-moisture-card/soil-moisture-card.component';
+import { AddUnitPipe } from './pipes/add-unit.pipe';
+import { DegToCompassPipe } from './pipes/deg-to-compass.pipe';
 
 
 
@@ -15,7 +17,9 @@ import { SoilMoistureCardComponent } from './components/soil-moisture-card/soil-
     LeftNavComponent,
     GridComponent,
     WeatherCardComponent,
-    SoilMoistureCardComponent
+    SoilMoistureCardComponent,
+    AddUnitPipe,
+    DegToCompassPipe
   ],
   imports: [
     CommonModule,

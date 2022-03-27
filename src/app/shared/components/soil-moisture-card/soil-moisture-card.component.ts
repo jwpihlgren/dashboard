@@ -1,5 +1,5 @@
 import { SensorService } from './../../services/sensor.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   templateUrl: './soil-moisture-card.component.html',
   styleUrls: ['./soil-moisture-card.component.css']
 })
-export class SoilMoistureCardComponent implements OnInit {
+export class SoilMoistureCardComponent implements OnInit{
 
   gaugeType: any = "arch";
   gaugeValue: any = 80;
@@ -28,5 +28,4 @@ export class SoilMoistureCardComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

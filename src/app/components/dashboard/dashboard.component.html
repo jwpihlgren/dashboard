@@ -1,4 +1,4 @@
 <app-grid> 
-    <app-weather-card class="card span-2"></app-weather-card>
+    <app-weather-card *ngIf="forecast$ | async as forecast" [forecast]="forecast" class="card span-2"></app-weather-card>
     <app-soil-moisture-card *ngIf="sensors$ | async as sensors" [sensor]="sensors.response[0]" class="card span-1"></app-soil-moisture-card>
 </app-grid>
