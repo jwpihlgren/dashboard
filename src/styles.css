@@ -1,6 +1,7 @@
 /* Reset */
 * {
     margin:0;
+    padding: 0;
     box-sizing: border-box;
 }
 
@@ -20,9 +21,22 @@
     --extra-large: 3rem;
 
 
-    --light-background: #F2F2F2;
-    --on-light-background-900: #272727;
-    --on-light-background-100: #6E6E6E;
+    --white:        #FFFFFF;
+    --blue-500:     #5693e9;
+    --green-500:    #32D2AC;
+    --yellow-500:   #F8C03F;
+    --orange-500:   #f19d8b;
+    --red-500:      #DE5353;
+    --gray-100:     #F2F2F2;
+    --gray-300:     #e5e5e5;
+    --gray-500:     #6E6E6E;
+    --gray-900:     #272727;
+
+    --light-background-100: var(--white);
+    --light-background-200: var(--gray-100);
+    --on-light-background-100: var(--gray-500);
+    --on-light-background-900: var(--gray-900);
+
 }
 
 /* Utility */
@@ -88,7 +102,8 @@ html, body {
 }
 
 body {
-    background-color: var(--light-background)
+    background-color: var(--light-background);
+    min-height: 100vh;
 }
 
 

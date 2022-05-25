@@ -1,8 +1,8 @@
 <span class="flex row j-center a-center gap-sm">Jordfuktighet <img src="../../../../assets/Plant.svg" alt=""/></span>
 <ngx-gauge 
     [type]="gaugeType" 
-    [value]="sensor.sensorValue.value" 
-    [label]="sensor.sensorAlias"  
+    [value]="sensor.values[0].value" 
+    [label]="sensor.alias"  
     [append]="gaugeAppendText"
     [thick]="gauageThickness"
     [cap]="guageCap"

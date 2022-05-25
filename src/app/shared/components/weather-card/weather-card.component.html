@@ -29,7 +29,7 @@
     </div>
     <div class="weather-side-info-currently flex col a-center j-center gap-md p-md ds-2 round">
         <h6 class="currently-title">Just nu</h6>
-        <h2 class="currently-degrees">{{forecast.current.temp | addUnit: '&#176;C'}}</h2>
-        <img class="currently-icon" [src]="'https://openweathermap.org/img/wn/' + forecast.current.weather[0].icon + '@2x.png'"/>
+        <h3 class="currently-degrees">{{forecast.current.temp | addUnit: '&#176;C'}}</h3>
+        <img class="currently-icon" [src]="'https://openweathermap.org/img/wn/' + forecast.current.weather[0].icon + '.png'"/>
     </div>
 </div>

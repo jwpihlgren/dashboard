@@ -8,6 +8,7 @@ import { NgxGaugeModule } from 'ngx-gauge';
 import { SoilMoistureCardComponent } from './components/soil-moisture-card/soil-moisture-card.component';
 import { AddUnitPipe } from './pipes/add-unit.pipe';
 import { DegToCompassPipe } from './pipes/deg-to-compass.pipe';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -24,7 +25,8 @@ import { DegToCompassPipe } from './pipes/deg-to-compass.pipe';
   imports: [
     CommonModule,
     DxChartModule,
-    NgxGaugeModule
+    NgxGaugeModule,
+    FontAwesomeModule,
 
   ],
   exports: [
@@ -33,7 +35,8 @@ import { DegToCompassPipe } from './pipes/deg-to-compass.pipe';
     WeatherCardComponent,
     DxChartModule,
     NgxGaugeModule,
-    SoilMoistureCardComponent
+    SoilMoistureCardComponent,
+    FontAwesomeModule,
 
     
   ]

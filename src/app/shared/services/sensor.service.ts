@@ -14,6 +14,7 @@ export class SensorService {
   getSensors(){
     return this.http.get(`${environment.dev.serverUrl}/sensors`).pipe(
       map(data => {
+        console.log(data)
         return data
       })
     );

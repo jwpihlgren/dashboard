@@ -1,8 +1,19 @@
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 72px;
+    width: 100%;
+    background-color: var(--white);
+    box-shadow: var(--bs-2);
+    position: sticky;
+    z-index: 9999;
+}
+
 main{
-    height: 100%;
+    height: calc(100vh - 72px);
     display: flex;
     flex-direction: row;
-    gap: var(--medium);
 }
 
 app-left-nav {
@@ -26,5 +37,15 @@ app-left-nav {
 
     }
     
+}
+
+a {
+    all:unset;
+    color: var(--on-light-background-900);
+}
+
+a:hover {
+    color: var(--gray-500);
+    cursor: pointer;
 }
 
