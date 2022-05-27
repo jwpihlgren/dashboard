@@ -24,6 +24,7 @@ export class BarRangeChartComponent implements OnInit{
   height = 370
   domainMin = -15
   domainMax = 35
+  domainPadding = 10;
 
   constructor(
     private elementRef: ElementRef,
@@ -31,8 +32,14 @@ export class BarRangeChartComponent implements OnInit{
 
   ngOnInit(): void {
     
+    /* Get the size of the parent and use for responsive chart - does not update on resize */
     this.width = this.elementRef.nativeElement.offsetWidth - this.margin * 2
     this.height = this.elementRef.nativeElement.offsetHeight - this.margin * 2
+
+    /*Set the domain min/max to the lowest and highest temperature respectively plus some padding*/
+    this.domainMin = this.forecast.reduce((acc, cur) => Math.min(cur.minTemp, acc), this.forecast[0].minTemp) - this.domainPadding
+    this.domainMax = this.forecast.reduce((acc, cur) => Math.max(cur.maxTemp, acc), this.forecast[0].maxTemp) + this.domainPadding
+
     this.createSvg()
     this.drawBars(this.forecast)
   }
