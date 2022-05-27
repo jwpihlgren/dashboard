@@ -24,7 +24,7 @@
       <ng-container *ngIf="auth.user$ | async as user" else placeholder>
         <app-menu-item class="button-primary" name={{user.nickname}}>
           <li>
-            <a routerLink="">Profile</a>
+            <a routerLink="/profile">Profile</a>
           </li>
           <li>
             <a routerLink="" (click)="logout()">Log out</a>
