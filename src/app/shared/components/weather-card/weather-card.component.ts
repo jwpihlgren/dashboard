@@ -34,8 +34,7 @@ export class WeatherCardComponent implements OnInit {
          maxTemp: Math.round(day.temp.max)
       }
     })
-    //return forecastDataSeries.slice(0, forecastDataSeries.length - 1)
-    return forecastDataSeries
+    return forecastDataSeries.slice(0, forecastDataSeries.length - 1) //Remove the 8th result because we only show 7
   }
 
 }
