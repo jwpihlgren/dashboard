@@ -1,19 +1,50 @@
 :host {
     display: flex;
     flex-direction: row;
-    padding: 1rem;
+    justify-content: center;
+    align-items: center;
+    padding-left: 0;
+    grid-column: 1 / span 2;
+    grid-row: 1 / span 1;
 }
 
-dx-chart {
-    flex-grow: 2;
+
+
+app-bar-range-chart {
+    height: 100%;
+    width: 60%;
 }
+
+.weather-side-info {
+    height: 100%;
+    width: 40%;
+    padding: 1rem;
+
+}
+
+
 .weather-side-info-currently {
     aspect-ratio: 1/1;
-    width: 75%;
+    object-fit: fill;
     height: auto;
 }
 
+@media screen and (max-width: 883px) {
+    :host {
+        flex-direction: column;
+        grid-column: 1 / span 1;
+        grid-row: 1 / span 2;
+        max-width: 100%;
+    }
 
-.currently-icon {
-    width: 25%;
+    app-bar-range-chart {
+        width: 100%;
+    }
+
+    .weather-side-info {
+        width: 100%;
+        flex-direction: row;
+    
+    }
+    
 }

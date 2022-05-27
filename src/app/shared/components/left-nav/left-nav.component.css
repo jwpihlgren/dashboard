@@ -1,18 +1,27 @@
 :host {
-    width: 60px;
-    background-color: white;
+    width: 72px;
+    background-color: var(--white);
 }
 
-button {
+a {
     all: unset;
     width: 100%;
-    height: auto;
+    height: 72px;
+    width: 72px;
     aspect-ratio: 1 / 1;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-button:hover {
-    background-color: #d4d3d3;
+fa-icon {
+    color: var(--blue-500);
+}
+
+a:hover {
+    background-color: var(--light-background-200);
+}
+
+:host.expanded {
+    width: 256px;
 }

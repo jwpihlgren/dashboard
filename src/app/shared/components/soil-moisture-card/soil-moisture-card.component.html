@@ -1,10 +1,13 @@
+<span class="flex row j-center a-center gap-sm">Jordfuktighet <img src="../../../../assets/Plant.svg" alt=""/></span>
 <ngx-gauge 
     [type]="gaugeType" 
-    [value]="gaugeValue" 
-    [label]="gaugeLabel"  
+    [value]="sensor.values[0].value" 
+    [label]="sensor.alias"  
     [append]="gaugeAppendText"
     [thick]="gauageThickness"
     [cap]="guageCap"
     [size]="guageSize"
-    [thresholds]="threshold">
+    [thresholds]="threshold"
+>
 </ngx-gauge>
+<span class="flex row j-center a-center gap-sm"> <img src="../../../../assets/Droplets.svg" Time  alt=""/>Dags att vattna</span>

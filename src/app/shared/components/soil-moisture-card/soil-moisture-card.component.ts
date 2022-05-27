@@ -1,30 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { SensorService } from './../../services/sensor.service';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-soil-moisture-card',
   templateUrl: './soil-moisture-card.component.html',
   styleUrls: ['./soil-moisture-card.component.css']
 })
-export class SoilMoistureCardComponent implements OnInit {
+export class SoilMoistureCardComponent implements OnInit{
 
   gaugeType: any = "arch";
-  gaugeValue: any = 60;
+  gaugeValue: any = 80;
   gaugeLabel: any = "Vardagsrum";
   gaugeAppendText: any  = "%";
   gauageThickness: any = 18;
   guageCap: any = "round";
-  guageSize: any = 300;
+  guageSize: any = 325;
   threshold = {
     '0': {color: 'rgba(255, 150, 136, 1)'},
-    '30': {color: 'rgba(255, 196, 12, 1)'},
-    '60': {color: 'rgba(0, 255, 127, 1)'}
+    '30': {color: 'rgba(248, 192, 63, 1)'},
+    '60': {color: 'rgba(50, 210, 172, 1)'}
     };
 
+ @Input() sensor: any
 
-
-  constructor() { }
+  constructor(private sensorService: SensorService) { }
 
   ngOnInit(): void {
   }
-
 }

@@ -1,0 +1,36 @@
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 39px;
+}
+
+
+ul {
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: var(--x-small);
+    background-color: var(--white);
+    border-radius: 5px;
+    box-shadow: var(--bs-2);
+    padding-block: var(--x-small);
+}
+
+:host ::ng-deep li  {
+    display: flex;
+}
+:host ::ng-deep li a {
+    list-style-type: none;
+    padding-inline: var(--small);
+    padding-block: var(--x-small);
+    flex-grow: 1;
+}
+
+:host ::ng-deep li a:hover {
+ background-color: var(--light-background-200)
+}
+
+.display {
+    visibility: visible; 
+}

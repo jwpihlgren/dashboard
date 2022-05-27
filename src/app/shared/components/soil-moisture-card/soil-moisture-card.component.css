@@ -1,13 +1,55 @@
 :host {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 1rem
+    padding: 1rem;
+    max-width: 100%;
 }
 
 :host ::ng-deep .reading-block,:host ::ng-deep .reading-affix {
     font-size: var(--fs-800) !important;
     font-weight: bold !important;
-    color: var(--on-light-background) !important;
+    color: var(--on-light-background-900) !important;
     opacity: 1 !important; 
+}
+
+img {
+    width: 2rem;
+}
+
+
+@media screen and (max-width: 599px) {
+    :host {
+        grid-column-end: span 1;
+    }
+    
+}
+
+@media screen and (max-width: 904px) {
+    :host {
+        grid-column-end: span 1;
+    }
+    
+}
+@media screen and (max-width: 1239px) {
+    
+    :host {
+        grid-column-end: span 1;
+    }
+    
+    
+}
+@media screen and (max-width: 1439px) {
+    :host {
+        grid-column-end: span 1;
+    }
+    
+    
+}
+@media screen and (min-width: 1440px) {
+    :host {
+        grid-column-end: span 1;
+    }
+    
 }

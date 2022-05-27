@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { faHouse, faGauge } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-left-nav',
@@ -7,6 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LeftNavComponent implements OnInit {
 
+
+  faHouse = faHouse
+  faGauge = faGauge
   constructor() { }
 
   ngOnInit(): void {

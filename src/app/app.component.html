@@ -1,13 +1,46 @@
-<main class="flex row">
+
+<header>
+  <div class="spacer"></div>
+  <a href="/">
+    <h3>
+      Pihl-Net-Central
+    </h3>
+  </a>
+  <ng-template #loggedOut>
+    <a routerLink="" class="button-primary" (click)="loginWithRedirect()">Log in</a>
+  </ng-template>
+
+<ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+    
+      <ng-template #placeholder>
+          placeholder
+          <a routerLink="" class="button-primary" (click)="logout()">
+            Log out
+          </a>
+      </ng-template>
+      <ng-container *ngIf="auth.user$ | async as user" else placeholder>
+        <app-menu-item class="button-primary" name={{user.name}}>
+        <li>
+          <a routerLink="">Profile</a>
+        </li>
+        <li>
+          <a routerLink="" (click)="logout()">Log out</a>
+        </li>
+      </app-menu-item>
+      </ng-container>
+    
+  </ng-container>
+
+
+  
+</header>
+
+
+<main>
   <app-left-nav
-  class="flex col ds-2 ">
+  >
   </app-left-nav>
   <router-outlet>
   </router-outlet>
 </main>
 
-
-
-<footer>
-Footer
-</footer>
