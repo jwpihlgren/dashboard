@@ -87,11 +87,15 @@ export class BarRangeChartComponent implements OnInit{
    .data(data)
    .enter()
    .append("rect")
+
    .attr("x", (datum: any) => x(datum.day))
    .attr("y", (datum: any) => y(datum.maxTemp))
    .attr("width", x.bandwidth())
-   .attr("height", (datum: any) => (this.height - y(datum.maxTemp)) - (this.height - y(datum.minTemp)) )
+   .attr("height", 8 )
    .attr("fill", "#d04a35")
+   .transition()
+   .duration(1500)
+   .attr("height", (datum: any) => (this.height - y(datum.maxTemp)) - (this.height - y(datum.minTemp)) )
  }
 
 }
