@@ -22,6 +22,10 @@ a:hover {
     background-color: var(--light-background-200);
 }
 
+a:active, .active-link {
+    background-color: var(--light-background-200);
+}
+
 :host.expanded {
     width: 256px;
 }
