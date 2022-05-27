@@ -14,6 +14,7 @@
     --fs-700: calc(1.6180 * var(--fs-600));
     --fs-800: calc(1.6180 * var(--fs-700));
     --fs-900: calc(1.6180 * var(--fs-800));
+    --bs-1: rgba(100, 100, 111, 0.2) 0px 3px 14px 0px;
     --bs-2: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     --x-small: 0.25rem;
     --small: 0.5rem;
@@ -81,14 +82,16 @@
 .span-1 { grid-column: span 1 }
 .span-2 { grid-column: span 2 }
 .span-4 { grid-column: span 4 }
+.ds-1 { box-shadow: var(--bs-1) }
+.ds-2 { box-shadow: var(--bs-2) }
+.round { border-radius: 1000px }
 
 @media screen and (max-width: 768px) {
     .span-1 { grid-column: span 1 }
     .span-2 { grid-column: span 1 }
     .span-4 { grid-column: span 1 }
 }
-.ds-2 { box-shadow: var(--bs-2) }
-.round { border-radius: 1000px }
+
 
 /* General styling */
 h1 { font-size: var(--fs-900) } 
