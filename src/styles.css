@@ -147,6 +147,7 @@ a.button-primary {
     border-radius: 5px;
     color: var(--blue-500);
     user-select: none;
+    min-width: 0;
 }
 
 a.button-primary:hover {
