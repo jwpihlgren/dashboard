@@ -22,6 +22,11 @@ app-bar-range-chart {
 
 }
 
+.detail {
+    width: 33%;
+    word-wrap: break-word;
+}
+
 
 .weather-side-info-currently {
     aspect-ratio: 1/1;

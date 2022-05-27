@@ -4,16 +4,16 @@
 ></app-bar-range-chart>
 <div class="weather-side-info j-center a-center flex col gap-xl">
     <div class="weather-side-info-details flex row gap-md p-md ds-1 round">
-        <div class="detail">
+        <div class="detail flex col j-between">
             <h6 class="detail-title">Vind</h6>
             <span class="detail-data">{{forecast.current.wind_speed | addUnit: "m/s"}} {{forecast.current.wind_deg | degToCompass}}</span>
         </div>
-        <div class="detail">
+        <div class="detail flex col j-between">
             <h6 class="detail-title">Barometer</h6>
             <span class="detail-data">{{forecast.current.pressure | addUnit: "hPa"}}</span>
         </div>
-        <div class="detail">
-            <h6 class="detail-title">Luftfuktighet</h6>
+        <div class="detail flex col j-between">
+            <h6 class="detail-title">Luft<wbr>fuktighet</h6>
             <span class="detail-data">{{forecast.current.humidity | addUnit: '%'}}</span>
         </div>
 
