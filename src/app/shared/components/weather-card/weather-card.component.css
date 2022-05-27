@@ -21,12 +21,19 @@ app-bar-range-chart {
     padding: 1rem;
 
 }
-
-.detail {
-    width: 33%;
-    word-wrap: break-word;
+.weather-side-info-details {
+    width: 100%;
 }
 
+.detail {
+    width: 100%;
+}
+
+.weather-side-info-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--medium)
+}
 
 .weather-side-info-currently {
     aspect-ratio: 1/1;
@@ -47,9 +54,7 @@ app-bar-range-chart {
     }
 
     .weather-side-info {
-        width: 100%;
-        flex-direction: row;
-    
+        width: 100%;  
     }
     
 }

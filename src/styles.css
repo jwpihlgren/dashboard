@@ -87,6 +87,7 @@
 .ds-1 { box-shadow: var(--bs-1) }
 .ds-2 { box-shadow: var(--bs-2) }
 .round { border-radius: 1000px }
+.rounded {border-radius: var(--medium);}
 
 @media screen and (max-width: 768px) {
     .span-1 { grid-column: span 1 }
