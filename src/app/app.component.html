@@ -22,7 +22,7 @@
       </ng-template>
       <!-- We can reach user info from auth -->
       <ng-container *ngIf="auth.user$ | async as user" else placeholder>
-        <app-menu-item class="button-primary" name={{user.name}}>
+        <app-menu-item class="button-primary" name={{user.nickname}}>
           <li>
             <a routerLink="">Profile</a>
           </li>
