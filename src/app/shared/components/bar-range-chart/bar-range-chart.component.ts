@@ -33,7 +33,7 @@ export class BarRangeChartComponent implements OnInit{
   ngOnInit(): void {
     
     /* Get the size of the parent and use for responsive chart - does not update on resize */
-    this.width = this.elementRef.nativeElement.offsetWidth - this.margin * 2
+    this.width = this.elementRef.nativeElement.offsetWidth - this.margin * 1
     this.height = this.elementRef.nativeElement.offsetHeight - this.margin * 2
 
     /*Set the domain min/max to the lowest and highest temperature respectively plus some padding*/
@@ -47,10 +47,10 @@ export class BarRangeChartComponent implements OnInit{
   createSvg(): void {
     this.svg = d3.select('figure#bar')
     .append("svg")
-    .attr("width", this.width + this.margin * 2)
+    .attr("width", this.width + this.margin * 1)
     .attr("height", this.height + this.margin * 2)
     .append("g")
-    .attr("transform", "translate("+this.margin + "," +  this.margin + ")")
+    .attr("transform", "translate("+ this.margin / 2 + "," +  this.margin + ")")
   }
 
  drawBars(data: any[]): void {
