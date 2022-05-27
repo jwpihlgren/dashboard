@@ -16,9 +16,7 @@ a {
     transition-timing-function: var(--ease-in-out);
 }
 
-fa-icon {
-    color: var(--blue-500);
-}
+
 
 a:hover {
     background-color: var(--light-background-200);

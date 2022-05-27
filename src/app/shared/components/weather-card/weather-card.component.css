@@ -13,6 +13,9 @@
 }
 
 
+fa-icon {
+    color: var(--orange-500);
+}
 
 app-bar-range-chart {
     height: 100%;

@@ -18,6 +18,10 @@ img {
     width: 2rem;
 }
 
+fa-icon {
+    color: var(--green-500);
+}
+
 
 @media screen and (max-width: 599px) {
     :host {

@@ -1,6 +1,7 @@
 import { SensorService } from './../../services/sensor.service';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
+import { faSeedling } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-soil-moisture-card',
@@ -8,6 +9,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./soil-moisture-card.component.css']
 })
 export class SoilMoistureCardComponent implements OnInit{
+
+  faSeedling = faSeedling
 
   gaugeType: any = "arch";
   gaugeValue: any = 80;

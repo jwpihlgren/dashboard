@@ -1,4 +1,6 @@
-import { Component, Input, OnInit, ViewChild } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
+import { faCloudSun } from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'app-weather-card',
   templateUrl: './weather-card.component.html',
@@ -6,7 +8,7 @@ import { Component, Input, OnInit, ViewChild } from "@angular/core";
 })
 export class WeatherCardComponent implements OnInit {
 
-
+  faCloudSun = faCloudSun
   forecastDataSeries: [] = [] 
 
 
