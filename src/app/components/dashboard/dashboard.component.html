@@ -1,4 +1,8 @@
 <app-grid> 
+<!--     <app-weather-card 
+    class="card" 
+    >
+    </app-weather-card> -->
     <app-weather-card 
     *ngIf="forecast$ | async as forecast" 
     [forecast]="forecast"

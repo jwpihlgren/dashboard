@@ -10,7 +10,7 @@
 
 
 
-dx-chart {
+app-bar-range-chart {
     height: 100%;
     width: 60%;
 }
@@ -37,7 +37,7 @@ dx-chart {
         max-width: 100%;
     }
 
-    dx-chart {
+    app-bar-range-chart {
         width: 100%;
     }
 

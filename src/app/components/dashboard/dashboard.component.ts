@@ -25,9 +25,6 @@ export class DashboardComponent implements OnInit {
       mergeMap((locations: any) => {
         const location = {lat: locations[0].lat, lon: locations[0].lon}
         return this.weatherService.getForecast(location)
-      }),
-      tap((forecast: any) => {
-          console.log(forecast)
       })
     )
   }

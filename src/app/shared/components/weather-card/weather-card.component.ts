@@ -1,6 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { DxDataGridComponent } from "devextreme-angular";
-
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 @Component({
   selector: 'app-weather-card',
   templateUrl: './weather-card.component.html',
@@ -8,77 +6,6 @@ import { DxDataGridComponent } from "devextreme-angular";
 })
 export class WeatherCardComponent implements OnInit {
 
-  @ViewChild(DxDataGridComponent, { static: false }) dataGrid!: DxDataGridComponent
-
-  chartSettings = {
-    title: {
-      text: "&deg;C",
-      visible: true,
-      font: {
-        family: "'Raleway', sans-serif",
-        weight: 600,
-        size: 16,
-        color: "#272727",
-        horizontalAlignment: "left"
-      }
-    },
-    commonPaneSettings: {
-      backgroundColor: "#fff",
-    },
-    commonSeriesSettings: {
-      argumentField:"day",
-      type:"rangeBar",
-      cornerRadius:"10",
-      barWidth:"20",
-      minBarSize:"10",
-      color: "#ddd111"
-    },
-    commonAxisSettings: {
-      tick: {
-        visible: false
-      },
-      label: {
-        font: {
-          family: "'Raleway', sans-serif",
-          weight: 600,
-          size: 16,
-          opacity: 1
-        }
-      }
-    },
-    margin: {
-      top: 20,
-      right: 30,
-      bottom: 20,
-      left: 30
-    },
-    legend: {
-      visible: false
-    },
-    valueAxis: [{
-      constantLines: [],
-      tickInterval:"5",
-      visualRange: {
-        startValue: -15,
-        length: 50
-      },
-      visualRangeUpdateMode: "auto",
-    }],
-    series: [{
-      rangeValue1Field:"minTemp",
-      rangeValue2Field:"maxTemp",
-      name:"Days",
-      showInLegend:"false",
-      color: "rgba(66, 148, 238,1)"
-      }],
-    customizePoint: (point: any) => {
-      const customProperties: any = {}
-      if (point.argument === this.epochToDay(Date.now())) {
-        customProperties['color'] = "rgb(35,210,175)";
-      }
-      return customProperties
-    } 
-  }
 
   forecastDataSeries: [] = [] 
 
@@ -89,7 +16,8 @@ export class WeatherCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.forecastDataSeries = this.createForecastDataSeries(this.forecast.daily)
+
+    console.log(this.createForecastDataSeries(this.forecast.daily));
   }
 
   epochToDay(epoch: any): string {
@@ -102,11 +30,12 @@ export class WeatherCardComponent implements OnInit {
     const forecastDataSeries = forecastDays.map((day: any) => {
       return {
         day: this.epochToDay(day.dt * 1000),
-        minTemp: Math.round(day.temp.min),
-        maxTemp: Math.round(day.temp.max),
+        minTemp: Math.round(day.temp.min), 
+         maxTemp: Math.round(day.temp.max)
       }
     })
-    return forecastDataSeries.slice(0, forecastDataSeries.length - 1)
+    //return forecastDataSeries.slice(0, forecastDataSeries.length - 1)
+    return forecastDataSeries
   }
 
 }

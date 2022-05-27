@@ -15,6 +15,7 @@
     --fs-800: calc(1.6180 * var(--fs-700));
     --fs-900: calc(1.6180 * var(--fs-800));
     --bs-2: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    --x-small: 0.25rem;
     --small: 0.5rem;
     --medium: 1rem;
     --large: 2rem;
@@ -22,7 +23,15 @@
 
 
     --white:        #FFFFFF;
+    --blue-100:     #CCDFF8;
+    --blue-200:     #BBD4F6;
+    --blue-300:     #9ABEF2;
+    --blue-400:     #78A9ED;
     --blue-500:     #5693e9;
+    --blue-600:     #4578BF;
+    --blue-700:     #355C94;
+    --blue-800:     #24416A;
+    --blue-900:     #1C3355;
     --green-500:    #32D2AC;
     --yellow-500:   #F8C03F;
     --orange-500:   #f19d8b;
@@ -36,6 +45,9 @@
     --light-background-200: var(--gray-100);
     --on-light-background-100: var(--gray-500);
     --on-light-background-900: var(--gray-900);
+
+    --duration-short: 200ms;
+    --ease-in-out: cubic-bezier(0.445, 0.05, 0.55, 0.95);
 
 }
 
@@ -115,3 +127,42 @@ body {
 }
 
 
+a {
+    text-decoration: none;
+    color: var(--on-light-background-900);
+}
+
+a:hover {
+    color: var(--gray-500);
+    cursor: pointer;
+}
+
+
+a.button-primary {
+    transition-duration: var(--duration-short);
+    transition-timing-function: var(--ease-in-out);
+    padding-block: 0.5rem;
+    padding-inline: 1rem;
+    border: 2px solid var(--blue-500);
+    border-radius: 5px;
+    color: var(--blue-500);
+    user-select: none;
+}
+
+a.button-primary:hover {
+    cursor: pointer;
+    background-color: var(--blue-500);
+    color: var(--white);
+}
+
+a.button-primary:active {
+    cursor: pointer;
+    background-color: var(--blue-600);
+    border-color: var(--blue-600);
+    color: var(--white);
+}
+
+a.button-primary:focus-visible {
+    outline: 2px solid;
+    outline-offset: 2px;
+}

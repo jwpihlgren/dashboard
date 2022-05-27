@@ -1,16 +1,7 @@
-<dx-chart
-      id="chart"
-      [dataSource]="forecastDataSeries"
-      [commonPaneSettings]="chartSettings.commonPaneSettings"
-      [commonSeriesSettings]="chartSettings.commonSeriesSettings"
-      [commonAxisSettings]="chartSettings.commonAxisSettings"
-      [margin]="chartSettings.margin"
-      [legend]="chartSettings.legend"
-      [valueAxis]="chartSettings.valueAxis"
-      [series]="chartSettings.series"
-      [customizePoint]="chartSettings.customizePoint"
-    >
-</dx-chart>
+
+<app-bar-range-chart
+[forecast]=createForecastDataSeries(forecast.daily)
+></app-bar-range-chart>
 <div class="weather-side-info j-center a-center flex col gap-xl">
     <div class="weather-side-info-details flex row gap-md p-md ds-2 round">
         <div class="detail">

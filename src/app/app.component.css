@@ -1,6 +1,6 @@
 header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     height: 72px;
     width: 100%;
@@ -37,15 +37,5 @@ app-left-nav {
 
     }
     
-}
-
-a {
-    all:unset;
-    color: var(--on-light-background-900);
-}
-
-a:hover {
-    color: var(--gray-500);
-    cursor: pointer;
 }
 
