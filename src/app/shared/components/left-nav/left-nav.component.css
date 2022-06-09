@@ -1,6 +1,7 @@
 :host {
     width: 72px;
     background-color: var(--white);
+    padding-block: var(--medium);
 }
 
 a {
