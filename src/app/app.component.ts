@@ -20,9 +20,9 @@ export class AppComponent {
   }
 
   loginWithRedirect() {
-    this.auth.loginWithRedirect({appState: {
-      target: "/dashboard"
-    }});
+    this.auth.loginWithRedirect({
+      redirectUri: environment.auth.redirectTarget
+    });
   }
 
   logout() {
