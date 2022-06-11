@@ -14,24 +14,4 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
   }
-<<<<<<< HEAD
-
-  loginWithRedirect() {
-    this.auth.loginWithRedirect({appState: {
-      target: environment.auth.redirectUri
-    }});
-  }
-
-  logout() {
-    this.auth.logout({ returnTo: this.doc.location.origin })
-  }
-
-  showuser() {
-    this.auth.user$.subscribe(user => {
-      console.log(user)
-    })
-  }
-
-=======
->>>>>>> 0014f3d3ba305eecefe35694f1023e0cd669f3fa
 }
