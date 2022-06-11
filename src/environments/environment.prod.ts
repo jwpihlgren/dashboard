@@ -5,7 +5,7 @@ import auth from '../../auth_config.json'
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   auth: {
     domain: auth.domain,
     clientId: auth.clientId,
