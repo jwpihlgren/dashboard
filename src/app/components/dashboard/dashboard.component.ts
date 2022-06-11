@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
         token : this.sensorService.getToken()
       }
     ).pipe(
-      map((data: any) => {
+      mergeMap((data: any) => {
         return this.sensorService.getSensor(data.sensors.response[0]._id, data.token).pipe(tap(data => console.log(data)))
       })
     )

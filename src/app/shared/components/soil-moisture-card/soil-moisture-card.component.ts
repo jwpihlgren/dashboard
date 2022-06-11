@@ -28,9 +28,9 @@ export class SoilMoistureCardComponent implements OnInit{
  @Input() sensor: any
 
   constructor(private sensorService: SensorService) {
-    console.log(this.sensor);
    }
 
   ngOnInit(): void {
+    console.log(this.sensor);
   }
 }

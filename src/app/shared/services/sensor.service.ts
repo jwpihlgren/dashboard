@@ -2,7 +2,7 @@
 import { AuthService } from '@auth0/auth0-angular';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
-import { map, Subject, Observable, tap } from 'rxjs';
+import { map, Subject, Observable, tap, filter } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 @Injectable({
@@ -10,7 +10,7 @@ import { EventSourcePolyfill } from 'event-source-polyfill';
 })
 export class SensorService {
 
-  subject$: Subject<any> = new Subject();
+  subject$: Subject<any> = new Subject<any>();
 
   constructor(
     private http: HttpClient,
@@ -28,10 +28,12 @@ export class SensorService {
 
   getSensor(id:string, token:string): Observable<any> {
     const eventSource = this.getEventSource(id, token);
+
     eventSource.addEventListener('message', (event: any) => this._ngZone.run(() => this.subject$.next(JSON.parse(event.data))))
+    eventSource.addEventListener('heartbeat', (event: any) => {/* Do nothing */})
     eventSource.onerror = (error: any) => this._ngZone.run(() => this.subject$.error(error))
     
-    return this.subject$.asObservable().pipe(tap(data=>console.log(data)));
+    return this.subject$
   }
 
   getToken(): Observable<any> {
