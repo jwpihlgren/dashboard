@@ -4,7 +4,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
-    "outDir": "./docs",
+    "outDir": "./dist/out-tsc/",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
