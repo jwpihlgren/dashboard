@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit {
 
   loginWithRedirect() {
     this.auth.loginWithRedirect({appState: {
-      target: "http://localhost:4200"
+      target: environment.auth.redirectUri
     }});
   }
 
