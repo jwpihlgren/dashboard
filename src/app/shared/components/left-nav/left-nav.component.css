@@ -1,6 +1,7 @@
 :host {
     width: 72px;
     background-color: var(--white);
+    padding-block: var(--medium);
 }
 
 a {
@@ -12,13 +13,18 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
+    transition-duration: var(--duration-short);
+    transition-timing-function: var(--ease-in-out);
 }
 
-fa-icon {
-    color: var(--blue-500);
-}
+
 
 a:hover {
+    background-color: var(--light-background-200);
+    cursor: pointer;
+}
+
+a:active, .active-link {
     background-color: var(--light-background-200);
 }
 

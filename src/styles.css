@@ -14,6 +14,7 @@
     --fs-700: calc(1.6180 * var(--fs-600));
     --fs-800: calc(1.6180 * var(--fs-700));
     --fs-900: calc(1.6180 * var(--fs-800));
+    --bs-1: rgba(100, 100, 111, 0.2) 0px 3px 14px 0px;
     --bs-2: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     --x-small: 0.25rem;
     --small: 0.5rem;
@@ -28,14 +29,46 @@
     --blue-300:     #9ABEF2;
     --blue-400:     #78A9ED;
     --blue-500:     #5693e9;
-    --blue-600:     #4578BF;
+    --blue-600:     #4578BF; /* White has better contrast than black */
     --blue-700:     #355C94;
     --blue-800:     #24416A;
     --blue-900:     #1C3355;
+    --green-100:    #C2F2E6;
+    --green-200:    #ADEDDE;
+    --green-300:    #84E4CD;
+    --green-400:    #5BDBBD;
     --green-500:    #32D2AC;
+    --green-600:    #28A88A;
+    --green-700:    #1E7E67; /* White has better contrast than black */
+    --green-800:    #145445;
+    --green-900:    #0F3F34;
+    --yellow-100:   #FDECC5;
+    --yellow-200:   #FCE6B2;
+    --yellow-300:   #FBDA8C;
+    --yellow-400:   #F9CD65;
     --yellow-500:   #F8C03F;
-    --orange-500:   #f19d8b;
-    --red-500:      #DE5353;
+    --yellow-600:   #C99C33;
+    --yellow-700:   #9B7826; /* White has better contrast than black */
+    --yellow-800:   #6C531A;
+    --yellow-900:   #554114;
+    --orange-100:   #FBE2DC;
+    --orange-200:   #FAD8D1;
+    --orange-300:   #F8C4B9;
+    --orange-400:   #F5B1A2;
+    --orange-500:   #F39D8B;
+    --orange-600:   #D28271;
+    --orange-700:   #B16657; /* White has better contrast than black */
+    --orange-800:   #904B3C;
+    --orange-900:   #803D2F;
+    --red-100:      #F5CBCB;
+    --red-200:      #F2BABA;
+    --red-300:      #EB9898;
+    --red-400:      #E57575;
+    --red-500:      #DE5353;/* White has better contrast than black */
+    --red-600:      #B34343;
+    --red-700:      #883232;
+    --red-800:      #5E2222;
+    --red-900:      #481A1A;
     --gray-100:     #F2F2F2;
     --gray-300:     #e5e5e5;
     --gray-500:     #6E6E6E;
@@ -43,6 +76,8 @@
 
     --light-background-100: var(--white);
     --light-background-200: var(--gray-100);
+    --light-background-300: var(--gray-300);
+
     --on-light-background-100: var(--gray-500);
     --on-light-background-900: var(--gray-900);
 
@@ -81,14 +116,17 @@
 .span-1 { grid-column: span 1 }
 .span-2 { grid-column: span 2 }
 .span-4 { grid-column: span 4 }
+.ds-1 { box-shadow: var(--bs-1) }
+.ds-2 { box-shadow: var(--bs-2) }
+.round { border-radius: 1000px }
+.rounded {border-radius: var(--medium);}
 
 @media screen and (max-width: 768px) {
     .span-1 { grid-column: span 1 }
     .span-2 { grid-column: span 1 }
     .span-4 { grid-column: span 1 }
 }
-.ds-2 { box-shadow: var(--bs-2) }
-.round { border-radius: 1000px }
+
 
 /* General styling */
 h1 { font-size: var(--fs-900) } 
@@ -147,6 +185,7 @@ a.button-primary {
     border-radius: 5px;
     color: var(--blue-500);
     user-select: none;
+    min-width: 0;
 }
 
 a.button-primary:hover {
@@ -165,4 +204,8 @@ a.button-primary:active {
 a.button-primary:focus-visible {
     outline: 2px solid;
     outline-offset: 2px;
+}
+
+fa-icon {
+    color: var(--blue-500);
 }

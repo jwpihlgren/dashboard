@@ -1,6 +1,6 @@
 header {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
     align-items: center;
     height: 72px;
     width: 100%;
@@ -8,6 +8,18 @@ header {
     box-shadow: var(--bs-2);
     position: sticky;
     z-index: 9999;
+    padding-inline: var(--medium);
+}
+
+.side {
+    grid-column: span 3;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.middle {
+    grid-column: span 6;
+    text-align: center;
 }
 
 main{

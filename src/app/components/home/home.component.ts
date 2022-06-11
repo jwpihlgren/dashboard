@@ -10,14 +10,11 @@ import { environment } from 'src/environments/environment';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(
-    public auth: AuthService,
-    @Inject(DOCUMENT) private doc: Document
-    
-    ) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
+<<<<<<< HEAD
 
   loginWithRedirect() {
     this.auth.loginWithRedirect({appState: {
@@ -35,4 +32,6 @@ export class HomeComponent implements OnInit {
     })
   }
 
+=======
+>>>>>>> 0014f3d3ba305eecefe35694f1023e0cd669f3fa
 }
