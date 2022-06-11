@@ -21,7 +21,7 @@ export class AppComponent {
 
   loginWithRedirect() {
     this.auth.loginWithRedirect({appState: {
-      target: environment.auth.redirectTarget
+      target: "/dashboard"
     }});
   }
 
