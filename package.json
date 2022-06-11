@@ -1,11 +1,10 @@
 {
   "name": "dashboard",
   "version": "0.0.0",
-  "homepage": "./dashboard",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --base-href=/dashboard/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
