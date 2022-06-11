@@ -1,3 +1,4 @@
+import { AppRoutingModule } from './../app-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LeftNavComponent } from './components/left-nav/left-nav.component';
@@ -30,6 +31,7 @@ import { BarRangeChartComponent } from './components/bar-range-chart/bar-range-c
     CommonModule,
     NgxGaugeModule,
     FontAwesomeModule,
+    AppRoutingModule
 
   ],
   exports: [

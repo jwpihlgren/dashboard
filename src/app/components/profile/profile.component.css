@@ -1,0 +1,9 @@
+:host {
+    display: flex;
+    padding: var(--large);
+}
+
+ul {
+    display: block;
+    flex-direction: column;
+}

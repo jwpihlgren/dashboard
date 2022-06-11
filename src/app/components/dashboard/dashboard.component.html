@@ -4,14 +4,18 @@
     >
     </app-weather-card> -->
     <app-weather-card 
-    *ngIf="forecast$ | async as forecast" 
+    *ngIf="forecast$ | async as forecast; else loading"
     [forecast]="forecast"
     class="card" 
     >
     </app-weather-card>
     <app-soil-moisture-card 
-    *ngIf="sensors$ | async as sensors" 
-    [sensor]="sensors.response[0]" 
+    *ngIf="sensor$ | async as sensor; else loading" 
+    [sensor]="sensor" 
     class="card">
     </app-soil-moisture-card>
 </app-grid>
+
+<ng-template #loading>
+    <div class="card">Loading</div>
+</ng-template>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faHouse, faGauge } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faCloudSun, faSeedling, faThLarge } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -9,9 +9,13 @@ import { faHouse, faGauge } from '@fortawesome/free-solid-svg-icons';
 })
 export class LeftNavComponent implements OnInit {
 
+  links = [
+    {route: "/", icon: faHouse},
+    {route: "/dashboard", icon: faThLarge},
+    {route: "/weather", icon: faCloudSun},
+    {route: "/soilmoisture", icon: faSeedling}
+  ]
 
-  faHouse = faHouse
-  faGauge = faGauge
   constructor() { }
 
   ngOnInit(): void {
