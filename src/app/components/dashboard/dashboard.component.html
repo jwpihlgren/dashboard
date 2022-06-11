@@ -10,8 +10,8 @@
     >
     </app-weather-card>
     <app-soil-moisture-card 
-    *ngIf="sensors$ | async as sensors; else loading" 
-    [sensor]="sensors.response[0]" 
+    *ngIf="sensor$ | async as sensor; else loading" 
+    [sensor]="sensor" 
     class="card">
     </app-soil-moisture-card>
 </app-grid>
