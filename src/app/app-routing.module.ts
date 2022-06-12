@@ -12,7 +12,10 @@ const routes: Routes = [
   {path: "dashboard", component: DashboardComponent, canActivate: [AuthGuard]},
   {path: "profile", component: ProfileComponent, canActivate: [AuthGuard]},
   {path: "weather", component: WeatherComponent, canActivate: [AuthGuard]},
-  {path: "soilmoisture", component: SoilmoistureComponent, canActivate: [AuthGuard]}
+  {path: "soilmoisture", component: SoilmoistureComponent, canActivate: [AuthGuard]},
+  {path: "test", component: HomeComponent},
+  {path: "**", redirectTo: ""}
+
 ];
 
 @NgModule({
