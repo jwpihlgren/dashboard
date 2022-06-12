@@ -21,9 +21,9 @@ export class AppComponent {
 
   loginWithRedirect() {
     this.auth.loginWithRedirect({
-      redirectUri: "https://jwpihlgren.github.io/dashboard/",
+      redirectUri: `${window.location.origin}/dashboard`,
       appState: {
-        target: "https://jwpihlgren.github.io/dashboard/"
+        target: `${window.location.origin}/dashboard`,
       }
     });
   }
