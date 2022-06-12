@@ -20,6 +20,7 @@ export class AppComponent {
   }
 
   loginWithRedirect() {
+    console.log("test");
     this.auth.loginWithRedirect({
       redirectUri: `${window.location.origin}/dashboard`,
       appState: {
