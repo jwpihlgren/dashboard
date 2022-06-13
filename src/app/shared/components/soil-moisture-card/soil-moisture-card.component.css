@@ -23,6 +23,12 @@ fa-icon {
 }
 
 
+.time {
+    color: var(--on-light-background-100);
+    font-size: var(--fs-400);
+    font-weight: var(--fw-300);
+}
+
 @media screen and (max-width: 599px) {
     :host {
         grid-column-end: span 1;

@@ -12,6 +12,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MenuItemComponent } from './components/menu-item/menu-item.component';
 import { ClickedOutsideDirective } from './directives/clicked-outside.directive';
 import { BarRangeChartComponent } from './components/bar-range-chart/bar-range-chart.component';
+import { IsoToDatePipe } from './pipes/iso-to-date.pipe';
 
 
 
@@ -26,6 +27,7 @@ import { BarRangeChartComponent } from './components/bar-range-chart/bar-range-c
     MenuItemComponent,
     ClickedOutsideDirective,
     BarRangeChartComponent,
+    IsoToDatePipe,
   ],
   imports: [
     CommonModule,

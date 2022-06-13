@@ -9,8 +9,9 @@ export const environment = {
   auth: {
     domain: auth.domain,
     clientId: auth.clientId,
-    redirectUri: window.location.origin,
-    redirectTarget: auth.redirectTarget,
+    redirectUri: `${window.location.origin}${auth.redirectTargetDev}`,
+    redirectTarget: `${window.location.origin}${auth.redirectTargetDev}`,
+    redirectPath: `${auth.redirectTargetDev}`,
     audience: auth.audience,
   },
   dev: {

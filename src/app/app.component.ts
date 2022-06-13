@@ -22,15 +22,15 @@ export class AppComponent {
   loginWithRedirect() {
     console.log("test");
     this.auth.loginWithRedirect({
-      redirectUri: `${window.location.origin}/dashboard`,
+      redirectUri: `${window.location.origin}${environment.auth.redirectPath}`,
       appState: {
-        target: `${window.location.origin}/dashboard`,
+        target: `${window.location.origin}${environment.auth.redirectPath}}`,
       }
     });
   }
 
   logout() {
-    this.auth.logout({ returnTo: this.doc.location.origin })
+    this.auth.logout({ returnTo: `${this.doc.location.origin}${environment.auth.redirectPath}` })
   }
 
   showuser() {
