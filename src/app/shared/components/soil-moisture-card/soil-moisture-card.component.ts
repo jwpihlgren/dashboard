@@ -31,6 +31,6 @@ export class SoilMoistureCardComponent implements OnInit{
    }
 
   ngOnInit(): void {
-    console.log(this.sensor);
+    //console.log(this.sensor);
   }
 }

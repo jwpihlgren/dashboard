@@ -30,10 +30,10 @@ export class SensorService {
     const eventSource = this.getEventSource(id, token);
 
     eventSource.addEventListener('message', (event: any) => this._ngZone.run(() => this.subject$.next(JSON.parse(event.data))))
-    eventSource.addEventListener('heartbeat', (event: any) => {/* Do nothing */})
+    eventSource.addEventListener('heartbeat', (event: any) => this._ngZone.run(() => this.subject$.next(JSON.parse(event.data))))
     eventSource.onerror = (error: any) => this._ngZone.run(() => this.subject$.error(error))
     
-    return this.subject$
+    return this.subject$.pipe(tap(data=>console.log(data)))
   }
 
   getToken(): Observable<any> {
