@@ -2,14 +2,14 @@ import { WeatherService } from './../../shared/services/weather.service';
 import { LocationService } from './../../shared/services/location.service';
 import { SensorService } from './../../shared/services/sensor.service';
 import { mergeMap, Observable, switchMap, map, tap, forkJoin } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   sensor$!: Observable<any>
   forecast$!: Observable<any>
 
@@ -37,6 +37,10 @@ export class DashboardComponent implements OnInit {
         return this.weatherService.getForecast(location)
       })
     )
+  }
+
+  ngOnDestroy(): void {
+    this.sensorService.eventSourceDestory()
   }
 }
 

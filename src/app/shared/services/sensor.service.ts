@@ -11,6 +11,7 @@ import { EventSourcePolyfill } from 'event-source-polyfill';
 export class SensorService {
 
   subject$: Subject<any> = new Subject<any>();
+  eventSource!: EventSourcePolyfill
 
   constructor(
     private http: HttpClient,
@@ -26,14 +27,18 @@ export class SensorService {
     );
   }
 
-  getSensor(id:string, token:string): Observable<any> {
-    const eventSource = this.getEventSource(id, token);
+  eventSourceDestory() {
+    this.eventSource.close()
 
-    eventSource.addEventListener('message', (event: any) => this._ngZone.run(() => this.subject$.next(JSON.parse(event.data))))
-    eventSource.addEventListener('heartbeat', (event: any) => this._ngZone.run(() => this.subject$.next(JSON.parse(event.data))))
-    eventSource.onerror = (error: any) => this._ngZone.run(() => this.subject$.error(error))
+  }
+  getSensor(id:string, token:string): Observable<any> {
+    this.eventSource = this.getEventSource(id, token);
+
+    this.eventSource.addEventListener('message', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
+    this.eventSource.addEventListener('heartbeat', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
+    this.eventSource.onerror = (error: any) => this._ngZone.run(() => this.subject$.error(error))
     
-    return this.subject$.pipe(tap(data=>console.log(data)))
+    return this.subject$.pipe(tap(event => console.log(event)), filter(event=> event.type !== 'heartbeat'), map(event => JSON.parse(event.data)))
   }
 
   getToken(): Observable<any> {
