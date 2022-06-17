@@ -11,17 +11,18 @@ export class WeatherService {
 
   constructor(private http: HttpClient) { }
 
-/*   getForecast(location: any){
+  getForecast(location: any){
     const path = `/weather?lat=${location.lat}&lon=${location.lon}`
     return this.http.get(`${environment.dev.serverUrl}${path}`).pipe(
-      map(data => {
-          console.log(data);
-        return data
+      map((data:any) => {
+        data.forecast.fetchDate = data.fetchDate
+          console.log(data.forecast);
+        return data.forecast
       })
     );
-  } */
-  getForecast(location: any){
-    return of(dummydata)
   }
+/*   getForecast(location: any){
+    return of(dummydata)
+  } */
 }
 
