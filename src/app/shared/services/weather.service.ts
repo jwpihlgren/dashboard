@@ -16,7 +16,6 @@ export class WeatherService {
     return this.http.get(`${environment.dev.serverUrl}${path}`).pipe(
       map((data:any) => {
         data.forecast.fetchDate = data.fetchDate
-          console.log(data.forecast);
         return data.forecast
       })
     );

@@ -36,7 +36,13 @@ export class SensorService {
 
     this.eventSource.addEventListener('message', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
     this.eventSource.addEventListener('heartbeat', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
-    this.eventSource.onerror = (error: any) => this._ngZone.run(() => this.subject$.error(error))
+    this.eventSource.onerror = (error: any) => {
+/*       this._ngZone.run(() => this.subject$.error(error)) */
+      this.eventSource.close()
+      setTimeout(() => {
+        this.getSensor(id, token)
+      }, 1000 * 30)
+    }
     
     return this.subject$.pipe(tap(event => console.log(event)), filter(event=> event.type !== 'heartbeat'), map(event => JSON.parse(event.data)))
   }
