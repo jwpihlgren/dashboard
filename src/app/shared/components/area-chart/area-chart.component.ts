@@ -12,7 +12,7 @@ export class AreaChartComponent implements OnInit {
   @Input() data: any = []
 
   svg: any;
-  margin = 50
+  margin = 25
   width = 500
   height = 370
   domainMin = -15
@@ -40,7 +40,7 @@ export class AreaChartComponent implements OnInit {
   ngOnInit(): void {
         /* Get the size of the parent and use for responsive chart - does not update on resize */
         this.width = this.elementRef.nativeElement.offsetWidth - this.margin * 1
-        this.height = this.elementRef.nativeElement.offsetHeight - this.margin * 2
+        this.height = this.elementRef.nativeElement.offsetHeight - this.margin * 2.5
         this.createSvg()
         this.drawArea(this.data)
         console.log(this.data);
@@ -52,7 +52,7 @@ export class AreaChartComponent implements OnInit {
     .attr("width", this.width + this.margin * 1)
     .attr("height", this.height + this.margin * 2)
     .append("g")
-    .attr("transform", "translate("+ this.margin / 2 + "," +  this.margin + ")")
+    .attr("transform", "translate("+ this.margin / 1 + "," +  this.margin + ")")
     
   }
 
