@@ -1,1 +1,14 @@
-<p>soilmoisture works!</p>
+<ng-container *ngIf="data$ | async as data; else loading">
+    <article *ngFor="let sensor of data.response.detailedSensor">
+        <h5>{{sensor.alias}}</h5>
+        <app-area-chart [data]="sensor"></app-area-chart>
+    </article>
+    
+</ng-container>
+
+<ng-template #loading>
+    <article>
+        <div>Loading</div>
+    </article>
+</ng-template>
+

@@ -1,0 +1,29 @@
+:host {
+    display: flex;
+    width: 100%
+}
+
+figure {
+    flex-grow: 1;
+}
+
+:host ::ng-deep g.no-grid g.tick line, :host ::ng-deep path.domain {
+    color: transparent
+}
+
+:host ::ng-deep g.grid g.tick line {
+    color:var(--gray-300);
+}
+
+:host ::ng-deep text {
+    font-size: var(--fs-300);
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--on-light-background-100);
+    letter-spacing: 0.067rem;
+}
+
+:host ::ng-deep rect {
+    ry: 0.5rem;
+    fill: var(--blue-500);
+}

@@ -13,6 +13,7 @@ import { MenuItemComponent } from './components/menu-item/menu-item.component';
 import { ClickedOutsideDirective } from './directives/clicked-outside.directive';
 import { BarRangeChartComponent } from './components/bar-range-chart/bar-range-chart.component';
 import { IsoToDatePipe } from './pipes/iso-to-date.pipe';
+import { AreaChartComponent } from './components/area-chart/area-chart.component';
 
 
 
@@ -28,6 +29,7 @@ import { IsoToDatePipe } from './pipes/iso-to-date.pipe';
     ClickedOutsideDirective,
     BarRangeChartComponent,
     IsoToDatePipe,
+    AreaChartComponent,
   ],
   imports: [
     CommonModule,
@@ -46,6 +48,7 @@ import { IsoToDatePipe } from './pipes/iso-to-date.pipe';
     MenuItemComponent,
     ClickedOutsideDirective,
     BarRangeChartComponent,
+    AreaChartComponent
     
   ]
 })

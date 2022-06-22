@@ -34,6 +34,7 @@ import { SoilmoistureComponent } from './components/soilmoisture/soilmoisture.co
       httpInterceptor: {
         allowedList: [
           `${environment.dev.serverUrl}/sensors`,
+          `${environment.dev.serverUrl}/sensors/*`,
           `${environment.dev.serverUrl}/location`,
           `${environment.dev.serverUrl}/weather`
         ]

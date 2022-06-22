@@ -1,0 +1,28 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    box-shadow: var(--bs-2);
+    width: 100%;
+    height: var(--card-height);
+    border-radius: var(--medium);
+    margin: var(--large);
+    padding: var(--large);
+}
+
+article {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    border: 2px dashed var(--gray-300);
+    border-radius: var(--medium);
+    height: 100%;
+}
+
+app-area-chart {
+    padding: var(--medium);
+    padding-top: 0;
+    flex-grow: 1;
+}
+

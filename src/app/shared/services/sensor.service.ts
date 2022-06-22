@@ -47,6 +47,14 @@ export class SensorService {
     return this.subject$.pipe(tap(event => console.log(event)), filter(event=> event.type !== 'heartbeat'), map(event => JSON.parse(event.data)))
   }
 
+  getDetailedSensor(id: string, pageSize?: number, pageCount?: number): Observable<any> {
+    const pSize = pageSize ? `pageSize=${pageSize}` : ''
+    const pCount = pageCount ? `pageCount=${pageCount}` : ''
+    const and = pageSize && pageCount ? '&': ''
+    const queryParams = pageSize || pageCount  ? `?${pSize}${and}${pCount}` : ''
+    return this.http.get(`${environment.dev.serverUrl}/sensors/${id}/detailed${queryParams}`)
+  }
+
   getToken(): Observable<any> {
     return this.authService.getAccessTokenSilently()
   }
