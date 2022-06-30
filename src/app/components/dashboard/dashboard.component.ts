@@ -31,16 +31,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
       })
     )
     
+  this.updateWeather()
+  }
+
+  ngOnDestroy(): void {
+    this.sensorService.eventSourceDestory()
+  }
+
+  updateWeather(): void {
     this.forecast$ = this.locationService.getWeatherLocation('partille').pipe(
       mergeMap((locations: any) => {
         const location = {lat: locations[0].lat, lon: locations[0].lon}
         return this.weatherService.getForecast(location)
       })
     )
-  }
-
-  ngOnDestroy(): void {
-    this.sensorService.eventSourceDestory()
   }
 }
 
