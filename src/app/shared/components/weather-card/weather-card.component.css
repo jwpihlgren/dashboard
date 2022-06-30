@@ -47,6 +47,14 @@ app-bar-range-chart {
     height: auto;
 }
 
+.fetch_date {
+    position: relative;
+    bottom: 1rem;
+    color: var(--on-light-background-100);
+    font-size: var(--fs-400);
+    font-weight: var(--fw-300);
+}
+
 @media screen and (max-width: 883px) {
     :host {
         

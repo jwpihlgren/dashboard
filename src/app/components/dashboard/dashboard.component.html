@@ -3,7 +3,8 @@
     class="card" 
     >
     </app-weather-card> -->
-    <app-weather-card 
+    <app-weather-card
+    (click)="updateWeather()" 
     *ngIf="forecast$ | async as forecast; else loading"
     [forecast]="forecast"
     class="card" 

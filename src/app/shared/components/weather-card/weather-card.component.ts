@@ -18,6 +18,7 @@ export class WeatherCardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.forecast);
   }
 
   epochToDay(epoch: any): string {
