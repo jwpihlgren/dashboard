@@ -32,7 +32,8 @@ export class WeatherCardComponent implements OnInit {
       return {
         day: this.epochToDay(day.dt * 1000),
         minTemp: Math.round(day.temp.min), 
-        maxTemp: Math.round(day.temp.max)
+        maxTemp: Math.round(day.temp.max),
+        icon: day.weather[0].icon
       }
     })
     return forecastDataSeries.slice(0, forecastDataSeries.length - 1) //Remove the 8th result because we only show 7
