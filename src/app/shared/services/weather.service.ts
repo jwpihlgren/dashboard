@@ -20,6 +20,11 @@ export class WeatherService {
       })
     );
   }
+
+  getIconUrl(icon: string) {
+    return `https://openweathermap.org/img/wn/${icon}.png`
+  }
+  
 /*   getForecast(location: any){
     return of(dummydata)
   } */
