@@ -18,6 +18,10 @@
                 <h6 class="detail-title">Luft<wbr>fuktighet</h6>
                 <span class="detail-data">{{forecast.current.humidity | addUnit: '%'}}</span>
             </div>
+            <div class="detail flex col a-center gap-xs pb-sm pi-md ds-1 rounded">
+                <h6 class="detail-title">Risk för regn</h6>
+                <span class="detail-data">{{forecast.daily[0].pop * 100 | addUnit: '%'}}</span>
+            </div>
 
         </div>
         <div class="weather-side-info-currently flex col a-center j-center gap-md p-md ds-1 round">
