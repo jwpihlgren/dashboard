@@ -1,6 +1,7 @@
+import { WeatherService } from './../../services/weather.service';
 import { Component, OnInit, ElementRef, Input} from '@angular/core';
 import * as d3 from 'd3'
-import { select } from 'd3';
+
 
 @Component({
   selector: 'app-bar-range-chart',
@@ -29,6 +30,7 @@ export class BarRangeChartComponent implements OnInit{
 
   constructor(
     private elementRef: ElementRef,
+    private weatherService: WeatherService
     ) { }
 
   ngOnInit(): void {
@@ -67,16 +69,17 @@ export class BarRangeChartComponent implements OnInit{
    .call(d3.axisBottom(x))
    .selectAll("text")
    .style("text-anchor", "center")
+   .attr('y', -8)
    
   const selection = this.svg.selectAll(".tick");
   selection._groups[0].forEach((node: any, index: number) => {
     d3.select(node)
     .append('image')
-    .attr('xlink:href', `https://openweathermap.org/img/wn/${data[index].icon}.png`)
-    .attr('x',-16)
-    .attr('y', 16)
-    .attr('width',32)
-    .attr('height',32);
+    .attr('xlink:href', this.weatherService.getIconUrl(data[index].icon))
+    .attr('x',-24)
+    .attr('y', 0)
+    .attr('width',48)
+    .attr('height',48);
   } )
 
 
