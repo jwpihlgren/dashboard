@@ -1,7 +1,7 @@
 import { WeatherService } from './../../shared/services/weather.service';
 import { LocationService } from './../../shared/services/location.service';
 import { SensorService } from './../../shared/services/sensor.service';
-import { mergeMap, Observable, switchMap, map, tap, forkJoin } from 'rxjs';
+import { mergeMap, Observable, forkJoin } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({

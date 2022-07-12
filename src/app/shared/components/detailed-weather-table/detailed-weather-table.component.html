@@ -1,0 +1,18 @@
+<table>
+    <thead>
+        <th *ngFor="let heading of columnHeadings"><h6>{{heading}}</h6></th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let hourlyData of weatherMatrix">
+            <td *ngFor="let data of hourlyData let last = last">
+                <ng-container *ngIf="last; else regular" >
+                    <img [src]="getIconUrl(data)"/>
+                </ng-container>
+                <ng-template #regular>
+                    {{data}}
+                </ng-template>
+            </td>
+        </tr>
+        
+    </tbody>
+</table>
