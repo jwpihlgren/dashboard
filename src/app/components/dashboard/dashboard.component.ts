@@ -12,7 +12,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 export class DashboardComponent implements OnInit, OnDestroy {
   sensor$!: Observable<any>
   forecast$!: Observable<any>
-  displayDetails: boolean = false;
+  displayDetails: boolean = false
+  interval!: any 
 
   constructor(
     private sensorService: SensorService,
@@ -33,10 +34,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     )
     
   this.updateWeather()
+  this.interval = setInterval(() => {
+    this.updateWeather();
+  }, 10 * 60 * 1000)
   }
 
   ngOnDestroy(): void {
     this.sensorService.eventSourceDestory()
+    clearInterval(this.interval)
   }
 
   updateWeather(): void {
@@ -49,7 +54,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   toggleDisplayDetails(){
-    console.log("click");
     this.displayDetails = !this.displayDetails
   }
 
