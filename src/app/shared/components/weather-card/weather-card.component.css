@@ -47,9 +47,9 @@ app-bar-range-chart {
     height: auto;
 }
 
-.fetch_date {
+.fetch-date {
     position: relative;
-    bottom: 1rem;
+    bottom: var(--x-small);
     color: var(--on-light-background-100);
     font-size: var(--fs-400);
     font-weight: var(--fw-300);

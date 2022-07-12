@@ -23,7 +23,8 @@ fa-icon {
 }
 
 
-.time {
+.fetch-date {
+    padding-block-start: var(--large);
     color: var(--on-light-background-100);
     font-size: var(--fs-400);
     font-weight: var(--fw-300);
