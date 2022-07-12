@@ -1,6 +1,6 @@
 
 <span class="flex row j-center a-center gap-sm">Väder <fa-icon [icon]=faCloudSun size="lg"></fa-icon></span>
-<div class="wrapper">
+<div *ngIf="!displayDetails; else showDetails" class="wrapper">
     <app-bar-range-chart
     [forecast]=createForecastDataSeries(forecast.daily)
     ></app-bar-range-chart>
@@ -31,4 +31,14 @@
         </div>
     </div>
 </div>
+
+<ng-template #showDetails>
+    <div class="wrapper">
+        <app-detailed-weather-table
+            [hourlyWeatherArr]="forecast.hourly"
+            >
+        </app-detailed-weather-table>
+    </div>
+</ng-template>
+
 <span class="flex row j-center a-center gap-sm fetch_date"> {{forecast.fetchDate | isoToDate}}</span>

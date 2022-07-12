@@ -12,6 +12,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 export class DashboardComponent implements OnInit, OnDestroy {
   sensor$!: Observable<any>
   forecast$!: Observable<any>
+  displayDetails: boolean = false;
 
   constructor(
     private sensorService: SensorService,
@@ -46,6 +47,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
       })
     )
   }
+
+  toggleDisplayDetails(){
+    console.log("click");
+    this.displayDetails = !this.displayDetails
+  }
+
 }
 
 

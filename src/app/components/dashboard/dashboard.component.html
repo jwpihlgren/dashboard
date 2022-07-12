@@ -4,7 +4,8 @@
     >
     </app-weather-card> -->
     <app-weather-card
-        (click)="updateWeather()" 
+        (click)="toggleDisplayDetails()"
+        [displayDetails]="displayDetails"
         *ngIf="forecast$ | async as forecast; else loading"
         [forecast]="forecast"
         class="card" 
@@ -15,13 +16,6 @@
         [sensor]="sensor" 
         class="card">
     </app-soil-moisture-card>
-
-    <app-detailed-weather-table
-        *ngIf="forecast$ | async as forecast; else loading"
-        [hourlyWeatherArr]="forecast.hourly"
-        class="card span-2">
-    </app-detailed-weather-table>
-
 
 </app-grid>
 
