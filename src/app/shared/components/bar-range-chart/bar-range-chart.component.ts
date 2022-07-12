@@ -69,17 +69,16 @@ export class BarRangeChartComponent implements OnInit{
    .call(d3.axisBottom(x))
    .selectAll("text")
    .style("text-anchor", "center")
-   .attr('y', -8)
    
   const selection = this.svg.selectAll(".tick");
   selection._groups[0].forEach((node: any, index: number) => {
     d3.select(node)
     .append('image')
     .attr('xlink:href', this.weatherService.getIconUrl(data[index].icon))
-    .attr('x',-24)
-    .attr('y', 0)
-    .attr('width',48)
-    .attr('height',48);
+    .attr('x',-20)
+    .attr('y', 16)
+    .attr('width',40)
+    .attr('height',40);
   } )
 
 

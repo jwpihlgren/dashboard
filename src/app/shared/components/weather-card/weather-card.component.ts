@@ -1,5 +1,5 @@
 import { WeatherService } from './../../services/weather.service';
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, HostListener, Input, OnInit, Output} from "@angular/core";
 import { faCloudSun } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -7,21 +7,27 @@ import { faCloudSun } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './weather-card.component.html',
   styleUrls: ['./weather-card.component.css']
 })
+
+
+
+
+
 export class WeatherCardComponent implements OnInit {
 
   faCloudSun = faCloudSun
-  forecastDataSeries: [] = [] 
-
+  forecastDataSeries: [] = []
 
   @Input() forecast: any
-
+  @Input() displayDetails!: boolean
 
   constructor(
     private weatherService: WeatherService
-  ) { }
+  ) { 
+  }
 
   ngOnInit(): void {
     console.log(this.forecast);
+    console.log(this.displayDetails);
   }
 
   epochToDay(epoch: any): string {

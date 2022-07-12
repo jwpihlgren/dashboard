@@ -1,7 +1,7 @@
 import { WeatherService } from './../../shared/services/weather.service';
 import { LocationService } from './../../shared/services/location.service';
 import { SensorService } from './../../shared/services/sensor.service';
-import { mergeMap, Observable, switchMap, map, tap, forkJoin } from 'rxjs';
+import { mergeMap, Observable, forkJoin } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
@@ -12,6 +12,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 export class DashboardComponent implements OnInit, OnDestroy {
   sensor$!: Observable<any>
   forecast$!: Observable<any>
+  displayDetails: boolean = false;
 
   constructor(
     private sensorService: SensorService,
@@ -46,6 +47,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
       })
     )
   }
+
+  toggleDisplayDetails(){
+    console.log("click");
+    this.displayDetails = !this.displayDetails
+  }
+
 }
 
 

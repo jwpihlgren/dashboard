@@ -4,17 +4,19 @@
     >
     </app-weather-card> -->
     <app-weather-card
-    (click)="updateWeather()" 
-    *ngIf="forecast$ | async as forecast; else loading"
-    [forecast]="forecast"
-    class="card" 
+        (click)="toggleDisplayDetails()"
+        [displayDetails]="displayDetails"
+        *ngIf="forecast$ | async as forecast; else loading"
+        [forecast]="forecast"
+        class="card" 
     >
     </app-weather-card>
     <app-soil-moisture-card 
-    *ngIf="sensor$ | async as sensor; else loading" 
-    [sensor]="sensor" 
-    class="card">
+        *ngIf="sensor$ | async as sensor; else loading" 
+        [sensor]="sensor" 
+        class="card">
     </app-soil-moisture-card>
+
 </app-grid>
 
 <ng-template #loading>
