@@ -12,24 +12,59 @@ img {
     height: var(--large);
   }
 
-td:nth-of-type(1), th:nth-of-type(1) {
-    text-align: start;
+
+
+*[data-name="Tid"] {
+  text-align: start;
+}
+
+*[data-name="Temp (känns som)"] {
+  text-align: end;
+}
+
+ /* Style the UV-I column */ 
+*[data-name="UV-I"] {
+  border-radius: var(--large);
+  color: var(--white);
+  font-size: var(--fs-300);
+  font-weight: var(--fw-600);
+  letter-spacing: 2px;
+  text-align: center;
+}
+  *[data-name="UV-I"][data-value="Låg"] {
+    background-color: var(--green-500);
+    color: var(--green-800);
   }
-td:nth-of-type(2), th:nth-of-type(2) {
-    text-align: end;
+  *[data-name="UV-I"][data-value="Måttlig"] {
+    background-color: var(--green-600);
+    color: var(--green-800);
   }
-td:nth-of-type(3), th:nth-of-type(3) {
-    text-align: end;
+  *[data-name="UV-I"][data-value="Hög"] {
+    background-color: var(--yellow-300);
+    color: var(--yellow-700);
   }
-td:nth-of-type(4), th:nth-of-type(4) {
-    text-align: end;
+  *[data-name="UV-I"][data-value="Mycket hög"] {
+    background-color: var(--orange-500);
+    color: var(--orange-800);
   }
-td:nth-of-type(5), th:nth-of-type(5) {
-    text-align: end;
+  *[data-name="UV-I"][data-value="Extrem"] {
+    background-color: var(--red-500);
+    color: var(--red-800);
   }
-td:nth-of-type(6), th:nth-of-type(6) {
-    text-align: end;
-  }
-td:nth-of-type(7), th:nth-of-type(7) {
-    text-align: center;
-  }
+
+*[data-name="Risk för regn"] {
+  text-align: end;
+}
+
+*[data-name="Nederbörd"] {
+  text-align: end;
+}
+
+*[data-name="Molnighet"] {
+  text-align: end;
+}
+
+*[data-name="Väder"] {
+  text-align: center;
+}
+

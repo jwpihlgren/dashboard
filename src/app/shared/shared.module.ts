@@ -15,6 +15,7 @@ import { BarRangeChartComponent } from './components/bar-range-chart/bar-range-c
 import { IsoToDatePipe } from './pipes/iso-to-date.pipe';
 import { AreaChartComponent } from './components/area-chart/area-chart.component';
 import { DetailedWeatherTableComponent } from './components/detailed-weather-table/detailed-weather-table.component';
+import { UviConverterPipe } from './pipes/uvi-converter.pipe';
 
 
 
@@ -32,6 +33,7 @@ import { DetailedWeatherTableComponent } from './components/detailed-weather-tab
     IsoToDatePipe,
     AreaChartComponent,
     DetailedWeatherTableComponent,
+    UviConverterPipe,
   ],
   imports: [
     CommonModule,
@@ -52,7 +54,11 @@ import { DetailedWeatherTableComponent } from './components/detailed-weather-tab
     BarRangeChartComponent,
     AreaChartComponent,
     DetailedWeatherTableComponent,
+    UviConverterPipe,
     
+  ],
+  providers: [
+    UviConverterPipe
   ]
 })
 export class SharedModule { }

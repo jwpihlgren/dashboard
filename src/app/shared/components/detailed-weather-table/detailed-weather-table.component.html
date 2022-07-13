@@ -4,7 +4,11 @@
     </thead>
     <tbody>
         <tr *ngFor="let hourlyData of weatherMatrix">
-            <td *ngFor="let data of hourlyData let last = last">
+            <td *ngFor="let data of hourlyData 
+                        let last = last 
+                        let i = index" 
+                        [attr.data-name]="columnHeadings[i]"
+                        [attr.data-value]="data">
                 <ng-container *ngIf="last; else regular" >
                     <img [src]="getIconUrl(data)"/>
                 </ng-container>

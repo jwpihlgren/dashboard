@@ -1,3 +1,4 @@
+import { UviConverterPipe } from './../../pipes/uvi-converter.pipe';
 import { WeatherService } from './../../services/weather.service';
 import { Component, Input, OnInit } from '@angular/core';
 
@@ -22,6 +23,7 @@ export class DetailedWeatherTableComponent implements OnInit {
   weatherMatrix!: any[]
 
   constructor(
+    private uviConverterPipe: UviConverterPipe,
     private weatherService: WeatherService
   ) { }
 
@@ -39,7 +41,7 @@ export class DetailedWeatherTableComponent implements OnInit {
         minute: '2-digit'
       }))
       hourRow.push(`${Math.round(hourlyData.temp)} ( ${Math.round(hourlyData.feels_like)} ) \xB0C`)
-      hourRow.push(hourlyData.uvi)
+      hourRow.push(this.uviConverterPipe.transform(hourlyData.uvi))
       hourRow.push(`${Math.round(hourlyData.pop * 100)} %`)
       if(hourlyData.snow) {
         hourRow.push(`${hourlyData.snow["1h"]} mm`)
