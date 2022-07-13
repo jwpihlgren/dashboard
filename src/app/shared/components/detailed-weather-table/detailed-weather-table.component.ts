@@ -40,7 +40,7 @@ export class DetailedWeatherTableComponent implements OnInit {
       }))
       hourRow.push(`${Math.round(hourlyData.temp)} ( ${Math.round(hourlyData.feels_like)} ) \xB0C`)
       hourRow.push(hourlyData.uvi)
-      hourRow.push(`${hourlyData.pop * 100} %`)
+      hourRow.push(`${Math.round(hourlyData.pop * 100)} %`)
       if(hourlyData.snow) {
         hourRow.push(`${hourlyData.snow["1h"]} mm`)
       }
