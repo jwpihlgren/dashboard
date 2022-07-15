@@ -68,7 +68,7 @@
   }
   .badge[data-value="Måttlig"] {
     background-color: var(--green-500);
-    color: var(--green-800);
+    color: var(--white);
   }
   .badge[data-value="Hög"] {
     background-color: var(--yellow-300);
