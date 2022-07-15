@@ -11,7 +11,7 @@ export class WeatherService {
 
   constructor(private http: HttpClient) { }
 
-  getForecast(location: any){
+/*   getForecast(location: any){
     const path = `/weather?lat=${location.lat}&lon=${location.lon}`
     return this.http.get(`${environment.dev.serverUrl}${path}`).pipe(
       map((data:any) => {
@@ -19,14 +19,14 @@ export class WeatherService {
         return data.forecast
       })
     );
-  }
+  } */
 
   getIconUrl(icon: string) {
     return `https://openweathermap.org/img/wn/${icon}.png`
   }
   
-/*   getForecast(location: any){
+  getForecast(location: any){
     return of(dummydata)
-  } */
+  }
 }
 
