@@ -1,4 +1,3 @@
-import { SensorService } from './../../services/sensor.service';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { faSeedling } from '@fortawesome/free-solid-svg-icons';
 
@@ -27,7 +26,7 @@ export class SoilMoistureCardComponent implements OnInit, OnChanges{
       type: "triangle",
       color: '#32d2ac'
     },
-    "50": {
+    "51": {
       type: "triangle",
       color: '#5693e9'
     },
@@ -35,12 +34,12 @@ export class SoilMoistureCardComponent implements OnInit, OnChanges{
   foregroundColor: string = "#f8c03f"
   threshold = {
     '30': {color: '#32d2ac'},
-    '50': {color: '#5693e9'}
+    '51': {color: '#5693e9'}
     };
 
  @Input() sensor: any
 
-  constructor(private sensorService: SensorService) {
+  constructor() {
    }
 
   ngOnInit(): void {
@@ -55,7 +54,7 @@ export class SoilMoistureCardComponent implements OnInit, OnChanges{
   getStatusText(value: number): string {
     console.log(value);
     if(value < 30) return "Dags att vattna"
-    else if( value >= 30 && value <= 40) return "Allt ser bra ut"
+    else if( value >= 30 && value <= 50) return "Allt ser bra ut"
     else return "Vattna inte mer just nu"
   }
 }
