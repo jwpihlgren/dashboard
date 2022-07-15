@@ -26,7 +26,7 @@ export class SoilMoistureCardComponent implements OnInit{
       type: "triangle",
       color: '#32d2ac'
     },
-    "40": {
+    "50": {
       type: "triangle",
       color: '#5693e9'
     },
@@ -34,7 +34,7 @@ export class SoilMoistureCardComponent implements OnInit{
   threshold = {
     '0': {color: '#f8c03f'},
     '30': {color: '#32d2ac'},
-    '40': {color: '#5693e9'}
+    '50': {color: '#5693e9'}
     };
 
  @Input() sensor: any

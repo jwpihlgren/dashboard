@@ -63,16 +63,16 @@
   height: calc(var(--medium) + var(--small));
 }
 .badge[data-value="Låg"] {
-    background-color: var(--green-500);
+    background-color: var(--green-300);
     color: var(--green-800);
   }
   .badge[data-value="Måttlig"] {
-    background-color: var(--green-600);
+    background-color: var(--green-500);
     color: var(--green-800);
   }
   .badge[data-value="Hög"] {
     background-color: var(--yellow-300);
-    color: var(--yellow-700);
+    color: var(--yellow-800);
   }
   .badge[data-value="Mycket hög"] {
     background-color: var(--orange-500);
