@@ -1,70 +1,94 @@
-
-table {
-    border-collapse: separate;
-  }
-
-td,th {
-    padding-inline: var(--medium);
-  }
-
-img {
-    width: var(--large);
-    height: var(--large);
-  }
-
-
-
-*[data-name="Tid"] {
-  text-align: start;
+:host {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  padding-block-start: 1rem;
+  font-weight: var(--fw-500);
 }
 
-*[data-name="Temp (känns som)"] {
+.table {
+  display: grid;
+  grid-template-columns: repeat(7, auto);
+  padding-right: 17px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: -17px;
+
+  overflow: hidden;
+  overflow-y: scroll;
+
+  height: calc(100% - var(--medium));
+}
+
+.tableCell, .tableHeading {
+  padding-inline: var(--medium);
+}
+
+.tableHeading {
+  position: sticky;
+  top: 0px;
+  padding-block: var(--small);
+  background-color: var(--white);
+}
+
+.tableCell {
+  height: var(--large);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.numerical {
+  justify-content: flex-end;
   text-align: end;
 }
+.text {
+  justify-content: flex-start;
+  text-align:start
+}
 
- /* Style the UV-I column */ 
-*[data-name="UV-I"] {
+
+.tableHeading.badge {
+  text-align: center;
+}
+
+.tableCell.badge {
   border-radius: var(--large);
-  color: var(--white);
   font-size: var(--fs-300);
   font-weight: var(--fw-600);
   letter-spacing: 2px;
-  text-align: center;
+  height: calc(var(--medium) + var(--small));
 }
-  *[data-name="UV-I"][data-value="Låg"] {
+.badge[data-value="Låg"] {
     background-color: var(--green-500);
     color: var(--green-800);
   }
-  *[data-name="UV-I"][data-value="Måttlig"] {
+  .badge[data-value="Måttlig"] {
     background-color: var(--green-600);
     color: var(--green-800);
   }
-  *[data-name="UV-I"][data-value="Hög"] {
+  .badge[data-value="Hög"] {
     background-color: var(--yellow-300);
     color: var(--yellow-700);
   }
-  *[data-name="UV-I"][data-value="Mycket hög"] {
+  .badge[data-value="Mycket hög"] {
     background-color: var(--orange-500);
     color: var(--orange-800);
   }
-  *[data-name="UV-I"][data-value="Extrem"] {
+  .badge[data-value="Extrem"] {
     background-color: var(--red-500);
     color: var(--red-800);
   }
 
-*[data-name="Risk för regn"] {
-  text-align: end;
-}
 
-*[data-name="Nederbörd"] {
-  text-align: end;
-}
-
-*[data-name="Molnighet"] {
-  text-align: end;
-}
-
-*[data-name="Väder"] {
-  text-align: center;
-}
-
+  .tableHeading.image {
+    justify-content: center;
+    text-align: center;
+  }
+  img {
+    width: var(--large);
+    height: var(--large);
+  }
