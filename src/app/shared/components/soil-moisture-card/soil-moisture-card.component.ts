@@ -11,6 +11,7 @@ import { faSeedling } from '@fortawesome/free-solid-svg-icons';
 export class SoilMoistureCardComponent implements OnInit{
 
   faSeedling = faSeedling
+  statusText!: string
 
   gaugeType: any = "arch";
   gaugeValue: any = 80;
@@ -19,10 +20,21 @@ export class SoilMoistureCardComponent implements OnInit{
   gauageThickness: any = 18;
   guageCap: any = "round";
   guageSize: any = 325;
+  margin: number = 16 ;
+  marker: any = {
+    "30": {
+      type: "triangle",
+      color: '#32d2ac'
+    },
+    "40": {
+      type: "triangle",
+      color: '#5693e9'
+    },
+  }
   threshold = {
-    '0': {color: 'rgba(255, 150, 136, 1)'},
-    '30': {color: 'rgba(248, 192, 63, 1)'},
-    '60': {color: 'rgba(50, 210, 172, 1)'}
+    '0': {color: '#f8c03f'},
+    '30': {color: '#32d2ac'},
+    '40': {color: '#5693e9'}
     };
 
  @Input() sensor: any
@@ -32,5 +44,13 @@ export class SoilMoistureCardComponent implements OnInit{
 
   ngOnInit(): void {
     //console.log(this.sensor);
+    this.statusText = this.getStatusText(this.sensor.values[0].value)
+  }
+
+  getStatusText(value: number): string {
+    console.log(value);
+    if(value < 30) return "Dags att vattna"
+    else if( value >= 30 && value <= 40) return "Allt ser bra ut"
+    else return "Vattna inte mer just nu"
   }
 }
