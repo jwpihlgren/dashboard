@@ -1,5 +1,5 @@
 import { SensorService } from './../../services/sensor.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { faSeedling } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -8,7 +8,7 @@ import { faSeedling } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './soil-moisture-card.component.html',
   styleUrls: ['./soil-moisture-card.component.css']
 })
-export class SoilMoistureCardComponent implements OnInit{
+export class SoilMoistureCardComponent implements OnInit, OnChanges{
 
   faSeedling = faSeedling
   statusText!: string
@@ -17,10 +17,11 @@ export class SoilMoistureCardComponent implements OnInit{
   gaugeValue: any = 80;
   gaugeLabel: any = "Vardagsrum";
   gaugeAppendText: any  = "%";
-  gauageThickness: any = 18;
-  guageCap: any = "round";
-  guageSize: any = 325;
-  margin: number = 16 ;
+  gaugeThickness: any = 18;
+  gaugeCap: any = "round";
+  gaugeSize: any = 325;
+  min: number = 10;
+  max:number = 80;
   marker: any = {
     "30": {
       type: "triangle",
@@ -31,8 +32,8 @@ export class SoilMoistureCardComponent implements OnInit{
       color: '#5693e9'
     },
   }
+  foregroundColor: string = "#f8c03f"
   threshold = {
-    '0': {color: '#f8c03f'},
     '30': {color: '#32d2ac'},
     '50': {color: '#5693e9'}
     };
@@ -44,6 +45,10 @@ export class SoilMoistureCardComponent implements OnInit{
 
   ngOnInit(): void {
     //console.log(this.sensor);
+    this.statusText = this.getStatusText(this.sensor.values[0].value)
+  }
+
+  ngOnChanges(): void {
     this.statusText = this.getStatusText(this.sensor.values[0].value)
   }
 
