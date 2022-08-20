@@ -45,9 +45,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   updateWeather(): void {
-    this.forecast$ = this.locationService.getWeatherLocation('partille').pipe(
-      mergeMap((locations: any) => {
-        const location = {lat: locations[0].lat, lon: locations[0].lon}
+    this.forecast$ = this.locationService.getUserFavoriteLocation().pipe(
+      mergeMap((favoriteLocation: any) => {
+        const location = {lat: favoriteLocation.lat, lon: favoriteLocation.lon}
         return this.weatherService.getForecast(location)
       })
     )

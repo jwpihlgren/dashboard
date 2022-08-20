@@ -36,7 +36,9 @@ import { SoilmoistureComponent } from './components/soilmoisture/soilmoisture.co
           `${environment.dev.serverUrl}/sensors`,
           `${environment.dev.serverUrl}/sensors/*`,
           `${environment.dev.serverUrl}/location`,
-          `${environment.dev.serverUrl}/weather`
+          `${environment.dev.serverUrl}/weather`,
+          `${environment.dev.serverUrl}/user/`,
+          `${environment.dev.serverUrl}/user/*`
         ]
       }
     }),
