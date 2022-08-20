@@ -19,8 +19,8 @@ export class SoilMoistureCardComponent implements OnInit, OnChanges{
   gaugeThickness: any = 18;
   gaugeCap: any = "round";
   gaugeSize: any = 325;
-  min: number = 10;
-  max:number = 80;
+  min: number = 0;
+  max:number = 100;
   marker: any = {
     "30": {
       type: "triangle",
@@ -52,7 +52,6 @@ export class SoilMoistureCardComponent implements OnInit, OnChanges{
   }
 
   getStatusText(value: number): string {
-    console.log(value);
     if(value < 30) return "Dags att vattna"
     else if( value >= 30 && value <= 50) return "Allt ser bra ut"
     else return "Vattna inte mer just nu"
