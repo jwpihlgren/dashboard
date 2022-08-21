@@ -1,0 +1,16 @@
+<label for="search">Sök område</label>
+<div 
+    class="search-field round pb-sm pi-lg"
+    [ngClass]="{'focus': searchHasFocus}">
+    <input
+        (keyup)="updateSearchQuery($event)"
+        (focus)="setSearchFocus()"
+        (blur)="clearSearchFocus()"
+        #search
+        type="search" 
+        id="search" 
+        autofocus/>
+    <button (click)="clearSearchQuery()">Delete</button>
+    <button>Search</button>
+</div>
+

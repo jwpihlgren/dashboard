@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './../app-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -16,6 +17,7 @@ import { IsoToDatePipe } from './pipes/iso-to-date.pipe';
 import { AreaChartComponent } from './components/area-chart/area-chart.component';
 import { DetailedWeatherTableComponent } from './components/detailed-weather-table/detailed-weather-table.component';
 import { UviConverterPipe } from './pipes/uvi-converter.pipe';
+import { SearchComponent } from './components/search/search.component';
 
 
 
@@ -34,12 +36,14 @@ import { UviConverterPipe } from './pipes/uvi-converter.pipe';
     AreaChartComponent,
     DetailedWeatherTableComponent,
     UviConverterPipe,
+    SearchComponent,
   ],
   imports: [
     CommonModule,
     NgxGaugeModule,
     FontAwesomeModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
 
   ],
   exports: [
@@ -55,6 +59,7 @@ import { UviConverterPipe } from './pipes/uvi-converter.pipe';
     AreaChartComponent,
     DetailedWeatherTableComponent,
     UviConverterPipe,
+    SearchComponent,
     
   ],
   providers: [

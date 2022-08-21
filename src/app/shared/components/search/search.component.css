@@ -1,0 +1,25 @@
+.search-field {
+    display: flex;
+    border: 2px solid var(--gray-500);
+}
+
+.search-field.focus {
+    border-color: var(--blue-500);
+}
+
+input {
+    all:unset;
+    font-size: var(--fs-600);
+    vertical-align: top;
+    width: 100%;
+}
+
+input::-webkit-search-cancel-button { display: none; }
+
+label {
+    font-size: var(--fs-300);
+    text-transform: uppercase;
+    font-weight: var(--fw-600);
+    color: var(--on-light-background-100);
+    letter-spacing: 0.067rem;
+}
