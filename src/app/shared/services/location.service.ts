@@ -1,7 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { UserService } from './user.service';
 import { Injectable } from '@angular/core';
 import { map, of, Observable } from 'rxjs';
 import * as dummydata from '../../../assets/stubs/location-data.json'
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,21 +11,23 @@ import * as dummydata from '../../../assets/stubs/location-data.json'
 export class LocationService {
 
   constructor(
+    private httpClient: HttpClient,
     private userService: UserService
     ) { }
 
-/*   getWeatherLocation(query: string){
+  getWeatherLocation(query: string){
     const path = `/location?query=${query}`
-    return this.http.get(`${environment.dev.serverUrl}${path}`).pipe(
+    return this.httpClient.get(`${environment.dev.serverUrl}${path}`).pipe(
       map(data => {
         console.log(data);
         return data
       })
     );
-  } */
-  getWeatherLocation(query: string){
-    return of(dummydata)
   }
+
+/*   getWeatherLocation(query: string){
+    return of(dummydata)
+  } */
 
   getUserFavoriteLocation(): Observable<any> {
     return this.userService.getUserMetadata().pipe(
