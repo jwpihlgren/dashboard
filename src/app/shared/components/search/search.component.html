@@ -10,7 +10,24 @@
         type="search" 
         id="search" 
         autofocus/>
-    <button (click)="clearSearchQuery()">Delete</button>
-    <button>Search</button>
+        <div class="button-group"
+            [ngClass]="{'hidden': searchIsPristine}">
+            <button 
+            (click)="clearSearchQuery()"
+            class="ternary round"
+            >
+            <fa-icon 
+            [icon]=faTimes
+            size="lg"></fa-icon>
+        </button>
+        <span class="spacer"></span>
+        <button
+            class="ternary rounded">
+            <fa-icon 
+            [icon]=faSearch
+            size="lg"></fa-icon> Sök
+        </button>
+        </div>
+
 </div>
 

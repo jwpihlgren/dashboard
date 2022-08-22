@@ -1,6 +1,7 @@
 .search-field {
     display: flex;
     border: 2px solid var(--gray-500);
+    min-height: 68px;
 }
 
 .search-field.focus {
@@ -23,3 +24,21 @@ label {
     color: var(--on-light-background-100);
     letter-spacing: 0.067rem;
 }
+
+
+.button-group {
+    display: flex;
+    align-items: center;
+    gap: var(--small)
+}
+.spacer {
+    content: "";
+    height: var(--large);
+    width: 1px;
+    background-color: #272727;
+}
+
+.hidden {display: none;}
+
+
+
