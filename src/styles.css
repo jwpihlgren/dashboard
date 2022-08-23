@@ -109,6 +109,8 @@
 .gap-md { gap: var(--medium) }
 .gap-lg { gap: var(--large) }
 .gap-xl { gap: var(--extra-large) }
+.grow { flex-grow: 1}
+.shrink { flex-shrink: 1}
 .m-sm { margin: var(--small) }
 .m-md { margin: var(--medium) }
 .m-lg { margin:var(--large) }
