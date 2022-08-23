@@ -221,3 +221,53 @@ a.button-primary:focus-visible {
 fa-icon {
     color: var(--blue-500);
 }
+
+button {
+    all:unset;
+    cursor: pointer;
+    transition-duration: var(--duration-short);
+    transition-timing-function: var(--ease-in-out);
+}
+
+button.primary {
+    
+}
+button.secondary {
+
+}
+
+button.ternary {
+    padding-inline: var(--large);
+    padding-block: var(--medium);
+
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    gap: var(--small);
+
+    color: var(--blue-500)
+}
+button.ternary:hover {
+    background-color: var(--gray-100);
+}
+button.ternary:focus {
+    outline: none;
+}
+button.ternary:focus-visible, button.ternary:active {
+    background-color: var(--gray-300);
+}
+
+button.ternary.round {
+    padding: 0;
+    height: 48px;
+    min-width: 48px;
+}
+button.ternary.rounded {
+    height: 48px;
+    padding-block: 0;
+    padding-inline: var(--medium);
+    border-radius: 1000px;
+}
+
+

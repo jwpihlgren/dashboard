@@ -1,0 +1,38 @@
+<label for="search">Sök område</label>
+<div 
+    class="search-field round pb-sm pi-lg"
+    [ngClass]="{'focus': searchHasFocus}">
+    <input
+        (keyup)="updateSearchQuery($event)"
+        (focus)="setSearchFocus()"
+        (blur)="clearSearchFocus()"
+        #search
+        type="search" 
+        id="search" 
+        autofocus/>
+        <div class="button-group"
+            [ngClass]="{'hidden': searchIsPristine}">
+            <button 
+            (click)="clearSearchQuery()"
+            class="ternary round"
+            >
+            <fa-icon 
+            [icon]=faTimes
+            size="lg"></fa-icon>
+        </button>
+        <span class="spacer"></span>
+        <button
+            class="ternary rounded">
+            <fa-icon 
+            [icon]=faSearch
+            size="lg"></fa-icon> Sök
+        </button>
+        </div>
+</div>
+
+<ul *ngIf="searchResults$ | async as searchResults">
+    <li *ngFor="let searchResult of searchResults">
+        {{searchResult.local_names?.sv ? searchResult.local_names.sv : searchResult.name}}
+    </li>
+</ul>
+
