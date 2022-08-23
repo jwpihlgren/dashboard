@@ -60,6 +60,7 @@ import { SearchComponent } from './components/search/search.component';
     DetailedWeatherTableComponent,
     UviConverterPipe,
     SearchComponent,
+    CommonModule
     
   ],
   providers: [
