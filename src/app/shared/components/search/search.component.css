@@ -58,7 +58,7 @@ ul {
 li {
     all: unset;
     
-    padding-block: var(--small);
+    padding-block: var(--medium);
     padding-inline: var(--large);
 }
 
