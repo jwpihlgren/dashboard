@@ -3,6 +3,7 @@ import { LocationService } from './../../shared/services/location.service';
 import { SensorService } from './../../shared/services/sensor.service';
 import { mergeMap, Observable, forkJoin } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ILocation } from 'src/app/shared/models/location.interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -46,9 +47,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   updateWeather(): void {
     this.forecast$ = this.locationService.getUserFavoriteLocation().pipe(
-      mergeMap((favoriteLocation: any) => {
-        const location = {lat: favoriteLocation.lat, lon: favoriteLocation.lon}
-        return this.weatherService.getForecast(location)
+      mergeMap((favoriteLocation: ILocation) => {
+        return this.weatherService.getForecast(favoriteLocation)
       })
     )
   }

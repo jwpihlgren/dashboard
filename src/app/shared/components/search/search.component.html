@@ -28,6 +28,11 @@
             size="lg"></fa-icon> Sök
         </button>
         </div>
-
 </div>
+
+<ul *ngIf="searchResults$ | async as searchResults">
+    <li *ngFor="let searchResult of searchResults">
+        {{searchResult.local_names?.sv ? searchResult.local_names.sv : searchResult.name}}
+    </li>
+</ul>
 

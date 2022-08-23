@@ -1,3 +1,4 @@
+import { ILocation } from './../models/location.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, of } from 'rxjs';
@@ -11,11 +12,16 @@ export class WeatherService {
 
   constructor(private http: HttpClient) { }
 
-  getForecast(location: any){
-    const path = `/weather?lat=${location.lat}&lon=${location.lon}`
-    return this.http.get(`${environment.dev.serverUrl}${path}`).pipe(
+  getForecast(location: ILocation){
+    
+    const url = environment.dev.serverUrl
+    const path = `/weather`
+    const params = `?lat=${location.lat}&lon=${location.lon}`
+
+    return this.http.get(`${url}${path}${params}`).pipe(
       map((data:any) => {
         data.forecast.fetchDate = data.fetchDate
+        data.forecast.location = location.local_name
         return data.forecast
       })
     );
