@@ -16,9 +16,9 @@ export class WeatherCardComponent implements OnInit {
 
   faCloudSun = faCloudSun
   forecastDataSeries: [] = []
+  displayDetails = false
 
   @Input() forecast: any
-  @Input() displayDetails!: boolean
 
   constructor(
     private weatherService: WeatherService
@@ -48,6 +48,11 @@ export class WeatherCardComponent implements OnInit {
 
   getIconUrl(icon:string): string {
     return this.weatherService.getIconUrl(icon)
+  }
+
+  @HostListener('click')
+  toggleDisplayDetails(){
+    this.displayDetails = !this.displayDetails
   }
 
 }

@@ -23,6 +23,7 @@
             </button>
             <span class="spacer"></span>
             <button
+                (click)="onSearchClickHandler()"
                 class="ternary rounded">
                 <fa-icon 
                 [icon]=faSearch
@@ -33,14 +34,26 @@
     <ng-container *ngIf="searchResults$ | async as searchResults">
         <hr/>
         <ul>
-            <li 
-            *ngFor="let searchResult of searchResults"
-            class="search-results-item">
-                {{searchResult.local_names?.sv ? searchResult.local_names.sv : searchResult.name}}, {{searchResult.region}}, {{searchResult.country}}
-            </li>
+            <app-search-result
+                *ngFor="let searchResult of searchResults"
+                (clickRequest)="onResultClickHandler($event)"
+                [searchResult]="searchResult">
+            </app-search-result>
         </ul>
     </ng-container>
 </div>
+
+<app-weather-card
+    *ngIf="forecast$ | async as forecast; else loading"
+    [forecast]="forecast"
+    class="card"
+    [ngStyle]="{'height': '375px'}"
+    >
+</app-weather-card>
+
+<ng-template  #loading>
+    <div *ngIf="forecastIsLoading" class="card">Loading</div>
+</ng-template>
 
 
 

@@ -10,11 +10,11 @@ ul {
     display: flex;
     flex-direction: column;
     position: relative;
-    top: var(--x-small);
+    top: var(--extra-small);
     background-color: var(--white);
     border-radius: 5px;
     box-shadow: var(--bs-2);
-    padding-block: var(--x-small);
+    padding-block: var(--extra-small);
 }
 
 :host ::ng-deep li  {
@@ -23,7 +23,7 @@ ul {
 :host ::ng-deep li a {
     list-style-type: none;
     padding-inline: var(--small);
-    padding-block: var(--x-small);
+    padding-block: var(--extra-small);
     flex-grow: 1;
 }
 

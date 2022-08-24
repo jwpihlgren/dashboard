@@ -1,5 +1,32 @@
 :host {
     height: 100%;
     width: 100%;
-    padding: var(--large);
+}
+
+@media screen and (min-width: 600px) {
+    .large-card {
+        grid-column: auto / span 8;
+    }
+
+    .small-card {
+        grid-column: auto / span 4;
+    }
+}
+@media screen and (min-width: 905px) {
+    .large-card {
+        grid-column: auto / span 8;
+    }
+
+    .small-card {
+        grid-column: auto / span 4;
+    }
+}
+@media screen and (min-width: 1240px) {
+    .large-card {
+        grid-column: auto / span 8;
+    }
+
+    .small-card {
+        grid-column: auto / span 4;
+    }
 }

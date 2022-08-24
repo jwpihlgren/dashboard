@@ -1,16 +1,35 @@
 :host {
     height: 100%;
     display: grid;
-    grid-template-columns: repeat( auto-fill, minmax(340px, 1fr) );
-    grid-template-rows: repeat(4, 400px);
-    gap: var(--medium); 
-    min-width: 100%;
+    grid-template-columns: repeat(4, 1fr);
+    padding-block: var(--large);
+
 }
 
 
 @media screen and (min-width: 600px) {
     :host {
-        grid-template-columns: repeat( auto-fill, minmax(340px, 1fr) );
+        grid-template-columns: repeat(8, 1fr);
         gap: var(--large);
+        padding-inline: var(--large);
+        width: 100%;
     }
 }
+@media screen and (min-width: 905px) {
+    :host {
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: repeat(4, 400px);
+    }
+}
+@media screen and (min-width: 1240px) {
+    :host {
+        padding-inline: 100px;
+        width: 100%;
+    }
+}
+@media screen and (min-width: 1440px) {
+    :host {
+        width: 1440px
+    }
+}
+

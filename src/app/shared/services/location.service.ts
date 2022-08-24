@@ -23,6 +23,7 @@ export class LocationService {
 
     return this.httpClient.get(`${url}${path}${params}`).pipe(
       map((data: any) => {
+        if(!data || data.length === 0) return []
         const locations: ILocation[] = data.map((location: any) => this.createLocationObject(location))
         return locations
       })
