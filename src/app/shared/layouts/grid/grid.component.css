@@ -23,13 +23,13 @@
 }
 @media screen and (min-width: 1240px) {
     :host {
-        padding-inline: 100px;
         width: 100%;
     }
 }
 @media screen and (min-width: 1440px) {
     :host {
-        width: 1440px
+        padding-inline: 100px;
+        width: 100%
     }
 }
 
