@@ -49,7 +49,7 @@ app-bar-range-chart {
 
 .fetch-date {
     position: relative;
-    bottom: var(--x-small);
+    bottom: var(--extra-small);
     color: var(--on-light-background-100);
     font-size: var(--fs-400);
     font-weight: var(--fw-300);

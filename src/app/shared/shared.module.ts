@@ -18,6 +18,7 @@ import { AreaChartComponent } from './components/area-chart/area-chart.component
 import { DetailedWeatherTableComponent } from './components/detailed-weather-table/detailed-weather-table.component';
 import { UviConverterPipe } from './pipes/uvi-converter.pipe';
 import { SearchComponent } from './components/search/search.component';
+import { SearchResultComponent } from './components/search-result/search-result.component';
 
 
 
@@ -37,6 +38,7 @@ import { SearchComponent } from './components/search/search.component';
     DetailedWeatherTableComponent,
     UviConverterPipe,
     SearchComponent,
+    SearchResultComponent,
   ],
   imports: [
     CommonModule,
@@ -60,7 +62,8 @@ import { SearchComponent } from './components/search/search.component';
     DetailedWeatherTableComponent,
     UviConverterPipe,
     SearchComponent,
-    CommonModule
+    CommonModule,
+    SearchResultComponent,
     
   ],
   providers: [

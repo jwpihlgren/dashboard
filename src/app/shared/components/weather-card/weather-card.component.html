@@ -2,7 +2,7 @@
 <span class="flex row j-center a-center gap-sm">Väder i {{forecast.location}} <fa-icon [icon]=faCloudSun size="lg"></fa-icon></span>
 <div *ngIf="!displayDetails; else showDetails" class="wrapper">
     <app-bar-range-chart
-    [forecast]=createForecastDataSeries(forecast.daily)
+        [forecast]=createForecastDataSeries(forecast.daily)
     ></app-bar-range-chart>
     <div class="weather-side-info flex col j-between a-center">
         <div class="weather-side-info-details">
