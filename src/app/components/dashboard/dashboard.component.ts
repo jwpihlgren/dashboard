@@ -1,7 +1,7 @@
 import { WeatherService } from './../../shared/services/weather.service';
 import { LocationService } from './../../shared/services/location.service';
 import { SensorService } from './../../shared/services/sensor.service';
-import { mergeMap, Observable, forkJoin } from 'rxjs';
+import { mergeMap, Observable, forkJoin, of } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ILocation } from 'src/app/shared/models/location.interface';
 
@@ -30,7 +30,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     ).pipe(
       mergeMap((data: any) => {
-        return this.sensorService.getSensor(data.sensors.response[0]._id, data.token)
+        const firstSensor = data.sensors.response[0]
+        if(firstSensor) {
+          return this.sensorService.getSensor(firstSensor._id, data.token)
+        }
+        else {
+          return of(undefined)
+        } 
       })
     )
     

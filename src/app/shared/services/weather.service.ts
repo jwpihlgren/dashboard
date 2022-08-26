@@ -20,9 +20,10 @@ export class WeatherService {
 
     return this.http.get(`${url}${path}${params}`).pipe(
       map((data:any) => {
-        data.forecast.fetchDate = data.fetchDate
-        data.forecast.location = location.local_name
-        return data.forecast
+        data.location = location.local_name
+        data.fetchDate = Date.now()
+        console.log(data);
+        return data
       })
     );
   }

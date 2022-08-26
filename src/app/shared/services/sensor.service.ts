@@ -2,7 +2,7 @@
 import { AuthService } from '@auth0/auth0-angular';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
-import { map, Subject, Observable, tap, filter } from 'rxjs';
+import { map, Subject, Observable, tap, filter, catchError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 @Injectable({
@@ -23,6 +23,11 @@ export class SensorService {
     return this.http.get(`${environment.dev.serverUrl}/sensors`).pipe(
       map(data => {
         return data
+      }),
+      catchError((error: any) => {
+        console.log(error);
+        return error
+
       })
     );
   }
@@ -44,7 +49,15 @@ export class SensorService {
       }, 1000 * 30)
     }
     
-    return this.subject$.pipe(tap(event => console.log(event)), filter(event=> event.type !== 'heartbeat'), map(event => JSON.parse(event.data)))
+    return this.subject$.pipe(
+      tap(event => console.log(event)), 
+      filter(event=> event.type !== 'heartbeat'), 
+      map(event => JSON.parse(event.data)),
+      catchError((error: any) => {
+        console.log(error)
+        return error
+      }
+      ))
   }
 
   getDetailedSensor(id: string, pageSize?: number, pageCount?: number): Observable<any> {
