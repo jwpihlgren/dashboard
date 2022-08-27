@@ -232,10 +232,27 @@ button {
     transition-timing-function: var(--ease-in-out);
 }
 
-/* Primary butotn */
+/* Primary buttonn */
 button.primary {
+    padding-block: 0.5rem;
+    padding-inline: 1rem;
+    border-radius: 5px;
     background-color: var(--blue-500);
     color: var(--white);
+    user-select: none;
+    min-width: 0;
+}
+button.primary:hover {
+    background-color: var(--blue-600);
+    color: var(--white);
+}
+button.primary:active {
+    background-color: var(--blue-700);
+    color: var(--white);
+}
+button.primary:focus-visible {
+    outline: 2px solid;
+    outline-offset: 2px;
 }
 
 /* Secondary button */
