@@ -20,14 +20,14 @@ export class LocationService {
 
   getWeatherLocation(query: string): Observable<ILocation[]>{
 
+    const url = environment.dev.serverUrl
+    const path = `/location`
+    const params = `?query=${query}`
+
     const previousQueries: any = this.localStorageService.getStoredData("queries")
     if(previousQueries && previousQueries[query]) {
       return of(previousQueries[query])
     }
-
-    const url = environment.dev.serverUrl
-    const path = `/location`
-    const params = `?query=${query}`
 
     return this.httpClient.get(`${url}${path}${params}`).pipe(
       map((data: any) => {

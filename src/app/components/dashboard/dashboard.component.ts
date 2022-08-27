@@ -1,7 +1,7 @@
 import { WeatherService } from './../../shared/services/weather.service';
 import { LocationService } from './../../shared/services/location.service';
 import { SensorService } from './../../shared/services/sensor.service';
-import { mergeMap, Observable, forkJoin, of } from 'rxjs';
+import { mergeMap, Observable, forkJoin, of, tap } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ILocation } from 'src/app/shared/models/location.interface';
 
@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   updateWeather(): void {
     this.forecast$ = this.locationService.getUserFavoriteLocation().pipe(
       mergeMap((favoriteLocation: ILocation) => {
-        return this.weatherService.getForecast(favoriteLocation)
+        return this.weatherService.getForecast(favoriteLocation).pipe(tap(data=>console.log(data)))
       })
     )
   }
