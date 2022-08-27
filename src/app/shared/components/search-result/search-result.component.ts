@@ -9,15 +9,12 @@ import { Component, Input, OnInit, Output, EventEmitter, HostListener } from '@a
 export class SearchResultComponent implements OnInit {
 
   @Input() searchResult!: ILocation
-
-  
+  @Output() clickRequest: EventEmitter<ILocation> = new EventEmitter()
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
-  @Output() clickRequest: EventEmitter<any> = new EventEmitter()
 
   @HostListener('click') 
   onClick(): void {

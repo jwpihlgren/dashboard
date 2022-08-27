@@ -2,4 +2,28 @@
     height: 100%;
     width: 100%;
     padding: var(--large);
+    display: flex;
+    flex-direction: column;
+    gap: var(--extra-large);
+    align-items: flex-start;
 }
+
+app-search {
+    position: absolute;
+    z-index: 10001;
+    width: calc(100vw - 136px);
+}
+
+.data {
+    transform: translate(0, 120px);
+    width: 100%;
+    gap: var(--extra-large);
+    align-items: flex-start;
+}
+
+app-weather-card {
+    max-width: 960px;
+    align-self: center;
+}
+
+

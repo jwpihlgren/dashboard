@@ -4,7 +4,7 @@
     [ngClass]="{'focus': searchHasFocus}">
     <div class="flex row grow pb-sm pi-lg search-field-input">
         <input
-            (keyup)="updateSearchQuery($event)"
+            (keyup)="onSearchKeyUpHandler($event)"
             (focus)="setSearchFocus()"
             (blur)="clearSearchFocus()"
             #search
@@ -31,29 +31,24 @@
             </button>
         </div>
     </div>
-    <ng-container *ngIf="searchResults$ | async as searchResults">
+    <ng-container *ngIf="!searchIsPristine">
         <hr/>
-        <ul>
+        <ul *ngIf="searchResults.length > 0; else nullHit">
             <app-search-result
                 *ngFor="let searchResult of searchResults"
                 (clickRequest)="onResultClickHandler($event)"
                 [searchResult]="searchResult">
             </app-search-result>
         </ul>
+        <ng-template #nullHit>
+            <span class="p-lg">
+                <ng-container *ngIf="isLoading; else loading">Laddar</ng-container>
+                <ng-template #loading>Inga sökträffar</ng-template>
+            </span>
+        </ng-template>
     </ng-container>
 </div>
 
-<app-weather-card
-    *ngIf="forecast$ | async as forecast; else loading"
-    [forecast]="forecast"
-    class="card"
-    [ngStyle]="{'height': '375px'}"
-    >
-</app-weather-card>
-
-<ng-template  #loading>
-    <div *ngIf="forecastIsLoading" class="card">Loading</div>
-</ng-template>
 
 
 
