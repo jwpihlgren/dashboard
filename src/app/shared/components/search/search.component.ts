@@ -1,7 +1,4 @@
-import { WeatherService } from './../../services/weather.service';
-import { LocationService } from './../../services/location.service';
-import { Observable, mergeMap, tap, finalize, } from 'rxjs';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { faTimes, faSearch} from '@fortawesome/free-solid-svg-icons';
 import { ILocation } from '../../models/location.interface';
 
@@ -10,79 +7,62 @@ import { ILocation } from '../../models/location.interface';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit {
-
-  constructor(
-    private locationService:LocationService,
-    private weatherService: WeatherService
-  ) { }
-
+export class SearchComponent {
 
   @ViewChild("search") elementRef!: ElementRef
-  searchQuery: string = ""
-  searchResults$!: Observable<ILocation[]>;
+ 
+  @Input() searchResults: ILocation[] = []
+  @Input() isLoading: boolean = false
+ 
+  @Output() requestLocationSearch: EventEmitter<string> = new EventEmitter()
+  @Output() resultClicked: EventEmitter<ILocation> = new EventEmitter()
+  @Output() focusChange: EventEmitter<boolean> = new EventEmitter()
 
+  searchQuery: string = ""
   searchHasFocus: boolean = false
   searchIsPristine: boolean = true
 
-  forecastIsLoading: boolean = false
-
-  forecast$!: Observable<any>
-
   faTimes = faTimes
   faSearch = faSearch
-  
-  ngOnInit(): void {}
 
-  updateSearchQuery(event: any): void {
+  constructor(
+    ) { }
+
+  onSearchKeyUpHandler(event: any): void {
     this.searchQuery = event.target.value
-    if(this.searchQuery === "") return
-    this.searchResults$ = this.getLocation(this.searchQuery)
-    this.searchIsPristine = this.searchQuery === "" ? true : false
+    this.searchIsPristine = this.searchQuery === ""
+    if(this.searchQuery !== "") this.requestLocationSearch.emit(this.searchQuery)
   }
 
   clearSearchQuery(): void {
     this.searchQuery = ""
-    this.searchResults$ = new Observable
+    this.searchResults = []
     this.searchIsPristine = true
     this.elementRef.nativeElement.value = this.searchQuery
     this.elementRef.nativeElement.focus()
+    this.setSearchFocus()
   }
 
   setSearchFocus(){
     this.searchHasFocus = true
+    this.focusChange.emit(this.searchHasFocus)
   }
   clearSearchFocus(){
     this.searchHasFocus = false
+    this.focusChange.emit(this.searchHasFocus)
   }
 
-  private getLocation(searchQuery: string): Observable<any> {
-    return this.locationService.getWeatherLocation(searchQuery)
-  }
 
-  private getForecast(location: ILocation): void {
-    this.forecast$ = this.weatherService.getForecast(location).pipe(
-      finalize(() => this.forecastIsLoading = false)
-    )
-  }
- 
   onSearchClickHandler() {
-    this.forecastIsLoading = true;
-    this.getLocation(this.searchQuery).pipe(
-      mergeMap((locations: ILocation[]): any => {
-        if(locations.length === 0) {
-          return undefined
-        }
-        this.getForecast(locations[0])
-      })
-    )
+    this.resultClicked.emit(this.searchResults[0])
     this.clearSearchQuery()
+    this.clearSearchFocus()
   }
 
   onResultClickHandler(location: ILocation) {
-    this.forecastIsLoading = true;
-    this.getForecast(location)
+    this.resultClicked.emit(location)
     this.clearSearchQuery()
+    this.clearSearchFocus()
   }
     
 

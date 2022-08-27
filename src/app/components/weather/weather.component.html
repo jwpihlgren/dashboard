@@ -1,6 +1,22 @@
 
-<app-search>
-
+<app-search
+    (requestLocationSearch)="getLocation($event)"
+    (resultClicked)="getForecast($event)"
+    [isLoading]="locationIsLoading"
+    [searchResults]="searchResults"
+    >
 </app-search>
+
+<app-weather-card
+    *ngIf="forecast$ | async as forecast; else loading"
+    [forecast]="forecast"
+    class="card"
+    [ngStyle]="{'height': '375px'}"
+    >
+</app-weather-card>
+
+<ng-template  #loading>
+    <div *ngIf="forecastIsLoading" class="card">Loading</div>
+</ng-template>
 
 
