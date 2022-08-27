@@ -46,6 +46,10 @@ export class WeatherComponent implements OnInit, OnDestroy {
       finalize(() => this.forecastIsLoading = false)
     )
   }
+
+  clearForecast(): void {
+    this.forecast$ = new Observable()
+  }
   ngOnDestroy(): void {
       this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe())
   }

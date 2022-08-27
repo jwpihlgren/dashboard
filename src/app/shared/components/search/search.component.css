@@ -12,6 +12,8 @@
     min-height: 68px;
     border-radius: 34px;
     gap: var(--extra-small);
+    background-color: var(--white); 
+    
 }
 
 .search-field.focus {
@@ -59,6 +61,8 @@ ul {
     display: flex;
     flex-direction: column;
     width: 100%;
+    overflow: auto;
+    max-height: 80vh;
 }
 
 
@@ -67,6 +71,30 @@ hr {
     width: 90%;
     color: var(--gray-100);
 }
+
+
+::-webkit-scrollbar { 
+    width: var(--small);
+}
+::-webkit-scrollbar-button       { 
+    display: none;
+ }
+::-webkit-scrollbar-track        { 
+    background-color: var(--gray-300);
+    border-radius: 100px;
+ }
+::-webkit-scrollbar-track-piece  { 
+    background-color: var(--gray-300);
+    border-radius: 100px;
+}
+::-webkit-scrollbar-thumb        { 
+    background-color: var(--gray-500);
+    border-radius: 100px;
+ }
+::-webkit-scrollbar-corner       { 
+    border-radius: 100px;
+ }
+
 
 
 

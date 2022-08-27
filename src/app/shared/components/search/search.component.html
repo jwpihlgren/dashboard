@@ -41,7 +41,7 @@
             </app-search-result>
         </ul>
         <ng-template #nullHit>
-            <span>
+            <span class="p-lg">
                 <ng-container *ngIf="isLoading; else loading">Laddar</ng-container>
                 <ng-template #loading>Inga sökträffar</ng-template>
             </span>
