@@ -1,3 +1,5 @@
+import { SessionStorageService } from './../../shared/services/session-storage.service';
+import { LocalStorageService } from './../../shared/services/local-storage.service';
 import { UserService } from './../../shared/services/user.service';
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
@@ -13,6 +15,8 @@ export class ProfileComponent implements OnInit {
   constructor(
     public auth: AuthService,
     private userService: UserService,
+    private localStorageService: LocalStorageService,
+    private sessionStorageService: SessionStorageService,
     @Inject(DOCUMENT) private doc: Document
     
     ) { }
@@ -28,6 +32,14 @@ export class ProfileComponent implements OnInit {
     this.auth.user$.subscribe(user => {
       console.log(user)
     })
+  }
+
+  clearStorage(event: any) {
+    this.localStorageService.clearlocalStorage()
+    this.sessionStorageService.clearSessionStorage()
+    console.log(event.target);
+    event.target.innerText = "Lagring rensad"
+    setTimeout(() => {event.target.innerText = "Rensa Lagring"}, 3000)
   }
 
 
