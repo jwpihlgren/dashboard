@@ -4,6 +4,8 @@
     flex-direction: column;
     justify-content: center;
     height: 72px;
+    background-color: var(--white);
+    opacity: 1;
 }
 
 .menu-container {
@@ -17,6 +19,7 @@ ul {
     display: flex;
     flex-direction: column;
     position: absolute;
+    z-index: 9999;
     justify-content: end;
     top: 64px;
     right: 16px;
@@ -29,9 +32,12 @@ ul {
 
 :host ::ng-deep li  {
     display: flex;
+
+    flex-grow: 1;
+}
+:host ::ng-deep li a  {
     padding-inline: var(--large);
     padding-block: var(--medium);
-    flex-grow: 1;
 }
 
 :host ::ng-deep li:hover{

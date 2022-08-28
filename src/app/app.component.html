@@ -1,6 +1,6 @@
 
 <header>
-  <div class="spacer flex row"></div>
+  <div class="spacer flex grow"></div>
   <a href="/">
     <h3>
       Pihl-Net-Central
@@ -10,7 +10,7 @@
 
 <!-- Logged out -->
   <ng-template #loggedOut>
-    <a routerLink="" class="button-primary" (click)="loginWithRedirect()">Log in</a>
+    <button class="primary" (click)="loginWithRedirect()">Log in</button>
   </ng-template>
 
 <!-- Logged in -->
