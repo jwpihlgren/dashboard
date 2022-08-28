@@ -27,10 +27,12 @@ export class ProfileComponent implements OnInit {
     this.userService.getUserMetadata().subscribe(data => console.log(data))
   }
 
-  showuser() {
+  showuser(event: any) {
     this.auth.idTokenClaims$.subscribe(claim => console.log(claim))
     this.auth.user$.subscribe(user => {
       console.log(user)
+      event.target.innerText = "Användare loggad"
+      setTimeout(() => {event.target.innerText = "Logga användare"}, 3000)
     })
   }
 

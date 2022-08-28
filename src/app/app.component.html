@@ -1,28 +1,22 @@
 
 <header>
-  <div class="side"></div>
-  <a class="middle" href="/">
+  <div class="spacer flex grow"></div>
+  <a href="/">
     <h3>
       Pihl-Net-Central
     </h3>
   </a>
 
-  <div class="side">
+
 <!-- Logged out -->
   <ng-template #loggedOut>
-    <a routerLink="" class="button-primary" (click)="loginWithRedirect()">Log in</a>
+    <button class="primary" (click)="loginWithRedirect()">Log in</button>
   </ng-template>
+
 <!-- Logged in -->
   <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-    <!-- We CAN'T reach user info from auth -->
-      <ng-template #placeholder>
-          <a routerLink="" class="button-primary" (click)="logout()">
-            Log out
-          </a>
-      </ng-template>
-      <!-- We can reach user info from auth -->
-      <ng-container *ngIf="auth.user$ | async as user; else placeholder">
-        <app-menu-item class="button-primary" name={{user.nickname}}>
+      <ng-container *ngIf="auth.user$ | async as user">
+        <app-menu-item name={{user.nickname}}>
           <li>
             <a routerLink="/profile">Profile</a>
           </li>
@@ -31,9 +25,9 @@
           </li>
         </app-menu-item>
       </ng-container>
-    
   </ng-container>
-</div>
+
+
 </header>
 
 
@@ -41,7 +35,9 @@
   <app-left-nav
   >
   </app-left-nav>
-  <router-outlet>
-  </router-outlet>
+    <div class="layout-body">
+    <router-outlet>
+    </router-outlet>
+  </div>
 </main>
 

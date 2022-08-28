@@ -5,7 +5,7 @@
     <li>{{user.sub}}</li>
     <li>{{user.updated_at}}</li>
     <li><img [src]=user.picture alt=""></li>
-    <button (click)="showuser()">Log user</button>
+    <button class="primary" (click)="showuser($event)">Logga användare</button>
 </ul>
 
 <button class="secondary" (click)="clearStorage($event)">
