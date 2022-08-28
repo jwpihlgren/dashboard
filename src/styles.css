@@ -23,8 +23,8 @@
     --fw-700: 700;
     --fw-800: 800;
     --bs-1: var(--gray-720) 0px 3px 14px 0px;
-    --bs-2: var(--gray-720) 0px 7px 29px 0px;
-    --bs-in-2: -1px 1px 32px 8px rgb(240, 240, 240) inset;
+    --bs-2: 0 0.2rem 1rem rgb(0 0 0 / 12%);
+    --bs-in-2: 0 0.2rem 1rem rgb(0 0 0 / 12%) inset;
 /*     -webkit-box-shadow: 9px 15px 52px -7px rgba(100,100,111,1) inset;
     -moz-box-shadow: 9px 15px 52px -7px rgba(100,100,111,1) inset; */
     --extra-small: 0.25rem;
