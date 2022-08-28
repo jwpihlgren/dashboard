@@ -24,6 +24,9 @@
     --fw-800: 800;
     --bs-1: var(--gray-720) 0px 3px 14px 0px;
     --bs-2: var(--gray-720) 0px 7px 29px 0px;
+    --bs-in-2: -1px 1px 32px 8px rgb(240, 240, 240) inset;
+/*     -webkit-box-shadow: 9px 15px 52px -7px rgba(100,100,111,1) inset;
+    -moz-box-shadow: 9px 15px 52px -7px rgba(100,100,111,1) inset; */
     --extra-small: 0.25rem;
     --small: 0.5rem;
     --medium: 1rem;
@@ -82,7 +85,7 @@
     --gray-300:     #e5e5e5;
     --gray-500:     #6E6E6E;
     --gray-720:     #64646f33;
-    --gray-700:     #64646f;
+    --gray-700:     rgb(100, 100, 111);
     --gray-900:     #272727;
 
 
