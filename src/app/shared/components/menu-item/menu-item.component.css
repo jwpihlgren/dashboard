@@ -1,33 +1,40 @@
+:host {
+    visibility: visible;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 72px;
+}
+
 .menu-container {
     display: flex;
     flex-direction: column;
-    max-height: 39px;
+    justify-content: right;
 }
-
 
 ul {
     visibility: hidden;
     display: flex;
     flex-direction: column;
-    position: relative;
-    top: var(--extra-small);
+    position: absolute;
+    justify-content: end;
+    top: 64px;
+    right: 16px;
     background-color: var(--white);
     border-radius: 5px;
     box-shadow: var(--bs-2);
     padding-block: var(--extra-small);
+    min-width: 256px;
 }
 
 :host ::ng-deep li  {
     display: flex;
-}
-:host ::ng-deep li a {
-    list-style-type: none;
-    padding-inline: var(--small);
-    padding-block: var(--extra-small);
+    padding-inline: var(--large);
+    padding-block: var(--medium);
     flex-grow: 1;
 }
 
-:host ::ng-deep li a:hover {
+:host ::ng-deep li:hover{
  background-color: var(--light-background-200)
 }
 

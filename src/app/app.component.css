@@ -1,7 +1,7 @@
 header {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    display: flex;
     align-items: center;
+    justify-content: space-between;
     height: 72px;
     width: 100%;
     background-color: var(--white);
@@ -11,16 +11,6 @@ header {
     padding-inline: var(--medium);
 }
 
-.side {
-    grid-column: span 3;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.middle {
-    grid-column: span 6;
-    text-align: center;
-}
 
 main{
     height: calc(100vh - 72px);
