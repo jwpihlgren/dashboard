@@ -43,7 +43,6 @@ export class AreaChartComponent implements OnInit {
         this.height = this.elementRef.nativeElement.offsetHeight - this.margin * 2.5
         this.createSvg()
         this.drawArea(this.data)
-        console.log(this.data);
   }
 
   createSvg(): void {
@@ -61,7 +60,6 @@ export class AreaChartComponent implements OnInit {
 
   drawArea(data: any): void {
     const values = this.mapToObjectArray(data)
-    console.log(values);
     const minMax = values.reduce(
       (acc: any, cur: any) => {
         return {

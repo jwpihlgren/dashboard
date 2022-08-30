@@ -1,7 +1,15 @@
-<ng-container *ngIf="data$ | async as data; else loading">
-    <article *ngFor="let sensor of data.response.detailedSensor">
-        <h5>{{sensor.alias}}</h5>
+<ng-container *ngIf="data$ | async as sensor; else loading">
+    <article>
+        <div class="flex row gap-sm a-center">
+            <h5>{{sensor.alias}}</h5>
+            <button class="ternary">Byt namn</button>
+        </div>
         <app-area-chart [data]="sensor"></app-area-chart>
+        <div class="flex j-center row gap-sm">
+            <button class="ternary" (click)="toggleSelection('day', sensor._id)" [ngClass]="{'active': selections['day'].isToggled}">1 dag</button>
+            <button class="ternary" (click)="toggleSelection('week', sensor._id)" [ngClass]="{'active': selections['week'].isToggled}">1 vecka</button>
+            <button class="ternary" (click)="toggleSelection('month', sensor._id)" [ngClass]="{'active': selections['month'].isToggled}">1 månad</button>
+        </div>
     </article>
     
 </ng-container>

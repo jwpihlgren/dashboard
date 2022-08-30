@@ -106,13 +106,17 @@
 .row { flex-direction: row; }
 .col { flex-direction: column; }
 .j-center { justify-content: center; }
+.j-start { justify-content: flex-start; }
 .j-between { justify-content: space-between; }
 .a-center { align-items: center; }
+.a-start { align-items: flex-start; }
+.a-end { align-items: flex-end; }
 .gap-sm { gap: var(--small) }
 .gap-md { gap: var(--medium) }
 .gap-lg { gap: var(--large) }
 .gap-xl { gap: var(--extra-large) }
 .grow { flex-grow: 1}
+.no-grow { flex-grow: 0}
 .shrink { flex-shrink: 1}
 .m-sm { margin: var(--small) }
 .m-md { margin: var(--medium) }
@@ -231,42 +235,43 @@ button {
     cursor: pointer;
     display: flex;
     justify-content: center;
+    align-items: center;
     transition-duration: var(--duration-short);
     transition-timing-function: var(--ease-in-out);
+    border-radius: 5px;
+    min-width: 64px;
+    padding-inline: var(--large);
+    padding-block: var(--medium);
+    user-select: none;
+    gap: var(--small);
 }
 
-/* Primary buttonn */
-button.primary {
-    padding-block: 0.5rem;
-    padding-inline: 1rem;
-    border-radius: 5px;
-    background-color: var(--blue-500);
-    color: var(--white);
-    user-select: none;
-    min-width: 0;
+button:focus{
+    outline: none;
 }
-button.primary:hover {
-    background-color: var(--blue-600);
-    color: var(--white);
-}
-button.primary:active {
-    background-color: var(--blue-700);
-    color: var(--white);
-}
-button.primary:focus-visible {
+
+button:focus-visible {
     outline: 2px solid;
     outline-offset: 2px;
 }
 
+/* Primary buttonn */
+button.primary {
+    background-color: var(--blue-500);
+    color: var(--white);
+    
+}
+button.primary:hover {
+    background-color: var(--blue-600);
+}
+button.primary:active {
+    background-color: var(--blue-700);
+}
+
 /* Secondary button */
 button.secondary {
-    padding-block: 0.5rem;
-    padding-inline: 1rem;
     border: 2px solid var(--blue-500);
-    border-radius: 5px;
     color: var(--blue-500);
-    user-select: none;
-    min-width: 0;
 }
 
 button.secondary:hover {
@@ -279,30 +284,14 @@ button.secondary:active {
     border-color: var(--blue-600);
     color: var(--white);
 }
-button.secondary:focus-visible {
-    outline: 2px solid;
-    outline-offset: 2px;
-}
 
 
 /* Ternary button */
 button.ternary {
-    padding-inline: var(--large);
-    padding-block: var(--medium);
-
-    display: flex;
-    flex-grow: 1;
-    justify-content: center;
-    align-items: center;
-    gap: var(--small);
-
     color: var(--blue-500)
 }
 button.ternary:hover {
     background-color: var(--gray-100);
-}
-button.ternary:focus {
-    outline: none;
 }
 button.ternary:focus-visible, button.ternary:active {
     background-color: var(--gray-300);
@@ -318,6 +307,7 @@ button.ternary.rounded {
     padding-block: 0;
     padding-inline: var(--medium);
     border-radius: 1000px;
+    min-width: 0;
 }
 
 
