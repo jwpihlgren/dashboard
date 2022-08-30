@@ -1,28 +1,32 @@
 :host {
+
+    height: 100%;
+    width: 100%;
+    padding: var(--large);
     display: flex;
     flex-direction: column;
-    background-color: white;
-    box-shadow: var(--bs-2);
-    width: 100%;
-    height: var(--card-height);
-    border-radius: var(--medium);
-    margin: var(--large);
-    padding: var(--large);
+}
+
+button {
+    align-self: flex-start;
+    flex-grow: 0;
 }
 
 article {
     display: flex;
     flex-direction: column;
-    padding: var(--medium);
-    padding-bottom: 0;
-    justify-content: flex-start;
-    align-items: center;
     border: 2px dashed var(--gray-300);
     border-radius: var(--medium);
-    height: 100%;
+    padding: var(--large);
+    justify-content: center;
+
 }
 
 app-area-chart {
     height: 100%;
+}
+
+.active {
+   background-color: var(--gray-300);
 }
 

@@ -2,7 +2,7 @@
 import { AuthService } from '@auth0/auth0-angular';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
-import { map, Subject, Observable, tap, filter, catchError } from 'rxjs';
+import { map, Subject, Observable, tap, filter, catchError, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 @Injectable({
@@ -66,6 +66,15 @@ export class SensorService {
     const and = pageSize && pageCount ? '&': ''
     const queryParams = pageSize || pageCount  ? `?${pSize}${and}${pCount}` : ''
     return this.http.get(`${environment.dev.serverUrl}/sensors/${id}/detailed${queryParams}`)
+  }
+
+  getPeriod(id: string, minDate: Date, maxDate: Date): Observable<any> {
+    const api = environment.dev.serverUrl
+    const path = `/sensors/${id}/period`
+    const params = `?minDate=${minDate}&maxDate=${maxDate}`
+    return this.http.get(`${api}${path}${params}`).pipe(
+      map((data: any) => data.response)
+    )
   }
 
   getToken(): Observable<any> {
