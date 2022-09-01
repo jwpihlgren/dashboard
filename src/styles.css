@@ -41,6 +41,8 @@
     --blue-300:     #9ABEF2;
     --blue-400:     #78A9ED;
     --blue-500:     #5693e9;
+    --blue-508:     #5693e914;
+    --blue-516:     #5693e929;
     --blue-600:     #4578BF; /* White has better contrast than black */
     --blue-700:     #355C94;
     --blue-800:     #24416A;
@@ -291,10 +293,10 @@ button.ternary {
     color: var(--blue-500)
 }
 button.ternary:hover {
-    background-color: var(--gray-100);
+    background-color: var(--blue-508);
 }
 button.ternary:focus-visible, button.ternary:active {
-    background-color: var(--gray-300);
+    background-color: var(--blue-516);
 }
 
 button.ternary.round {
