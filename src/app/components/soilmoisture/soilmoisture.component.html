@@ -1,5 +1,5 @@
-<ng-container *ngIf="data$ | async as sensor; else loading">
-    <article>
+<ng-container *ngIf="data$ | async as sensors else loading">
+    <article *ngFor="let sensor of sensors ">
         <div class="flex row gap-sm a-center">
             <h5>{{sensor.alias}}</h5>
             <button class="ternary">Byt namn</button>
