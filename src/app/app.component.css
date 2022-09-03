@@ -1,7 +1,7 @@
 header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     height: 72px;
     width: 100%;
     background-color: var(--white);
@@ -18,6 +18,11 @@ main{
     
 }
 
+
+.logo {
+    margin: 0 auto;
+}
+
 .layout-body {
     box-shadow: var(--bs-in-2);
     width: 100%;
@@ -25,6 +30,10 @@ main{
 
 }
 
+app-menu-item {
+    justify-self: end;
+    align-self: end;
+}
 app-left-nav {
     display: flex;
     flex-direction: column;
@@ -32,10 +41,6 @@ app-left-nav {
  /*    box-shadow: var(--bs-2); */
 }
 
-a {
-    width: 100%;
-    height: 100%;
-}
 
 button {
  flex-shrink: 0;
