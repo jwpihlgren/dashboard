@@ -1,8 +1,8 @@
-<app-grid> 
+<app-grid>
     <app-weather-card
         *ngIf="forecast$ | async as forecast; else loading"
         [forecast]="forecast"
-        class="card large-card" 
+        class="card medium-card" 
     >
     </app-weather-card>
     <app-soil-moisture-card 
@@ -11,8 +11,7 @@
         class=" card small-card">
     </app-soil-moisture-card>
 
+    <ng-template #loading>
+        <div class="card small-card">Loading</div>
+    </ng-template>
 </app-grid>
-
-<ng-template #loading>
-    <div class="card small">Loading</div>
-</ng-template>

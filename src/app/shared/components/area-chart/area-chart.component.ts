@@ -15,8 +15,8 @@ export class AreaChartComponent implements OnInit {
   margin = 25
   width = 500
   height = 370
-  domainMin = -15
-  domainMax = 35
+  domainMin = 0
+  domainMax = 100
   domainPadding = 10;
   sv_SE = {
     decimal: ",",
@@ -39,7 +39,7 @@ export class AreaChartComponent implements OnInit {
 
   ngOnInit(): void {
         /* Get the size of the parent and use for responsive chart - does not update on resize */
-        this.width = this.elementRef.nativeElement.offsetWidth - this.margin * 1
+        this.width = this.elementRef.nativeElement.offsetWidth - this.margin * 1.5
         this.height = this.elementRef.nativeElement.offsetHeight - this.margin * 2.5
         this.createSvg()
         this.drawArea(this.data)
@@ -51,7 +51,7 @@ export class AreaChartComponent implements OnInit {
     .attr("width", this.width + this.margin * 1)
     .attr("height", this.height + this.margin * 2)
     .append("g")
-    .attr("transform", "translate("+ this.margin / 1 + "," +  this.margin + ")")
+    .attr("transform", "translate("+ this.margin *  1.5 + "," +  this.margin + ")")
     
   }
 
@@ -90,7 +90,7 @@ export class AreaChartComponent implements OnInit {
 
       const x = d3.scaleTime()
       .domain([minMax.min, minMax.max])
-      .range([0, this.width])
+      .range([0, this.width - this.margin])
       
       this.svg.append("g")
       .attr("transform", "translate(0," +  this.height + ")")
@@ -99,7 +99,7 @@ export class AreaChartComponent implements OnInit {
       .style("text-anchor", "center")
 
       const y = d3.scaleLinear()
-      .domain([0, 100])
+      .domain([0, 80])
       .range([this.height, 0])
 
       this.svg.append("g")

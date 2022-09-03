@@ -1,26 +1,29 @@
-
-<app-search
-    (requestLocationSearch)="getLocation($event)"
-    (resultClicked)="getForecast($event)"
-    [isLoading]="locationIsLoading"
-    [searchResults]="searchResults"
-    >
-</app-search>
-
-<ng-container *ngIf="forecast$ | async as forecast; else loading">
-    <div class="flex col grow data">
-        <app-weather-card
-            [forecast]="forecast"
-            class="card"
-            [ngStyle]="{'height': '375px'}"
+<app-grid>
+    <div class="card large-card body">
+        <app-search
+            (requestLocationSearch)="getLocation($event)"
+            (resultClicked)="getForecast($event)"
+            [isLoading]="locationIsLoading"
+            [searchResults]="searchResults"
             >
-        </app-weather-card>
-        <button (click)="clearForecast()" class="primary">Ta bort</button>
-    </div>
-</ng-container>
+        </app-search>
 
-<ng-template  #loading>
-    <div *ngIf="forecastIsLoading" class="card">Loading</div>
-</ng-template>
+        <ng-container *ngIf="forecast$ | async as forecast; else loading">
+            <div class="flex col grow data">
+                <app-weather-card
+                    [forecast]="forecast"
+                    class="card"
+                    [ngStyle]="{'height': '375px'}"
+                    >
+                </app-weather-card>
+                <button (click)="clearForecast()" class="primary">Ta bort</button>
+            </div>
+        </ng-container>
+
+        <ng-template  #loading>
+            <div *ngIf="forecastIsLoading" class="card">Loading</div>
+        </ng-template>
+    </div>
+</app-grid>
 
 
