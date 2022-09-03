@@ -33,7 +33,7 @@
     --large: 2rem;
     --extra-large: 3rem;
 
-    --card-height: calc(1rem * 22);
+    --card-height: calc(425px);
 
     --white:        #FFFFFF;
     --blue-100:     #CCDFF8;
