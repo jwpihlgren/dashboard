@@ -60,22 +60,99 @@ export class SensorService {
       ))
   }
 
-  getDetailedSensor(id: string, minDate: Date, maxDate: Date, groupBy: ("day" | "hour")): Observable<any> {
+  getDetailedSensor(id: string, minDate: number, maxDate: number): Observable<any> {
     const api = environment.dev.serverUrl
     const path = `/sensors/${id}/period`
     const params = `?minDate=${minDate}&maxDate=${maxDate}`
     return this.http.get(`${api}${path}${params}`).pipe(
       map(
         (data: any) => {
-          switch(groupBy) {
-            case "day": data.response[0].values = this.groupByDay(data.response[0].values); break; 
-            case "hour": data.response[0].values = this.groupByHour(data.response[0].values); break; 
+          const daysBetweenDates = this.daysBetweenDates(minDate, maxDate)
+          if(daysBetweenDates === 0) {
+            const listOfHours = this.createListOfHours()
+          }
+          else if (daysBetweenDates <= 7) {
+            const dates = this.createListOfDates(daysBetweenDates)
+            this.spreadValuesAcrossDates(data.response[0].values, dates)
+          }
+          else {
+            console.log(this.createListOfDates(daysBetweenDates))
           }
           return data.response
       })
     )
   }
 
+  private spreadValuesAcrossDates(values: any[], dates: Date[]): any[] {
+    const newValues: any = {}
+    dates.forEach((date: Date) => {
+      newValues[date.toISOString()] = {
+        value: [],
+        date: date.toISOString()
+      }
+    })
+
+    values.forEach((value: any) => {
+      const date = new Date(value.date)
+      date.setHours(0)
+      date.setMinutes(0)
+      date.setHours(0)
+      date.setSeconds(0)
+      date.setMilliseconds(0)
+
+      const isoStringDate = date.toISOString()
+      if(newValues[isoStringDate]) {
+        newValues[isoStringDate].value.push(value.value)
+      }
+      
+    })
+
+    for (let [key, obj] of Object.entries(newValues)) {
+      const keyAsString = key as string
+      const objAsAby = obj as any
+      const average = Math.round(objAsAby.value.reduce((acc: number, cur: number) => acc + cur) / objAsAby.value.length)
+      newValues[keyAsString].value = average
+    }
+
+    console.log(newValues);
+
+   
+    return values
+  }
+
+  private createListOfHours(): Date[] {
+    const hours: Date[] = []
+    for(let i = 0; i < 24; i++) {
+      const date = new Date()
+      date.setHours(i)
+      date.setMinutes(0)
+      date.setSeconds(0)
+      date.setMilliseconds(0)
+      hours.push(date)
+    }
+
+    return hours
+  }
+
+  private createListOfDates(numberOfDays: number): Date[] {
+    const dates: Date[] = []
+    for(let i = 0; i < numberOfDays; i++) {
+      const date = new Date()
+      date.setDate(date.getDate() - i)
+      date.setMinutes(0)
+      date.setHours(0)
+      date.setSeconds(0)
+      date.setMilliseconds(0)
+      dates.push(date)
+    }
+    return dates
+  }
+
+  private daysBetweenDates(minDate: number, maxDate: number): number {
+    const difference = new Date(maxDate).getTime() - new Date(minDate).getTime()
+    const numberOfDaysBetween = Math.floor(difference / (1000 * 3600 * 24))
+    return numberOfDaysBetween
+  }
 
 
   getToken(): Observable<any> {
@@ -90,53 +167,7 @@ export class SensorService {
     });
   }
 
-  groupByDay(values: any[]): any {
-    const days: any = {}
-    values.forEach((value: any) => {
-      const day = new Date(value.date).toDateString()
-      if(days[day]) days[day].push(value.value)
-      else days[day] = [value.value]
-    })
 
-    return this.calculateAverageForEachEntry(days, "groupByDay")
-  }
-
-  groupByHour(values: any[]): any {
-    const hours: any = {}
-    values.forEach((value: any) => {
-      const hour: number = new Date(value.date).getHours()
-      if(hours[hour]) hours[hour].push(value.value)
-      else hours[hour] = [value.value]
-    })
-    return this.calculateAverageForEachEntry(hours, "groupByHour")
-  }
-
-  private calculateAverageForEachEntry(obj: any, caller: "groupByDay" | "groupByHour"): any {
-    const result: any = []
-    for (const [key, values] of Object.entries(obj)) {
-      const typedKey: string = key as string
-      const typedValues: number[] = values as number[]
-      const average: number = this.getAverage(typedValues)
-
-      let date
-      /* If groupByDay, typedKey is a date, else it's a string number representing the hour */
-      if(caller === "groupByDay") {
-        date = new Date(typedKey)
-      }
-      else {
-        date = new Date()
-        date.setHours(parseInt(typedKey))
-      }
-      result.push(
-        {
-          value: average,
-          date: date
-        }
-      )
-    }
-    return result
-
-  }
   
   private getAverage(arr: number[]): number {
     return Math.round(arr.reduce((acc: number, cur: number) => acc + cur) / arr.length)
