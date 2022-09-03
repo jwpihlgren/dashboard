@@ -1,7 +1,6 @@
 
 <header>
-  <div class="spacer flex grow"></div>
-  <a href="/">
+  <a class="logo" routerLink="/">
     <h3>
       Pihl-Net-Central
     </h3>
@@ -16,7 +15,7 @@
 <!-- Logged in -->
   <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
       <ng-container *ngIf="auth.user$ | async as user">
-        <app-menu-item name={{user.nickname}}>
+        <app-menu-item  name={{user.nickname}}>
           <li>
             <a routerLink="/profile">Profile</a>
           </li>
