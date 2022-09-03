@@ -90,6 +90,14 @@ export class SensorService {
     )
   }
 
+  updateSensor(id: string, newName: string): Observable<any> {
+    const api = environment.dev.serverUrl
+    const path = `/sensors/${id}`
+    const data = {alias: newName}
+
+    return this.http.post(`${api}${path}`, data)
+  }
+
 
   private spreadValuesAcrossDates(values: any[], dates: Date[], resetHours: boolean): any[] {
     /* Create a new values object with the correct amount of data points */

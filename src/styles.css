@@ -299,17 +299,24 @@ button.ternary:focus-visible, button.ternary:active {
     background-color: var(--blue-516);
 }
 
-button.ternary.round {
+button.round {
     padding: 0;
-    height: 48px;
-    min-width: 48px;
+    height: var(--extra-large);
+    max-width: var(--extra-large);
+    min-width: var(--extra-large);
 }
-button.ternary.rounded {
-    height: 48px;
+button.rounded {
+    height: var(--extra-large);
     padding-block: 0;
     padding-inline: var(--medium);
     border-radius: 1000px;
     min-width: 0;
+}
+button.square {
+    height: var(--extra-large);
+    max-width: var(--extra-large);
+    min-width: var(--extra-large);
+    padding: 0;
 }
 
 

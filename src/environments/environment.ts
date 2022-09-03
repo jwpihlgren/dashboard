@@ -13,6 +13,7 @@ export const environment = {
     redirectTarget: `${window.location.origin}${auth.redirectTargetDev}`,
     redirectPath: `${auth.redirectTargetDev}`,
     audience: auth.audience,
+    scope: auth.scope
   },
   dev: {
     serverUrl: auth.serverUrl

@@ -1,8 +1,27 @@
 <ng-container *ngIf="data$ | async as sensors else loading">
     <article *ngFor="let sensor of sensors ">
         <div class="flex row gap-sm a-center">
-            <h5>{{sensor.alias}}</h5>
-            <button class="ternary">Byt namn</button>
+            <div *ngIf="!isEditToggled; else input" class="flex row gap-sm j-center a-center">
+                <h5 unselectable="on">{{sensor.alias}}</h5>
+                <button  class="ternary square" (click)="setEditTrue()">
+                    <fa-icon 
+                    [icon]=faEdit
+                    size="lg"></fa-icon>
+                </button>
+            </div>
+            <ng-template #input>
+                <div class="flex row gap-lg">
+                    <form class="flex row gap-sm">
+                        <input #edit type="text" value={{sensor.alias}}>
+                        <button class="primary" (click)="editName(sensor._id)">
+                            Ändra
+                        </button>
+                    </form>
+                    <button class="ternary" (click)="abort()">
+                        Avbryt
+                    </button>
+                </div>
+            </ng-template>
         </div>
         <app-area-chart [data]="sensor"></app-area-chart>
         <div class="flex j-center row gap-sm">
