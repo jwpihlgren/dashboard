@@ -4,6 +4,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { map, Subject, Observable, tap, filter, catchError, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
+import { utcFormat } from 'd3';
 
 @Injectable({
   providedIn: 'root'
@@ -68,22 +69,30 @@ export class SensorService {
       map(
         (data: any) => {
           const daysBetweenDates = this.daysBetweenDates(minDate, maxDate)
+          let set_hour_to_zero: boolean = true
+          let dates: any[] = []
+
           if(daysBetweenDates === 0) {
-            const listOfHours = this.createListOfHours()
+           dates = this.createListOfHours()
+            set_hour_to_zero = false
           }
           else if (daysBetweenDates <= 7) {
-            const dates = this.createListOfDates(daysBetweenDates)
-            this.spreadValuesAcrossDates(data.response[0].values, dates)
+            dates = this.createListOfDates(daysBetweenDates)
           }
-          else {
-            console.log(this.createListOfDates(daysBetweenDates))
+          else if (daysBetweenDates > 7) {
+            dates = this.createListOfDates(daysBetweenDates)
+            
           }
-          return data.response
+
+          data.response[0].values = this.spreadValuesAcrossDates(data.response[0].values, dates, set_hour_to_zero)
+          return data.response          
       })
     )
   }
 
-  private spreadValuesAcrossDates(values: any[], dates: Date[]): any[] {
+
+  private spreadValuesAcrossDates(values: any[], dates: Date[], resetHours: boolean): any[] {
+    /* Create a new values object with the correct amount of data points */
     const newValues: any = {}
     dates.forEach((date: Date) => {
       newValues[date.toISOString()] = {
@@ -92,32 +101,40 @@ export class SensorService {
       }
     })
 
+    /* Parse the dates of each value and map them to the new values object */
     values.forEach((value: any) => {
       const date = new Date(value.date)
-      date.setHours(0)
+      if(resetHours) date.setHours(0)
       date.setMinutes(0)
-      date.setHours(0)
       date.setSeconds(0)
       date.setMilliseconds(0)
 
       const isoStringDate = date.toISOString()
-      if(newValues[isoStringDate]) {
+      /* Because we named each property in the new value object with the correct time,
+        we can now map all the real measurements
+      */
+      if(newValues[isoStringDate] && value.value) {
         newValues[isoStringDate].value.push(value.value)
       }
-      
     })
 
+    /* Calculate the average for each date, if there are several values.*/
     for (let [key, obj] of Object.entries(newValues)) {
       const keyAsString = key as string
       const objAsAby = obj as any
-      const average = Math.round(objAsAby.value.reduce((acc: number, cur: number) => acc + cur) / objAsAby.value.length)
+      const NUMBER_OF_VALUES = objAsAby.value.length
+
+      let average;
+      if(NUMBER_OF_VALUES === 0) {
+        average = 0;
+      }
+      else {
+        average = Math.round(objAsAby.value.reduce((acc: number, cur: number) => acc + cur) / NUMBER_OF_VALUES)
+      }
       newValues[keyAsString].value = average
     }
-
-    console.log(newValues);
-
-   
-    return values
+    /*Return an array with the values from the new value object */
+    return Object.values(newValues)
   }
 
   private createListOfHours(): Date[] {
