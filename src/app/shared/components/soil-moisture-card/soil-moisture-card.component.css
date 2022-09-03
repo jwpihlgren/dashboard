@@ -30,37 +30,3 @@ fa-icon {
     font-weight: var(--fw-300);
 }
 
-@media screen and (max-width: 599px) {
-    :host {
-        grid-column-end: span 1;
-    }
-    
-}
-
-@media screen and (max-width: 904px) {
-    :host {
-        grid-column-end: span 1;
-    }
-    
-}
-@media screen and (max-width: 1239px) {
-    
-    :host {
-        grid-column-end: span 1;
-    }
-    
-    
-}
-@media screen and (max-width: 1439px) {
-    :host {
-        grid-column-end: span 1;
-    }
-    
-    
-}
-@media screen and (min-width: 1440px) {
-    :host {
-        grid-column-end: span 1;
-    }
-    
-}

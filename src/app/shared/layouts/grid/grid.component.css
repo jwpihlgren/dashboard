@@ -1,8 +1,11 @@
 :host {
     height: 100%;
+    width: 100%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 400px);
     padding-block: var(--large);
+    box-shadow: var(--bs-in-2);
 
 }
 
@@ -18,18 +21,13 @@
 @media screen and (min-width: 905px) {
     :host {
         grid-template-columns: repeat(12, 1fr);
-        grid-template-rows: repeat(4, 400px);
+      /*   grid-template-rows: repeat(4, 400px); */
     }
 }
 @media screen and (min-width: 1240px) {
-    :host {
-        width: 100%;
-    }
+
 }
 @media screen and (min-width: 1440px) {
-    :host {
-        padding-inline: 100px;
-        width: 100%
-    }
+
 }
 

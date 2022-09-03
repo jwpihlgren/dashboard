@@ -1,17 +1,18 @@
 :host {
     height: 100%;
     width: 100%;
-    padding: var(--large);
-    display: flex;
-    flex-direction: column;
-    gap: var(--extra-large);
-    align-items: flex-start;
 }
 
+.body {
+    padding: var(--medium);
+}
+
+
 app-search {
-    position: absolute;
+    position: relative;
     z-index: 10001;
-    width: calc(100vw - 136px);
+    width: 100%;
+  /*   width: calc(100vw - 136px); */
 }
 
 .data {
