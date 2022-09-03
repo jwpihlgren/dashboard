@@ -73,6 +73,21 @@ export class AreaChartComponent implements OnInit {
       }
     )
 
+   const linearGradient = this.svg.append("defs")
+    .append("linearGradient")
+    .attr("id","areaGradient")
+    .attr("x1", "0%").attr("y1", "0%")
+    .attr("x2", "0%").attr("y2", "100%");
+
+    linearGradient.append("stop")
+    .attr("offset", "0%")
+    .style("stop-color", "#32d2ac")
+    .style("stop-opacity", 0.6);
+    linearGradient.append("stop")
+    .attr("offset", "80%")
+    .style("stop-color", "white")
+    .style("stop-opacity", 0);
+
       const x = d3.scaleTime()
       .domain([minMax.min, minMax.max])
       .range([0, this.width])
@@ -92,13 +107,13 @@ export class AreaChartComponent implements OnInit {
 
       this.svg.append("path")    
       .datum(values)
-      .attr("fill", "#CCDFF833")
-      .attr("stroke", "#1C3355")
-      .attr("stroke-width", 1)
+      .style("fill", "url(#areaGradient)")
+      .attr("stroke", "#32d2ac")
+      .attr("stroke-width", 1.5)
       .attr("d", d3.area()
         .x((d: any) => x(d.date))
         .y0(y(0))
-        .y1((d: any) => y(d.value)).curve(d3.curveBasis)
+        .y1((d: any) => y(d.value)).curve(d3.curveMonotoneX)
         )
     }
       
