@@ -12,7 +12,8 @@ export const environment = {
     redirectUri: `${window.location.origin}${auth.redirectTargetProd}`,
     redirectTarget: `${window.location.origin}${auth.redirectTargetProd}`,
     redirectPath: `${auth.redirectTargetProd}`,
-    audience: auth.audience
+    audience: auth.audience,
+    scope: auth.scope
   },
   dev: {
     serverUrl: auth.serverUrl
