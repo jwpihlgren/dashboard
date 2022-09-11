@@ -2,7 +2,7 @@ import { SessionStorageService } from './session-storage.service';
 import { ILocation } from './../models/location.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, of } from 'rxjs';
+import { map, of, timeout, catchError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as dummydata from '../../../assets/stubs/weather-data.json'
 
@@ -30,6 +30,10 @@ export class WeatherService {
       }
 
     return this.http.get(`${url}${path}${params}`).pipe(
+      timeout({
+        each: 30 * 1000,
+        with: () => {throw new Error("Request took to long to complete")}
+      }),
       map((data:any) => {
         data.location = location.local_name
         data.fetchDate = new Date()
@@ -38,6 +42,10 @@ export class WeatherService {
         previousForecasts[safeName] = data
         this.sessionStorageService.setStoredData("forecasts", previousForecasts)
         return data
+      }),
+      catchError(error => {
+        alert(error)
+        return of(error)
       })
     );
   }
