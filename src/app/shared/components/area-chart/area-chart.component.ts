@@ -73,20 +73,10 @@ export class AreaChartComponent implements OnInit {
       }
     )
 
-   const linearGradient = this.svg.append("defs")
-    .append("linearGradient")
-    .attr("id","areaGradient")
-    .attr("x1", "0%").attr("y1", "0%")
-    .attr("x2", "0%").attr("y2", "100%");
+  
+/*       this.createLinearGradient("#f8c03f", "too-little")
+      this.createLinearGradient("#32d2ac", "ok") */
 
-    linearGradient.append("stop")
-    .attr("offset", "0%")
-    .style("stop-color", "#32d2ac")
-    .style("stop-opacity", 0.6);
-    linearGradient.append("stop")
-    .attr("offset", "80%")
-    .style("stop-color", "white")
-    .style("stop-opacity", 0);
 
       const x = d3.scaleTime()
       .domain([minMax.min, minMax.max])
@@ -105,27 +95,112 @@ export class AreaChartComponent implements OnInit {
       this.svg.append("g")
       .call(d3.axisLeft(y))
 
-      this.svg.append("path")    
-      .datum(values)
-      .style("fill", "url(#areaGradient)")
-      .attr("stroke", "#32d2ac")
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.area()
-        .x((d: any) => x(d.date))
-        .y0(y(0))
-        .y1((d: any) => y(d.value)).curve(d3.curveMonotoneX)
-        )
+      const linearGradient = this.createLinearGradient("#5693e9", "ok", x, y)
+
+
+
+
+/*       const yellowGradientOptions = {
+        values: values,
+        x: x,
+        y: y,
+        id: "too-little",
+        minThreshold: 0,
+        maxThreshold: 29,
+        color: "#f8c03f"
+      }
+      this.appendLinearGradient(yellowGradientOptions )
+      const blueGradientOptions = {
+        values: values,
+        x: x,
+        y: y,
+        id: "too-much",
+        minThreshold: 60,
+        maxThreshold: 100,
+        color: "#5693e9"
+      }
+      this.appendLinearGradient(blueGradientOptions ) */
+      const greenGradientOptions = {
+        values: values,
+        x: x,
+        y: y,
+        id: "ok",
+        minThreshold: 30,
+        maxThreshold: 59,
+        color: "#32d2ac"
+      }
+      this.appendLinearGradient(greenGradientOptions )
+
+
+
     }
       
 
-      private mapToObjectArray(data: any): any[] {
-        return data.values.map((value: any) => {
-          return {
-            date: new Date(value.date),
-            value: value.value
-          }
-        })
-      }
+    private mapToObjectArray(data: any): any[] {
+      return data.values.map((value: any) => {
+        return {
+          date: new Date(value.date),
+          value: value.value
+        }
+      })
+    }
+
+    private createLinearGradient(color : string, id: string, x: any, y: any): void {
+      return this.svg.append("linearGradient")
+        .attr("id", id)
+        .attr("gradientUnits", "userSpaceOnUse")
+        .attr("x1", 0).attr("y1", y(50))
+        .attr("x2", 0).attr("y2", y(60))
+        .selectAll("stop")
+        .data([
+          {offset: "0", color : "steelblue"},
+          {offset: "29", color : "steelblue"},
+          {offset: "30", color : "gray"},
+          {offset: "59", color : "gray"},
+          {offset: "60", color : "red"},
+          {offset: "100", color : "red"}
+        ])
+        .enter().append("stop")
+        .attr("offset", (d: any) => d.offset)
+        .attr("stop-color", (d: any) => d.color)
+
+    }
+/* 
+    private createLinearGradient(color: string, id:string) {
+      const linearGradient = this.svg.append("defs")
+      .append("linearGradient")
+      .attr("id",id)
+      .attr("x1", "0%").attr("y1", "0%")
+      .attr("x2", "0%").attr("y2", "100%");
+  
+      linearGradient.append("stop")
+      .attr("offset", "0%")
+      .style("stop-color", color)
+      .style("stop-opacity", 0.6);
+      linearGradient.append("stop")
+      .attr("offset", "80%")
+      .style("stop-color", "white")
+      .style("stop-opacity", 0 );
+
+      return linearGradient
+    } */
+
+    private appendLinearGradient(options: {values: any[], x: any, y: any, id: string, minThreshold: number, maxThreshold: number, color: string}) {
+      this.svg.append("path")    
+      .datum(options.values)
+      .style("fill", `url(#${options.id})`)
+      .attr("stroke", options.color)
+      .attr("stroke-width", 1.5)
+      .attr("d", d3.area()
+        .x((d: any) => options.x(d.date))
+        .y0(options.y(0))
+        .y1((d: any) => {
+          if(d.value > options.minThreshold && d.value <= options.maxThreshold) return options.y(d.value)
+          return options.y(0)
+        }).curve(d3.curveMonotoneX)
+      )
+    }
+
 }
 
 interface ISensorValue {
