@@ -45,6 +45,7 @@ export class SoilMoistureCardComponent implements OnInit, OnChanges{
   ngOnInit(): void {
     //console.log(this.sensor);
     this.statusText = this.getStatusText(this.sensor.values[0].value)
+    console.log(this.sensor);
   }
 
   ngOnChanges(): void {
