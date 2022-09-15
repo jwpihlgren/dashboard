@@ -7,7 +7,8 @@
     </app-weather-card>
     <app-soil-moisture-card 
         *ngIf="sensor$ | async as sensor; else loading" 
-        [sensor]="sensor" 
+        [sensor]="sensor"
+        [ngClass]="{'warning': sensor.warning}" 
         class=" card small-card">
     </app-soil-moisture-card>
 

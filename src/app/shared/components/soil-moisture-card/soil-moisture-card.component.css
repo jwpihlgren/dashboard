@@ -7,6 +7,10 @@
     max-width: 100%;
 }
 
+:host.warning {
+    background-color: var(--red-100);
+}
+
 :host ::ng-deep .reading-block,:host ::ng-deep .reading-affix {
     font-size: var(--fs-800) !important;
     font-weight: bold !important;
