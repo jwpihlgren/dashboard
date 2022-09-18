@@ -14,14 +14,26 @@
     --fs-700: calc(1.6180 * var(--fs-600));
     --fs-800: calc(1.6180 * var(--fs-700));
     --fs-900: calc(1.6180 * var(--fs-800));
-    --bs-1: rgba(100, 100, 111, 0.2) 0px 3px 14px 0px;
-    --bs-2: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    --x-small: 0.25rem;
+    --fw-100: 100;
+    --fw-200: 200;
+    --fw-300: 300;
+    --fw-400: 400;
+    --fw-500: 500;
+    --fw-600: 600;
+    --fw-700: 700;
+    --fw-800: 800;
+    --bs-1: var(--gray-720) 0px 3px 14px 0px;
+    --bs-2: 0 0.2rem 1rem rgb(0 0 0 / 12%);
+    --bs-in-2: 0 0.2rem 1rem rgb(0 0 0 / 12%) inset;
+/*     -webkit-box-shadow: 9px 15px 52px -7px rgba(100,100,111,1) inset;
+    -moz-box-shadow: 9px 15px 52px -7px rgba(100,100,111,1) inset; */
+    --extra-small: 0.25rem;
     --small: 0.5rem;
     --medium: 1rem;
     --large: 2rem;
     --extra-large: 3rem;
 
+    --card-height: calc(425px);
 
     --white:        #FFFFFF;
     --blue-100:     #CCDFF8;
@@ -29,6 +41,8 @@
     --blue-300:     #9ABEF2;
     --blue-400:     #78A9ED;
     --blue-500:     #5693e9;
+    --blue-508:     #5693e914;
+    --blue-516:     #5693e929;
     --blue-600:     #4578BF; /* White has better contrast than black */
     --blue-700:     #355C94;
     --blue-800:     #24416A;
@@ -37,7 +51,7 @@
     --green-200:    #ADEDDE;
     --green-300:    #84E4CD;
     --green-400:    #5BDBBD;
-    --green-500:    #32D2AC;
+    --green-500:    #32d2ac;
     --green-600:    #28A88A;
     --green-700:    #1E7E67; /* White has better contrast than black */
     --green-800:    #145445;
@@ -46,7 +60,7 @@
     --yellow-200:   #FCE6B2;
     --yellow-300:   #FBDA8C;
     --yellow-400:   #F9CD65;
-    --yellow-500:   #F8C03F;
+    --yellow-500:   #f8c03f;
     --yellow-600:   #C99C33;
     --yellow-700:   #9B7826; /* White has better contrast than black */
     --yellow-800:   #6C531A;
@@ -72,7 +86,10 @@
     --gray-100:     #F2F2F2;
     --gray-300:     #e5e5e5;
     --gray-500:     #6E6E6E;
+    --gray-720:     #64646f33;
+    --gray-700:     rgb(100, 100, 111);
     --gray-900:     #272727;
+
 
     --light-background-100: var(--white);
     --light-background-200: var(--gray-100);
@@ -91,12 +108,18 @@
 .row { flex-direction: row; }
 .col { flex-direction: column; }
 .j-center { justify-content: center; }
+.j-start { justify-content: flex-start; }
 .j-between { justify-content: space-between; }
 .a-center { align-items: center; }
+.a-start { align-items: flex-start; }
+.a-end { align-items: flex-end; }
 .gap-sm { gap: var(--small) }
 .gap-md { gap: var(--medium) }
 .gap-lg { gap: var(--large) }
 .gap-xl { gap: var(--extra-large) }
+.grow { flex-grow: 1}
+.no-grow { flex-grow: 0}
+.shrink { flex-shrink: 1}
 .m-sm { margin: var(--small) }
 .m-md { margin: var(--medium) }
 .m-lg { margin:var(--large) }
@@ -137,7 +160,7 @@ h5 { font-size: var(--fs-500) }
 h6 { 
     font-size: var(--fs-300);
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: var(--fw-600);
     color: var(--on-light-background-100);
     letter-spacing: 0.067rem;
  }
@@ -147,13 +170,14 @@ h6 {
 html, body {
     
     font-family: 'Raleway', sans-serif;
-    font-weight: 600;
+    font-weight: var(--fw-600);
     color: var(--on-light-background-900);
 }
 
 body {
     background-color: var(--light-background);
-    min-height: 100vh;
+    height: 100%;
+    width: 100vw;
 }
 
 
@@ -177,6 +201,7 @@ a:hover {
 
 
 a.button-primary {
+    cursor: pointer;
     transition-duration: var(--duration-short);
     transition-timing-function: var(--ease-in-out);
     padding-block: 0.5rem;
@@ -189,13 +214,11 @@ a.button-primary {
 }
 
 a.button-primary:hover {
-    cursor: pointer;
     background-color: var(--blue-500);
     color: var(--white);
 }
 
 a.button-primary:active {
-    cursor: pointer;
     background-color: var(--blue-600);
     border-color: var(--blue-600);
     color: var(--white);
@@ -209,3 +232,109 @@ a.button-primary:focus-visible {
 fa-icon {
     color: var(--blue-500);
 }
+
+button {
+    all:unset;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition-duration: var(--duration-short);
+    transition-timing-function: var(--ease-in-out);
+    border-radius: 5px;
+    min-width: 64px;
+    padding-inline: var(--large);
+    padding-block: var(--medium);
+    user-select: none;
+    gap: var(--small);
+}
+
+button:focus{
+    outline: none;
+}
+
+button:focus-visible {
+    outline: 2px solid;
+    outline-offset: 2px;
+}
+
+/* Primary buttonn */
+button.primary {
+    background-color: var(--blue-500);
+    color: var(--white);
+    
+}
+button.primary:hover {
+    background-color: var(--blue-600);
+}
+button.primary:active {
+    background-color: var(--blue-700);
+}
+
+/* Secondary button */
+button.secondary {
+    border: 2px solid var(--blue-500);
+    color: var(--blue-500);
+}
+
+button.secondary:hover {
+    background-color: var(--blue-500);
+    color: var(--white);
+
+}
+button.secondary:active {
+    background-color: var(--blue-600);
+    border-color: var(--blue-600);
+    color: var(--white);
+}
+
+
+/* Ternary button */
+button.ternary {
+    color: var(--blue-500)
+}
+button.ternary:hover {
+    background-color: var(--blue-508);
+}
+button.ternary:focus-visible, button.ternary:active {
+    background-color: var(--blue-516);
+}
+
+button.round {
+    padding: 0;
+    height: var(--extra-large);
+    max-width: var(--extra-large);
+    min-width: var(--extra-large);
+}
+button.rounded {
+    height: var(--extra-large);
+    padding-block: 0;
+    padding-inline: var(--medium);
+    border-radius: 1000px;
+    min-width: 0;
+}
+button.square {
+    height: var(--extra-large);
+    max-width: var(--extra-large);
+    min-width: var(--extra-large);
+    padding: 0;
+}
+
+
+@media screen and (min-width: 600px) {
+    .large-card { grid-column: auto / span 12; }
+    .medium-card { grid-column: auto / span 8;}
+    .small-card { grid-column: auto / span 4; }
+}
+@media screen and (min-width: 905px) {
+    .large-card { grid-column: auto / span 12; }
+    .medium-card {grid-column: auto / span 8;}
+    .small-card { grid-column: auto / span 4; }
+}
+@media screen and (min-width: 1240px) {
+    .large-card { grid-column: auto / span 12; }
+    .medium-card { grid-column: auto / span 8; }
+    .small-card { grid-column: auto / span 4; }
+}
+
+

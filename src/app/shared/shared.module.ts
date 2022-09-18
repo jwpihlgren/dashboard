@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './../app-routing.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -12,6 +13,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MenuItemComponent } from './components/menu-item/menu-item.component';
 import { ClickedOutsideDirective } from './directives/clicked-outside.directive';
 import { BarRangeChartComponent } from './components/bar-range-chart/bar-range-chart.component';
+import { IsoToDatePipe } from './pipes/iso-to-date.pipe';
+import { AreaChartComponent } from './components/area-chart/area-chart.component';
+import { DetailedWeatherTableComponent } from './components/detailed-weather-table/detailed-weather-table.component';
+import { UviConverterPipe } from './pipes/uvi-converter.pipe';
+import { SearchComponent } from './components/search/search.component';
+import { SearchResultComponent } from './components/search-result/search-result.component';
 
 
 
@@ -26,12 +33,19 @@ import { BarRangeChartComponent } from './components/bar-range-chart/bar-range-c
     MenuItemComponent,
     ClickedOutsideDirective,
     BarRangeChartComponent,
+    IsoToDatePipe,
+    AreaChartComponent,
+    DetailedWeatherTableComponent,
+    UviConverterPipe,
+    SearchComponent,
+    SearchResultComponent,
   ],
   imports: [
     CommonModule,
     NgxGaugeModule,
     FontAwesomeModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
 
   ],
   exports: [
@@ -44,7 +58,16 @@ import { BarRangeChartComponent } from './components/bar-range-chart/bar-range-c
     MenuItemComponent,
     ClickedOutsideDirective,
     BarRangeChartComponent,
+    AreaChartComponent,
+    DetailedWeatherTableComponent,
+    UviConverterPipe,
+    SearchComponent,
+    CommonModule,
+    SearchResultComponent,
     
+  ],
+  providers: [
+    UviConverterPipe
   ]
 })
 export class SharedModule { }

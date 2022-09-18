@@ -1,14 +1,12 @@
 <div class="menu-container" appClickedOutside (clickOutside)="clickedOutside()">
-    <a      class="button-primary"
-            routerLink=""
-            (click)="toggleMenu()"
-            tabindex="0">
-            {{name}}
-            
-        </a>
-        <ul
-            [ngClass]="{'display': isMenuOpen === true}"
-        >
-            <ng-content></ng-content>
+    <button  
+        class="primary"
+        (click)="toggleMenu()"
+        tabindex="0">
+        {{name}} 
+    </button>
+    <ul
+        [ngClass]="{'display': isMenuOpen === true}">
+        <ng-content></ng-content>
     </ul>
 </div>

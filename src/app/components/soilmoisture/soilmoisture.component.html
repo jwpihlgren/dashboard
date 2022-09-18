@@ -1,1 +1,45 @@
-<p>soilmoisture works!</p>
+<app-grid>
+    <div class="card large-card flex">
+        <ng-container *ngIf="data$ | async as sensors else loading">
+            <article *ngFor="let sensor of sensors ">
+                <div class="flex row gap-sm a-center">
+                    <div *ngIf="!isEditToggled; else input" class="flex row gap-sm j-center a-center">
+                        <h5 unselectable="on">{{sensor.alias}}</h5>
+                        <button  class="ternary square" (click)="setEditTrue()">
+                            <fa-icon 
+                            [icon]=faEdit
+                            size="lg"></fa-icon>
+                        </button>
+                    </div>
+                    <ng-template #input>
+                        <div class="flex row gap-lg">
+                            <form class="flex row gap-sm">
+                                <input #edit type="text" value={{sensor.alias}}>
+                                <button class="primary" (click)="editName(sensor._id)">
+                                    Ändra
+                                </button>
+                            </form>
+                            <button class="ternary" (click)="abort()">
+                                Avbryt
+                            </button>
+                        </div>
+                    </ng-template>
+                </div>
+                <app-area-chart [data]="sensor"></app-area-chart>
+                <div class="flex j-center row gap-sm">
+                    <button class="ternary" (click)="toggleSelection('day', sensor._id)" [ngClass]="{'active': selections['day'].isToggled}">1 dag</button>
+                    <button class="ternary" (click)="toggleSelection('week', sensor._id)" [ngClass]="{'active': selections['week'].isToggled}">1 vecka</button>
+                    <button class="ternary" (click)="toggleSelection('month', sensor._id)" [ngClass]="{'active': selections['month'].isToggled}">1 månad</button>
+                </div>
+            </article>
+            
+        </ng-container>
+
+        <ng-template #loading>
+            <article>
+                <div>Loading</div>
+            </article>
+        </ng-template>
+    </div>
+</app-grid>
+

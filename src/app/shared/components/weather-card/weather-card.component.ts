@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { WeatherService } from './../../services/weather.service';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output} from "@angular/core";
 import { faCloudSun } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -6,20 +7,25 @@ import { faCloudSun } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './weather-card.component.html',
   styleUrls: ['./weather-card.component.css']
 })
+
+
+
+
+
 export class WeatherCardComponent implements OnInit {
 
   faCloudSun = faCloudSun
-  forecastDataSeries: [] = [] 
-
+  forecastDataSeries: [] = []
+  displayDetails = false
 
   @Input() forecast: any
 
-
-  constructor() { }
+  constructor(
+    private weatherService: WeatherService
+  ) { 
+  }
 
   ngOnInit(): void {
-
-/*     console.log(this.createForecastDataSeries(this.forecast.daily)); */
   }
 
   epochToDay(epoch: any): string {
@@ -33,10 +39,20 @@ export class WeatherCardComponent implements OnInit {
       return {
         day: this.epochToDay(day.dt * 1000),
         minTemp: Math.round(day.temp.min), 
-         maxTemp: Math.round(day.temp.max)
+        maxTemp: Math.round(day.temp.max),
+        icon: day.weather[0].icon
       }
     })
     return forecastDataSeries.slice(0, forecastDataSeries.length - 1) //Remove the 8th result because we only show 7
+  }
+
+  getIconUrl(icon:string): string {
+    return this.weatherService.getIconUrl(icon)
+  }
+
+  @HostListener('click')
+  toggleDisplayDetails(){
+    this.displayDetails = !this.displayDetails
   }
 
 }

@@ -1,0 +1,32 @@
+:host {
+    height: 100%;
+    width: 100%;
+}
+
+.body {
+    padding: var(--medium);
+}
+
+
+app-search {
+    position: relative;
+    z-index: 10001;
+    width: 100%;
+  /*   width: calc(100vw - 136px); */
+}
+
+.data {
+    transform: translate(0, 120px);
+    width: 100%;
+    gap: var(--extra-large);
+    align-items: flex-start;
+}
+
+app-weather-card {
+    max-width: 960px;
+    align-self: center;
+}
+
+
+
+

@@ -19,7 +19,10 @@ export class MenuItemComponent implements OnInit {
 
 
   toggleMenu(){
+    console.log("click");
+    console.log(this.isMenuOpen);
     this.isMenuOpen = !this.isMenuOpen
+    console.log(this.isMenuOpen);
   }
 
   clickedOutside() {

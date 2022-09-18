@@ -1,0 +1,54 @@
+<label for="search">Sök område</label>
+<div 
+    class="search-field"
+    [ngClass]="{'focus': searchHasFocus}">
+    <div class="flex row grow pb-sm pi-lg search-field-input">
+        <input
+            (keyup)="onSearchKeyUpHandler($event)"
+            (focus)="setSearchFocus()"
+            (blur)="clearSearchFocus()"
+            #search
+            type="search" 
+            id="search" 
+            autofocus/>
+            <div class="button-group"
+                [ngClass]="{'hidden': searchIsPristine}">
+                <button 
+                (click)="clearSearchQuery()"
+                class="ternary round"
+                >
+                <fa-icon 
+                [icon]=faTimes
+                size="lg"></fa-icon>
+            </button>
+            <span class="spacer"></span>
+            <button
+                (click)="onSearchClickHandler()"
+                class="ternary rounded">
+                <fa-icon 
+                [icon]=faSearch
+                size="lg"></fa-icon> Sök
+            </button>
+        </div>
+    </div>
+    <ng-container *ngIf="!searchIsPristine">
+        <hr/>
+        <ul *ngIf="searchResults.length > 0; else nullHit">
+            <app-search-result
+                *ngFor="let searchResult of searchResults"
+                (clickRequest)="onResultClickHandler($event)"
+                [searchResult]="searchResult">
+            </app-search-result>
+        </ul>
+        <ng-template #nullHit>
+            <span class="p-lg">
+                <ng-container *ngIf="isLoading; else loading">Laddar</ng-container>
+                <ng-template #loading>Inga sökträffar</ng-template>
+            </span>
+        </ng-template>
+    </ng-container>
+</div>
+
+
+
+

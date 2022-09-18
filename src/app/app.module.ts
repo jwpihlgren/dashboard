@@ -11,6 +11,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ProfileComponent } from './components/profile/profile.component';
 import { WeatherComponent } from './components/weather/weather.component';
 import { SoilmoistureComponent } from './components/soilmoisture/soilmoisture.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -28,14 +29,17 @@ import { SoilmoistureComponent } from './components/soilmoisture/soilmoisture.co
     BrowserModule,
     AppRoutingModule,
     SharedModule,
-    
+    FormsModule,
     AuthModule.forRoot({
       ...environment.auth,
       httpInterceptor: {
         allowedList: [
           `${environment.dev.serverUrl}/sensors`,
+          `${environment.dev.serverUrl}/sensors/*`,
           `${environment.dev.serverUrl}/location`,
-          `${environment.dev.serverUrl}/weather`
+          `${environment.dev.serverUrl}/weather`,
+          `${environment.dev.serverUrl}/user/`,
+          `${environment.dev.serverUrl}/user/*`
         ]
       }
     }),

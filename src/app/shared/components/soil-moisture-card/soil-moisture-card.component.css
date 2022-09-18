@@ -7,6 +7,10 @@
     max-width: 100%;
 }
 
+:host.warning {
+    background-color: var(--red-100);
+}
+
 :host ::ng-deep .reading-block,:host ::ng-deep .reading-affix {
     font-size: var(--fs-800) !important;
     font-weight: bold !important;
@@ -23,37 +27,10 @@ fa-icon {
 }
 
 
-@media screen and (max-width: 599px) {
-    :host {
-        grid-column-end: span 1;
-    }
-    
+.fetch-date {
+    padding-block-start: var(--large);
+    color: var(--on-light-background-100);
+    font-size: var(--fs-400);
+    font-weight: var(--fw-300);
 }
 
-@media screen and (max-width: 904px) {
-    :host {
-        grid-column-end: span 1;
-    }
-    
-}
-@media screen and (max-width: 1239px) {
-    
-    :host {
-        grid-column-end: span 1;
-    }
-    
-    
-}
-@media screen and (max-width: 1439px) {
-    :host {
-        grid-column-end: span 1;
-    }
-    
-    
-}
-@media screen and (min-width: 1440px) {
-    :host {
-        grid-column-end: span 1;
-    }
-    
-}

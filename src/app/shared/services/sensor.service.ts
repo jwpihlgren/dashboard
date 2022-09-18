@@ -1,16 +1,18 @@
-
 import { AuthService } from '@auth0/auth0-angular';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
-import { map, Subject, Observable, tap, filter } from 'rxjs';
+import { map, Subject, Observable, tap, filter, catchError, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
+import { utcFormat } from 'd3';
+
 @Injectable({
   providedIn: 'root'
 })
 export class SensorService {
 
   subject$: Subject<any> = new Subject<any>();
+  eventSource!: EventSourcePolyfill
 
   constructor(
     private http: HttpClient,
@@ -22,19 +24,161 @@ export class SensorService {
     return this.http.get(`${environment.dev.serverUrl}/sensors`).pipe(
       map(data => {
         return data
+      }),
+      catchError((error: any) => {
+        console.log(error);
+        return error
+
       })
     );
   }
 
-  getSensor(id:string, token:string): Observable<any> {
-    const eventSource = this.getEventSource(id, token);
+  eventSourceDestory() {
+    this.eventSource.close()
 
-    eventSource.addEventListener('message', (event: any) => this._ngZone.run(() => this.subject$.next(JSON.parse(event.data))))
-    eventSource.addEventListener('heartbeat', (event: any) => {/* Do nothing */})
-    eventSource.onerror = (error: any) => this._ngZone.run(() => this.subject$.error(error))
-    
-    return this.subject$
   }
+  getSensor(id:string, token:string): Observable<any> {
+    this.eventSource = this.getEventSource(id, token);
+
+    this.eventSource.addEventListener('message', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
+    this.eventSource.addEventListener('heartbeat', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
+    this.eventSource.onerror = (error: any) => {
+/*       this._ngZone.run(() => this.subject$.error(error)) */
+      this.eventSource.close()
+      setTimeout(() => {
+        this.getSensor(id, token)
+      }, 1000 * 30)
+    }
+    
+    return this.subject$.pipe(
+      tap(event => console.log(event)), 
+      filter(event=> event.type !== 'heartbeat'), 
+      map(event => JSON.parse(event.data)),
+      catchError((error: any) => {
+        console.log(error)
+        return error
+      }
+      ))
+  }
+
+  getDetailedSensor(id: string, minDate: number, maxDate: number): Observable<any> {
+    const api = environment.dev.serverUrl
+    const path = `/sensors/${id}/period`
+    const params = `?minDate=${minDate}&maxDate=${maxDate}`
+    return this.http.get(`${api}${path}${params}`).pipe(
+      map(
+        (data: any) => {
+          const daysBetweenDates = this.daysBetweenDates(minDate, maxDate)
+          let set_hour_to_zero: boolean = true
+          let dates: any[] = []
+
+          if(daysBetweenDates === 0) {
+           dates = this.createListOfHours()
+            set_hour_to_zero = false
+          }
+          else if (daysBetweenDates <= 7) {
+            dates = this.createListOfDates(daysBetweenDates)
+          }
+          else if (daysBetweenDates > 7) {
+            dates = this.createListOfDates(daysBetweenDates)
+            
+          }
+
+          data.response[0].values = this.spreadValuesAcrossDates(data.response[0].values, dates, set_hour_to_zero)
+          return data.response          
+      })
+    )
+  }
+
+  updateSensor(id: string, newName: string): Observable<any> {
+    const api = environment.dev.serverUrl
+    const path = `/sensors/${id}`
+    const data = {alias: newName}
+
+    return this.http.post(`${api}${path}`, data)
+  }
+
+
+  private spreadValuesAcrossDates(values: any[], dates: Date[], resetHours: boolean): any[] {
+    /* Create a new values object with the correct amount of data points */
+    const newValues: any = {}
+    dates.forEach((date: Date) => {
+      newValues[date.toISOString()] = {
+        value: [],
+        date: date.toISOString()
+      }
+    })
+
+    /* Parse the dates of each value and map them to the new values object */
+    values.forEach((value: any) => {
+      const date = new Date(value.date)
+      if(resetHours) date.setHours(0)
+      date.setMinutes(0)
+      date.setSeconds(0)
+      date.setMilliseconds(0)
+
+      const isoStringDate = date.toISOString()
+      /* Because we named each property in the new value object with the correct time,
+        we can now map all the real measurements
+      */
+      if(newValues[isoStringDate] && value.value) {
+        newValues[isoStringDate].value.push(value.value)
+      }
+    })
+
+    /* Calculate the average for each date, if there are several values.*/
+    for (let [key, obj] of Object.entries(newValues)) {
+      const keyAsString = key as string
+      const objAsAby = obj as any
+      const NUMBER_OF_VALUES = objAsAby.value.length
+
+      let average;
+      if(NUMBER_OF_VALUES === 0) {
+        average = 0;
+      }
+      else {
+        average = Math.round(objAsAby.value.reduce((acc: number, cur: number) => acc + cur) / NUMBER_OF_VALUES)
+      }
+      newValues[keyAsString].value = average
+    }
+    /*Return an array with the values from the new value object */
+    return Object.values(newValues)
+  }
+
+  private createListOfHours(): Date[] {
+    const hours: Date[] = []
+    for(let i = 0; i < 24; i++) {
+      const date = new Date()
+      date.setHours(i)
+      date.setMinutes(0)
+      date.setSeconds(0)
+      date.setMilliseconds(0)
+      hours.push(date)
+    }
+
+    return hours
+  }
+
+  private createListOfDates(numberOfDays: number): Date[] {
+    const dates: Date[] = []
+    for(let i = 0; i < numberOfDays; i++) {
+      const date = new Date()
+      date.setDate(date.getDate() - i)
+      date.setMinutes(0)
+      date.setHours(0)
+      date.setSeconds(0)
+      date.setMilliseconds(0)
+      dates.push(date)
+    }
+    return dates
+  }
+
+  private daysBetweenDates(minDate: number, maxDate: number): number {
+    const difference = new Date(maxDate).getTime() - new Date(minDate).getTime()
+    const numberOfDaysBetween = Math.floor(difference / (1000 * 3600 * 24))
+    return numberOfDaysBetween
+  }
+
 
   getToken(): Observable<any> {
     return this.authService.getAccessTokenSilently()
@@ -46,5 +190,11 @@ export class SensorService {
         'Authorization': `Bearer ${token}`
       }
     });
+  }
+
+
+  
+  private getAverage(arr: number[]): number {
+    return Math.round(arr.reduce((acc: number, cur: number) => acc + cur) / arr.length)
   }
 }

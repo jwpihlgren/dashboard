@@ -1,17 +1,20 @@
 import { WeatherService } from './../../shared/services/weather.service';
 import { LocationService } from './../../shared/services/location.service';
 import { SensorService } from './../../shared/services/sensor.service';
-import { mergeMap, Observable, switchMap, map, tap, forkJoin } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { mergeMap, Observable, forkJoin, of, tap } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ILocation } from 'src/app/shared/models/location.interface';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   sensor$!: Observable<any>
   forecast$!: Observable<any>
+  displayDetails: boolean = false
+  interval!: any 
 
   constructor(
     private sensorService: SensorService,
@@ -27,17 +30,39 @@ export class DashboardComponent implements OnInit {
       }
     ).pipe(
       mergeMap((data: any) => {
-        return this.sensorService.getSensor(data.sensors.response[0]._id, data.token).pipe(tap(data => console.log(data)))
+        const firstSensor = data.sensors.response[0]
+        if(firstSensor) {
+          return this.sensorService.getSensor(firstSensor._id, data.token)
+        }
+        else {
+          return of(undefined)
+        } 
       })
     )
     
-    this.forecast$ = this.locationService.getWeatherLocation('partille').pipe(
-      mergeMap((locations: any) => {
-        const location = {lat: locations[0].lat, lon: locations[0].lon}
-        return this.weatherService.getForecast(location)
+  this.updateWeather()
+  this.interval = setInterval(() => {
+    this.updateWeather();
+  }, 10 * 60 * 1000)
+  }
+
+  ngOnDestroy(): void {
+    this.sensorService.eventSourceDestory()
+    clearInterval(this.interval)
+  }
+
+  updateWeather(): void {
+    this.forecast$ = this.locationService.getUserFavoriteLocation().pipe(
+      mergeMap((favoriteLocation: ILocation) => {
+        return this.weatherService.getForecast(favoriteLocation).pipe(tap(data=>console.log(data)))
       })
     )
   }
+
+  toggleDisplayDetails(){
+    this.displayDetails = !this.displayDetails
+  }
+
 }
 
 

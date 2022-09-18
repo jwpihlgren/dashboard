@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,13 +20,17 @@ export class AppComponent {
   }
 
   loginWithRedirect() {
-    this.auth.loginWithRedirect({appState: {
-      target: "http://localhost:4200"
-    }});
+    console.log("test");
+    this.auth.loginWithRedirect({
+      redirectUri: `${window.location.origin}${environment.auth.redirectPath}`,
+      appState: {
+        target: `${window.location.origin}${environment.auth.redirectPath}}`,
+      }
+    });
   }
 
   logout() {
-    this.auth.logout({ returnTo: this.doc.location.origin })
+    this.auth.logout({ returnTo: `${this.doc.location.origin}${environment.auth.redirectPath}` })
   }
 
   showuser() {

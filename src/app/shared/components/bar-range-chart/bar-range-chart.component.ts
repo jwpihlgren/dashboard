@@ -1,5 +1,7 @@
+import { WeatherService } from './../../services/weather.service';
 import { Component, OnInit, ElementRef, Input} from '@angular/core';
 import * as d3 from 'd3'
+
 
 @Component({
   selector: 'app-bar-range-chart',
@@ -9,13 +11,13 @@ import * as d3 from 'd3'
 export class BarRangeChartComponent implements OnInit{
 
   @Input() forecast: any[] = [
-    { day: "Mån",   minTemp: -5,  maxTemp: 10 },
-    { day: "Tis",   minTemp: 5,   maxTemp: 15 },
-    { day: "Ons",   minTemp: -2,  maxTemp: 8 },
-    { day: "Tor",   minTemp: 8,   maxTemp: 18 },
-    { day: "Fre",   minTemp: 6,   maxTemp: 15 },
-    { day: "Lör",   minTemp: 12,  maxTemp: 22 },
-    { day: "Sön",   minTemp: 15,  maxTemp: 25 },
+    { day: "Mån",   minTemp: -5,  maxTemp: 10, icon: "04d" },
+    { day: "Tis",   minTemp: 5,   maxTemp: 15, icon: "04d" },
+    { day: "Ons",   minTemp: -2,  maxTemp: 8, icon: "04d" },
+    { day: "Tor",   minTemp: 8,   maxTemp: 18, icon: "04d" },
+    { day: "Fre",   minTemp: 6,   maxTemp: 15, icon: "04d" },
+    { day: "Lör",   minTemp: 12,  maxTemp: 22, icon: "04d" },
+    { day: "Sön",   minTemp: 15,  maxTemp: 25, icon: "04d" },
   ]
 
   svg: any;
@@ -28,6 +30,7 @@ export class BarRangeChartComponent implements OnInit{
 
   constructor(
     private elementRef: ElementRef,
+    private weatherService: WeatherService
     ) { }
 
   ngOnInit(): void {
@@ -66,6 +69,17 @@ export class BarRangeChartComponent implements OnInit{
    .call(d3.axisBottom(x))
    .selectAll("text")
    .style("text-anchor", "center")
+   
+  const selection = this.svg.selectAll(".tick");
+  selection._groups[0].forEach((node: any, index: number) => {
+    d3.select(node)
+    .append('image')
+    .attr('xlink:href', this.weatherService.getIconUrl(data[index].icon))
+    .attr('x',-20)
+    .attr('y', 16)
+    .attr('width',40)
+    .attr('height',40);
+  } )
 
 
    const y = d3.scaleLinear()
