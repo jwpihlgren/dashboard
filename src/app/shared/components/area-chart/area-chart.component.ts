@@ -74,8 +74,8 @@ export class AreaChartComponent implements OnInit {
     )
 
   
-/*       this.createLinearGradient("#f8c03f", "too-little")
-      this.createLinearGradient("#32d2ac", "ok") */
+      this.createLinearGradient("#f8c03f", "too-little")
+      this.createLinearGradient("#32d2ac", "ok")
 
 
       const x = d3.scaleTime()
@@ -95,12 +95,12 @@ export class AreaChartComponent implements OnInit {
       this.svg.append("g")
       .call(d3.axisLeft(y))
 
-      const linearGradient = this.createLinearGradient("#5693e9", "ok", x, y)
+    /*   const linearGradient = this.createLinearGradient("#5693e9", "ok", x, y) */
 
 
 
 
-/*       const yellowGradientOptions = {
+      const yellowGradientOptions = {
         values: values,
         x: x,
         y: y,
@@ -119,7 +119,7 @@ export class AreaChartComponent implements OnInit {
         maxThreshold: 100,
         color: "#5693e9"
       }
-      this.appendLinearGradient(blueGradientOptions ) */
+      this.appendLinearGradient(blueGradientOptions )
       const greenGradientOptions = {
         values: values,
         x: x,
@@ -145,7 +145,7 @@ export class AreaChartComponent implements OnInit {
       })
     }
 
-    private createLinearGradient(color : string, id: string, x: any, y: any): void {
+/* private createLinearGradient(color : string, id: string, x: any, y: any): void {
       return this.svg.append("linearGradient")
         .attr("id", id)
         .attr("gradientUnits", "userSpaceOnUse")
@@ -165,7 +165,7 @@ export class AreaChartComponent implements OnInit {
         .attr("stop-color", (d: any) => d.color)
 
     }
-/* 
+ */
     private createLinearGradient(color: string, id:string) {
       const linearGradient = this.svg.append("defs")
       .append("linearGradient")
@@ -183,7 +183,7 @@ export class AreaChartComponent implements OnInit {
       .style("stop-opacity", 0 );
 
       return linearGradient
-    } */
+    }
 
     private appendLinearGradient(options: {values: any[], x: any, y: any, id: string, minThreshold: number, maxThreshold: number, color: string}) {
       this.svg.append("path")    
