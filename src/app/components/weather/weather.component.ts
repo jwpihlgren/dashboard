@@ -19,7 +19,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   forecastIsLoading: boolean = false
   locationIsLoading: boolean = false
-  forecast$!: Observable<any>
+  forecast$!: Observable<any> | undefined
 
 
   constructor(
@@ -48,7 +48,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
   }
 
   clearForecast(): void {
-    this.forecast$ = new Observable()
+    this.forecast$ = undefined
   }
   ngOnDestroy(): void {
       this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe())

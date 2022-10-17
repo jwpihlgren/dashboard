@@ -2,9 +2,10 @@
     <a 
     [routerLink]=link.route 
     routerLinkActive="active-link" 
-    [routerLinkActiveOptions]="{ exact: true }">   
-        <fa-icon 
-        [icon]=link.icon 
-        size="lg"></fa-icon>
+    [routerLinkActiveOptions]="{ exact: true }"> 
+        <div class="icon">  
+            <fa-icon [icon]=link.icon size="lg"></fa-icon>         
+        </div>
+        <span>{{link.title}}</span>
     </a>
 </ng-container>

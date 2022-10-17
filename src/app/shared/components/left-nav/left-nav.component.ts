@@ -9,11 +9,11 @@ import { faHouse, faCloudSun, faSeedling, faThLarge } from '@fortawesome/free-so
 })
 export class LeftNavComponent implements OnInit {
 
-  links = [
-    {route: "/", icon: faHouse},
-    {route: "/dashboard", icon: faThLarge},
-    {route: "/weather", icon: faCloudSun},
-    {route: "/soilmoisture", icon: faSeedling}
+  links: INavItem[] = [
+    {route: "/", icon: faHouse, title: "Hem"},
+    {route: "/dashboard", icon: faThLarge, title: "Dashboard"},
+    {route: "/weather", icon: faCloudSun, title: "Sök väder"},
+    {route: "/soilmoisture", icon: faSeedling, title: "Sensorer"}
   ]
 
   constructor() { }
@@ -21,4 +21,10 @@ export class LeftNavComponent implements OnInit {
   ngOnInit(): void {
   }
 
+}
+
+interface INavItem {
+  route: string,
+  icon: typeof faHouse,
+  title: string
 }
