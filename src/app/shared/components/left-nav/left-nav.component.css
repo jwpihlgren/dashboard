@@ -4,6 +4,7 @@
     padding-block: var(--x-extra-large);
     padding-block-end: 0;
     box-shadow: var(--bs-2);
+    height: 100%;
 }
 
 a {
