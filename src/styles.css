@@ -32,6 +32,8 @@
     --medium: 1rem;
     --large: 2rem;
     --extra-large: 3rem;
+    --x-extra-large: 4.5rem;
+
 
     --card-height: calc(425px);
 

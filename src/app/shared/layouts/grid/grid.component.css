@@ -4,8 +4,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 425px);
-    padding-block: var(--large);
-    box-shadow: var(--bs-in-2);
+/*     box-shadow: var(--bs-in-2); */
 
 }
 
@@ -14,7 +13,6 @@
     :host {
         grid-template-columns: repeat(8, 1fr);
         gap: var(--large);
-        padding-inline: var(--large);
         width: 100%;
     }
 }

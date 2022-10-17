@@ -1,8 +1,4 @@
 :host {
-    width: 100%
-}
-
-main {
     width: 100%;
     display: flex;
 }
@@ -12,18 +8,24 @@ header {
     align-items: center;
     justify-content: center;
     height: 72px;
-    width: 100%;
+ /*    width: 100%; */
     background-color: var(--white);
-  /*   box-shadow: var(--bs-2); */
+    box-shadow: var(--bs-2);
     position: sticky;
     padding-inline: var(--medium);
+    border-radius: 0 0 var(--medium)var(--medium);
 }
 
 
 main{
+    width: 100%;
     height: calc(100vh - 72px);
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    padding: var(--large);
+    padding-block-start: 0;
+    padding-inline-end: var(--medium);
+    gap: var(--medium);
     
 }
 
@@ -34,7 +36,7 @@ main{
 
 .layout-body {
 /*     display: flex; */
-    box-shadow: var(--bs-in-2);
+   /*  box-shadow: var(--bs-2); */
     flex-grow: 1;
     height: 100%;
 
