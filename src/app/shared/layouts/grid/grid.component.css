@@ -3,29 +3,22 @@
     width: 100%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(4, 425px);
-/*     box-shadow: var(--bs-in-2); */
-
+    grid-template-rows: repeat(auto-fit, 425px);
+    gap: var(--large);
 }
 
 
-@media screen and (min-width: 600px) {
+@media (min-width: 600px) {
     :host {
-        grid-template-columns: repeat(8, 1fr);
         gap: var(--large);
-        width: 100%;
     }
 }
-@media screen and (min-width: 905px) {
-    :host {
-        grid-template-columns: repeat(12, 1fr);
-      /*   grid-template-rows: repeat(4, 400px); */
+
+
+@media (min-width: 1176px) {
+    :host { 
+        grid-template-columns: repeat(12, 1fr); 
+        max-width: 1280px;
+        margin: 0 auto;
     }
 }
-@media screen and (min-width: 1240px) {
-
-}
-@media screen and (min-width: 1440px) {
-
-}
-
