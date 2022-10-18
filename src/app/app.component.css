@@ -4,6 +4,7 @@
     display: flex;
 }
 
+
 header {
     display: flex;
     align-items: center;
@@ -43,35 +44,6 @@ main{
 
 }
 
-app-menu-item {
-    justify-self: end;
-    align-self: end;
-}
-app-left-nav {
-    display: flex;
-    flex-direction: column;
-    gap:var(--small);
- /*    box-shadow: var(--bs-2); */
-}
-
-
 button {
  flex-shrink: 0;
 }
-
-
-@media screen and (max-width:768px) {
-
-    main{
-
-        flex-direction: column;
-    }
-    app-left-nav {
-        flex-direction: row;
-        height: 4rem;
-        width: 100%;
-
-    }
-    
-}
-

@@ -326,7 +326,7 @@ button.square {
     padding: 0;
 }
 
-
+/* 
 @media screen and (min-width: 600px) {
     .large-card { grid-column: auto / span 12; }
     .medium-card { grid-column: auto / span 8;}
@@ -342,5 +342,5 @@ button.square {
     .medium-card { grid-column: auto / span 8; }
     .small-card { grid-column: auto / span 4; }
 }
-
+ */
 

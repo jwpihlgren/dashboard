@@ -2,7 +2,7 @@
     <app-weather-card
         *ngIf="forecast$ | async as forecast; else loading"
         [forecast]="forecast"
-        class="card medium-card" 
+        class="card" 
     >
     </app-weather-card>
     <app-soil-moisture-card 

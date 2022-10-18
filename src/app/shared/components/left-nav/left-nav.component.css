@@ -1,24 +1,33 @@
 :host {
-    width: 5rem;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: fixed;
     background-color: var(--white);
-    padding-block: var(--x-extra-large);
-    padding-block-end: 0;
     box-shadow: var(--bs-2);
-    height: 100%;
+    bottom: 0;
+    z-index: 99999;
+    transition-duration: var(--duration-short);
+    transition-timing-function: var(--ease-in-out);
 }
 
+
 a {
-    all: unset;
-    width: 100%;
-    height: 5rem;
-    width: 5rem;
-    aspect-ratio: 1 / 1;
     display: flex;
     flex-direction: column;
+    height: 100%;
+    width: 100%;
     gap: var(--extra-small);
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
+}
+
+a span {
+    font-size: var(--fs-300);
+    color: var(--gray-500)
 }
 
 a .icon {
@@ -26,11 +35,10 @@ a .icon {
     transition-timing-function: var(--ease-in-out);
 }
 
-
-
 a:hover {
     cursor: pointer;
 }
+
 .icon {
     height: 32px;
     width: 4rem;
@@ -43,18 +51,68 @@ a:hover {
 }
 a:hover .icon {
     background-color: var(--blue-508);
-    cursor: pointer;
 }
-
 a:active .icon, .active-link .icon {
     background-color: var(--blue-516);
 }
 
-:host.expanded {
-    width: 256px;
+@media (min-width: 600px) {
+    :host {
+        position: relative;
+        flex-direction: column;
+        width: calc(1rem * 5);
+        height: 100%;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding-block-start: var(--large); 
+    }
+
+    a {
+        padding-block: var(--small);
+        height: min-content;
+        
+    }
 }
 
-a span {
-    font-size: var(--fs-300);
-    color: var(--gray-500)
+@media (min-width: 1280px) {
+    :host {
+        min-width: calc(1rem * 20);
+        padding-inline: var(--small);
+        gap: var(--extra-small);
+    }
+
+    a {
+        flex-direction: row;
+        width: 100%;
+        padding-inline: var(--medium);
+        gap: var(--medium);
+        justify-content: flex-start;
+        border-radius: var(--pill);
+    }
+    a span {
+        font-size: var(--fs-400);
+        font-weight: var(--fw-500);
+    }
+
+    a:hover .icon, a:active .icon, .active-link .icon {
+        background-color: transparent;
+    }
+
+    a:hover {
+        background-color: var(--blue-508);
+
+    }
+
+    a:active , .active-link {
+        background-color: var(--blue-516);
+    }
+    
 }
+
+
+
+
+
+
+
+
