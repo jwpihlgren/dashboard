@@ -50,6 +50,7 @@ app-bar-range-chart {
     padding-inline: var(--medium);
     border-radius: var(--pill);
     box-shadow: var(--bs-1);
+    gap: var(--small);
 }
 
 .weather-side-info-currently {
@@ -79,6 +80,10 @@ app-bar-range-chart {
     .weather-side-info-currently {
         width: calc(1rem * 10);
         height: calc(1rem * 10);
+    }
+
+    .detail {
+        flex-direction: column;
     }
 }
 
