@@ -190,7 +190,6 @@ body {
 .card {
     background-color: white;
     box-shadow: var(--bs-2);
-    width: 100%;
     border-radius: 1rem;
 }
 
