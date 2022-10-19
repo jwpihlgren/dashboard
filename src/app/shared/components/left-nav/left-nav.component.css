@@ -74,7 +74,7 @@ a:active .icon, .active-link .icon {
     }
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1281px) {
     :host {
         min-width: calc(1rem * 20);
         padding-inline: var(--small);
