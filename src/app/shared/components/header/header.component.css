@@ -1,0 +1,42 @@
+:host {
+    flex-grow: 1;
+    display: flex;
+    height: var(--x-extra-large);
+    min-height: var(--x-extra-large);
+    padding-inline: var(--medium);
+    box-shadow:  1.4rem 0.2rem 1rem rgb(0 0 0 / 12%);
+    background-color: var(--white);
+}
+
+a.logo {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+h3:after {
+    content: 'PNC';
+}
+
+@media (min-width: 600px) {
+    h3:after {
+        content: 'Pihl-Net-Central';
+    }
+}
+
+
+
+.profile {
+    height: var(--x-extra-large);
+    position: absolute;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-inline: var(--medium);
+}
+
+fa-icon {
+    color: var(--white);
+}

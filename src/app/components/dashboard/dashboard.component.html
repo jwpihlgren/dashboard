@@ -2,17 +2,17 @@
     <app-weather-card
         *ngIf="forecast$ | async as forecast; else loading"
         [forecast]="forecast"
-        class="card" 
+        class="card card-double" 
     >
     </app-weather-card>
     <app-soil-moisture-card 
         *ngIf="sensor$ | async as sensor; else loading" 
         [sensor]="sensor"
         [ngClass]="{'warning': sensor.warning}" 
-        class=" card small-card">
+        class=" card card-single">
     </app-soil-moisture-card>
 
     <ng-template #loading>
-        <div class="card small-card">Loading</div>
+        <div class="card card-single">Loading</div>
     </ng-template>
 </app-grid>

@@ -19,6 +19,7 @@ import { DetailedWeatherTableComponent } from './components/detailed-weather-tab
 import { UviConverterPipe } from './pipes/uvi-converter.pipe';
 import { SearchComponent } from './components/search/search.component';
 import { SearchResultComponent } from './components/search-result/search-result.component';
+import { HeaderComponent } from './components/header/header.component';
 
 
 
@@ -39,6 +40,7 @@ import { SearchResultComponent } from './components/search-result/search-result.
     UviConverterPipe,
     SearchComponent,
     SearchResultComponent,
+    HeaderComponent,
   ],
   imports: [
     CommonModule,
@@ -64,6 +66,7 @@ import { SearchResultComponent } from './components/search-result/search-result.
     SearchComponent,
     CommonModule,
     SearchResultComponent,
+    HeaderComponent
     
   ],
   providers: [
