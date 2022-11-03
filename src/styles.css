@@ -27,6 +27,12 @@
     --bs-1: var(--gray-720) 0px 3px 14px 0px;
     --bs-2: 0 0.2rem 1rem rgb(0 0 0 / 12%);
     --bs-in-2: 0 0.2rem 1rem rgb(0 0 0 / 12%) inset;
+
+    --bs-2-top: 0 -0.2rem 0.3rem rgb(0 0 0 / 12%);
+    --bs-2-bottom: 0rem 0.5rem 0.5rem rgb(0 0 0 / 6%);
+
+    --bs-2-right: 0.5rem 0.5rem 0.5rem rgb(0 0 0 / 6%);
+
 /*     -webkit-box-shadow: 9px 15px 52px -7px rgba(100,100,111,1) inset;
     -moz-box-shadow: 9px 15px 52px -7px rgba(100,100,111,1) inset; */
     --extra-small: 0.25rem;
@@ -251,7 +257,7 @@ button {
     border-radius: var(--pill);
     min-width: 64px;
     padding-inline: var(--large);
-    padding-block: var(--medium);
+    padding-block: var(--small);
     user-select: none;
     gap: var(--small);
 }
@@ -327,21 +333,8 @@ button.square {
     padding: 0;
 }
 
-/* 
-@media screen and (min-width: 600px) {
-    .large-card { grid-column: auto / span 12; }
-    .medium-card { grid-column: auto / span 8;}
-    .small-card { grid-column: auto / span 4; }
+@media (min-width: 600px) {
+    :root {
+        --bs-2-bottom:  4rem 0.5rem 0.5rem rgb(0 0 0 / 6%);
+    }
 }
-@media screen and (min-width: 905px) {
-    .large-card { grid-column: auto / span 12; }
-    .medium-card {grid-column: auto / span 8;}
-    .small-card { grid-column: auto / span 4; }
-}
-@media screen and (min-width: 1240px) {
-    .large-card { grid-column: auto / span 12; }
-    .medium-card { grid-column: auto / span 8; }
-    .small-card { grid-column: auto / span 4; }
-}
- */
-

@@ -1,24 +1,27 @@
 :host {
-    height: 100%;
     width: 100%;
+    height: min-content;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(auto-fit, 425px);
-    gap: var(--large);
-    overflow-y: scroll;
+    gap: var(--medium);
+    padding: var(--medium);
+    padding-top: var(--large);
+    padding-bottom: calc(var(--x-extra-large) * 2);
 }
 
 
 @media (min-width: 840px) {
     :host {
         gap: var(--large);
+        padding: var(--large);
         grid-template-columns: repeat(8, 1fr);
     }
 }
 
 
 @media (min-width: 1180px) {
-    :host { 
+    :host {
         grid-template-columns: repeat(12, 1fr); 
         max-width: 1280px;
         margin: 0 auto;

@@ -1,0 +1,6 @@
+:host {
+    display: flex;
+    flex-grow: 1;
+    padding: var(--extra-large);
+    padding-block-end: 0;
+}
