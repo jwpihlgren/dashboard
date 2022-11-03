@@ -61,7 +61,7 @@ a:active .icon, .active-link .icon {
         position: relative;
         flex-direction: column;
         width: var(--x-extra-large);
-        height: calc(100vh - var(--x-extra-large));
+        height: inherit;
         align-items: flex-start;
         justify-content: flex-start;
         padding-block-start: calc(var(--x-extra-large) + var(--large));
