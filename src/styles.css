@@ -9,7 +9,7 @@
 :root {
     --fs-300: 0.7rem;
     --fs-400: 1rem;
-    --fs-500: calc(1.6180 * 0.6rem);
+    --fs-500: calc(1.6180 * 0.3rem);
     --fs-600: calc(1.6180 * var(--fs-500));
     --fs-700: calc(1.6180 * var(--fs-600));
     --fs-800: calc(1.6180 * var(--fs-700));
@@ -31,7 +31,7 @@
     --bs-2-top: 0 -0.2rem 0.3rem rgb(0 0 0 / 12%);
     --bs-2-bottom: 0rem 0.5rem 0.5rem rgb(0 0 0 / 6%);
 
-    --bs-2-right: 0.5rem 0.5rem 0.5rem rgb(0 0 0 / 6%);
+    --bs-2-right: 0.5rem 1rem 0.5rem rgb(0 0 0 / 6%);
 
 /*     -webkit-box-shadow: 9px 15px 52px -7px rgba(100,100,111,1) inset;
     -moz-box-shadow: 9px 15px 52px -7px rgba(100,100,111,1) inset; */
@@ -336,5 +336,6 @@ button.square {
 @media (min-width: 600px) {
     :root {
         --bs-2-bottom:  4rem 0.5rem 0.5rem rgb(0 0 0 / 6%);
+        --fs-500: calc(1.6180 * 0.6rem);
     }
 }

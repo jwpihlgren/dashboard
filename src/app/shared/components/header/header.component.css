@@ -7,15 +7,16 @@ display: contents;
     display: flex;
     justify-content: space-between;
     position: relative;
-    height: var(--x-extra-large);
-    background-color: var(--white);
+    height: calc(var(--x-extra-large) - 1rem);
+    min-height: calc(var(--x-extra-large) - 1rem);
+
 }
 
 .container::before {
     content: "";
     position: absolute;
     width: 100%;
-    height: 5rem;
+    height: var(--x-extra-large);
     box-shadow:  var(--bs-2-bottom);
 }
 
