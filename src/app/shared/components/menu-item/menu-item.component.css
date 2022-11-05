@@ -1,11 +1,5 @@
 :host {
-    visibility: visible;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 72px;
-    background-color: var(--white);
-    opacity: 1;
+display: contents;
 }
 
 .menu-container {

@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { environment } from 'src/environments/environment';
-import { faRightToBracket, faSignOut } from '@fortawesome/free-solid-svg-icons';
+import { faRightToBracket, faSignIn, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import { faUser, faThLarge } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -17,6 +17,7 @@ export class UserMenuItemComponent implements OnInit {
  buttonGroup = {
     profile: {icon: faUser, title: "Profil"},
     logout: {icon: faSignOut, title: "Logga ut"},
+    login: {icon: faSignIn, title: "Logga in"}
  }
 
   constructor(
@@ -28,7 +29,8 @@ export class UserMenuItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  loginWithRedirect() {
+  loginWithRedirect(event: Event) {
+    event.preventDefault();
     console.log("test");
     this.auth.loginWithRedirect({
       redirectUri: `${window.location.origin}${environment.auth.redirectPath}`,

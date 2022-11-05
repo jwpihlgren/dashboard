@@ -1,28 +1,14 @@
 :host {
-display: contents;
-}
-
-
-.container {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     position: relative;
     height: calc(var(--x-extra-large) - 1rem);
-    min-height: calc(var(--x-extra-large) - 1rem);
-
-}
-
-.container::before {
-    content: "";
-    position: absolute;
-    z-index: -9999;
-    width: 100%;
-    height: var(--x-extra-large);
+    padding-inline: var(--small);
+    background-color: var(--light-background-100);
     box-shadow:  var(--bs-2-bottom);
 }
-
-
 
 a.logo {
     display: flex;
@@ -35,12 +21,7 @@ fa-icon {
 
 
 @media (min-width: 600px) {
-
     :host {
         display: none;
     }
-/*     :host::before {
-        padding-inline-start: 100% - 5rem;
-        box-shadow:  var(--bs-2-bottom);
-    } */
 }

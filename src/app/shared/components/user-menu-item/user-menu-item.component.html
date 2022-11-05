@@ -31,6 +31,13 @@
 
     <!-- Logged out -->
     <ng-template #loggedOut>
-        <button class="primary round" (click)="loginWithRedirect()"><fa-icon [icon]=loginIcon size="lg"></fa-icon></button>
+        <div class="button-group">
+        <a routerLink="" (click)="loginWithRedirect($event)">
+            <div class="icon">  
+                <fa-icon [icon]=buttonGroup.login.icon size="lg"></fa-icon>         
+            </div>
+           <span>{{buttonGroup.login.title}}</span>
+        </a>
+    </div>
     </ng-template>
 </div>
