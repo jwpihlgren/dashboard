@@ -1,0 +1,18 @@
+<svg width="247" height="245" viewBox="0 0 247 245" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_1201_20414)">
+<rect x="2.00097" y="1.91405" width="243.085" height="241.171" stroke="#0C0C03" stroke-width="3.82811"/>
+<line x1="124.5" x2="124.5" y2="244.999" stroke="#0C0C03" stroke-width="3.82811"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M122.492 63.1638V187.178C122.492 216.777 98.4973 240.772 68.8984 240.772H56.3501C30.556 240.772 9.01798 222.55 3.90699 198.276H0C5.16986 224.678 28.4335 244.6 56.3501 244.6H68.8984C100.612 244.6 126.32 218.892 126.32 187.178V63.1638H122.492Z" fill="black"/>
+<rect x="124.5" y="1.91405" width="120.585" height="241.171" rx="55.5076" stroke="#0C0C03" stroke-width="3.82811"/>
+<line x1="3.35442" y1="4.38875" x2="123.94" y2="124.974" stroke="#0C0C03" stroke-width="3.82811"/>
+<path d="M244.525 5.18157L124.5 125.371" stroke="#0C0C03" stroke-width="3.82811"/>
+<line x1="124.076" y1="1.16897" x2="3.71316" y2="242.027" stroke="#0C0C03" stroke-width="3.82811"/>
+<line y1="-1.91405" x2="269.258" y2="-1.91405" transform="matrix(0.447018 0.894525 0.894525 -0.447018 126.415 0.313354)" stroke="#0C0C03" stroke-width="3.82811"/>
+<line x1="2.00098" y1="122.5" x2="183.836" y2="122.5" stroke="#0C0C03" stroke-width="3.82811"/>
+</g>
+<defs>
+<clipPath id="clip0_1201_20414">
+<rect width="247" height="244.999" rx="1.91405" fill="white"/>
+</clipPath>
+</defs>
+</svg>
