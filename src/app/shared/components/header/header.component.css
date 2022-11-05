@@ -2,6 +2,7 @@
 display: contents;
 }
 
+
 .container {
     width: 100%;
     display: flex;
@@ -21,6 +22,8 @@ display: contents;
     box-shadow:  var(--bs-2-bottom);
 }
 
+
+
 a.logo {
     display: flex;
     align-items: center;
@@ -32,8 +35,12 @@ fa-icon {
 
 
 @media (min-width: 600px) {
-    :host::before {
+
+    :host {
+        display: none;
+    }
+/*     :host::before {
         padding-inline-start: 100% - 5rem;
         box-shadow:  var(--bs-2-bottom);
-    }
+    } */
 }

@@ -20,6 +20,7 @@ import { UviConverterPipe } from './pipes/uvi-converter.pipe';
 import { SearchComponent } from './components/search/search.component';
 import { SearchResultComponent } from './components/search-result/search-result.component';
 import { HeaderComponent } from './components/header/header.component';
+import { LogoComponent } from './components/logo/logo.component';
 
 
 
@@ -41,6 +42,7 @@ import { HeaderComponent } from './components/header/header.component';
     SearchComponent,
     SearchResultComponent,
     HeaderComponent,
+    LogoComponent,
   ],
   imports: [
     CommonModule,
@@ -66,7 +68,8 @@ import { HeaderComponent } from './components/header/header.component';
     SearchComponent,
     CommonModule,
     SearchResultComponent,
-    HeaderComponent
+    HeaderComponent,
+    LogoComponent,
     
   ],
   providers: [

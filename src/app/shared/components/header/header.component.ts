@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit {
   defaultTitle: string = "PNC"
   largeTitle: string = "Pihl-Net-Central"
   loginIcon: any = faRightToBracket;
+  logo: string = "../../../../assets/logo.svg#frame-20"
 
   constructor(
     public auth: AuthService,
