@@ -1,5 +1,5 @@
 <app-grid>
-    <div class="card large-card flex">
+    <div class="card card-full flex">
         <ng-container *ngIf="data$ | async as sensors else loading">
             <article *ngFor="let sensor of sensors ">
                 <div class="flex row gap-sm a-center">

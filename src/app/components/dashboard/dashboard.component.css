@@ -24,17 +24,6 @@
     
 }
 
-/* @media (min-width: 1000px) {
-    .card-single {
-        grid-column: auto / span 3;
-    
-    }
-    .card-double {
-        grid-column: auto / span 5;
-    
-    }
-    
-} */
 
 @media (min-width: 1180px) {
     .card-single {

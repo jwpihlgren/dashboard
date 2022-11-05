@@ -46,3 +46,42 @@ input:active {
     border-color: var(--blue-500);
 }
 
+.card-single {
+    grid-column: auto / span 4;
+
+}
+
+.card-double {
+    grid-column: auto / span 4;
+
+}
+
+.card-full {
+    grid-column: 1 / end;
+}
+
+@media (min-width: 840px) {
+    .card-single {
+        grid-column: auto / span 4;
+    
+    }
+    .card-double {
+        grid-column: auto / span 8;
+    
+    }
+    
+}
+
+
+@media (min-width: 1180px) {
+    .card-single {
+        grid-column: auto / span 4;
+    
+    }
+    .card-double {
+        grid-column: auto / span 8;
+    
+    }
+    
+}
+
