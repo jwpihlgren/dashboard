@@ -80,14 +80,14 @@ app-logo, app-user-menu-item {
 
 @media (min-width: 600px) {
     :host {
-        position: relative;
+        position: fixed;
         flex-direction: column;
-        width: var(--x-extra-large);
-        height: inherit;
+        width: var(--small-navigation-drawer-width);
+        height: 100%;
         justify-content: space-between;
         align-items: center;
         box-shadow: var(--bs-2-right); 
-        gap: calc(var(--x-extra-large));
+        gap: var(--x-extra-large);
         padding-block: var(--medium);
     }
 
@@ -112,7 +112,7 @@ app-logo, app-user-menu-item {
 
 @media (min-width: 1440px) {
     :host {
-        min-width: calc(1rem * 20);
+        min-width: var(--large-navigation-drawer-width);
         padding-inline: var(--small);
         gap: calc(var(--x-extra-large));
         justify-content: flex-start;
