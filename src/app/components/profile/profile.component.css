@@ -1,18 +1,11 @@
 :host {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: var(--large);
-    gap: var(--large);
-    height: 100%;
-    width: 100%;
-    box-shadow: var(--bs-2);
-    border-radius: var(--rounded);
+    display: contents;
 }
 
 ul {
-    display: block;
+    display: flex;
     flex-direction: column;
+    list-style: none;
 }
 
 .container {
