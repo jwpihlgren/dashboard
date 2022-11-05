@@ -1,0 +1,38 @@
+.button-group {
+    display: none;
+}
+
+a span {
+    font-size: var(--fs-300);
+    color: var(--gray-500)
+}
+
+a {
+    border-radius: var(--rounded);
+}
+a:hover {
+    background-color: var(--blue-508);
+}
+
+@media (min-width: 600px) {
+    app-menu-item {
+        display: none;
+    }
+
+    .button-group {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: stretch;
+    }
+    
+    .button-group a {
+        min-height: 32px;
+        padding: var(--small);
+    
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        gap: var(--extra-small);
+    }
+}

@@ -21,6 +21,7 @@ import { SearchComponent } from './components/search/search.component';
 import { SearchResultComponent } from './components/search-result/search-result.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LogoComponent } from './components/logo/logo.component';
+import { UserMenuItemComponent } from './components/user-menu-item/user-menu-item.component';
 
 
 
@@ -43,6 +44,7 @@ import { LogoComponent } from './components/logo/logo.component';
     SearchResultComponent,
     HeaderComponent,
     LogoComponent,
+    UserMenuItemComponent,
   ],
   imports: [
     CommonModule,
@@ -70,6 +72,7 @@ import { LogoComponent } from './components/logo/logo.component';
     SearchResultComponent,
     HeaderComponent,
     LogoComponent,
+    UserMenuItemComponent,
     
   ],
   providers: [

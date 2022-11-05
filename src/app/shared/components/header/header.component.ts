@@ -11,45 +11,8 @@ import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 })
 export class HeaderComponent implements OnInit {
 
-
-  defaultTitle: string = "PNC"
-  largeTitle: string = "Pihl-Net-Central"
-  loginIcon: any = faRightToBracket;
-  logo: string = "../../../../assets/logo.svg#frame-20"
-
-  constructor(
-    public auth: AuthService,
-    @Inject(DOCUMENT) private doc: Document
-    
-    ) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
-
-  loginWithRedirect() {
-    console.log("test");
-    this.auth.loginWithRedirect({
-      redirectUri: `${window.location.origin}${environment.auth.redirectPath}`,
-      appState: {
-        target: `${window.location.origin}${environment.auth.redirectPath}}`,
-      }
-    });
-  }
-
-  logout() {
-    this.auth.logout({ returnTo: `${this.doc.location.origin}${environment.auth.redirectPath}` })
-  }
-
-  showuser() {
-    this.auth.user$.subscribe(user => {
-      console.log(user)
-    })
-  }
-
-  innerWidth(): number {
-    console.log(window.innerWidth);
-    return window.innerWidth;
-
-  }
-
 }

@@ -74,7 +74,7 @@ a:active .icon, .active-link .icon {
     background-color: var(--blue-516);
 }
 
-app-logo {
+app-logo, app-user-menu-item {
     display: none;
 }
 
@@ -84,11 +84,11 @@ app-logo {
         flex-direction: column;
         width: var(--x-extra-large);
         height: inherit;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: center;
-        padding-block-start: var(--medium);
         box-shadow: var(--bs-2-right); 
         gap: calc(var(--x-extra-large));
+        padding-block: var(--medium);
     }
 
     ul {
@@ -105,7 +105,7 @@ app-logo {
         
     }
 
-    app-logo {
+    app-logo, app-user-menu-item {
         display: inline;
     }
 }
@@ -115,11 +115,18 @@ app-logo {
         min-width: calc(1rem * 20);
         padding-inline: var(--small);
         gap: calc(var(--x-extra-large));
+        justify-content: flex-start;
         align-items: stretch;
     }
 
     ul {
+        justify-content: flex-start;
         align-items: stretch;
+        flex-grow: 1;
+    }
+
+    li {
+        flex-grow: 0;
     }
     a {
         flex-direction: row;
@@ -127,7 +134,7 @@ app-logo {
         padding-inline: var(--medium);
         gap: var(--medium);
         justify-content: flex-start;
-        align-items: flex-start;
+        align-items: center;
         border-radius: var(--pill);
     }
     a span {

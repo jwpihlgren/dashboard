@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faHouse, faCloudSun, faSeedling, faThLarge } from '@fortawesome/free-solid-svg-icons';
+import { INavItem } from '../../models/nav-item';
 
 
 @Component({
@@ -23,8 +24,3 @@ export class LeftNavComponent implements OnInit {
 
 }
 
-interface INavItem {
-  route: string,
-  icon: typeof faHouse,
-  title: string
-}
