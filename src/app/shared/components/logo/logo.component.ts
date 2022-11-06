@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogoComponent implements OnInit {
 
-  logoPath: string = "../../../../assets/logo.svg#logo-rounded"
+  logoPath: string = "./assets/logo.svg#logo-rounded"
   logoHref: string ="/"
   constructor() { }
 
