@@ -1,28 +1,27 @@
 <app-column>
-    <app-search
+    <section>
+        <app-search
+            (requestLocationSearch)="getLocation($event)"
+            (resultClicked)="getForecast($event)"
+            [isLoading]="locationIsLoading"
+            [searchResults]="searchResults"
+            >
+        </app-search>
 
-        *ngIf="!forecast$"
-        (requestLocationSearch)="getLocation($event)"
-        (resultClicked)="getForecast($event)"
-        [isLoading]="locationIsLoading"
-        [searchResults]="searchResults"
-        >
-    </app-search>
+        <ng-container *ngIf="forecast$ | async as forecast; else loading">
+            <div class="data">
+                <app-weather-card
+                    [forecast]="forecast"
+                    >
+                </app-weather-card>
+                <button (click)="clearForecast()" class="primary">Sök på nytt</button>
+            </div>
+        </ng-container>
 
-    <ng-container *ngIf="forecast$ | async as forecast; else loading">
-        <div class="data">
-            <app-weather-card
-                [forecast]="forecast"
-                [ngStyle]="{'height': '400px'}"
-                >
-            </app-weather-card>
-            <button (click)="clearForecast()" class="primary">Sök på nytt</button>
-        </div>
-    </ng-container>
-
-    <ng-template  #loading>
-        <div *ngIf="forecastIsLoading" class="card loading">Loading</div>
-    </ng-template>
+        <ng-template  #loading>
+            <div *ngIf="forecastIsLoading" class="card loading">Loading</div>
+        </ng-template>
+    </section>
 </app-column>
 
 
