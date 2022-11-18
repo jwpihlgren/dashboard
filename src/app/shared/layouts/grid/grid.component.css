@@ -10,7 +10,7 @@ main {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(auto-fit, 425px);
+    grid-template-rows: repeat(auto-fit, 1fr);
     gap: var(--small);
     padding: var(--small);
     

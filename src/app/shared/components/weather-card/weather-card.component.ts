@@ -1,6 +1,5 @@
 import { WeatherService } from './../../services/weather.service';
 import { Component, EventEmitter, HostListener, Input, OnInit, Output} from "@angular/core";
-import { faCloudSun } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-weather-card',
@@ -14,7 +13,6 @@ import { faCloudSun } from '@fortawesome/free-solid-svg-icons';
 
 export class WeatherCardComponent implements OnInit {
 
-  faCloudSun = faCloudSun
   forecastDataSeries: [] = []
   displayDetails = false
 

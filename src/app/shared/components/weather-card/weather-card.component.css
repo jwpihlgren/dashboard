@@ -1,10 +1,12 @@
 :host {
+    height: max-content;
     display: flex;
     flex-direction: column;
     padding: var(--medium);
     gap: var(--medium);
     grid-column: 1 / end;
-    grid-row: auto / span 2;
+    grid-row: auto / auto;
+    background-color: var(--light-background-100);
 }
 
 .wrapper {
@@ -14,42 +16,38 @@
     height: 100%;
 }
 
-fa-icon {
-    color: var(--orange-500);
+
+span {
+    color: var(--blue-900);
 }
 
 app-bar-range-chart {
-    height: 100%;
-    min-height: 50%;
+    min-height: 300px;
     flex-grow: 1;
+    background-color: var(--light-background-100);
+    border-radius: var(--rounded);
 }
 
 .weather-side-info {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     align-items: center;
-    height: 100%;
-    width: 100%;
+    gap: var(--large);
+    padding: var(--medium);
+    background-image: var(--on-light-primary-surface-elevation-1);
 }
 
 .weather-side-info-details {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: var(--medium);
-    justify-content: center;
-    align-items: flex-start;
 }
 
 .detail {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding: var(--small);
-    padding-inline: var(--medium);
-    border-radius: var(--pill);
-    box-shadow: var(--bs-1);
     gap: var(--small);
 }
 
@@ -61,7 +59,7 @@ app-bar-range-chart {
     justify-content: center;
     align-items: center;
     border-radius: var(--pill);
-    box-shadow: var(--bs-1);
+    background-image: var(--on-light-primary-surface-elevation-3);
 }
 
 .fetch-date {
@@ -71,46 +69,28 @@ app-bar-range-chart {
     font-weight: var(--fw-300);
 }
 
-@media (min-width: 600px) {
-
-    .weather-side-info {
-        flex-direction: row;
-    }
-
-    .weather-side-info-currently {
-        width: calc(1rem * 10);
-        height: calc(1rem * 10);
-    }
-
-    .detail {
-        flex-direction: column;
-    }
-}
-
 @media (min-width: 768px) {
     :host {
         grid-row: auto / span 1;
     }
 
+
+    .weather-side-info-details {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .detail {
+        flex-direction: row;
+    }
     .wrapper {
         flex-direction: row-reverse;
     }
 
     app-bar-range-chart {
-        height: 100%;
-        min-height: 50%;
         width: 100%;
         flex-grow: 1;
     }
-    .weather-side-info {
-        display: flex;
-        flex-direction: column;
-    }
 
-    .weather-side-info-details {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--medium)
-    }
 
 }

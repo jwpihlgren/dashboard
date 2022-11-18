@@ -12,8 +12,6 @@ main {
     flex-direction: column;
     justify-content: stretch;
     gap: var(--small);
-    padding: var(--small);
-    padding-bottom: 0;
     
 }
 

@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { faSeedling } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -9,7 +8,6 @@ import { faSeedling } from '@fortawesome/free-solid-svg-icons';
 })
 export class SoilMoistureCardComponent implements OnInit, OnChanges{
 
-  faSeedling = faSeedling
   statusText!: string
 
   gaugeType: any = "arch";
@@ -18,7 +16,7 @@ export class SoilMoistureCardComponent implements OnInit, OnChanges{
   gaugeAppendText: any  = "%";
   gaugeThickness: any = 18;
   gaugeCap: any = "round";
-  gaugeSize: any = 325;
+  gaugeSize: any = 300;
   min: number = 0;
   max:number = 100;
   marker: any = {

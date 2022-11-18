@@ -1,4 +1,4 @@
-<span class="flex row j-center a-center gap-sm">Jordfuktighet <fa-icon [icon]=faSeedling size="lg"></fa-icon></span>
+<h5 class="flex row gap-sm">Jordfuktighet</h5>
 <ngx-gauge 
     [type]="gaugeType" 
     [value]="sensor.values[0].value" 
@@ -16,4 +16,4 @@
 </ngx-gauge>
 
 <span class="flex row j-center a-center gap-sm">{{statusText}}</span>
-<span class="fetch-date">{{sensor.values[0].date | isoToDate}}</span>
+<span class="fetch-date flex row j-center a-center">{{sensor.values[0].date | isoToDate}}</span>
