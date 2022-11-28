@@ -7,14 +7,9 @@ import { Component, EventEmitter, HostListener, Input, OnInit, Output} from "@an
   styleUrls: ['./weather-card.component.css']
 })
 
-
-
-
-
 export class WeatherCardComponent implements OnInit {
 
   forecastDataSeries: [] = []
-  displayDetails = false
 
   @Input() forecast: any
 
@@ -42,15 +37,6 @@ export class WeatherCardComponent implements OnInit {
       }
     })
     return forecastDataSeries.slice(0, forecastDataSeries.length - 1) //Remove the 8th result because we only show 7
-  }
-
-  getIconUrl(icon:string): string {
-    return this.weatherService.getIconUrl(icon)
-  }
-
-  @HostListener('click')
-  toggleDisplayDetails(){
-    this.displayDetails = !this.displayDetails
   }
 
 }

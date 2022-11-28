@@ -1,5 +1,5 @@
 import { WeatherService } from './../../services/weather.service';
-import { Component, OnInit, ElementRef, Input} from '@angular/core';
+import { Component, OnInit, ElementRef, Input, AfterViewChecked, AfterViewInit, HostListener} from '@angular/core';
 import * as d3 from 'd3'
 
 
@@ -8,7 +8,12 @@ import * as d3 from 'd3'
   templateUrl: './bar-range-chart.component.html',
   styleUrls: ['./bar-range-chart.component.css']
 })
-export class BarRangeChartComponent implements OnInit{
+export class BarRangeChartComponent implements OnInit, AfterViewInit{
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.width = event.target.innerWidth
+  }
 
   @Input() forecast: any[] = [
     { day: "Mån",   minTemp: -5,  maxTemp: 10, icon: "04d" },
@@ -22,11 +27,11 @@ export class BarRangeChartComponent implements OnInit{
 
   svg: any;
   margin = 50
-  width = 500
-  height = 370
+  width!: number
+  height!: number
   domainMin = -15
   domainMax = 35
-  domainPadding = 10;
+  domainPadding = 5
 
   constructor(
     private elementRef: ElementRef,
@@ -40,11 +45,17 @@ export class BarRangeChartComponent implements OnInit{
     this.height = this.elementRef.nativeElement.offsetHeight - this.margin * 2
 
     /*Set the domain min/max to the lowest and highest temperature respectively plus some padding*/
-    this.domainMin = this.forecast.reduce((acc, cur) => Math.min(cur.minTemp, acc), this.forecast[0].minTemp) - this.domainPadding
-    this.domainMax = this.forecast.reduce((acc, cur) => Math.max(cur.maxTemp, acc), this.forecast[0].maxTemp) + this.domainPadding
+    const currentMin = this.forecast.reduce((acc, cur) => Math.min(cur.minTemp, acc), this.forecast[0].minTemp)
+    const currentMax = this.forecast.reduce((acc, cur) => Math.max(cur.maxTemp, acc), this.forecast[0].maxTemp)
+    this.domainMin =  currentMin - Math.min(((currentMax - currentMin) / 1),  this.domainPadding)
+    this.domainMax =  currentMax + Math.min(((currentMax - currentMin) / 1),  this.domainPadding)
 
     this.createSvg()
     this.drawBars(this.forecast)
+  }
+
+  ngAfterViewInit(): void {
+
   }
 
   createSvg(): void {
@@ -53,7 +64,7 @@ export class BarRangeChartComponent implements OnInit{
     .attr("width", this.width + this.margin * 1)
     .attr("height", this.height + this.margin * 2)
     .append("g")
-    .attr("transform", "translate("+ this.margin / 2 + "," +  this.margin + ")")
+    .attr("transform", "translate("+ this.margin / 1.5 + "," +  this.margin / 2 + ")")
   }
 
  drawBars(data: any[]): void {
@@ -64,7 +75,7 @@ export class BarRangeChartComponent implements OnInit{
    .padding(0.7)
 
    this.svg.append("g")
-   .attr("transform", "translate(0," +  this.height + ")")
+   .attr("transform", "translate(0," +  (this.height + this.margin * 0.5) + ")")
    .attr("class", "no-grid")
    .call(d3.axisBottom(x))
    .selectAll("text")
@@ -84,7 +95,7 @@ export class BarRangeChartComponent implements OnInit{
 
    const y = d3.scaleLinear()
    .domain([this.domainMin, this.domainMax])
-   .range([this.height, 0])
+   .range([this.height + this.margin * 0.5, 0])
 
 
    this.svg.append("g")
@@ -101,7 +112,6 @@ export class BarRangeChartComponent implements OnInit{
    .data(data)
    .enter()
    .append("rect")
-
    .attr("x", (datum: any) => x(datum.day))
    .attr("y", (datum: any) => y(datum.maxTemp))
    .attr("width", x.bandwidth())

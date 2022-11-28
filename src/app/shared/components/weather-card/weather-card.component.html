@@ -1,44 +1,9 @@
 
-<h5 class="flex row j-start a-center gap-sm">Väder i {{forecast.location}}</h5>
-<div *ngIf="!displayDetails; else showDetails" class="wrapper">
-    <div class="weather-side-info">
-        <div class="weather-side-info-details">
-            <div class="detail">
-                <h6 class="detail-title">Vind</h6>
-                <span class="detail-data">{{forecast.current.wind_speed | addUnit: "m/s"}} {{forecast.current.wind_deg | degToCompass}}</span>
-            </div>
-            <div class="detail">
-                <h6 class="detail-title">Barometer</h6>
-                <span class="detail-data">{{forecast.current.pressure | addUnit: "hPa"}}</span>
-            </div>
-            <div class="detail">
-                <h6 class="detail-title">Luft<wbr>fuktighet</h6>
-                <span class="detail-data">{{forecast.current.humidity | addUnit: '%'}}</span>
-            </div>
-            <div class="detail">
-                <h6 class="detail-title">Risk för regn</h6>
-                <span class="detail-data">{{forecast.daily[0].pop * 100 | addUnit: '%'}}</span>
-            </div>
+<h5 class="flex row j-start a-center gap-sm">Sjudagars prognos {{forecast.location}}</h5>
+<div class="wrapper">
 
-        </div>
-        <div class="weather-side-info-currently">
-            <h6 class="currently-title">Just nu</h6>
-            <h3 class="currently-degrees">{{forecast.current.temp | addUnit: '&#176;C'}}</h3>
-            <img class="currently-icon" [src]="getIconUrl(forecast.current.weather[0].icon)"/>
-        </div>
-    </div>
     <app-bar-range-chart
         [forecast]=createForecastDataSeries(forecast.daily)
     ></app-bar-range-chart>
 </div>
-
-<ng-template #showDetails>
-    <div class="wrapper">
-        <app-detailed-weather-table
-            [hourlyWeatherArr]="forecast.hourly"
-            >
-        </app-detailed-weather-table>
-    </div>
-</ng-template>
-
-<span class="flex row j-center a-center gap-sm fetch-date"> {{forecast.fetchDate | isoToDate}}</span>
+<span class="fetch-date | flex row j-center a-center gap-sm"> {{forecast.fetchDate | isoToDate}}</span>

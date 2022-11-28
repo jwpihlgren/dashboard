@@ -23,6 +23,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { LogoComponent } from './components/logo/logo.component';
 import { UserMenuItemComponent } from './components/user-menu-item/user-menu-item.component';
 import { ColumnComponent } from './layouts/column/column.component';
+import { MasonryGridComponent } from './layouts/masonry-grid/masonry-grid.component';
+import { CurrentWeatherComponent } from './components/current-weather/current-weather.component';
 
 
 
@@ -47,6 +49,8 @@ import { ColumnComponent } from './layouts/column/column.component';
     LogoComponent,
     UserMenuItemComponent,
     ColumnComponent,
+    MasonryGridComponent,
+    CurrentWeatherComponent,
   ],
   imports: [
     CommonModule,
@@ -76,6 +80,8 @@ import { ColumnComponent } from './layouts/column/column.component';
     LogoComponent,
     UserMenuItemComponent,
     ColumnComponent,
+    MasonryGridComponent,
+    CurrentWeatherComponent,
     
   ],
   providers: [

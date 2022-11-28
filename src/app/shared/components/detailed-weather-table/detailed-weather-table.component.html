@@ -1,3 +1,4 @@
+<h5 class="flex row j-start a-center gap-sm">Timme för timme {{forecast.location}}</h5>
 <div class="table">
     <div *ngFor="let heading of tableHeadings"
         [ngClass]="['tableHeading'].concat(heading.classList)">
@@ -14,4 +15,5 @@
         </ng-template>
     </div>
 </div>
+<span class="fetch-date | flex row j-center a-center gap-sm"> {{forecast.fetchDate | isoToDate}}</span>
 

@@ -1,10 +1,24 @@
 <app-grid>
+    <app-current-weather
+    *ngIf="forecast$ | async as forecast; else loading"
+    [forecast]="forecast"
+    class="card card-single">
+        
+    </app-current-weather>
+
     <app-weather-card
         *ngIf="forecast$ | async as forecast; else loading"
         [forecast]="forecast"
         class="card card-double" 
     >
     </app-weather-card>
+
+    <app-detailed-weather-table
+        *ngIf="forecast$ | async as forecast; else loading"
+        [forecast]="forecast"
+        class="card card-double">
+    </app-detailed-weather-table>
+
     <app-soil-moisture-card 
         *ngIf="sensor$ | async as sensor; else loading" 
         [sensor]="sensor"

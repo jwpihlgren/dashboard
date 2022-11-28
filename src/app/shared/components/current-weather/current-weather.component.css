@@ -1,35 +1,16 @@
 :host {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     padding: var(--medium);
     gap: var(--medium);
     background-color: var(--light-background-100);
-}
-
-.wrapper {
-    display: flex;
-    justify-self: stretch;
-    flex-direction: column;
-}
-
-
-span {
-    color: var(--blue-900);
-}
-
-app-bar-range-chart {
-    min-height: 300px;
-    flex-grow: 1;
-    background-color: var(--light-background-100);
-    border-radius: var(--rounded);
 }
 
 .weather-side-info {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--large);
-    padding: var(--medium);
     background-image: var(--on-light-primary-surface-elevation-1);
 }
 
@@ -62,30 +43,4 @@ app-bar-range-chart {
     color: var(--on-light-background-100);
     font-size: var(--fs-400);
     font-weight: var(--fw-300);
-}
-
-@media (min-width: 768px) {
-    :host {
-        grid-row: auto / span 1;
-    }
-
-
-    .weather-side-info-details {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .detail {
-        flex-direction: row;
-    }
-    .wrapper {
-        flex-direction: row-reverse;
-    }
-
-    app-bar-range-chart {
-        width: 100%;
-
-    }
-
-
 }
