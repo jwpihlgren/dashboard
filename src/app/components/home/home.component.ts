@@ -1,4 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ILink } from 'src/app/shared/models/ilink';
 
 
 @Component({
@@ -20,7 +21,3 @@ export class HomeComponent implements OnInit {
   }
 }
 
-interface ILink {
-  href: string,
-  name: string
-}
