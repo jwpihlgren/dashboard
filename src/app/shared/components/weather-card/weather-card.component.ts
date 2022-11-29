@@ -1,5 +1,5 @@
 import { WeatherService } from './../../services/weather.service';
-import { Component, EventEmitter, HostListener, Input, OnInit, Output} from "@angular/core";
+import { Component, Input, OnInit} from "@angular/core";
 
 @Component({
   selector: 'app-weather-card',
@@ -13,9 +13,8 @@ export class WeatherCardComponent implements OnInit {
 
   @Input() forecast: any
 
-  constructor(
-    private weatherService: WeatherService
-  ) { 
+  constructor() {
+    
   }
 
   ngOnInit(): void {
@@ -38,5 +37,6 @@ export class WeatherCardComponent implements OnInit {
     })
     return forecastDataSeries.slice(0, forecastDataSeries.length - 1) //Remove the 8th result because we only show 7
   }
+
 
 }
