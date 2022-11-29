@@ -1,11 +1,3 @@
-:host {
-    display: flex;
-}
-
-figure {
-    flex-grow: 1;
-}
-
 :host ::ng-deep g.no-grid g.tick line, :host ::ng-deep path.domain {
     color: transparent
 }

@@ -37,7 +37,7 @@ export class DetailedWeatherTableComponent implements OnInit {
 
   tableData!: any[]
 
-  @Input() hourlyWeatherArr!: any[]
+  @Input() forecast: any
   weatherMatrix!: any[]
 
   constructor(
@@ -46,7 +46,7 @@ export class DetailedWeatherTableComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.tableData = this.createHourlyTableCells(this.hourlyWeatherArr)
+    this.tableData = this.createHourlyTableCells(this.forecast.hourly)
   }
 
   createHourlyTableCells(arr: any[]): any[] {

@@ -9,7 +9,7 @@
 :root {
     --fs-300: 0.7rem;
     --fs-400: 1rem;
-    --fs-500: calc(1.6180 * 0.3rem);
+    --fs-500: calc(var(--fs-400) * 1.5rem);
     --fs-600: calc(1.6180 * var(--fs-500));
     --fs-700: calc(1.6180 * var(--fs-600));
     --fs-800: calc(1.6180 * var(--fs-700));
@@ -51,7 +51,11 @@
     --blue-300:     #9ABEF2;
     --blue-400:     #78A9ED;
     --blue-500:     #5693e9;
+    --blue-505:     #5693e90D;
     --blue-508:     #5693e914;
+    --blue-511:     #5693e91C;
+    --blue-512:     #5693e91F;
+    --blue-514:     #5693e924;
     --blue-516:     #5693e929;
     --blue-600:     #4578BF; /* White has better contrast than black */
     --blue-700:     #355C94;
@@ -95,6 +99,7 @@
     --red-900:      #481A1A;
     --gray-100:     #F2F2F2;
     --gray-300:     #e5e5e5;
+    --gray-400:     #b8b8b8;
     --gray-500:     #6E6E6E;
     --gray-720:     #64646f33;
     --gray-700:     rgb(100, 100, 111);
@@ -117,6 +122,12 @@
     --navigation-bar-height: var(--x-extra-large);
     --small-navigation-drawer-width: var(--x-extra-large);
     --large-navigation-drawer-width: calc(1rem * 20);
+
+    --on-light-primary-surface-elevation-1: linear-gradient(var(--blue-505), var(--blue-505)), linear-gradient(var(--light-background-100), var(--light-background-100));
+    --on-light-primary-surface-elevation-2: linear-gradient(var(--blue-508), var(--blue-508)), linear-gradient(var(--light-background-100), var(--light-background-100));
+    --on-light-primary-surface-elevation-3: linear-gradient(var(--blue-511), var(--blue-511)), linear-gradient(var(--light-background-100), var(--light-background-100));
+    --on-light-primary-surface-elevation-4: linear-gradient(var(--blue-512), var(--blue-512)), linear-gradient(var(--light-background-100), var(--light-background-100));
+    --on-light-primary-surface-elevation-5: linear-gradient(var(--blue-514), var(--blue-514)), linear-gradient(var(--light-background-100), var(--light-background-100));
 
 }
 
@@ -194,14 +205,13 @@ html, body {
 }
 
 body {
-    background-color: var(--light-background-200);
+    background-color: var(--light-background-100);
     
 }
 
 
 .card {
-    background-color: white;
-    box-shadow: var(--bs-2);
+    background-image: var(--on-light-primary-surface-elevation-1);
     border-radius: 1rem;
 }
 

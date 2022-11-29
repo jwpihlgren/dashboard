@@ -1,10 +1,7 @@
 :host {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    max-width: 100%;
+    padding: var(--medium);
 }
 
 :host.warning {
@@ -22,10 +19,11 @@ img {
     width: 2rem;
 }
 
-fa-icon {
-    color: var(--green-500);
+ngx-gauge {
+    height: 100%;
+    flex-grow: 1;
+    align-self: center;
 }
-
 
 .fetch-date {
     padding-block-start: var(--large);

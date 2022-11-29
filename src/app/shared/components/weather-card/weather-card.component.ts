@@ -1,6 +1,5 @@
 import { WeatherService } from './../../services/weather.service';
 import { Component, EventEmitter, HostListener, Input, OnInit, Output} from "@angular/core";
-import { faCloudSun } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-weather-card',
@@ -8,15 +7,9 @@ import { faCloudSun } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./weather-card.component.css']
 })
 
-
-
-
-
 export class WeatherCardComponent implements OnInit {
 
-  faCloudSun = faCloudSun
   forecastDataSeries: [] = []
-  displayDetails = false
 
   @Input() forecast: any
 
@@ -44,15 +37,6 @@ export class WeatherCardComponent implements OnInit {
       }
     })
     return forecastDataSeries.slice(0, forecastDataSeries.length - 1) //Remove the 8th result because we only show 7
-  }
-
-  getIconUrl(icon:string): string {
-    return this.weatherService.getIconUrl(icon)
-  }
-
-  @HostListener('click')
-  toggleDisplayDetails(){
-    this.displayDetails = !this.displayDetails
   }
 
 }
