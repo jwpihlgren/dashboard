@@ -1,7 +1,7 @@
 import { WeatherService } from './../../shared/services/weather.service';
 import { LocationService } from './../../shared/services/location.service';
 import { SensorService } from './../../shared/services/sensor.service';
-import { mergeMap, Observable, forkJoin, of, tap } from 'rxjs';
+import { mergeMap, Observable, forkJoin, of, tap, map, concatMap } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ILocation } from 'src/app/shared/models/location.interface';
 
@@ -11,7 +11,7 @@ import { ILocation } from 'src/app/shared/models/location.interface';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  sensor$!: Observable<any>
+  sensors$!: Observable<any>
   forecast$!: Observable<any>
   displayDetails: boolean = false
   interval!: any 
@@ -23,20 +23,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ){}
 
   ngOnInit(): void {
-    this.sensor$ = forkJoin(
-      {
-        sensors: this.sensorService.getSensors(),
-        token : this.sensorService.getToken()
-      }
-    ).pipe(
-      mergeMap((data: any) => {
-        const firstSensor = data.sensors.response[0]
-        if(firstSensor) {
-          return this.sensorService.getSensor(firstSensor._id, data.token)
-        }
-        else {
-          return of(undefined)
-        } 
+    this.sensors$ = this.sensorService.getSensors().pipe(
+      map((sensor: any) => {
+        sensor.warning = false
       })
     )
     

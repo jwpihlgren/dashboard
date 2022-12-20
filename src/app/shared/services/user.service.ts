@@ -15,13 +15,12 @@ export class UserService {
     ) { }
 
   getUserMetadata(): Observable<any> {
-    const PATH = `/user/{}`
     return this.getUser().pipe(
       mergeMap((user: any) => {
         const url = `${environment.dev.serverUrl}/user/${user.sub}`
         return this.httpClient.get(url)
       })
-    )
+    ) 
   }
 
   getUser(): Observable<any> {

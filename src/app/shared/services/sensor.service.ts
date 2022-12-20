@@ -4,7 +4,6 @@ import { Injectable, NgZone } from '@angular/core';
 import { map, Subject, Observable, tap, filter, catchError, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
-import { utcFormat } from 'd3';
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +19,15 @@ export class SensorService {
     private authService: AuthService
     ) { }
 
+
+  getSensor() {
+
+  }
+
   getSensors(){
     return this.http.get(`${environment.dev.serverUrl}/sensors`).pipe(
-      map(data => {
-        return data
+      map(response => {
+        return response
       }),
       catchError((error: any) => {
         console.log(error);
@@ -37,28 +41,38 @@ export class SensorService {
     this.eventSource.close()
 
   }
-  getSensor(id:string, token:string): Observable<any> {
-    this.eventSource = this.getEventSource(id, token);
+  subscribeToSensor(id:string): Observable<any> {
 
-    this.eventSource.addEventListener('message', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
-    this.eventSource.addEventListener('heartbeat', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
-    this.eventSource.onerror = (error: any) => {
-/*       this._ngZone.run(() => this.subject$.error(error)) */
-      this.eventSource.close()
-      setTimeout(() => {
-        this.getSensor(id, token)
-      }, 1000 * 30)
-    }
+    return this.getToken().pipe(
+      map(token => {
+        this.eventSource = this.getEventSource(id, token);
+
+        this.eventSource.addEventListener('message', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
+        this.eventSource.addEventListener('heartbeat', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
+
+        this.eventSource.onerror = (error: any) => {
+                this.eventSource.close()
+                setTimeout(() => {
+                  this.subscribeToSensor(id)
+                }, 1000 * 30)
+              }
+      return this.subject$.pipe(
+        tap(event => console.log(event)), 
+        filter(event=> event.type !== 'heartbeat'), 
+        map(event => JSON.parse(event.data)),
+        catchError((error: any) => {
+          console.log(error)
+          return error
+        }
+        ))
+      })
+    )
+   
+
+
+
     
-    return this.subject$.pipe(
-      tap(event => console.log(event)), 
-      filter(event=> event.type !== 'heartbeat'), 
-      map(event => JSON.parse(event.data)),
-      catchError((error: any) => {
-        console.log(error)
-        return error
-      }
-      ))
+
   }
 
   getDetailedSensor(id: string, minDate: number, maxDate: number): Observable<any> {
