@@ -1,9 +1,10 @@
 import { AuthService } from '@auth0/auth0-angular';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
-import { map, Subject, Observable, tap, filter, catchError, of } from 'rxjs';
+import { map, Subject, Observable, tap, filter, catchError, of, EMPTY, retry, shareReplay, share } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
+import { ISensor } from '../models/sensor.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -24,23 +25,24 @@ export class SensorService {
 
   }
 
-  getSensors(){
-    return this.http.get(`${environment.dev.serverUrl}/sensors`).pipe(
-      map(response => {
-        return response
+  getSensors(): Observable<ISensor[]>{
+    return this.http.get<ISensor[]>(`${environment.dev.serverUrl}/sensors`).pipe(
+      map((sensor: ISensor[]) => {
+        return sensor
       }),
-      catchError((error: any) => {
+      retry(3),
+      catchError((error: Error) => {
         console.log(error);
-        return error
-
-      })
-    );
+        return EMPTY
+      }),
+      shareReplay()
+    )
   }
 
   eventSourceDestory() {
     this.eventSource.close()
-
   }
+
   subscribeToSensor(id:string): Observable<any> {
 
     return this.getToken().pipe(
@@ -60,19 +62,15 @@ export class SensorService {
         tap(event => console.log(event)), 
         filter(event=> event.type !== 'heartbeat'), 
         map(event => JSON.parse(event.data)),
-        catchError((error: any) => {
+        retry(3),
+        catchError((error: Error) => {
           console.log(error)
-          return error
-        }
-        ))
+          return EMPTY
+        }),
+        shareReplay()
+        )
       })
     )
-   
-
-
-
-    
-
   }
 
   getDetailedSensor(id: string, minDate: number, maxDate: number): Observable<any> {
@@ -100,6 +98,11 @@ export class SensorService {
 
           data.response[0].values = this.spreadValuesAcrossDates(data.response[0].values, dates, set_hour_to_zero)
           return data.response          
+      }),
+      retry(3),
+      catchError((error: Error) => {
+        console.log(error)
+        return EMPTY
       })
     )
   }
@@ -109,7 +112,12 @@ export class SensorService {
     const path = `/sensors/${id}`
     const data = {alias: newName}
 
-    return this.http.post(`${api}${path}`, data)
+    return this.http.post(`${api}${path}`, data).pipe(
+      catchError((error: Error) => {
+        console.log(error);
+        return EMPTY
+      })
+    )
   }
 
 
@@ -195,7 +203,12 @@ export class SensorService {
 
 
   getToken(): Observable<any> {
-    return this.authService.getAccessTokenSilently()
+    return this.authService.getAccessTokenSilently().pipe(
+      catchError((error: Error) => {
+        console.log(error)
+        return EMPTY
+      })
+    )
   }
 
   getEventSource(id:string, token:string): any {

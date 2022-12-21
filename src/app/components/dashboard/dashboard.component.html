@@ -23,7 +23,7 @@
             <app-soil-moisture-card 
             *ngFor="let sensor of sensors"
              [sensor]="sensor"
-             [ngClass]="{'warning': sensor.warning}" 
+             [ngClass]="{'warning': sensor.hasOwnProperty('warning')}" 
              class=" card card-single">
          </app-soil-moisture-card>
         </ng-container>
