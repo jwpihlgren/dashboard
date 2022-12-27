@@ -1,8 +1,8 @@
-<ng-container *ngIf="sensor.measurements.length > 0; else error">
+<ng-container *ngIf="measurement$ | async as measurement; else error">
     <h5 class="flex row gap-sm">Jordfuktighet</h5>
     <ngx-gauge
         [type]="gaugeType" 
-        [value]="sensor.measurements[sensor.measurements.length - 1].value" 
+        [value]="measurement.value" 
         [label]="sensor.alias"  
         [append]="gaugeAppendText"
         [thick]="gaugeThickness"
@@ -16,8 +16,8 @@
     >
     </ngx-gauge>
 
-    <span class="flex row j-center a-center gap-sm">{{statusText}}</span>
-    <span class="fetch-date flex row j-center a-center">{{sensor.measurements[sensor.measurements.length - 1].date.toString() | isoToDate}}</span>
+    <span class="flex row j-center a-center gap-sm">{{getStatusText(measurement.value)}}</span>
+    <span class="fetch-date flex row j-center a-center">{{measurement.updatedAt.toString() | isoToDate}}</span>
 </ng-container>
 
 <ng-template #error>
@@ -37,6 +37,6 @@
         [max]="max"
     >
     </ngx-gauge>
-    <span class="flex row j-center a-center gap-sm">{{statusText}}</span>
+    <span class="flex row j-center a-center gap-sm">{{getStatusText(-1)}}</span>
     </div>
 </ng-template>

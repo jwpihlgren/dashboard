@@ -1,5 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Observable, tap } from 'rxjs';
 import { ISensor } from '../../models/sensor.interface';
+import { ISoilMoistureData } from '../../models/soil-moisture-data.interface';
+import { SensorService } from '../../services/sensor.service';
 
 
 @Component({
@@ -7,7 +10,7 @@ import { ISensor } from '../../models/sensor.interface';
   templateUrl: './soil-moisture-card.component.html',
   styleUrls: ['./soil-moisture-card.component.css']
 })
-export class SoilMoistureCardComponent implements OnInit, OnChanges{
+export class SoilMoistureCardComponent implements OnInit{
 
   statusText!: string
   gaugeType: any = "arch";
@@ -36,21 +39,22 @@ export class SoilMoistureCardComponent implements OnInit, OnChanges{
     };
 
  @Input() sensor!: ISensor
+  measurement$!: Observable<ISoilMoistureData>
 
-  constructor() {
+  constructor(private sensorService: SensorService) {
+    
    }
 
   ngOnInit(): void {
-    console.log(this.gaugeType);
-    this.statusText = this.getStatusText(this.sensor.measurements[0]?.value)
+    this.measurement$ = this.sensorService.subscribeToSensor(this.sensor._id)
   }
 
-  ngOnChanges(): void {
-    this.statusText = this.getStatusText(this.sensor.measurements[0]?.value)
+/*   ngOnChanges(): void {
   }
-
+ */
   getStatusText(value: number): string {
-    if(value < 30) return "Dags att vattna"
+    if(value === -1) return `Det finns inga mätvärden ännu`
+    else if(value < 30) return "Dags att vattna"
     else if( value >= 30 && value <= 50) return "Allt ser bra ut"
     else if (value > 50) return "Vattna inte mer just nu"
     else return `Det finns inga mätvärden ännu`

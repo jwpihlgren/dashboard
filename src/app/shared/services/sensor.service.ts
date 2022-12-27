@@ -1,7 +1,7 @@
 import { AuthService } from '@auth0/auth0-angular';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
-import { map, Subject, Observable, tap, filter, catchError, of, EMPTY, retry, shareReplay, share } from 'rxjs';
+import { map, Subject, Observable, tap, filter, catchError, of, EMPTY, retry, shareReplay, share, mergeMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { ISensor } from '../models/sensor.interface';
@@ -27,8 +27,7 @@ export class SensorService {
 
   getSensors(): Observable<ISensor[]>{
     return this.http.get<ISensor[]>(`${environment.dev.serverUrl}/sensors`).pipe(
-      map((sensor: ISensor[]) => {
-        return sensor
+      tap((sensor: ISensor[]) => {
       }),
       retry(3),
       catchError((error: Error) => {
@@ -46,7 +45,7 @@ export class SensorService {
   subscribeToSensor(id:string): Observable<any> {
 
     return this.getToken().pipe(
-      map(token => {
+      mergeMap(token => {
         this.eventSource = this.getEventSource(id, token);
 
         this.eventSource.addEventListener('message', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
@@ -67,7 +66,6 @@ export class SensorService {
           console.log(error)
           return EMPTY
         }),
-        shareReplay()
         )
       })
     )
@@ -211,8 +209,8 @@ export class SensorService {
     )
   }
 
-  getEventSource(id:string, token:string): any {
-    return new EventSourcePolyfill(`${environment.dev.serverUrl}/sensors/${id}`, {
+  getEventSource(id: string, token: string): EventSourcePolyfill {
+    return new EventSourcePolyfill(`${environment.dev.serverUrl}/sensors/${id}/subscribe`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

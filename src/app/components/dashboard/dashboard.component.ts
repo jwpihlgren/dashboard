@@ -25,7 +25,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.sensors$ = this.sensorService.getSensors()
+  this.sensors$ = this.sensorService.getSensors()
+
     
   this.updateWeather()
   this.interval = setInterval(() => {
