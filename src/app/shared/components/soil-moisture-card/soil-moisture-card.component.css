@@ -4,6 +4,23 @@
     padding: var(--medium);
 }
 
+.label-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.ball {
+    background-color: var(--green-500);
+    width: var(--medium);
+    height: var(--medium);
+    border-radius: var(--pill);
+}
+
+.ball.error {
+    background-color: var(--red-500);
+
+}
+
 :host.warning {
     background-color: var(--red-100);
 }

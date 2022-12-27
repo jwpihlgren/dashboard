@@ -60,4 +60,11 @@ export class SoilMoistureCardComponent implements OnInit{
     else if (value > 50) return "Vattna inte mer just nu"
     else return `Det finns inga mätvärden ännu`
   }
+
+  isDateOlderThanOneHour(date: Date): boolean {
+    const inputDateTime = new Date(date)
+    const currentDatetime = new Date()
+    const difference = Math.abs(currentDatetime.getTime() - inputDateTime.getTime()) / 1000 / 60 / 60
+    return difference > 1
+  }
 }

@@ -1,9 +1,11 @@
 <ng-container *ngIf="measurement$ | async as measurement; else error">
-    <h5 class="flex row gap-sm">Jordfuktighet</h5>
+    <div class="flex row gap-sm">
+        <span>Jordfuktighet</span>
+        <span [ngClass]="{'error': isDateOlderThanOneHour(measurement.updatedAt)}" class="ball"></span>
+    </div>
     <ngx-gauge
         [type]="gaugeType" 
         [value]="measurement.value" 
-        [label]="sensor.alias"  
         [append]="gaugeAppendText"
         [thick]="gaugeThickness"
         [cap]="gaugeCap"
@@ -14,6 +16,13 @@
         [min]="min"
         [max]="max"
     >
+        <ngx-gauge-label>
+            <div class="label-group">
+                <h4>{{measurement.temp | addUnit: '&#176;C'}}</h4>
+                <span>{{sensor.alias}}</span>
+                <span></span>
+            </div>
+        </ngx-gauge-label>
     </ngx-gauge>
 
     <span class="flex row j-center a-center gap-sm">{{getStatusText(measurement.value)}}</span>
