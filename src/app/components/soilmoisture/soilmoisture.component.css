@@ -3,49 +3,6 @@
     width: 100%;
 }
 
-button {
-    align-self: flex-start;
-    flex-grow: 0;
-}
-
-article {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: var(--medium);
-}
-
-app-area-chart {
-    height: 100%;
-}
-
-.active {
-   background-color: var(--blue-516);
-}
-
-h5 {
-    line-height: var(--extra-large);
-}
-input {
-    all: unset;
-    padding-inline: var(--medium);
-    border: 2px solid var(--gray-500);
-    border-radius: 5px;
-    height: var(--extra-large);
-    max-height: var(--extra-large);
-    font-size: var(--fs-500);
-}
-
-input:focus {
-    outline: none;
-}
-input:focus-visible {
-    border-color: var(--blue-500);
-}
-input:active {
-    border-color: var(--blue-500);
-}
-
 .card-single {
     grid-column: auto / span 4;
 

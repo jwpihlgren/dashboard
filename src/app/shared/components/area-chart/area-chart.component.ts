@@ -39,8 +39,8 @@ export class AreaChartComponent implements OnInit {
 
   ngOnInit(): void {
         /* Get the size of the parent and use for responsive chart - does not update on resize */
-        this.width = this.elementRef.nativeElement.offsetWidth - this.margin * 1.5
-        this.height = this.elementRef.nativeElement.offsetHeight - this.margin * 2.5
+        this.width = this.elementRef.nativeElement.offsetWidth - this.margin * 1
+        this.height = this.elementRef.nativeElement.offsetHeight - this.margin * 2
         this.createSvg()
         this.drawArea(this.data)
   }
@@ -137,9 +137,9 @@ export class AreaChartComponent implements OnInit {
       
 
     private mapToObjectArray(data: any): any[] {
-      return data.values.map((value: any) => {
+      return data.map((value: any) => {
         return {
-          date: new Date(value.date),
+          date: new Date(value.updatedAt),
           value: value.value
         }
       })
@@ -201,10 +201,4 @@ export class AreaChartComponent implements OnInit {
       )
     }
 
-}
-
-interface ISensorValue {
-  _id: string,
-  value: number,
-  date: string
 }

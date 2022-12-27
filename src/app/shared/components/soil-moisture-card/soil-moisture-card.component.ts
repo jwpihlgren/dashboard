@@ -46,6 +46,7 @@ export class SoilMoistureCardComponent implements OnInit{
    }
 
   ngOnInit(): void {
+    /* Todo: Move this to parent component */
     this.measurement$ = this.sensorService.subscribeToSensor(this.sensor._id)
   }
 
