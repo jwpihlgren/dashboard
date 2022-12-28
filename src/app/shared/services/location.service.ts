@@ -6,6 +6,7 @@ import { map, of, Observable, debounceTime } from 'rxjs';
 import * as dummydata from '../../../assets/stubs/location-data.json'
 import { environment } from 'src/environments/environment';
 import { ILocation } from '../models/location.interface';
+import { SessionStorageService } from './session-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class LocationService {
   constructor(
     private httpClient: HttpClient,
     private userService: UserService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private sessionStorageService: SessionStorageService
     ) { }
 
   getWeatherLocation(query: string): Observable<ILocation[]>{
@@ -50,10 +52,16 @@ export class LocationService {
   } */
 
   getUserFavoriteLocation(): Observable<ILocation> {
+    const ITEM_NAME = "favorite_location"
+    const previousFavorite: ILocation = this.sessionStorageService.getStoredData(ITEM_NAME) as ILocation
+    if(Object.keys(previousFavorite).length > 0) {
+      return of(previousFavorite)
+    }
     return this.userService.getUserMetadata().pipe(
       debounceTime(200),
-      map((data:any) => {
-        return data.response.favorite_location
+      map((response:any) => {
+        this.sessionStorageService.setStoredData(ITEM_NAME, response.favorite_location)
+        return response.favorite_location
       })
     )
   }

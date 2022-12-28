@@ -1,6 +1,16 @@
 
 <app-column>
-    <p>Home works</p>
+    <h1>Länkar till andra projekt</h1>
+    <nav>
+        <ul>
+            <li *ngFor="let link of links">
+                <a 
+                href="{{link.href}}"
+                rel="nofollow"
+                >{{link.name}}</a>
+            </li>
+        </ul>
+    </nav>
 </app-column>
 
 

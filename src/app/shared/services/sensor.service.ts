@@ -1,10 +1,12 @@
 import { AuthService } from '@auth0/auth0-angular';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
-import { map, Subject, Observable, tap, filter, catchError, of } from 'rxjs';
+import { map, Subject, Observable, tap, filter, catchError, of, EMPTY, retry, shareReplay, share, mergeMap, delay, timeout } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
-import { utcFormat } from 'd3';
+import { ISensor } from '../models/sensor.interface';
+import { ISoilMoistureData } from '../models/soil-moisture-data.interface';
+import { IPartialSensor } from '../models/partial-sensor.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -20,45 +22,49 @@ export class SensorService {
     private authService: AuthService
     ) { }
 
-  getSensors(){
-    return this.http.get(`${environment.dev.serverUrl}/sensors`).pipe(
-      map(data => {
-        return data
+  getSensors(): Observable<ISensor[]>{
+    return this.http.get<ISensor[]>(`${environment.dev.serverUrl}/sensors`).pipe(
+      tap((sensor: ISensor[]) => {
       }),
-      catchError((error: any) => {
+      retry(3),
+      catchError((error: Error) => {
         console.log(error);
-        return error
+        return EMPTY
+      }),
+      shareReplay()
+    )
+  }
 
+
+
+  subscribeToSensor(id:string): Observable<any> {
+    console.log(id);
+    return this.getToken().pipe(
+      mergeMap(token => {
+        this.eventSource = this.getEventSource(id, token);
+
+        this.eventSource.addEventListener('message', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
+        this.eventSource.addEventListener('heartbeat', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
+
+        this.eventSource.onerror = (error: any) => {
+                this.eventSource.close()
+                setTimeout(() => {
+                  this.subscribeToSensor(id)
+                }, 1000 * 30)
+              }
+      return this.subject$.pipe(
+        tap(event => console.log(event.data)), 
+        filter(event=> event.type !== 'heartbeat'), 
+        filter(event => JSON.parse(event.data).sensor === id ),
+        map(event => JSON.parse(event.data)),
+        retry(3),
+        catchError((error: Error) => {
+          console.log(error)
+          return EMPTY
+        }),
+        )
       })
-    );
-  }
-
-  eventSourceDestory() {
-    this.eventSource.close()
-
-  }
-  getSensor(id:string, token:string): Observable<any> {
-    this.eventSource = this.getEventSource(id, token);
-
-    this.eventSource.addEventListener('message', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
-    this.eventSource.addEventListener('heartbeat', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
-    this.eventSource.onerror = (error: any) => {
-/*       this._ngZone.run(() => this.subject$.error(error)) */
-      this.eventSource.close()
-      setTimeout(() => {
-        this.getSensor(id, token)
-      }, 1000 * 30)
-    }
-    
-    return this.subject$.pipe(
-      tap(event => console.log(event)), 
-      filter(event=> event.type !== 'heartbeat'), 
-      map(event => JSON.parse(event.data)),
-      catchError((error: any) => {
-        console.log(error)
-        return error
-      }
-      ))
+    )
   }
 
   getDetailedSensor(id: string, minDate: number, maxDate: number): Observable<any> {
@@ -86,16 +92,73 @@ export class SensorService {
 
           data.response[0].values = this.spreadValuesAcrossDates(data.response[0].values, dates, set_hour_to_zero)
           return data.response          
+      }),
+      retry(3),
+      catchError((error: Error) => {
+        console.log(error)
+        return EMPTY
       })
     )
   }
 
-  updateSensor(id: string, newName: string): Observable<any> {
+  getDaily(id: string): Observable<ISoilMoistureData[]> {
     const api = environment.dev.serverUrl
-    const path = `/sensors/${id}`
-    const data = {alias: newName}
+    const path = `/sensors/${id}/daily`
+    return this.http.get<ISoilMoistureData[]>(`${api}${path}`).pipe(
+      tap(data => console.log(data)),
+      retry(3),
+      catchError((error: Error) => {
+        console.log(error)
+        return EMPTY
+      }),
+      shareReplay()
+    )
+  }
+  getWeekly(id: string): Observable<ISoilMoistureData[]> {
+    const api = environment.dev.serverUrl
+    const path = `/sensors/${id}/weekly`
+    return this.http.get<ISoilMoistureData[]>(`${api}${path}`).pipe(
+      tap(data => console.log(data)),
+      retry(3),
+      catchError((error: Error) => {
+        console.log(error)
+        return EMPTY
+      }),
+      shareReplay()
+    )
+  }
+  getMonthly(id: string): Observable<ISoilMoistureData[]> {
+    const api = environment.dev.serverUrl
+    const path = `/sensors/${id}/monthly`
+    return this.http.get<ISoilMoistureData[]>(`${api}${path}`).pipe(
+      tap(data => console.log(data)),
+      retry(3),
+      catchError((error: Error) => {
+        console.log(error)
+        return EMPTY
+      }),
+      shareReplay()
+    )
+  }
 
-    return this.http.post(`${api}${path}`, data)
+  updateSensor(partialSensor: IPartialSensor): Observable<any> {
+    console.log("update sensor");
+    const {_id, alias} = partialSensor
+    const api = environment.dev.serverUrl
+    const path = `/sensors/${_id}`
+    const data = {_id: _id, alias: alias}
+
+    return this.http.put(`${api}${path}`, data).pipe(
+      tap(data => console.log(data)),
+      timeout({
+        each: 1000,
+        with: () => {throw new Error("Request timedout")}
+      }),
+      catchError((error: Error) => {
+        console.log(error);
+        return EMPTY
+      })
+    )
   }
 
 
@@ -181,15 +244,24 @@ export class SensorService {
 
 
   getToken(): Observable<any> {
-    return this.authService.getAccessTokenSilently()
+    return this.authService.getAccessTokenSilently().pipe(
+      catchError((error: Error) => {
+        console.log(error)
+        return EMPTY
+      })
+    )
   }
 
-  getEventSource(id:string, token:string): any {
-    return new EventSourcePolyfill(`${environment.dev.serverUrl}/sensors/${id}`, {
+  getEventSource(id: string, token: string): EventSourcePolyfill {
+    return new EventSourcePolyfill(`${environment.dev.serverUrl}/sensors/${id}/subscribe`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     });
+  }
+
+  eventSourceDestory() {
+    this.eventSource.close()
   }
 
 

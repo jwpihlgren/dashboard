@@ -1,0 +1,40 @@
+<article>
+    <div class="flex row gap-sm a-center">
+        <div *ngIf="!isEditToggled; else input" class="flex row gap-sm j-center a-center">
+            <h5 unselectable="on">{{sensor.alias}}</h5>
+            <button  class="ternary square" (click)="setEditTrue()">
+                <fa-icon 
+                [icon]=faEdit
+                size="lg"></fa-icon>
+            </button>
+        </div>
+        <ng-template #input>
+            <div class="flex row gap-lg">
+                <form class="flex row gap-sm">
+                    <input #edit type="text" value={{sensor.alias}}>
+                    <button class="primary" type="button" (click)="editName(sensor._id)">
+                        Ändra
+                    </button>
+                </form>
+                <button class="ternary" (click)="abort()">
+                    Avbryt
+                </button>
+            </div>
+        </ng-template>
+    </div>
+    <ng-container *ngIf="readings$ | async as readings; else loading">
+        <app-area-chart [data]="readings"></app-area-chart>
+    </ng-container>
+
+    <ng-template  #loading>
+        <div class="placeholder">
+            Loading...
+        </div>
+    </ng-template>
+
+    <div class="flex j-center row gap-sm">
+        <button class="ternary" (click)="toggleSelection('day', sensor._id)" [ngClass]="{'active': selections['day'].isToggled}">1 dag</button>
+        <button class="ternary" (click)="toggleSelection('week', sensor._id)" [ngClass]="{'active': selections['week'].isToggled}">1 vecka</button>
+        <button class="ternary" (click)="toggleSelection('month', sensor._id)" [ngClass]="{'active': selections['month'].isToggled}">1 månad</button>
+    </div>
+</article>

@@ -19,13 +19,14 @@
         class="card card-double">
     </app-detailed-weather-table>
 
-    <app-soil-moisture-card 
-        *ngIf="sensor$ | async as sensor; else loading" 
-        [sensor]="sensor"
-        [ngClass]="{'warning': sensor.warning}" 
-        class=" card card-single">
-    </app-soil-moisture-card>
-
+        <ng-container *ngIf="sensors$ | async as sensors; else loading">
+            <app-soil-moisture-card 
+            *ngFor="let sensor of sensors"
+             [sensor]="sensor"
+             [ngClass]="{'warning': sensor.hasOwnProperty('warning')}" 
+             class=" card card-single">
+         </app-soil-moisture-card>
+        </ng-container>
     <ng-template #loading>
         <div class="card card-single">Loading</div>
     </ng-template>

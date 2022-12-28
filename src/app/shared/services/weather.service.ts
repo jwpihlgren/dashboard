@@ -2,7 +2,7 @@ import { SessionStorageService } from './session-storage.service';
 import { ILocation } from './../models/location.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, of, timeout, catchError } from 'rxjs';
+import { map, of, timeout, catchError, retry, EMPTY } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as dummydata from '../../../assets/stubs/weather-data.json'
 
@@ -43,9 +43,10 @@ export class WeatherService {
         this.sessionStorageService.setStoredData("forecasts", previousForecasts)
         return data
       }),
+      retry(3),
       catchError(error => {
-        alert(error)
-        return of(error)
+        console.log(error);
+        return EMPTY
       })
     );
   }

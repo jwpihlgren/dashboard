@@ -25,6 +25,7 @@ import { UserMenuItemComponent } from './components/user-menu-item/user-menu-ite
 import { ColumnComponent } from './layouts/column/column.component';
 import { MasonryGridComponent } from './layouts/masonry-grid/masonry-grid.component';
 import { CurrentWeatherComponent } from './components/current-weather/current-weather.component';
+import { DetailedSensorComponent } from './components/detailed-sensor/detailed-sensor.component';
 
 
 
@@ -51,6 +52,7 @@ import { CurrentWeatherComponent } from './components/current-weather/current-we
     ColumnComponent,
     MasonryGridComponent,
     CurrentWeatherComponent,
+    DetailedSensorComponent,
   ],
   imports: [
     CommonModule,
@@ -82,6 +84,7 @@ import { CurrentWeatherComponent } from './components/current-weather/current-we
     ColumnComponent,
     MasonryGridComponent,
     CurrentWeatherComponent,
+    DetailedSensorComponent,
     
   ],
   providers: [
