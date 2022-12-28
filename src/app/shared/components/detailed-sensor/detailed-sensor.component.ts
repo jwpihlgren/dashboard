@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ISensor } from '../../models/sensor.interface';
 import { ISoilMoistureData } from '../../models/soil-moisture-data.interface';
@@ -9,9 +9,9 @@ import { IPartialSensor } from '../../models/partial-sensor.interface';
 @Component({
   selector: 'app-detailed-sensor',
   templateUrl: './detailed-sensor.component.html',
-  styleUrls: ['./detailed-sensor.component.css']
+  styleUrls: ['./detailed-sensor.component.css'],
 })
-export class DetailedSensorComponent implements OnInit {
+export class DetailedSensorComponent implements OnInit, OnChanges {
   
   @ViewChild("edit") elementRef!: ElementRef
   @Input() sensor!: ISensor
@@ -48,13 +48,19 @@ export class DetailedSensorComponent implements OnInit {
 
   
 
-  constructor(private sensorService: SensorService) { }
+  constructor(private sensorService: SensorService,
+              private ref: ChangeDetectorRef
+    ) { }
 
 
 
   ngOnInit(): void {
-    console.log(this.sensor);
     this.readings$ = this.sensorService.getDaily(this.sensor._id)
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.sensor = changes['sensor'].currentValue
+    this.ref.detectChanges()
   }
 
   toggleSelection(selection: string, sensorId: string) {

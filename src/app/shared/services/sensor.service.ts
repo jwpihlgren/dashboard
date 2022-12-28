@@ -1,7 +1,7 @@
 import { AuthService } from '@auth0/auth0-angular';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
-import { map, Subject, Observable, tap, filter, catchError, of, EMPTY, retry, shareReplay, share, mergeMap, delay } from 'rxjs';
+import { map, Subject, Observable, tap, filter, catchError, of, EMPTY, retry, shareReplay, share, mergeMap, delay, timeout } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { ISensor } from '../models/sensor.interface';
@@ -141,12 +141,18 @@ export class SensorService {
   }
 
   updateSensor(partialSensor: IPartialSensor): Observable<any> {
+    console.log("update sensor");
     const {_id, alias} = partialSensor
     const api = environment.dev.serverUrl
     const path = `/sensors/${_id}`
     const data = {_id: _id, alias: alias}
 
-    return this.http.post(`${api}${path}`, data).pipe(
+    return this.http.put(`${api}${path}`, data).pipe(
+      tap(data => console.log(data)),
+      timeout({
+        each: 1000,
+        with: () => {throw new Error("Request timedout")}
+      }),
       catchError((error: Error) => {
         console.log(error);
         return EMPTY
