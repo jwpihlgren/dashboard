@@ -1,5 +1,5 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ISensor } from '../../models/sensor.interface';
 import { ISoilMoistureData } from '../../models/soil-moisture-data.interface';
 import { SensorService } from '../../services/sensor.service';
@@ -37,6 +37,8 @@ export class SoilMoistureCardComponent implements OnInit{
     '30': {color: '#32d2ac'},
     '51': {color: '#5693e9'}
     };
+
+
 
  @Input() sensor!: ISensor
   measurement$!: Observable<ISoilMoistureData>

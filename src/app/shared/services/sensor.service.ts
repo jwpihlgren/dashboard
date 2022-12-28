@@ -38,7 +38,7 @@ export class SensorService {
 
 
   subscribeToSensor(id:string): Observable<any> {
-
+    console.log(id);
     return this.getToken().pipe(
       mergeMap(token => {
         this.eventSource = this.getEventSource(id, token);
@@ -53,8 +53,9 @@ export class SensorService {
                 }, 1000 * 30)
               }
       return this.subject$.pipe(
-        tap(event => console.log(event)), 
+        tap(event => console.log(event.data)), 
         filter(event=> event.type !== 'heartbeat'), 
+        filter(event => JSON.parse(event.data).sensor === id ),
         map(event => JSON.parse(event.data)),
         retry(3),
         catchError((error: Error) => {

@@ -12,7 +12,7 @@
             <div class="flex row gap-lg">
                 <form class="flex row gap-sm">
                     <input #edit type="text" value={{sensor.alias}}>
-                    <button class="primary" (click)="editName(sensor._id)">
+                    <button class="primary" type="button" (click)="editName(sensor._id)">
                         Ändra
                     </button>
                 </form>

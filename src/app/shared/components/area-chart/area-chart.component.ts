@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import * as d3 from 'd3'
 
 @Component({
@@ -6,7 +6,7 @@ import * as d3 from 'd3'
   templateUrl: './area-chart.component.html',
   styleUrls: ['./area-chart.component.css']
 })
-export class AreaChartComponent implements OnInit {
+export class AreaChartComponent implements OnInit, AfterViewInit {
 
   
   @Input() data: any = []
@@ -32,6 +32,8 @@ export class AreaChartComponent implements OnInit {
     months: ["Januari","Februari","Mars","April","Maj","Juni","Juli","Augusti","September","Oktober","November","December"],
     shortMonths: ["Jan","Feb","Mar","Apr","Maj","Jun","Jul","Aug","Sep","Okt","Nov","Dec"],
   }
+
+  chartId!: string
   
   constructor(
     private elementRef: ElementRef,
@@ -41,22 +43,22 @@ export class AreaChartComponent implements OnInit {
         /* Get the size of the parent and use for responsive chart - does not update on resize */
         this.width = this.elementRef.nativeElement.offsetWidth - this.margin * 1
         this.height = this.elementRef.nativeElement.offsetHeight - this.margin * 2
-        this.createSvg()
-        this.drawArea(this.data)
+        this.chartId = this.data[0].sensor
+
+  }
+
+  ngAfterViewInit(): void {
+    this.createSvg()
+    this.drawArea(this.data)
   }
 
   createSvg(): void {
-    this.svg = d3.select('figure#area')
-    .append("svg")
+    this.svg = d3.select(this.elementRef.nativeElement).select("svg")
     .attr("width", this.width + this.margin * 1)
     .attr("height", this.height + this.margin * 2)
     .append("g")
     .attr("transform", "translate("+ this.margin *  1.5 + "," +  this.margin + ")")
-    
   }
-
-  
-
 
   drawArea(data: any): void {
     const values = this.mapToObjectArray(data)
