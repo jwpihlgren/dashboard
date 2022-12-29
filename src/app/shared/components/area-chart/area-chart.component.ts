@@ -78,6 +78,7 @@ export class AreaChartComponent implements OnInit, AfterViewInit {
   
       this.createLinearGradient("#f8c03f", "too-little")
       this.createLinearGradient("#32d2ac", "ok")
+      this.createLinearGradient("#5693e9", "too-much")
 
 
       const x = d3.scaleTime()
@@ -91,7 +92,7 @@ export class AreaChartComponent implements OnInit, AfterViewInit {
       .style("text-anchor", "center")
 
       const y = d3.scaleLinear()
-      .domain([0, 80])
+      .domain([0, 100])
       .range([this.height, 0])
 
       this.svg.append("g")
@@ -108,30 +109,33 @@ export class AreaChartComponent implements OnInit, AfterViewInit {
         y: y,
         id: "too-little",
         minThreshold: 0,
-        maxThreshold: 29,
+        maxThreshold: 44,
         color: "#f8c03f"
       }
       this.appendLinearGradient(yellowGradientOptions )
-      const blueGradientOptions = {
-        values: values,
-        x: x,
-        y: y,
-        id: "too-much",
-        minThreshold: 60,
-        maxThreshold: 100,
-        color: "#5693e9"
-      }
-      this.appendLinearGradient(blueGradientOptions )
+
       const greenGradientOptions = {
         values: values,
         x: x,
         y: y,
         id: "ok",
-        minThreshold: 30,
-        maxThreshold: 59,
+        minThreshold: 45,
+        maxThreshold: 80,
         color: "#32d2ac"
       }
       this.appendLinearGradient(greenGradientOptions )
+
+      const blueGradientOptions = {
+        values: values,
+        x: x,
+        y: y,
+        id: "too-much",
+        minThreshold: 81,
+        maxThreshold: 100,
+        color: "#5693e9"
+      }
+      this.appendLinearGradient(blueGradientOptions )
+
 
 
 
