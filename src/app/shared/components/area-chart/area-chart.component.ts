@@ -98,12 +98,31 @@ export class AreaChartComponent implements OnInit, AfterViewInit {
       this.svg.append("g")
       .call(d3.axisLeft(y))
 
+
+      const linearGradient = this.svg.append("linearGradient")
+      .attr("id", "linerarGradient")
+      .attr("gradientUnits", "userSpaceOnUse")
+      .attr("x1", 0).attr("y1", y(50))
+      .attr("x2", 0).attr("y2", y(60))
+      .selectAll("stop")
+      .data([
+        {offset: "0", color : "#f8c03f"},
+        {offset: "44", color : "#f8c03f"},
+        {offset: "45", color : "#32d2ac"},
+        {offset: "80", color : "#32d2ac"},
+        {offset: "81", color : "#5693e9"},
+        {offset: "100", color : "#5693e9"}
+      ])
+      .enter().append("stop")
+      .attr("offset", (d: any) => d.offset)
+      .attr("stop-color", (d: any) => d.color)
+
     /*   const linearGradient = this.createLinearGradient("#5693e9", "ok", x, y) */
 
 
 
 
-      const yellowGradientOptions = {
+/*       const yellowGradientOptions = {
         values: values,
         x: x,
         y: y,
@@ -135,7 +154,7 @@ export class AreaChartComponent implements OnInit, AfterViewInit {
         color: "#5693e9"
       }
       this.appendLinearGradient(blueGradientOptions )
-
+ */
 
 
 
@@ -172,7 +191,7 @@ export class AreaChartComponent implements OnInit, AfterViewInit {
 
     }
  */
-    private createLinearGradient(color: string, id:string) {
+/*     private createLinearGradient(color: string, id:string) {
       const linearGradient = this.svg.append("defs")
       .append("linearGradient")
       .attr("id",id)
@@ -189,9 +208,9 @@ export class AreaChartComponent implements OnInit, AfterViewInit {
       .style("stop-opacity", 0 );
 
       return linearGradient
-    }
+    } */
 
-    private appendLinearGradient(options: {values: any[], x: any, y: any, id: string, minThreshold: number, maxThreshold: number, color: string}) {
+/*     private appendLinearGradient(options: {values: any[], x: any, y: any, id: string, minThreshold: number, maxThreshold: number, color: string}) {
       this.svg.append("path")    
       .datum(options.values)
       .style("fill", `url(#${options.id})`)
@@ -205,6 +224,6 @@ export class AreaChartComponent implements OnInit, AfterViewInit {
           return options.y(0)
         }).curve(d3.curveMonotoneX)
       )
-    }
+    } */
 
 }
