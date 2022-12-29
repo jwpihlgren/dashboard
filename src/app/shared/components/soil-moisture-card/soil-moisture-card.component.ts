@@ -23,19 +23,19 @@ export class SoilMoistureCardComponent implements OnInit{
   min: number = 0;
   max:number = 100;
   marker: any = {
-    "30": {
+    "45": {
       type: "triangle",
       color: '#32d2ac'
     },
-    "51": {
+    "81": {
       type: "triangle",
       color: '#5693e9'
     },
   }
   foregroundColor: string = "#f8c03f"
   threshold = {
-    '30': {color: '#32d2ac'},
-    '51': {color: '#5693e9'}
+    '45': {color: '#32d2ac'},
+    '81': {color: '#5693e9'}
     };
 
 
@@ -57,9 +57,9 @@ export class SoilMoistureCardComponent implements OnInit{
  */
   getStatusText(value: number): string {
     if(value === -1) return `Det finns inga mätvärden ännu`
-    else if(value < 30) return "Dags att vattna"
-    else if( value >= 30 && value <= 50) return "Allt ser bra ut"
-    else if (value > 50) return "Vattna inte mer just nu"
+    else if(value < 45) return "Dags att vattna"
+    else if( value >= 45 && value <= 80) return "Allt ser bra ut"
+    else if (value > 80) return "Vattna inte mer just nu"
     else return `Det finns inga mätvärden ännu`
   }
 
