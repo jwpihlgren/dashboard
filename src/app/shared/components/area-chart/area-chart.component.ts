@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import * as d3 from 'd3'
+import { area } from 'd3';
 
 @Component({
   selector: 'app-area-chart',
@@ -75,10 +76,10 @@ export class AreaChartComponent implements OnInit, AfterViewInit {
       }
     )
 
-  
+/*   
       this.createLinearGradient("#f8c03f", "too-little")
       this.createLinearGradient("#32d2ac", "ok")
-      this.createLinearGradient("#5693e9", "too-much")
+      this.createLinearGradient("#5693e9", "too-much") */
 
 
       const x = d3.scaleTime()
@@ -100,7 +101,7 @@ export class AreaChartComponent implements OnInit, AfterViewInit {
 
 
       const linearGradient = this.svg.append("linearGradient")
-      .attr("id", "linerarGradient")
+      .attr("id", "lineargradient")
       .attr("gradientUnits", "userSpaceOnUse")
       .attr("x1", 0).attr("y1", y(50))
       .attr("x2", 0).attr("y2", y(60))
@@ -116,6 +117,23 @@ export class AreaChartComponent implements OnInit, AfterViewInit {
       .enter().append("stop")
       .attr("offset", (d: any) => d.offset)
       .attr("stop-color", (d: any) => d.color)
+
+    const area = d3.area().curve(d3.curveLinear)
+    .x((d: any) => x(d.date))
+    .y0(y(0))
+    .y1((d: any) => y(d.value))
+
+    this.svg.append('path')
+    .datum(data)
+    .attr('class', 'area' )
+    .attr('style', 'fill: url(#lineargradient);')
+    .attr('d', area)
+    .transition()
+      .duration(1000)
+
+
+
+    
 
     /*   const linearGradient = this.createLinearGradient("#5693e9", "ok", x, y) */
 
