@@ -105,7 +105,7 @@ export class SensorService {
     const api = environment.dev.serverUrl
     const path = `/sensors/${id}/daily`
     return this.http.get<ISoilMoistureData[]>(`${api}${path}`).pipe(
-      tap(data => console.log(data)),
+  /*     tap(data => console.log(data)), */
       retry(3),
       catchError((error: Error) => {
         console.log(error)
