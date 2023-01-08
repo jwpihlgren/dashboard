@@ -1,5 +1,6 @@
-import { WeatherService } from './../../services/weather.service';
 import { Component, Input, OnInit} from "@angular/core";
+import { IForecastDaily } from "../../models/forecast-response.interface";
+import { IForecast } from '../../models/forecast.interface';
 
 @Component({
   selector: 'app-weather-card',
@@ -11,13 +12,14 @@ export class WeatherCardComponent implements OnInit {
 
   forecastDataSeries: [] = []
 
-  @Input() forecast: any
+  @Input() forecast!: IForecast
 
   constructor() {
     
   }
 
   ngOnInit(): void {
+    console.log(this.forecast);
   }
 
   epochToDay(epoch: any): string {
@@ -26,16 +28,14 @@ export class WeatherCardComponent implements OnInit {
     return `${weekday[day.getDay()]}`
   }
 
-  createForecastDataSeries(forecastDays: any[]): any {
-    const forecastDataSeries = forecastDays.map((day: any) => {
-      return {
-        day: this.epochToDay(day.dt * 1000),
-        minTemp: Math.round(day.temp.min), 
-        maxTemp: Math.round(day.temp.max),
-        icon: day.weather[0].icon
-      }
+  createForecastDataSeries(forecastDays: IForecastDaily[]): any {
+    const forecastDataSeries = forecastDays.map((day: IForecastDaily) => {
+      day.minTemperature = day.minTemperature
+      day.maxTemperature = day.maxTemperature
+
+      return day
     })
-    return forecastDataSeries.slice(0, forecastDataSeries.length - 1) //Remove the 8th result because we only show 7
+    return forecastDataSeries
   }
 
 

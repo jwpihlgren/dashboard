@@ -1,0 +1,14 @@
+{
+    "weather": {
+        "precipitationType": {
+            "0": "Ingen nederbörd",
+            "1": "Snö",
+            "2": "Snöblandat regn",
+            "3": "Regn",
+            "4": "Duggregn",
+            "5": "Underkylt regn",
+            "6": "Underkylt duggregn"
+        }
+    }
+
+}
