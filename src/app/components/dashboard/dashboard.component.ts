@@ -5,6 +5,7 @@ import { mergeMap, Observable, forkJoin, of, tap, map, concatMap } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ILocation } from 'src/app/shared/models/location.interface';
 import { ISensor } from 'src/app/shared/models/sensor.interface';
+import { IForecast } from 'src/app/shared/models/forecast.interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +14,7 @@ import { ISensor } from 'src/app/shared/models/sensor.interface';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   sensors$!: Observable<ISensor[]>
-  forecast$!: Observable<any>
+  forecast$!: Observable<IForecast>
   displayDetails: boolean = false
   interval!: any 
 

@@ -1,28 +1,34 @@
-<h5 class="flex row j-start a-center gap-sm">Just nu i {{forecast.location}}</h5>
+<h5 class="flex row j-start a-center gap-sm">Just nu i {{forecast.locationName}}</h5>
 <div class="weather-side-info">
     <div class="weather-side-info-details">
         <div class="detail">
             <h6 class="detail-title">Vind</h6>
-            <span class="detail-data">{{forecast.current.wind_speed | addUnit: "m/s"}} {{forecast.current.wind_deg | degToCompass}}</span>
+            <span class="detail-data">{{forecast.current.windSpeed| addUnit: "m/s"}} {{forecast.current.windDirection.toString() | degToCompass}}</span>
         </div>
         <div class="detail">
             <h6 class="detail-title">Barometer</h6>
-            <span class="detail-data">{{forecast.current.pressure | addUnit: "hPa"}}</span>
+            <span class="detail-data">{{forecast.current.airPressure| addUnit: "hPa"}}</span>
         </div>
         <div class="detail">
             <h6 class="detail-title">Luft<wbr>fuktighet</h6>
             <span class="detail-data">{{forecast.current.humidity | addUnit: '%'}}</span>
         </div>
         <div class="detail">
-            <h6 class="detail-title">Risk för regn</h6>
-            <span class="detail-data">{{forecast.daily[0].pop * 100 | addUnit: '%'}}</span>
+            <h6 class="detail-title">Nederbörd mängd</h6>
+            <span class="detail-data">{{forecast.current.minAmountOfPrecipitation}} - {{forecast.current.maxAmountOfPrecipitation | addUnit: 'mm'}}</span>
+        </div>
+        <div class="detail">
+            <h6 class="detail-title">Nederbörd typ</h6>
+            <span class="detail-data">{{languageService.getTranslatedPercipitationType(forecast.current.precipitationType)}}</span>
         </div>
 
     </div>
     <div class="weather-side-info-currently">
-        <h6 class="currently-title">Just nu</h6>
-        <h3 class="currently-degrees">{{forecast.current.temp | addUnit: '&#176;C'}}</h3>
-        <img class="currently-icon" [src]="getIconUrl(forecast.current.weather[0].icon)"/>
+        <h3 class="currently-degrees">{{forecast.current.currentTemperature | addUnit: '&#176;C'}}</h3>
+        <h5 class="currently-degrees">  ({{forecast.current.apparentTemperature | addUnit: '&#176;C'}})</h5>
+        <svg class="icon currently-icon">
+            <use [attr.xlink:href]="getIconUrl(forecast.current.symbol)"></use>
+        </svg>
     </div>
 </div>
-<span class="fetch-date | flex row j-center a-center gap-sm"> {{forecast.fetchDate | isoToDate}}</span>
+<span class="fetch-date | flex row j-center a-center gap-sm"> {{forecast.fetchDate.toString() | isoToDate}}</span>
