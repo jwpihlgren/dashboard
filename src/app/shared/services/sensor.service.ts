@@ -14,7 +14,7 @@ import { IPartialSensor } from '../models/partial-sensor.interface';
 export class SensorService {
 
   subject$: Subject<any> = new Subject<any>();
-  eventSource!: EventSourcePolyfill
+  eventSource?: EventSourcePolyfill
 
   constructor(
     private http: HttpClient,
@@ -38,20 +38,23 @@ export class SensorService {
 
 
   subscribeToSensor(id:string): Observable<any> {
-    console.log(id);
     return this.getToken().pipe(
       mergeMap(token => {
-        this.eventSource = this.getEventSource(id, token);
+        if(!this.eventSource) {
+          this.eventSource = this.getEventSource(id, token);
 
-        this.eventSource.addEventListener('message', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
-        this.eventSource.addEventListener('heartbeat', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
+          this.eventSource.addEventListener('message', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
+          this.eventSource.addEventListener('heartbeat', (event: any) => this._ngZone.run(() => this.subject$.next(event)))
 
-        this.eventSource.onerror = (error: any) => {
-                this.eventSource.close()
-                setTimeout(() => {
-                  this.subscribeToSensor(id)
-                }, 1000 * 30)
-              }
+          this.eventSource.onerror = (error: any) => {
+            console.log(error);
+            this.eventSource!.close()
+            setTimeout(() => {
+              this.subscribeToSensor(id)
+            }, 1000 * 30)
+          }
+        }
+
       return this.subject$.pipe(
         tap(event => console.log(event.data)), 
         filter(event=> event.type !== 'heartbeat'), 
@@ -253,7 +256,7 @@ export class SensorService {
   }
 
   getEventSource(id: string, token: string): EventSourcePolyfill {
-    return new EventSourcePolyfill(`${environment.dev.serverUrl}/sensors/${id}/subscribe`, {
+    return new EventSourcePolyfill(`${environment.dev.serverUrl}/sensors/subscribe`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -261,7 +264,9 @@ export class SensorService {
   }
 
   eventSourceDestory() {
-    this.eventSource.close()
+    console.log("Closing");
+    this.eventSource!.close()
+    this.eventSource = undefined
   }
 
 

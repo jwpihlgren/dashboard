@@ -8,7 +8,7 @@ import { IForecast } from '../../models/forecast.interface';
   styleUrls: ['./weather-card.component.css']
 })
 
-export class WeatherCardComponent implements OnInit {
+export class WeatherCardComponent{
 
   forecastDataSeries: [] = []
 
@@ -16,10 +16,6 @@ export class WeatherCardComponent implements OnInit {
 
   constructor() {
     
-  }
-
-  ngOnInit(): void {
-    console.log(this.forecast);
   }
 
   epochToDay(epoch: any): string {

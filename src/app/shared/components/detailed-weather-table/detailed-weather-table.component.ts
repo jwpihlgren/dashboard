@@ -101,7 +101,6 @@ export class DetailedWeatherTableComponent implements OnInit {
  }
 
 private getprecipitationAmount(hourlyData: IForecastHourly, classList: string[]): ITableCell {
-  console.log(hourlyData);
   const probabilityOfprecipitation: ITableCell = {
     classList: classList,
     value: `${hourlyData.minAmountOfPrecipitation.toFixed(1)} - ${hourlyData.maxAmountOfPrecipitation.toFixed(1)}mm `
