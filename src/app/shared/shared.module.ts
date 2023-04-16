@@ -26,8 +26,8 @@ import { ColumnComponent } from './layouts/column/column.component';
 import { MasonryGridComponent } from './layouts/masonry-grid/masonry-grid.component';
 import { CurrentWeatherComponent } from './components/current-weather/current-weather.component';
 import { DetailedSensorComponent } from './components/detailed-sensor/detailed-sensor.component';
-
-
+import { SmallSoilSensorCardComponent } from './components/small-soil-sensor-card/small-soil-sensor-card.component';
+import { DateFnsModule } from 'ngx-date-fns';
 
 @NgModule({
   declarations: [
@@ -53,6 +53,7 @@ import { DetailedSensorComponent } from './components/detailed-sensor/detailed-s
     MasonryGridComponent,
     CurrentWeatherComponent,
     DetailedSensorComponent,
+    SmallSoilSensorCardComponent,
   ],
   imports: [
     CommonModule,
@@ -85,7 +86,7 @@ import { DetailedSensorComponent } from './components/detailed-sensor/detailed-s
     MasonryGridComponent,
     CurrentWeatherComponent,
     DetailedSensorComponent,
-    
+    SmallSoilSensorCardComponent,
   ],
   providers: [
     UviConverterPipe

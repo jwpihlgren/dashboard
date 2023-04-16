@@ -1,12 +1,12 @@
-<app-grid>
+<app-masonry-grid>
 
     <ng-container *ngIf="sensors$ | async as sensors; else loading">
-        <app-soil-moisture-card 
+        <app-small-soil-sensor-card 
         *ngFor="let sensor of sensors"
-         [sensor]="sensor"
+        [sensor]="sensor"
          [ngClass]="{'warning': sensor.hasOwnProperty('warning')}" 
          class=" card card-single">
-     </app-soil-moisture-card>
+     </app-small-soil-sensor-card>
     </ng-container>
 
     <app-current-weather
@@ -32,4 +32,4 @@
     <ng-template #loading>
         <div class="card card-single">Loading</div>
     </ng-template>
-</app-grid>
+</app-masonry-grid>
