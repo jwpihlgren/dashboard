@@ -22,6 +22,11 @@
     right: -4px
 }
 
+.ball.error {
+    background-color: var(--red-500);
+
+}
+
 :host ::ng-deep .reading-block {
     font-weight: 700;
 }

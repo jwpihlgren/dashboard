@@ -27,7 +27,13 @@ import { MasonryGridComponent } from './layouts/masonry-grid/masonry-grid.compon
 import { CurrentWeatherComponent } from './components/current-weather/current-weather.component';
 import { DetailedSensorComponent } from './components/detailed-sensor/detailed-sensor.component';
 import { SmallSoilSensorCardComponent } from './components/small-soil-sensor-card/small-soil-sensor-card.component';
-import { DateFnsModule } from 'ngx-date-fns';
+import { DateFnsConfigurationService, DateFnsModule } from 'ngx-date-fns';
+import { sv } from 'date-fns/locale';
+import { StringToDatePipe } from './pipes/string-to-date.pipe';
+
+
+const swedishConfig = new DateFnsConfigurationService()
+swedishConfig.setLocale(sv)
 
 @NgModule({
   declarations: [
@@ -54,14 +60,15 @@ import { DateFnsModule } from 'ngx-date-fns';
     CurrentWeatherComponent,
     DetailedSensorComponent,
     SmallSoilSensorCardComponent,
+    StringToDatePipe,
   ],
   imports: [
     CommonModule,
     NgxGaugeModule,
     FontAwesomeModule,
     AppRoutingModule,
-    FormsModule
-
+    FormsModule,
+    DateFnsModule.forRoot()
   ],
   exports: [
     LeftNavComponent,
@@ -87,9 +94,14 @@ import { DateFnsModule } from 'ngx-date-fns';
     CurrentWeatherComponent,
     DetailedSensorComponent,
     SmallSoilSensorCardComponent,
+    DateFnsModule,
+    StringToDatePipe
   ],
   providers: [
-    UviConverterPipe
+    UviConverterPipe,
+    {
+      provide: 'DateFnsConfigurationService', useValue: swedishConfig 
+    }
   ]
 })
 export class SharedModule { }

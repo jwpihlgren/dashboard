@@ -4,6 +4,7 @@ import { NgxGaugeType } from 'ngx-gauge/gauge/gauge';
 import { SensorService } from '../../services/sensor.service';
 import { ISensor } from '../../models/sensor.interface';
 import { Observable } from 'rxjs/internal/Observable';
+import { DateFnsInputDate } from 'ngx-date-fns';
 
 @Component({
   selector: 'app-small-soil-sensor-card',
@@ -29,6 +30,8 @@ export class SmallSoilSensorCardComponent implements OnInit {
       '81': {color: '#5693e9'}
     },
   }
+
+  test: DateFnsInputDate = new Date("2023-04-14T09:00:25.174Z")
 
   constructor(private sensorService: SensorService) { }
 

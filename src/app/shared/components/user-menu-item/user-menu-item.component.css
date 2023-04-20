@@ -3,7 +3,7 @@
 }
 
 a span {
-    font-size: var(--fs-300);
+    font-size: var(--fs-100);
     color: var(--gray-500)
 }
 
