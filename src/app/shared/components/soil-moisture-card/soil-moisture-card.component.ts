@@ -14,12 +14,12 @@ export class SoilMoistureCardComponent implements OnInit{
 
   statusText!: string
   gaugeType: any = "arch";
-  gaugeValue: any = 80;
+  gaugeValue: any = 300;
   gaugeLabel: any = "Vardagsrum";
   gaugeAppendText: any  = "%";
   gaugeThickness: any = 18;
   gaugeCap: any = "round";
-  gaugeSize: any = 300;
+  gaugeSize: any = 48;
   min: number = 0;
   max:number = 100;
   marker: any = {

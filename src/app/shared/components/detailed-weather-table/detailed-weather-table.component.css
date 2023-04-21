@@ -11,8 +11,8 @@
   flex-grow: 1;
   display: grid;
   grid-template-columns: repeat(7, auto);
-  overflow: hidden;
-  overflow-y: scroll;
+/*   overflow: hidden;
+  overflow-y: scroll; */
   height: calc(100% - var(--medium));
   background-color: var(--white);
   font-weight: var(--fw-500);
