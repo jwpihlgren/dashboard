@@ -85,8 +85,8 @@
   }
   
   .icon {
-    width: var(--large);
-    height: var(--large);
+    width: calc(var(--large) - var(--small));
+    height: calc(var(--large) - var(--small));
 }
 
   .fetch-date {
