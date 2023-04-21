@@ -27,7 +27,7 @@ export class LanguageService {
 
   getTranslatedPercipitationType(type: 0 | 1 | 2 | 3 | 4 | 5 | 6): string {
     const precipitationTypes = {
-        0: "Ingen nederbörd",
+        0: "",
         1: "Snö",
         2: "Snöblandat regn",
         3: "Regn",

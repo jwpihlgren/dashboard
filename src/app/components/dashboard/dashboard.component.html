@@ -26,7 +26,7 @@
     <app-detailed-weather-table
         *ngIf="forecast$ | async as forecast; else loading"
         [forecast]="forecast"
-        class="card card-double">
+        class="card card-single-quarter">
     </app-detailed-weather-table>
 
     <ng-template #loading>

@@ -9,6 +9,7 @@
 
 main {
     display: grid;
+    width: 100%;
     gap: var(--small);
     padding: var(--small);
     grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
