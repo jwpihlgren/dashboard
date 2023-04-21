@@ -100,7 +100,7 @@ swedishConfig.setLocale(sv)
   providers: [
     UviConverterPipe,
     {
-      provide: 'DateFnsConfigurationService', useValue: swedishConfig 
+      provide: DateFnsConfigurationService, useValue: swedishConfig 
     }
   ]
 })
