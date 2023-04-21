@@ -17,5 +17,5 @@
         </ng-template>
     </div>
 </div>
-<span class="fetch-date | flex row j-center a-center gap-sm"> {{forecast.fetchDate.toString() | isoToDate}}</span>
+<span class="fetch-date | flex row j-center a-center gap-sm"> {{forecast.fetchDate.toString() | stringToDate | dfnsFormatDistanceToNow}}</span>
 
