@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   padding: var(--medium);
-  gap: var(--medium);
+  gap: var(--small);
   background-color: var(--light-background-100);
 
 }
@@ -10,7 +10,7 @@
 .table {
   flex-grow: 1;
   display: grid;
-  grid-template-columns: repeat(7, auto);
+  grid-template-columns: repeat(6, auto);
 /*   overflow: hidden;
   overflow-y: scroll; */
   height: calc(100% - var(--medium));
@@ -52,7 +52,7 @@
 
 .tableCell.badge {
   border-radius: var(--large);
-  font-size: var(--fs-300);
+  font-size: var(--fs-100);
   font-weight: var(--fw-600);
   letter-spacing: 2px;
   height: calc(var(--medium) + var(--small));

@@ -360,6 +360,58 @@ button.square {
     padding: 0;
 }
 
+.card-single {
+    grid-column: auto / span 4;
+
+}
+
+.card-single-quarter {
+    grid-column: auto / span 4;
+
+}
+
+.card-double {
+    grid-column: auto / span 4;
+
+}
+
+@media (min-width: 840px) {
+    .card-single {
+        grid-column: auto / span 4;
+    
+    }
+
+    .card-single-quarter {
+        grid-column: auto / span 6;
+    
+    }
+
+    .card-double {
+        grid-column: auto / span 8;
+    
+    }
+    
+}
+
+
+@media (min-width: 1180px) {
+    .card-single {
+        grid-column: auto / span 4;
+    
+    }
+
+    .card-single-quarter {
+        grid-column: auto / span 6;
+    
+    }
+    .card-double {
+        grid-column: auto / span 8;
+    
+    }
+    
+}
+
+
 @media (min-width: 600px) {
     :root {
         --bs-2-bottom:  4rem 0.5rem 0.5rem rgb(0 0 0 / 6%);

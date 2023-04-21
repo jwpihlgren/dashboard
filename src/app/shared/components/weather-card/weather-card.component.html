@@ -4,4 +4,4 @@
 <app-bar-range-chart
     [forecast]=createForecastDataSeries(forecast.daily)>
 </app-bar-range-chart>
-<span class="fetch-date | flex row j-center a-center gap-sm"> {{forecast.fetchDate.toString() | isoToDate}}</span>
+<span class="fetch-date | flex row j-center a-center gap-sm"> {{forecast.fetchDate.toString() | stringToDate | dfnsFormatDistanceToNow}} sedan</span>

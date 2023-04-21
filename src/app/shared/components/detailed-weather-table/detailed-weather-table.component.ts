@@ -17,7 +17,7 @@ export class DetailedWeatherTableComponent implements OnInit {
     {title: "Tid",
     classList: ["text"]
     },
-    {title: "Temp (känns som) \xB0C",
+    {title: "Temp \xB0C",
     classList: ["numerical"]
     },
     {title: "UV-I",
@@ -26,10 +26,10 @@ export class DetailedWeatherTableComponent implements OnInit {
     {title: "Nederbörd",
     classList: ["numerical"]
     },
-    {title: "Typ",
+/*     {title: "Typ",
     classList: ["numerical"]
-    },
-    {title: "Molnighet",
+    }, */
+    {title: "Moln",
     classList: ["numerical"]
     },
     {title: "Väder",
@@ -62,7 +62,7 @@ export class DetailedWeatherTableComponent implements OnInit {
       hourlyTableCells.push(this.getTemperature(hourlyData, ['numerical']))
       hourlyTableCells.push(this.getUVI(hourlyData, ['badge']))
       hourlyTableCells.push(this.getprecipitationAmount(hourlyData, ['numerical']))
-      hourlyTableCells.push(this.getprecipitationType(hourlyData, ['numerical']))
+/*       hourlyTableCells.push(this.getprecipitationType(hourlyData, ['numerical'])) */
       hourlyTableCells.push(this.getClouds(hourlyData, ['numerical']))
       hourlyTableCells.push(this.getWeatherIcon(hourlyData, ['image']))
     })
@@ -78,7 +78,9 @@ export class DetailedWeatherTableComponent implements OnInit {
     classList: classList,
     value: new Date(hourlyData.validTime).toLocaleTimeString('se-SV', {
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
+      hour12: false
+      
     })
   }
   return (time)
@@ -101,9 +103,11 @@ export class DetailedWeatherTableComponent implements OnInit {
  }
 
 private getprecipitationAmount(hourlyData: IForecastHourly, classList: string[]): ITableCell {
+
+  const precipitationAmount: number = (hourlyData.maxAmountOfPrecipitation + hourlyData.minAmountOfPrecipitation / 2)
   const probabilityOfprecipitation: ITableCell = {
     classList: classList,
-    value: `${hourlyData.minAmountOfPrecipitation.toFixed(1)} - ${hourlyData.maxAmountOfPrecipitation.toFixed(1)}mm `
+    value: `${precipitationAmount.toFixed(1)} mm `
   }
   return probabilityOfprecipitation
 }
