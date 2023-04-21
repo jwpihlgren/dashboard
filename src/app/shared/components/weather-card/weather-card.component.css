@@ -1,15 +1,10 @@
 :host {
     display: flex;
     flex-direction: column;
-    padding: var(--medium);
     gap: var(--medium);
+    padding: var(--medium);
     background-color: var(--light-background-100);
-}
-
-.wrapper {
-    display: flex;
-    justify-self: stretch;
-    flex-direction: column;
+    min-height: 300px;
 }
 
 
@@ -18,7 +13,6 @@ span {
 }
 
 app-bar-range-chart {
-    min-height: 300px;
     flex-grow: 1;
     background-color: var(--light-background-100);
     border-radius: var(--rounded);
@@ -81,11 +75,5 @@ app-bar-range-chart {
     .wrapper {
         flex-direction: row-reverse;
     }
-
-    app-bar-range-chart {
-        width: 100%;
-
-    }
-
 
 }

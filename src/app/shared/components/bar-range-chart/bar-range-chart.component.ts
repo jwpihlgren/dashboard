@@ -1,5 +1,5 @@
 import { WeatherService } from './../../services/weather.service';
-import { Component, OnInit, ElementRef, Input, AfterViewChecked, AfterViewInit, HostListener} from '@angular/core';
+import { Component, OnInit, ElementRef, Input, AfterViewChecked, AfterViewInit, HostListener, ViewChild, HostBinding, OnChanges} from '@angular/core';
 import * as d3 from 'd3'
 import { IForecastDaily } from '../../models/forecast-response.interface';
 
@@ -9,12 +9,16 @@ import { IForecastDaily } from '../../models/forecast-response.interface';
   templateUrl: './bar-range-chart.component.html',
   styleUrls: ['./bar-range-chart.component.css']
 })
-export class BarRangeChartComponent implements OnInit, AfterViewInit{
+export class BarRangeChartComponent implements OnInit, OnChanges{
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    this.width = event.target.innerWidth
+/*     this.deleteSvg()
+    this.createSvg()
+    this.drawBars(this.forecast) */
   }
+
+
 
   @Input() forecast: IForecastDaily[] = [
     { validTime: new Date(new Date().setDate( new Date().getDate() + 0)),   minTemperature: -5,  maxTemperature: 10, symbol: 1 },
@@ -27,9 +31,13 @@ export class BarRangeChartComponent implements OnInit, AfterViewInit{
   ]
 
   svg: any;
-  margin = 50
   width!: number
   height!: number
+
+  margin =  {top: 20, right: 30, bottom: 30, left: 40}
+  parentPadding = 16
+  yTickHeight = 66
+  yTickOffset =  this.yTickHeight
   domainMin = -15
   domainMax = 35
   domainPadding = 5
@@ -40,97 +48,112 @@ export class BarRangeChartComponent implements OnInit, AfterViewInit{
     ) { }
 
   ngOnInit(): void {
+    this.width = this.elementRef.nativeElement.offsetWidth
     
-    /* Get the size of the parent and use for responsive chart - does not update on resize */
-    this.width = this.elementRef.nativeElement.offsetWidth - this.margin * 1
-    this.height = this.elementRef.nativeElement.offsetHeight - this.margin * 2
-
-    /*Set the domain min/max to the lowest and highest temperature respectively plus some padding*/
-    const currentMin = this.forecast.reduce((acc, cur) => Math.min(cur.minTemperature, acc), this.forecast[0].minTemperature)
-    const currentMax = this.forecast.reduce((acc, cur) => Math.max(cur.maxTemperature, acc), this.forecast[0].maxTemperature)
+    const [currentMin, currentMax]: number[] = this.forecast.reduce((acc: number[], day: IForecastDaily) => {
+      return [Math.min(acc[0], day.minTemperature), Math.max(acc[1], day.maxTemperature)]
+    }, [Infinity, -Infinity])
     this.domainMin =  currentMin - Math.min(((currentMax - currentMin) / 1),  this.domainPadding)
     this.domainMax =  currentMax + Math.min(((currentMax - currentMin) / 1),  this.domainPadding)
-
-    this.createSvg()
-    this.drawBars(this.forecast)
+    this.createChart()
   }
 
-  ngAfterViewInit(): void {
-
+  ngOnChanges(): void {
+    if(this.svg){
+      let dirty: boolean = false;
+      if(this.svg.node().getBoundingClientRect().width !== this.width) {
+        this.width = this.svg.node().getBoundingClientRect().width
+        dirty = true
+      }
+      if(this.svg.node().getBoundingClientRect().height !== this.height) {
+        this.height = this.svg.node().getBoundingClientRect().height
+        dirty = true
+      }
+      if(dirty) {
+        this.deleteChart()
+        this.createChart()
+        this.drawBars(this.forecast)
+      }
+    }
   }
 
-  createSvg(): void {
-    this.svg = d3.select('figure#bar')
-    .append("svg")
-    .attr("width", this.width + this.margin * 1)
-    .attr("height", this.height + this.margin * 2)
-    .attr("viewBox", "0 0 " + (this.width + this.margin * 1) + " " + (this.height + this.margin * 2) )
-    .append("g")
-    .attr("transform", "translate("+ this.margin / 1.5 + "," +  this.margin / 2 + ")")
+  createChart(){
+    this.svg = d3.select('#bar')
+      .append('svg')
+      .attr('width', '100%')
+      .attr('height', '100%')
   }
 
- drawBars(data: IForecastDaily[]): void {
+  drawBars(data: IForecastDaily[]): void {
 
-   const x = d3.scaleBand()
-   .range([0, this.width])
-   .domain(data.map((datum: IForecastDaily) => datum.validTime.toString()))
-   .padding(0.7)
+    const x = d3.scaleBand()
+    .domain(data.map((datum: IForecastDaily) => datum.validTime.toString()))
+    .range([this.margin.left, this.width - this.margin.right])
+    .padding(0.7)
 
-   const ticklabels: string[] = ["SÖN","MÅN","TIS","ONS","TOR","FRE","LÖR",]
+    const y = d3.scaleLinear()
+    .domain([this.domainMin, this.domainMax])
+    .range([this.height - this.yTickOffset - this.margin.top, 0])
+    .nice()
+ 
+    const ticklabels: string[] = ["SÖN","MÅN","TIS","ONS","TOR","FRE","LÖR",]
+ 
+    this.svg.append("g")
+    .attr("transform", "translate(0," +  (this.height - this.yTickHeight) + ")")
+    .attr("class", "no-grid")
+    .call(d3.axisBottom(x).tickFormat((d: any,i: any) => {return ticklabels[new Date(d).getDay()]}))
+    .selectAll("text")
+    .style("text-anchor", "center")
+    
 
-   this.svg.append("g")
-   .attr("transform", "translate(0," +  (this.height + this.margin * 0.25) + ")")
-   .attr("class", "no-grid")
-   .call(d3.axisBottom(x).tickFormat((d: any,i: any) => {return ticklabels[new Date(d).getDay()]}))
-   .selectAll("text")
-   .style("text-anchor", "center")
+ 
+    this.svg.append("g")
+    .attr("class", "grid")
+    .attr("transform", "translate("+ (this.width - (this.margin.left * 0.75)) +","+ this.margin.top+")")
+ 
+    const yGrid = d3.axisLeft(y)
+    .tickSize(this.width - (this.margin.left * 2))
+    .ticks(5)
    
-  const selection = this.svg.selectAll(".tick");
-  selection._groups[0].forEach((node: any, index: number) => {
-    d3.select(node)
-    .append('svg')
-    .attr('class', 'icon daily-icon')
-    .attr('x',-20)
-    .attr('y', 20)
-    .attr('viewbox', '0 0 40 40')
-    .attr('width', 40)
-    .attr('height', 40)
-  } )
-
-  this.svg.selectAll(".daily-icon")._groups[0].forEach((node: any, index: number) => {
-    d3.select(node)
-    .append('use')
-    .attr('xlink:href', this.weatherService.getIconUrl(data[index].symbol))
-  })
-
-
-   const y = d3.scaleLinear()
-   .domain([this.domainMin, this.domainMax])
-   .range([this.height + this.margin * 0.25, 0])
+    yGrid(d3.select("g.grid"))
+ 
+    /* Draw the bars */
+    this.svg.selectAll("bars")
+    .data(data)
+    .enter()
+    .append("rect")
+    .attr("x", (datum: IForecastDaily) => x(datum.validTime.toString()))
+    .attr("y", (datum: IForecastDaily) => y(datum.maxTemperature))
+    .attr("width", x.bandwidth())
+    .attr("height", 8 )
+    .attr("fill", "#d04a35")
+    .transition()
+    .duration(1500)
+    .attr("height", (datum: IForecastDaily) => ((this.height - this.yTickOffset) - y(datum.maxTemperature)) - ((this.height - this.yTickOffset) - y(datum.minTemperature)) )
+    .attr("transform", "translate(0," + (this.margin.top) + ")")
 
 
-   this.svg.append("g")
-   .attr("class", "grid")
-   .attr("transform", "translate("+ this.width +",0)")
-   .call(d3.axisLeft(y))
+    /* Add the weather icons to each tick */
+    const selection = this.svg.selectAll(".tick");
+    selection._groups[0].forEach((node: any, index: number) => {
+      d3.select(node)
+      .append('svg')
+      .attr('class', 'icon daily-icon')
+      .attr('x',-12)
+      .attr('y', 24)
+      .attr('width', 24)
+      .attr('height', 24)
+      .append('use')
+       .attr('xlink:href', this.weatherService.getIconUrl(data[index].symbol))
+    })
+  }
 
-   const yGrid = d3.axisLeft(y)
-   .tickSize(this.width)
+
+  deleteChart() {
+    this.svg?.remove()
+  }
+
   
-   yGrid(d3.select("g.grid"))
-
-   this.svg.selectAll("bars")
-   .data(data)
-   .enter()
-   .append("rect")
-   .attr("x", (datum: IForecastDaily) => x(datum.validTime.toString()))
-   .attr("y", (datum: IForecastDaily) => y(datum.maxTemperature))
-   .attr("width", x.bandwidth())
-   .attr("height", 8 )
-   .attr("fill", "#d04a35")
-   .transition()
-   .duration(1500)
-   .attr("height", (datum: IForecastDaily) => (this.height - y(datum.maxTemperature)) - (this.height - y(datum.minTemperature)) )
- }
-
 }
+
+ 
