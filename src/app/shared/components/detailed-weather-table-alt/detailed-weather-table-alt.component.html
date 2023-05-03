@@ -1,0 +1,14 @@
+<table>
+    <caption>Test</caption>
+    <tr>
+        <th *ngFor="let columnHeading of columnHeadings">
+            {{columnHeading.title}}
+        </th>
+    </tr>
+    <tr *ngFor="let row of tableRows">
+        <td *ngFor="let cell of row | keyvalue ">
+            <img *ngIf="(cell | typeof) === 'URL'; else default" src="cell.value" alt="">
+            <ng-template #default>{{cell.value}}</ng-template>
+        </td>
+
+</table>
