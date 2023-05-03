@@ -12,6 +12,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { WeatherComponent } from './components/weather/weather.component';
 import { SoilmoistureComponent } from './components/soilmoisture/soilmoisture.component';
 import { FormsModule } from '@angular/forms';
+import { TestComponent } from './components/test/test.component';
 
 
 
@@ -22,7 +23,8 @@ import { FormsModule } from '@angular/forms';
     HomeComponent,
     ProfileComponent,
     WeatherComponent,
-    SoilmoistureComponent
+    SoilmoistureComponent,
+    TestComponent
   ],
   imports: [
     HttpClientModule,

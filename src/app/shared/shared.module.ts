@@ -30,6 +30,8 @@ import { SmallSoilSensorCardComponent } from './components/small-soil-sensor-car
 import { DateFnsConfigurationService, DateFnsModule } from 'ngx-date-fns';
 import { sv } from 'date-fns/locale';
 import { StringToDatePipe } from './pipes/string-to-date.pipe';
+import { DetailedWeatherTableAltComponent } from './components/detailed-weather-table-alt/detailed-weather-table-alt.component';
+import { TypeofPipe } from './pipes/typeof.pipe';
 
 
 const swedishConfig = new DateFnsConfigurationService()
@@ -61,6 +63,8 @@ swedishConfig.setLocale(sv)
     DetailedSensorComponent,
     SmallSoilSensorCardComponent,
     StringToDatePipe,
+    DetailedWeatherTableAltComponent,
+    TypeofPipe,
   ],
   imports: [
     CommonModule,
@@ -95,7 +99,8 @@ swedishConfig.setLocale(sv)
     DetailedSensorComponent,
     SmallSoilSensorCardComponent,
     DateFnsModule,
-    StringToDatePipe
+    StringToDatePipe,
+    DetailedWeatherTableAltComponent
   ],
   providers: [
     UviConverterPipe,
