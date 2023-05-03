@@ -17,7 +17,7 @@ export class PingService {
     const path = `/ping`
     const delay = 60 * 1000
     const timesToRetry = 3
-    const interval = 1 * 60 * 1000
+    const interval = 10 * 60 * 1000
     return timer(0, interval).pipe(
       switchMap(() => {
         return this.http.get<boolean>(`${url}${path}`).pipe(
