@@ -4,7 +4,6 @@
   padding: var(--medium);
   gap: var(--small);
   background-color: var(--light-background-100);
-
 }
 
 .table {
@@ -51,12 +50,14 @@
 }
 
 .tableCell.badge {
+  height: calc(var(--medium) + var(--small));
   border-radius: var(--large);
+  text-align: center;
   font-size: var(--fs-100);
   font-weight: var(--fw-600);
   letter-spacing: 2px;
-  height: calc(var(--medium) + var(--small));
 }
+
 .badge[data-value="Låg"] {
     background-color: var(--green-300);
     color: var(--green-800);
@@ -89,8 +90,3 @@
     height: calc(var(--large) - var(--small));
 }
 
-  .fetch-date {
-    color: var(--on-light-background-100);
-    font-size: var(--fs-400);
-    font-weight: var(--fw-300);
-}

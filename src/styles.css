@@ -208,6 +208,12 @@ h6 {
     font-weight: var(--fw-300);
  }
 
+ .fetch-date {
+    color: var(--on-light-background-100);
+    font-size: var(--fs-400);
+    font-weight: var(--fw-300);
+ }
+
 
 
 html, body {

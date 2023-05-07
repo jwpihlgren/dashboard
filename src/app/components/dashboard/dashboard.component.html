@@ -23,11 +23,11 @@
     >
     </app-weather-card>
 
-    <app-detailed-weather-table
+    <app-detailed-weather-table-alt
         *ngIf="forecast$ | async as forecast; else loading"
         [forecast]="forecast"
         class="card card-single-quarter">
-    </app-detailed-weather-table>
+    </app-detailed-weather-table-alt>
 
     <ng-template #loading>
         <div class="card card-single">Loading</div>
