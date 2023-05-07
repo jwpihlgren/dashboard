@@ -388,7 +388,7 @@ button.square {
     }
 
     .card-single-quarter {
-        grid-column: auto / span 6;
+        grid-column: auto / span 8;
     
     }
 
@@ -407,7 +407,7 @@ button.square {
     }
 
     .card-single-quarter {
-        grid-column: auto / span 6;
+        grid-column: auto / span 8;
     
     }
     .card-double {
