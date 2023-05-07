@@ -1,9 +1,8 @@
-import { UviConverterPipe } from './../../pipes/uvi-converter.pipe';
-import { WeatherService } from './../../services/weather.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { IForecast } from '../../models/forecast.interface';
 import { IForecastHourly } from '../../models/forecast-response.interface';
-import { LanguageService } from '../../services/language.service';
+import { UviConverterPipe } from '../../pipes/uvi-converter.pipe';
+import { WeatherService } from '../../services/weather.service';
+import { IForecast } from '../../models/forecast.interface';
 
 @Component({
   selector: 'app-detailed-weather-table',
@@ -12,135 +11,114 @@ import { LanguageService } from '../../services/language.service';
 })
 export class DetailedWeatherTableComponent implements OnInit {
 
+  SE_LOCALE: any = 'sv-SE'
+  LOCALE_OPTIONS: any = {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false 
+  }
 
-  tableHeadings: any[] = [
-    {title: "Tid",
-    classList: ["text"]
-    },
-    {title: "Temp \xB0C",
-    classList: ["numerical"]
-    },
-    {title: "UV-I",
-    classList: ["badge"]
-    },
-    {title: "Nederbörd",
-    classList: ["numerical"]
-    },
-/*     {title: "Typ",
-    classList: ["numerical"]
-    }, */
-    {title: "Moln",
-    classList: ["numerical"]
-    },
-    {title: "Väder",
-    classList: ["image"]
-    },
-
+  columnHeadings: IColumnHeading[] = [
+    { title: 'Tid', type: "text" },
+    { title: 'Temp \xB0C', type: "numerical" },
+    { title: 'UV-I', type: "badge" },
+    { title: 'Nederbörd', type: "numerical" },
+    { title: 'Moln', type: "numerical" },
+    { title: 'Väder', type: "symbol" },
   ]
 
-  tableData!: any[]
-
   @Input() forecast!: IForecast
-  weatherMatrix!: any[]
+
+  tableRows: ITableRow[] = []
 
   constructor(
     private uviConverterPipe: UviConverterPipe,
-    private weatherService: WeatherService,
-    private languageService: LanguageService
-  ) { }
+    private weatherService: WeatherService) { }
+
 
   ngOnInit(): void {
-    this.tableData = this.createHourlyTableCells(this.forecast.hourly)
+    this.tableRows = this.createHourlyTableCells(this.forecast.hourly)
   }
 
-  createHourlyTableCells(arr: any[]): any[] {
-
-    const hourlyTableCells: any[] = []
-
-    arr.forEach((hourlyData: IForecastHourly, index: number) => {
-      hourlyTableCells.push(this.getTime(hourlyData, ['text']))
-      hourlyTableCells.push(this.getTemperature(hourlyData, ['numerical']))
-      hourlyTableCells.push(this.getUVI(hourlyData, ['badge']))
-      hourlyTableCells.push(this.getprecipitationAmount(hourlyData, ['numerical']))
-/*       hourlyTableCells.push(this.getprecipitationType(hourlyData, ['numerical'])) */
-      hourlyTableCells.push(this.getClouds(hourlyData, ['numerical']))
-      hourlyTableCells.push(this.getWeatherIcon(hourlyData, ['image']))
-    })
-    return hourlyTableCells
-  }
-
-  getIconUrl(icon: number): string {
-    return this.weatherService.getIconUrl(icon)
- }
-
- private getTime(hourlyData: IForecastHourly, classList: string[]): ITableCell {
-  const time = {
-    classList: classList,
-    value: new Date(hourlyData.validTime).toLocaleTimeString('se-SV', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
+  createHourlyTableCells(hourlyForecast: IForecastHourly[]): ITableRow[] {
       
-    })
+      const rows: ITableRow[] = []
+  
+      hourlyForecast.forEach((hourlyData: IForecastHourly) => {
+        rows.push({
+          time: this.formatTime(hourlyData.validTime),
+          temp: this.formatTemp(hourlyData.currentTemperature, hourlyData.apparentTemperature),
+          uvi: this.formatUvi(hourlyData.UVI),
+          precipitation: this.formatPrecipitation(hourlyData.minAmountOfPrecipitation, hourlyData.maxAmountOfPrecipitation),
+          clouds: this.formatCloudiness(hourlyData.cloudiness), 
+          symbol: this.formatSymbol(hourlyData.symbol)
+        })
+      })
+  
+      return rows
   }
-  return (time)
- }
 
- private getTemperature(hourlyData: IForecastHourly, classList: string[]): ITableCell {
-  const temperature: ITableCell = {
-    classList: classList,
-    value: `${Math.round(hourlyData.currentTemperature)}\xB0 (${Math.round(hourlyData.apparentTemperature)}\xB0)`
+  private formatTime(time: Date): ITableCell {
+    return {
+      value: new Date(time).toLocaleTimeString(this.SE_LOCALE, this.LOCALE_OPTIONS),
+      type: 'text'
+    }
   }
-  return temperature
- }
 
- private getUVI(hourlyData: IForecastHourly, classList: string[]): ITableCell {
-  const UVI: ITableCell = {
-    classList: classList,
-    value: this.uviConverterPipe.transform(hourlyData.UVI)
+  private formatTemp(currentTemperature: number, apparentTemperature: number): ITableCell {
+    return {
+      value: `${Math.round(currentTemperature)}\xB0 (${Math.round(apparentTemperature)}\xB0)`,
+      type: 'numerical'
+    }
   }
-  return UVI
- }
 
-private getprecipitationAmount(hourlyData: IForecastHourly, classList: string[]): ITableCell {
-
-  const precipitationAmount: number = (hourlyData.maxAmountOfPrecipitation + hourlyData.minAmountOfPrecipitation / 2)
-  const probabilityOfprecipitation: ITableCell = {
-    classList: classList,
-    value: `${precipitationAmount.toFixed(1)} mm `
+  private formatUvi(uvi: number): ITableCell {
+    return {value: this.uviConverterPipe.transform(uvi),
+    type: 'badge'
+    }
   }
-  return probabilityOfprecipitation
+
+  private formatPrecipitation(minAmountOfPrecipitation: number, maxAmountOfPrecipitation: number): ITableCell {
+    return {
+      value: `${minAmountOfPrecipitation} - ${maxAmountOfPrecipitation}mm`,
+      type: 'numerical'
+    }
+  }
+
+  private formatCloudiness(cloudiness: number): ITableCell {
+    return {
+      value: `${Math.round(cloudiness)} %`,
+      type: 'numerical'
+    }
+  }
+
+  private formatSymbol(symbol: number): ITableCell {
+    return {
+      value: this.weatherService.getIconUrl(symbol),
+      type: 'symbol'
+    }
+  }
+
 }
-private getprecipitationType(hourlyData: IForecastHourly, classList: string[]): ITableCell {
 
-  const precipitationAmount: ITableCell = {
-    classList: classList,
-    value: this.languageService.getTranslatedPercipitationType(hourlyData.precipitationType)
-  }
-  return precipitationAmount
+
+
+export interface IColumnHeading {
+  title: string,
+  type: 'text' | 'numerical' | 'badge' | 'symbol'
 }
 
-private getClouds(hourlyData: IForecastHourly, classList: string[]): ITableCell {
-  const clouds: ITableCell = {
-    classList: classList,
-    value: `${Math.round(hourlyData.cloudiness)} %`
-  }
-  return clouds
+export interface ITableRow {
+  time: ITableCell,
+  temp: ITableCell,
+  uvi: ITableCell,
+  precipitation: ITableCell,
+  clouds: ITableCell,
+  symbol: ITableCell,
 }
 
-private getWeatherIcon(hourlyData: IForecastHourly, classList: string []): ITableCell {
-  const weatherIcon: ITableCell = {
-    classList: classList,
-    value: hourlyData.symbol
-  }
-
-  return weatherIcon
-}
-
-}
-
-interface ITableCell {
-  classList: string[],
-  value: string | number
+export interface ITableCell {
+  value: string
+  type: 'text' | 'numerical' | 'badge' | 'symbol'
 }
 

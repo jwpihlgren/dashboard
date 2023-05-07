@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DetailedWeatherTableComponent } from './detailed-weather-table.component';
 
-describe('DetailedWeatherTableComponent', () => {
+describe('DetailedWeatherTableAltComponent', () => {
   let component: DetailedWeatherTableComponent;
   let fixture: ComponentFixture<DetailedWeatherTableComponent>;
 
@@ -11,9 +11,7 @@ describe('DetailedWeatherTableComponent', () => {
       declarations: [ DetailedWeatherTableComponent ]
     })
     .compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(DetailedWeatherTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

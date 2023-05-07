@@ -15,7 +15,6 @@ import { ClickedOutsideDirective } from './directives/clicked-outside.directive'
 import { BarRangeChartComponent } from './components/bar-range-chart/bar-range-chart.component';
 import { IsoToDatePipe } from './pipes/iso-to-date.pipe';
 import { AreaChartComponent } from './components/area-chart/area-chart.component';
-import { DetailedWeatherTableComponent } from './components/detailed-weather-table/detailed-weather-table.component';
 import { UviConverterPipe } from './pipes/uvi-converter.pipe';
 import { SearchComponent } from './components/search/search.component';
 import { SearchResultComponent } from './components/search-result/search-result.component';
@@ -30,6 +29,8 @@ import { SmallSoilSensorCardComponent } from './components/small-soil-sensor-car
 import { DateFnsConfigurationService, DateFnsModule } from 'ngx-date-fns';
 import { sv } from 'date-fns/locale';
 import { StringToDatePipe } from './pipes/string-to-date.pipe';
+import { TypeofPipe } from './pipes/typeof.pipe';
+import { DetailedWeatherTableComponent } from './components/detailed-weather-table/detailed-weather-table.component';
 
 
 const swedishConfig = new DateFnsConfigurationService()
@@ -48,7 +49,6 @@ swedishConfig.setLocale(sv)
     BarRangeChartComponent,
     IsoToDatePipe,
     AreaChartComponent,
-    DetailedWeatherTableComponent,
     UviConverterPipe,
     SearchComponent,
     SearchResultComponent,
@@ -61,6 +61,8 @@ swedishConfig.setLocale(sv)
     DetailedSensorComponent,
     SmallSoilSensorCardComponent,
     StringToDatePipe,
+    DetailedWeatherTableComponent,
+    TypeofPipe,
   ],
   imports: [
     CommonModule,
@@ -81,7 +83,6 @@ swedishConfig.setLocale(sv)
     ClickedOutsideDirective,
     BarRangeChartComponent,
     AreaChartComponent,
-    DetailedWeatherTableComponent,
     UviConverterPipe,
     SearchComponent,
     CommonModule,
@@ -95,7 +96,8 @@ swedishConfig.setLocale(sv)
     DetailedSensorComponent,
     SmallSoilSensorCardComponent,
     DateFnsModule,
-    StringToDatePipe
+    StringToDatePipe,
+    DetailedWeatherTableComponent
   ],
   providers: [
     UviConverterPipe,

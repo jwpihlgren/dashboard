@@ -1,21 +1,27 @@
 <h5 class="flex row j-start a-center gap-sm">Timme för timme {{forecast.locationName}}</h5>
-<div class="table">
-    <div *ngFor="let heading of tableHeadings"
-        [ngClass]="['tableHeading'].concat(heading.classList)">
-            <h6>{{heading.title}}</h6>
-    </div>
-    <div *ngFor="let cell of tableData"
-        [ngClass]="['tableCell'].concat(cell.classList)"
-        [attr.data-value]="cell.value">
-        <ng-container *ngIf="cell.classList.includes('image'); else default">
+<table>
+  <!--   <caption>Test</caption> -->
+    <thead>
+        <tr>
+            <th *ngFor="let columnHeading of columnHeadings" [class]="columnHeading.type">
+                <h6>{{columnHeading.title}}</h6>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let row of tableRows">
+        <td [attr.data-cell]="columnHeadings[0].title" [class]="row.time.type">{{row.time.value}}</td>
+        <td [attr.data-cell]="columnHeadings[1].title" [class]="row.temp.type">{{row.temp.value}}</td>
+        <td [attr.data-cell]="columnHeadings[2].title" [attr.data-value]="row.uvi.value" [class]="row.uvi.type" >
+            <div>{{row.uvi.value}}</div>
+        </td>
+        <td [attr.data-cell]="columnHeadings[3].title" [class]="row.precipitation.type">{{row.precipitation.value}}</td>
+        <td [attr.data-cell]="columnHeadings[4].title" [class]="row.clouds.type">{{row.clouds.value}}</td>
+        <td [attr.data-cell]="columnHeadings[5].title" [class]="row.symbol.type">            
             <svg class="icon currently-icon">
-                <use [attr.xlink:href]="getIconUrl(cell.value)"></use>
+                <use [attr.xlink:href]="row.symbol.value"></use>
             </svg>
-        </ng-container>
-        <ng-template #default>
-            {{cell.value}}
-        </ng-template>
-    </div>
-</div>
+        </td>
+    </tbody>
+</table>
 <span class="fetch-date | flex row j-center a-center gap-sm"> {{forecast.fetchDate.toString() | stringToDate | dfnsFormatDistanceToNowPure}} sedan</span>
-

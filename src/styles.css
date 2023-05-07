@@ -208,6 +208,12 @@ h6 {
     font-weight: var(--fw-300);
  }
 
+ .fetch-date {
+    color: var(--on-light-background-100);
+    font-size: var(--fs-400);
+    font-weight: var(--fw-300);
+ }
+
 
 
 html, body {
@@ -382,7 +388,7 @@ button.square {
     }
 
     .card-single-quarter {
-        grid-column: auto / span 6;
+        grid-column: auto / span 8;
     
     }
 
@@ -401,7 +407,7 @@ button.square {
     }
 
     .card-single-quarter {
-        grid-column: auto / span 6;
+        grid-column: auto / span 8;
     
     }
     .card-double {

@@ -15,7 +15,7 @@ span {
 app-bar-range-chart {
     flex-grow: 1;
     background-color: var(--light-background-100);
-    border-radius: var(--rounded);
+    border-radius: var(--small);
 }
 
 .weather-side-info {
