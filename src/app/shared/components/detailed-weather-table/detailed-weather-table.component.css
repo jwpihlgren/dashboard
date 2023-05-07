@@ -8,6 +8,8 @@
 table {
     background-color: var(--white);
     font-weight: var(--fw-500);
+    padding: var(--small);
+    border-radius: var(--small);
 }
 
 th, td {
