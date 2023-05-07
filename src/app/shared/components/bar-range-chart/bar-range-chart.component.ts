@@ -136,6 +136,7 @@ export class BarRangeChartComponent implements OnInit, OnChanges{
     /* Add the weather icons to each tick */
     const selection = this.svg.selectAll(".tick");
     selection._groups[0].forEach((node: any, index: number) => {
+      if(!data[index]) return
       d3.select(node)
       .append('svg')
       .attr('class', 'icon daily-icon')
