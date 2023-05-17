@@ -1,6 +1,7 @@
 :host {
     display: flex;
     padding: var(--medium);
+    height: min-content;
 }
 
 .content {
