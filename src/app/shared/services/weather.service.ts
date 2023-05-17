@@ -25,6 +25,7 @@ export class WeatherService {
     const path = `/weather`
     const params = `?lat=${location.lat}&lon=${location.lon}`
     const hoursUntilExpire = 2
+    const minutesuntilExpire = 10
     const safeName = location.name.replace(" ", "")
 
     const previousForecasts: any = this.sessionStorageService.getStoredData("forecasts")
@@ -43,7 +44,8 @@ export class WeatherService {
         const parsedData: IForecast = {
           locationName: location.local_name,
           fetchDate: currentDate,
-          expireDate: new Date(new Date().setHours(currentDate.getHours() + hoursUntilExpire)),
+       /*    expireDate: new Date(new Date().setHours(currentDate.getHours() + hoursUntilExpire)), */
+          expireDate: new Date(new Date().setMinutes(currentDate.getMinutes() + minutesuntilExpire)),
           ...data
         }
 
