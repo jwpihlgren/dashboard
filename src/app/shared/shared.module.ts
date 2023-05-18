@@ -31,6 +31,7 @@ import { sv } from 'date-fns/locale';
 import { StringToDatePipe } from './pipes/string-to-date.pipe';
 import { TypeofPipe } from './pipes/typeof.pipe';
 import { DetailedWeatherTableComponent } from './components/detailed-weather-table/detailed-weather-table.component';
+import { AreaChartTwoComponent } from './components/area-chart-two/area-chart-two.component';
 
 
 const swedishConfig = new DateFnsConfigurationService()
@@ -63,6 +64,7 @@ swedishConfig.setLocale(sv)
     StringToDatePipe,
     DetailedWeatherTableComponent,
     TypeofPipe,
+    AreaChartTwoComponent,
   ],
   imports: [
     CommonModule,
@@ -97,7 +99,8 @@ swedishConfig.setLocale(sv)
     SmallSoilSensorCardComponent,
     DateFnsModule,
     StringToDatePipe,
-    DetailedWeatherTableComponent
+    DetailedWeatherTableComponent,
+    AreaChartTwoComponent,
   ],
   providers: [
     UviConverterPipe,
