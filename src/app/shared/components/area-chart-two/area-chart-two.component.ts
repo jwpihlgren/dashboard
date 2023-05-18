@@ -169,12 +169,3 @@ interface IData {
   value: number
 }
 
-function gradient(t: number) {
-  const sPrime = 5
-  const lPrime = 0.6
-  let tPrime = 1 - t
-  const ts = Math.abs(tPrime  - 0.5)
-  tPrime = tPrime < 0.37 ? 0.37 : tPrime
-  tPrime = tPrime > 0.835 ? 0.835 : tPrime
-  return d3.hsl(360 * tPrime - 100, (sPrime - sPrime * ts), (lPrime - lPrime * ts)).toString()
-}
