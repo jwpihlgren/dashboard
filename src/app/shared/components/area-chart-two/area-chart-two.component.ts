@@ -1,5 +1,7 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import * as d3 from 'd3'
+import  * as uuid from 'uuid'
+import { IAreaChartData } from '../../models/area-chart-data';
 
 @Component({
   selector: 'app-area-chart-two',
@@ -8,19 +10,21 @@ import * as d3 from 'd3'
 })
 export class AreaChartTwoComponent implements OnInit {
 
-  MIN_COLOR = "#F9CD65"
+  MIN_COLOR = "#f8c03f"
   MAX_COLOR ="#5693e9"
 
   width!: number
-  height: number = 500
+  height!: number
   margin: {top: number, right: number, bottom: number, left: number} = {top: 20, right: 30, bottom: 30, left: 40}
   pathGradient = 'gradient-id-1'
   areaGradient = 'gradient-id-2'
   chartElement!: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>
+  id: string = "area-chart-" + uuid.v4()
+  chart:string = "chart"
 
 
   @Input() unit: string = ''
-  @Input() data: IData[] = [
+  @Input() data: IAreaChartData[] = [
     { date: new Date(new Date().setDate( new Date().getDate() + 0)), value: 20 },
     { date: new Date(new Date().setDate( new Date().getDate() + 1)), value: 60 },
     { date: new Date(new Date().setDate( new Date().getDate() + 2)), value: 90 },
@@ -36,6 +40,7 @@ export class AreaChartTwoComponent implements OnInit {
 
   ngOnInit(): void {
     this.width = this.elementRef.nativeElement.offsetWidth
+    this.height = this.elementRef.nativeElement.offsetHeight
     this.y = this.createY()
     this.x = this.createX()
     this.createChart()
@@ -45,13 +50,15 @@ export class AreaChartTwoComponent implements OnInit {
     this.appendLinearGradientToArea()
     this.appendArea()
     this.appendPath()
+    this.elementRef.nativeElement.appendChild(this.chartElement.node())
   }
 
   createChart() {
-    this.chartElement = d3.select('#area-chart')
-      .append('svg')
+    const svg: any = d3.create('svg')
+    svg
       .attr('width', '100%')
-      .attr('height', '500')
+      .attr('height', '100%')
+      this.chartElement = svg
   }
 
 
@@ -60,6 +67,8 @@ export class AreaChartTwoComponent implements OnInit {
       .domain(<[Date, Date]>d3.extent(this.data, (d) => d.date))
       .range([this.margin.left, this.width - this.margin.right])
   }
+
+
   appendXAxis() {
 
     const xAxis = (g: any) => {
@@ -69,14 +78,15 @@ export class AreaChartTwoComponent implements OnInit {
     }
     this.chartElement.append('g')
       .call(xAxis)
-  
   }
+
 
   createY(): d3.AxisScale<number> {
     return d3.scaleLinear()
     .domain([0, 100]).nice()
     .range([this.height - this.margin.bottom, this.margin.top])
   }
+
 
   appendYAxis() {
     const yAxis = (g: any) => {
@@ -91,10 +101,9 @@ export class AreaChartTwoComponent implements OnInit {
 
   }
 
+
   appendLinearGradientToPath() {
     const color = d3.scaleSequential(d3.interpolateCubehelixLong(this.MIN_COLOR, this.MAX_COLOR))
-   
-    console.log(color.interpolator)
 
     this.chartElement.append('linearGradient')
       .attr("id", this.pathGradient)
@@ -110,10 +119,9 @@ export class AreaChartTwoComponent implements OnInit {
       .attr("stop-color", color.interpolator())
   }
 
+
   appendLinearGradientToArea() {
     const color = d3.scaleSequential(d3.interpolateCubehelixLong(this.MIN_COLOR, this.MAX_COLOR))
-   
-    console.log(color.interpolator)
 
     this.chartElement.append('linearGradient')
       .attr("id", this.areaGradient)
@@ -127,9 +135,8 @@ export class AreaChartTwoComponent implements OnInit {
   .join("stop")
       .attr("offset", d => d )
       .attr("stop-color", color.interpolator())
-      .attr("stop-opacity", (d: any) => Math.max(d, 0.5))
+      .attr("stop-opacity", (d: any) => Math.min(d, 0.8))
   }
-
 
 
   appendPath() {
@@ -149,6 +156,7 @@ export class AreaChartTwoComponent implements OnInit {
     .attr("d", line)
   }
 
+  
   appendArea() {
     const area: any = d3.area()
       .curve(d3.curveBasis)
@@ -162,10 +170,5 @@ export class AreaChartTwoComponent implements OnInit {
     .attr("fill", "url(#" + this.areaGradient + ")")
     .attr("d", area)
   }
-}
-
-interface IData {
-  date: Date
-  value: number
 }
 
