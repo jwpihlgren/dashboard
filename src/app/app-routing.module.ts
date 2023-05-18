@@ -14,7 +14,7 @@ const routes: Routes = [
   {path: "profile", component: ProfileComponent, canActivate: [AuthGuard]},
   {path: "weather", component: WeatherComponent, canActivate: [AuthGuard]},
   {path: "soilmoisture", component: SoilmoistureComponent, canActivate: [AuthGuard]},
-  {path: "test", component: TestComponent},
+/*   {path: "test", component: TestComponent}, */
   {path: "**", redirectTo: ""}
 
 ];
