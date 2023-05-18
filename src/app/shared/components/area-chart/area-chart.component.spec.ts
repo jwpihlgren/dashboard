@@ -11,9 +11,7 @@ describe('AreaChartComponent', () => {
       declarations: [ AreaChartComponent ]
     })
     .compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AreaChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
