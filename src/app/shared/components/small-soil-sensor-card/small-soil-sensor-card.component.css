@@ -31,4 +31,7 @@
 :host ::ng-deep .reading-block {
     font-weight: 700;
 }
+:host ::ng-deep .reading-affix {
+    font-weight: 700;
+}
 
