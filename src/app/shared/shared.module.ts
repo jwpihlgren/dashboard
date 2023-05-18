@@ -14,7 +14,6 @@ import { MenuItemComponent } from './components/menu-item/menu-item.component';
 import { ClickedOutsideDirective } from './directives/clicked-outside.directive';
 import { BarRangeChartComponent } from './components/bar-range-chart/bar-range-chart.component';
 import { IsoToDatePipe } from './pipes/iso-to-date.pipe';
-import { AreaChartComponent } from './components/area-chart/area-chart.component';
 import { UviConverterPipe } from './pipes/uvi-converter.pipe';
 import { SearchComponent } from './components/search/search.component';
 import { SearchResultComponent } from './components/search-result/search-result.component';
@@ -31,6 +30,8 @@ import { sv } from 'date-fns/locale';
 import { StringToDatePipe } from './pipes/string-to-date.pipe';
 import { TypeofPipe } from './pipes/typeof.pipe';
 import { DetailedWeatherTableComponent } from './components/detailed-weather-table/detailed-weather-table.component';
+import { AreaChartComponent } from './components/area-chart/area-chart.component';
+
 
 
 const swedishConfig = new DateFnsConfigurationService()
@@ -48,7 +49,6 @@ swedishConfig.setLocale(sv)
     ClickedOutsideDirective,
     BarRangeChartComponent,
     IsoToDatePipe,
-    AreaChartComponent,
     UviConverterPipe,
     SearchComponent,
     SearchResultComponent,
@@ -63,6 +63,7 @@ swedishConfig.setLocale(sv)
     StringToDatePipe,
     DetailedWeatherTableComponent,
     TypeofPipe,
+    AreaChartComponent
   ],
   imports: [
     CommonModule,
@@ -82,7 +83,6 @@ swedishConfig.setLocale(sv)
     MenuItemComponent,
     ClickedOutsideDirective,
     BarRangeChartComponent,
-    AreaChartComponent,
     UviConverterPipe,
     SearchComponent,
     CommonModule,
@@ -97,7 +97,8 @@ swedishConfig.setLocale(sv)
     SmallSoilSensorCardComponent,
     DateFnsModule,
     StringToDatePipe,
-    DetailedWeatherTableComponent
+    DetailedWeatherTableComponent,
+    AreaChartComponent
   ],
   providers: [
     UviConverterPipe,

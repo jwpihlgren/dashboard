@@ -5,6 +5,7 @@ import { ISoilMoistureData } from '../../models/soil-moisture-data.interface';
 import { SensorService } from '../../services/sensor.service';
 import { faTimes, faPen} from '@fortawesome/free-solid-svg-icons';
 import { IPartialSensor } from '../../models/partial-sensor.interface';
+import { IAreaChartData } from '../../models/area-chart-data';
 
 @Component({
   selector: 'app-detailed-sensor',
@@ -88,6 +89,13 @@ export class DetailedSensorComponent implements OnInit, OnChanges {
     this.editIsPristine = true;
     this.elementRef.nativeElement.value = ""
     this.elementRef.nativeElement.blur()
+  }
+
+  toChartData(data: ISoilMoistureData[]): IAreaChartData[] {
+    const chartData: IAreaChartData[] = data.map((reading: ISoilMoistureData) => {
+      return {date: new Date(reading.createdAt), value: reading.value}
+    })
+    return chartData
   }
 
 }
