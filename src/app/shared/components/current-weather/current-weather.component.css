@@ -1,13 +1,6 @@
 :host {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: var(--medium);
-}
-
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
     gap: var(--medium);
 }
 
@@ -16,9 +9,12 @@
     height: var(--extra-large);
 }
 
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--medium);
+}
 
-.fetch-date {
-    color: var(--on-light-background-100);
-    font-size: var(--fs-400);
-    font-weight: var(--fw-300);
+.card-grid-footer {
+    grid-column: span 2;
 }
