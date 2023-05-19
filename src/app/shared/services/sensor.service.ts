@@ -35,8 +35,6 @@ export class SensorService {
     )
   }
 
-
-
   subscribeToSensor(id:string): Observable<any> {
     return this.getToken().pipe(
       mergeMap(token => {
@@ -56,7 +54,7 @@ export class SensorService {
         }
 
       return this.subject$.pipe(
-        tap(event => console.log(event.data)), 
+     /*    tap(event => console.log(event.data)),  */
         filter(event=> event.type !== 'heartbeat'), 
         filter(event => JSON.parse(event.data).sensor === id ),
         map(event => JSON.parse(event.data)),
@@ -134,6 +132,20 @@ export class SensorService {
     const api = environment.dev.serverUrl
     const path = `/sensors/${id}/monthly`
     return this.http.get<ISoilMoistureData[]>(`${api}${path}`).pipe(
+      tap(data => console.log(data)),
+      retry(3),
+      catchError((error: Error) => {
+        console.log(error)
+        return EMPTY
+      }),
+      shareReplay()
+    )
+  }
+
+  getTempFromSensors(): Observable<any> {
+    const api = environment.dev.serverUrl
+    const path = `/sensors/temperature`
+    return this.http.get<any>(`${api}${path}`).pipe(
       tap(data => console.log(data)),
       retry(3),
       catchError((error: Error) => {

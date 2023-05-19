@@ -37,7 +37,6 @@ export class SmallSoilSensorCardComponent implements OnInit {
   constructor(private sensorService: SensorService) { }
 
   ngOnInit(): void {
-    console.log(this.sensor);
     this.measurement$ = this.sensorService.subscribeToSensor(this.sensor._id)
   }
 

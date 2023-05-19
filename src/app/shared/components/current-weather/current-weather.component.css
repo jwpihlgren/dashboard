@@ -2,9 +2,13 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: var(--medium);
     gap: var(--medium);
-    background-color: var(--light-background-100);
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--medium);
 }
 
 .icon {
@@ -12,37 +16,6 @@
     height: var(--extra-large);
 }
 
-.weather-side-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-image: var(--on-light-primary-surface-elevation-1);
-}
-
-.weather-side-info-details {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--medium);
-}
-
-.detail {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    gap: var(--small);
-}
-
-.weather-side-info-currently {
-    display: flex;
-    flex-direction: column;
-    width: calc(1rem * 10);
-    height: calc(1rem * 10);
-    justify-content: center;
-    align-items: center;
-    border-radius: var(--pill);
-    background-image: var(--on-light-primary-surface-elevation-3);
-}
 
 .fetch-date {
     color: var(--on-light-background-100);
