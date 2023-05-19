@@ -117,11 +117,7 @@ export class AreaChartComponent implements OnInit {
       .data(d3.ticks(0, 1, 10))
   .join("stop")
       .attr("offset", d => d )
-      .attr("stop-color", d => {
-        if (d < 0.3) return "#f8c03f"
-        if (d < 0.6) return "#32d2ac"
-        return "#5693e9"
-      })
+      .attr("stop-color", d => this.colorFinder(d, [0.3, 0.6, 1]))
   }
 
 
