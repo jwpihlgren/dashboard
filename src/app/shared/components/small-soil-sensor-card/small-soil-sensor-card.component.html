@@ -9,10 +9,11 @@
         [foregroundColor]="gaugeParams.foregroundColor"
         [thresholds]="gaugeParams.thresholds"
         [min]="gaugeParams.min"
-        [max]="gaugeParams.max">
+        [max]="gaugeParams.max"
+        [append]="gaugeParams.append">
     </ngx-gauge>
     <div class="content-text">
-        <h6 class="card-title">Jordfuktighet</h6>
+        <h6 class="card-title">{{title}}</h6>
         <span class="card-title">{{sensor.alias}}</span>
         <span class="card-time | helper-text">{{ measurement.updatedAt.toString() | stringToDate | dfnsFormatDistanceToNow}} sedan</span>
     </div>

@@ -2,11 +2,12 @@ import { SessionStorageService } from './session-storage.service';
 import { ILocation } from './../models/location.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, of, timeout, catchError, retry, EMPTY, Observable } from 'rxjs';
+import { map, of, timeout, catchError, retry, EMPTY, Observable, forkJoin } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as dummydata from '../../../assets/stubs/weather-data.json'
 import { IForecastResponse } from '../models/forecast-response.interface';
 import { IForecast } from '../models/forecast.interface';
+import { IinsideTemperatureResponse } from '../models/inside-temperature-response.interface';
 
 
 @Injectable({
@@ -33,20 +34,28 @@ export class WeatherService {
         return of(previousForecasts[safeName]) as Observable<IForecast>
       }
 
-    return this.http.get<IForecastResponse>(`${url}${path}${params}`).pipe(
+    const forecastRequest: Observable<IForecastResponse> = this.http.get<IForecastResponse>(`${url}${path}${params}`)
+    const insideTemperatureRequest: Observable<IinsideTemperatureResponse> = this.http.get<any>(`${url}/sensors/temperature`)
+
+  return forkJoin({
+      forecast: forecastRequest,
+      insideTemperature: insideTemperatureRequest
+    }).pipe(
       timeout({
         each: 30 * 1000,
         with: () => {throw new Error("Request took too long to complete")}
       }),
-      map((data:IForecastResponse): IForecast => {
-
+      map((data: any): IForecast => {
+        console.log(data.insideTemperature.temperature);
         const currentDate = new Date()
         const parsedData: IForecast = {
+          
+          insideTemperature: Math.floor(data.insideTemperature.temperature),
           locationName: location.local_name,
           fetchDate: currentDate,
-       /*    expireDate: new Date(new Date().setHours(currentDate.getHours() + hoursUntilExpire)), */
-          expireDate: new Date(new Date().setMinutes(currentDate.getMinutes() + minutesuntilExpire)),
-          ...data
+          expireDate: new Date(new Date().setHours(currentDate.getHours() + hoursUntilExpire)),
+      /* expireDate: new Date(new Date().setMinutes(currentDate.getMinutes() + minutesuntilExpire)), */
+          ...data.forecast
         }
 
         const previousForecasts: any = this.sessionStorageService.getStoredData("forecasts")
@@ -105,5 +114,9 @@ export class WeatherService {
 /*   getForecast(location: any){
     return of(dummydata)
   } */
+}
+
+function forkjoin(arg0: Observable<IForecast>): Observable<IForecast> {
+  throw new Error('Function not implemented.');
 }
 

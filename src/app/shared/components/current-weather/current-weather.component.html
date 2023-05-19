@@ -1,34 +1,48 @@
-<h5 class="flex row j-start a-center gap-sm">Just nu i {{forecast.locationName}}</h5>
-<div class="weather-side-info">
-    <div class="weather-side-info-details">
-        <div class="detail">
-            <h6 class="detail-title">Vind</h6>
-            <span class="detail-data">{{forecast.current.windSpeed| addUnit: "m/s"}} {{forecast.current.windDirection.toString() | degToCompass}}</span>
-        </div>
-        <div class="detail">
-            <h6 class="detail-title">Barometer</h6>
-            <span class="detail-data">{{forecast.current.airPressure| addUnit: "hPa"}}</span>
-        </div>
-        <div class="detail">
-            <h6 class="detail-title">Luft<wbr>fuktighet</h6>
-            <span class="detail-data">{{forecast.current.humidity | addUnit: '%'}}</span>
-        </div>
-        <div class="detail">
-            <h6 class="detail-title">Nederbörd mängd</h6>
-            <span class="detail-data">{{forecast.current.minAmountOfPrecipitation}} - {{forecast.current.maxAmountOfPrecipitation | addUnit: 'mm'}}</span>
-        </div>
-        <div class="detail">
-            <h6 class="detail-title">Nederbörd typ</h6>
-            <span class="detail-data">{{languageService.getTranslatedPercipitationType(forecast.current.precipitationType)}}</span>
-        </div>
-
-    </div>
-    <div class="weather-side-info-currently">
-        <h3 class="currently-degrees">{{forecast.current.currentTemperature | addUnit: '&#176;C'}}</h3>
-        <h5 class="currently-degrees">  ({{forecast.current.apparentTemperature | addUnit: '&#176;C'}})</h5>
-        <svg class="icon currently-icon">
+<div class=" card flex row gap-lg p-md">
+    <div class="flex col grow j-center no-grow">
+        <svg class="icon">
             <use [attr.xlink:href]="getIconUrl(forecast.current.symbol)"></use>
         </svg>
+    </div>   
+    <div class="flex col gap-sm grow">
+        <h6 class="card-caption">Väder</h6>
+        <span class="card-title">{{forecast.locationName}}</span>
+      <!--   <span class="helper-text"> {{forecast.fetchDate.toString() | stringToDate | dfnsFormatDistanceToNow}} sedan</span> -->
+      <div class="flex row gap-sm">
+        <div class="flex col gap-xs grow">
+            <span class="helper-text">ute</span>
+            <h4 class="no-text-wrap">{{forecast.current.currentTemperature | addUnit: '&#176;C'}}</h4>
+        </div>
+        <div class="flex col gap-xs grow">
+            <span class="helper-text">inne</span>
+            <h4 class="no-text-wrap"> {{forecast.insideTemperature| addUnit: '&#176;C'}}</h4>
+        </div>
+    </div> 
+    </div>
+   
+</div>
+
+
+<div class="card-grid">
+    <div class="card p-md">
+        <h6>Luftfuktighet</h6>
+        {{forecast.current.humidity | addUnit: '%'}}
+    </div>
+    <div class="card p-md">
+        <h6>Vind</h6>
+        {{forecast.current.windSpeed | addUnit: 'm/s'}}
+    </div>
+    <div class="card p-md">
+        <h6>Nederbörd</h6>
+        {{forecast.current.minAmountOfPrecipitation}} - {{forecast.current.maxAmountOfPrecipitation | addUnit: 'mm'}}
+    </div>
+    <div class="card p-md">
+        <h6>Barometer</h6>
+        {{forecast.current.airPressure | addUnit: 'hPa'}}
+    </div>
+    <div class="card-grid-footer | card p-md ">
+        <span class="helper-text"> {{forecast.fetchDate.toString() | stringToDate | dfnsFormatDistanceToNow}} sedan</span>
     </div>
 </div>
-<span class="fetch-date | flex row j-center a-center gap-sm"> {{forecast.fetchDate.toString() | stringToDate | dfnsFormatDistanceToNow}} sedan</span>
+
+

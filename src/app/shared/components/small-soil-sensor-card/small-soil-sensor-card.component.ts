@@ -15,7 +15,7 @@ export class SmallSoilSensorCardComponent implements OnInit {
 
   @Input() sensor!: ISensor
   measurement$!: Observable<ISoilMoistureData>
-
+  title: string = "Växter"
   gaugeParams: gaugeParams = {
     value: 0,
     type: "arch",
@@ -24,6 +24,7 @@ export class SmallSoilSensorCardComponent implements OnInit {
     size: 80,
     min: 0,
     max: 100,
+    append: "%",
     foregroundColor: "#f8c03f",
     thresholds: {
       '45': {color: '#32d2ac'},
@@ -36,7 +37,6 @@ export class SmallSoilSensorCardComponent implements OnInit {
   constructor(private sensorService: SensorService) { }
 
   ngOnInit(): void {
-    console.log(this.sensor);
     this.measurement$ = this.sensorService.subscribeToSensor(this.sensor._id)
   }
 
@@ -68,7 +68,7 @@ interface gaugeParams {
   label?: string
   foregroundColor: string
   backgroundColor?: string
-  append?: string
+  append: string
   prepend?: string
   duration?: number
   thresholds: {}
