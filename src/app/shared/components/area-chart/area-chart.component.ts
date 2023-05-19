@@ -1,6 +1,5 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import * as d3 from 'd3'
-import  * as uuid from 'uuid'
 import { IAreaChartData } from '../../models/area-chart-data';
 
 @Component({
@@ -10,19 +9,21 @@ import { IAreaChartData } from '../../models/area-chart-data';
 })
 export class AreaChartComponent implements OnInit {
 
-  MIN_COLOR = "#f8c03f"
-  MAX_COLOR ="#5693e9"
 
-  width!: number
-  height!: number
   margin: {top: number, right: number, bottom: number, left: number} = {top: 20, right: 30, bottom: 30, left: 40}
   pathGradient = 'gradient-id-1'
   areaGradient = 'gradient-id-2'
-  chartElement!: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>
-  id: string = "area-chart-" + uuid.v4()
   chart:string = "chart"
 
+  width!: number
+  height!: number
+  chartElement!: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>
+  y!: d3.AxisScale<number>
+  x!: d3.AxisScale<Date>
 
+
+  @Input() minColor = "#f8c03f"
+  @Input() maxColor ="#9ABEF2"
   @Input() unit: string = ''
   @Input() data: IAreaChartData[] = [
     { date: new Date(new Date().setDate( new Date().getDate() + 0)), value: 20 },
@@ -33,8 +34,7 @@ export class AreaChartComponent implements OnInit {
     { date: new Date(new Date().setDate( new Date().getDate() + 5)), value: 90 },
     { date: new Date(new Date().setDate( new Date().getDate() + 6)), value: 100 },
   ]
-  y!: d3.AxisScale<number>
-  x!: d3.AxisScale<Date>
+
 
   constructor(private elementRef: ElementRef) { }
 
@@ -103,7 +103,7 @@ export class AreaChartComponent implements OnInit {
 
 
   appendLinearGradientToPath() {
-    const color = d3.scaleSequential(d3.interpolateCubehelixLong(this.MIN_COLOR, this.MAX_COLOR))
+    const color = d3.scaleSequential(d3.interpolateCubehelixLong(this.minColor, this.maxColor))
 
     this.chartElement.append('linearGradient')
       .attr("id", this.pathGradient)
@@ -121,7 +121,7 @@ export class AreaChartComponent implements OnInit {
 
 
   appendLinearGradientToArea() {
-    const color = d3.scaleSequential(d3.interpolateCubehelixLong(this.MIN_COLOR, this.MAX_COLOR))
+    const color = d3.scaleSequential(d3.interpolateCubehelixLong(this.minColor, this.maxColor))
 
     this.chartElement.append('linearGradient')
       .attr("id", this.areaGradient)
