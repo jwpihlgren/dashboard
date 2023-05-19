@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import * as d3 from 'd3'
 import { IAreaChartData } from '../../models/area-chart-data';
+import { clamp, min } from 'date-fns';
 
 @Component({
   selector: 'app-area-chart',
@@ -10,7 +11,7 @@ import { IAreaChartData } from '../../models/area-chart-data';
 export class AreaChartComponent implements OnInit {
 
 
-  margin: {top: number, right: number, bottom: number, left: number} = {top: 20, right: 30, bottom: 30, left: 40}
+  margin: {top: number, right: number, bottom: number, left: number} = {top: 20, right: 0, bottom: 30, left: 30}
   pathGradient = 'gradient-id-1'
   areaGradient = 'gradient-id-2'
   chart:string = "chart"
@@ -22,8 +23,8 @@ export class AreaChartComponent implements OnInit {
   x!: d3.AxisScale<Date>
 
 
-  @Input() minColor = "#f8c03f"
-  @Input() maxColor ="#9ABEF2"
+  @Input() chartColor: string[] = ['#f8c03f', '#32d2ac', '#5693e9']
+
   @Input() unit: string = ''
   @Input() data: IAreaChartData[] = [
     { date: new Date(new Date().setDate( new Date().getDate() + 0)), value: 20 },
@@ -73,7 +74,7 @@ export class AreaChartComponent implements OnInit {
 
     const xAxis = (g: any) => {
       g.attr('transform', `translate(0, ${this.height - this.margin.bottom})`)
-      .call(d3.axisBottom(this.x).ticks(this.width / 80).tickSizeOuter(0))
+      .call(d3.axisBottom(this.x).ticks(this.width / (this.width * 0.15) ).tickSizeOuter(0))
       .call((g: any) => g.select('.domain').remove())
     }
     this.chartElement.append('g')
@@ -91,7 +92,7 @@ export class AreaChartComponent implements OnInit {
   appendYAxis() {
     const yAxis = (g: any) => {
       g.attr('transform', `translate(${this.margin.left},0)`)
-      .call(d3.axisLeft(this.y))
+      .call(d3.axisLeft(this.y).ticks(this.height / (this.height * 0.15)))
       .call((g: any) => g.select('.domain').remove())
       .call((g: any) => g.select(".tick:last-of-type text").append("tspan").text(this.unit))
     }
@@ -103,7 +104,7 @@ export class AreaChartComponent implements OnInit {
 
 
   appendLinearGradientToPath() {
-    const color = d3.scaleSequential(d3.interpolateCubehelixLong(this.minColor, this.maxColor))
+    const color = d3.scaleOrdinal<string>()
 
     this.chartElement.append('linearGradient')
       .attr("id", this.pathGradient)
@@ -116,12 +117,16 @@ export class AreaChartComponent implements OnInit {
       .data(d3.ticks(0, 1, 10))
   .join("stop")
       .attr("offset", d => d )
-      .attr("stop-color", color.interpolator())
+      .attr("stop-color", d => {
+        if (d < 0.3) return "#f8c03f"
+        if (d < 0.6) return "#32d2ac"
+        return "#5693e9"
+      })
   }
 
 
   appendLinearGradientToArea() {
-    const color = d3.scaleSequential(d3.interpolateCubehelixLong(this.minColor, this.maxColor))
+    const color = d3.scaleOrdinal<string>()
 
     this.chartElement.append('linearGradient')
       .attr("id", this.areaGradient)
@@ -134,14 +139,28 @@ export class AreaChartComponent implements OnInit {
       .data(d3.ticks(0, 1, 10))
   .join("stop")
       .attr("offset", d => d )
-      .attr("stop-color", color.interpolator())
-      .attr("stop-opacity", (d: any) => Math.min(d, 0.8))
+      .attr("stop-color", d => this.colorFinder(d, [0.3, 0.6, 1]))
+      .attr("stop-opacity", (d: any) => this.opacityFinder(d, [0.5, 0.9]))
+  }
+
+  colorFinder(data: number, stops: number[] = [0.3, 0.6, 1]): string {
+    console.log(data);
+    for(let i = 0; i < stops.length; i++) {
+      if(data <= stops[i]) return this.chartColor[i]
+    }
+    return this.chartColor[0]
+  }
+
+  opacityFinder(data: number, minmax: number[] = [0.6, 0.9]): number {
+    if (data < minmax[0]) return minmax[0]
+    if (data > minmax[1]) return minmax[1]
+    return data
   }
 
 
   appendPath() {
     const line: any = d3.line()
-      .curve(d3.curveBasis)
+      .curve(d3.curveStep)
       .defined((d: any) => !isNaN(d.value))
       .x((d: any) => this.x(d.date)!)
       .y((d:any) => this.y(d.value)!)
@@ -150,7 +169,7 @@ export class AreaChartComponent implements OnInit {
     .datum(this.data)
     .attr("fill", "none")
     .attr("stroke", "url(#" + this.pathGradient + ")")
-    .attr("stroke-width", 1.5)
+    .attr("stroke-width", 2)
     .attr("stroke-linejoin", "round")
     .attr("stroke-linecap", "round")
     .attr("d", line)
@@ -159,7 +178,7 @@ export class AreaChartComponent implements OnInit {
   
   appendArea() {
     const area: any = d3.area()
-      .curve(d3.curveBasis)
+      .curve(d3.curveStep)
       .defined((d: any) => !isNaN(d.value))
       .x((d: any) => this.x(d.date)!)
       .y0(this.height - this.margin.bottom)
@@ -171,4 +190,6 @@ export class AreaChartComponent implements OnInit {
     .attr("d", area)
   }
 }
+
+
 
