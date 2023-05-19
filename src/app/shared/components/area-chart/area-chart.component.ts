@@ -11,7 +11,7 @@ import { clamp, min } from 'date-fns';
 export class AreaChartComponent implements OnInit {
 
 
-  margin: {top: number, right: number, bottom: number, left: number} = {top: 20, right: 0, bottom: 30, left: 40}
+  margin: {top: number, right: number, bottom: number, left: number} = {top: 20, right: 0, bottom: 30, left: 30}
   pathGradient = 'gradient-id-1'
   areaGradient = 'gradient-id-2'
   chart:string = "chart"
