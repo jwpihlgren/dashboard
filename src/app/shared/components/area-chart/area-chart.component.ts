@@ -1,3 +1,4 @@
+import { StringToDatePipe } from './../../pipes/string-to-date.pipe';
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import * as d3 from 'd3'
 import { IAreaChartData } from '../../models/area-chart-data';
@@ -18,9 +19,11 @@ export class AreaChartComponent implements OnInit {
 
   width!: number
   height!: number
-  chartElement!: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>
+  svg!: d3.Selection<SVGSVGElement, unknown, HTMLElement, any>
+  defs!: d3.Selection<SVGDefsElement, unknown, HTMLElement, any>
   y!: d3.AxisScale<number>
   x!: d3.AxisScale<Date>
+  testGradient!: any
 
 
   @Input() chartColor: string[] = ['#f8c03f', '#32d2ac', '#5693e9']
@@ -51,7 +54,8 @@ export class AreaChartComponent implements OnInit {
     this.appendLinearGradientToArea()
     this.appendArea()
     this.appendPath()
-    this.elementRef.nativeElement.appendChild(this.chartElement.node())
+  /*   this.appendBlur() */
+    this.elementRef.nativeElement.appendChild(this.svg.node())
   }
 
   createChart() {
@@ -59,7 +63,9 @@ export class AreaChartComponent implements OnInit {
     svg
       .attr('width', '100%')
       .attr('height', '100%')
-      this.chartElement = svg
+    this.svg = svg
+
+    this.defs = this.svg.append('defs')
   }
 
 
@@ -73,11 +79,11 @@ export class AreaChartComponent implements OnInit {
   appendXAxis() {
 
     const xAxis = (g: any) => {
-      g.attr('transform', `translate(0, ${this.height - this.margin.bottom})`)
-      .call(d3.axisBottom(this.x).ticks(this.width / (this.width * 0.15) ).tickSizeOuter(0))
+      g.attr('transform', `translate(0, -${this.margin.top})`)
+      .call(d3.axisBottom(this.x).ticks(this.width / (this.width * 0.15) ).tickSizeOuter(0).tickSize(this.height))
       .call((g: any) => g.select('.domain').remove())
     }
-    this.chartElement.append('g')
+    this.svg.append('g')
       .call(xAxis)
   }
 
@@ -91,13 +97,13 @@ export class AreaChartComponent implements OnInit {
 
   appendYAxis() {
     const yAxis = (g: any) => {
-      g.attr('transform', `translate(${this.margin.left},0)`)
-      .call(d3.axisLeft(this.y).ticks(this.height / (this.height * 0.15)))
+      g.attr('transform', `translate(${this.width},0)`)
+      .call(d3.axisLeft(this.y).ticks(this.height / (this.height * 0.15)).tickSize(this.width - this.margin.left + this.margin.right))
       .call((g: any) => g.select('.domain').remove())
       .call((g: any) => g.select(".tick:last-of-type text").append("tspan").text(this.unit))
     }
 
-    this.chartElement.append('g')
+    this.svg.append('g')
     .call(yAxis)
 
   }
@@ -106,7 +112,7 @@ export class AreaChartComponent implements OnInit {
   appendLinearGradientToPath() {
     const color = d3.scaleOrdinal<string>()
 
-    this.chartElement.append('linearGradient')
+    this.svg.append('linearGradient')
       .attr("id", this.pathGradient)
       .attr("gradientUnits", "userSpaceOnUse")
       .attr("x1", 0)
@@ -120,37 +126,71 @@ export class AreaChartComponent implements OnInit {
       .attr("stop-color", d => this.colorFinder(d, [0.3, 0.6, 1]))
   }
 
-
   appendLinearGradientToArea() {
     const color = d3.scaleOrdinal<string>()
 
-    this.chartElement.append('linearGradient')
-      .attr("id", this.areaGradient)
-      .attr("gradientUnits", "userSpaceOnUse")
-      .attr("x1", 0)
-      .attr("y1", this.height - this.margin.bottom)
-      .attr("x2", 0)
-      .attr("y2", this.margin.top)
-  .selectAll("stop")
-      .data(d3.ticks(0, 1, 10))
-  .join("stop")
-      .attr("offset", d => d )
-      .attr("stop-color", d => this.colorFinder(d, [0.3, 0.6, 1]))
-      .attr("stop-opacity", (d: any) => this.opacityFinder(d, [0.5, 0.9]))
+    const gradient: any = this.defs.append('linearGradient')
+    .attr("id", this.areaGradient)
+    .attr("gradientUnits", "userSpaceOnUse")
+    .attr("x1", 0)
+    .attr("y1", this.height - this.margin.bottom)
+    .attr("x2", 0)
+    .attr("y2", this.margin.top)
+
+    /* First */
+    gradient.append('stop')
+      .attr('offset', '0%')
+      .attr('stop-color', this.chartColor[0])
+      .attr('stop-opacity', 0)
+      .attr('offset', '2%')
+      .attr('stop-color', this.chartColor[0])
+      .attr('stop-opacity', 0.)
+    gradient.append('stop')
+      .attr('offset', '25%')
+      .attr('stop-color', this.chartColor[0])
+      .attr('stop-opacity', 0.3)
+    gradient.append('stop')
+      .attr('offset', '30%')
+      .attr('stop-color', this.chartColor[0])
+      .attr('stop-opacity', 0.2)
+
+      /* Second */
+    gradient.append('stop')
+      .attr('offset', '30%')
+      .attr('stop-color', this.chartColor[1])
+      .attr('stop-opacity', 0.05)
+    gradient.append('stop')
+      .attr('offset', '55%')
+      .attr('stop-color', this.chartColor[1])
+      .attr('stop-opacity', 0.3)
+    gradient.append('stop')
+      .attr('offset', '60%')
+      .attr('stop-color', this.chartColor[1])
+      .attr('stop-opacity', 0.4)
+
+      /* Third */
+    gradient.append('stop')
+      .attr('offset', '60%')
+      .attr('stop-color', this.chartColor[2])
+      .attr('stop-opacity', 0.4)
+    gradient.append('stop')
+      .attr('offset', '95%')
+      .attr('stop-color', this.chartColor[2])
+      .attr('stop-opacity', 0.8)
   }
 
   colorFinder(data: number, stops: number[] = [0.3, 0.6, 1]): string {
-    console.log(data);
     for(let i = 0; i < stops.length; i++) {
       if(data <= stops[i]) return this.chartColor[i]
     }
     return this.chartColor[0]
   }
 
-  opacityFinder(data: number, minmax: number[] = [0.6, 0.9]): number {
-    if (data < minmax[0]) return minmax[0]
-    if (data > minmax[1]) return minmax[1]
-    return data
+  opacityFinder(data: number, minmax: number[] = [0.6, 0.9]): string{
+    console.log(data);
+    if (data < minmax[0]) return minmax[0] + ""
+    if (data > minmax[1]) return minmax[1] + ""
+    return data + ""
   }
 
 
@@ -161,11 +201,11 @@ export class AreaChartComponent implements OnInit {
       .x((d: any) => this.x(d.date)!)
       .y((d:any) => this.y(d.value)!)
 
-    this.chartElement.append('path')
+    this.svg.append('path')
     .datum(this.data)
     .attr("fill", "none")
     .attr("stroke", "url(#" + this.pathGradient + ")")
-    .attr("stroke-width", 2)
+    .attr("stroke-width", 3)
     .attr("stroke-linejoin", "round")
     .attr("stroke-linecap", "round")
     .attr("d", line)
@@ -180,7 +220,7 @@ export class AreaChartComponent implements OnInit {
       .y0(this.height - this.margin.bottom)
       .y1((d: any) => this.y(d.value)!)
 
-    this.chartElement.append('path')
+    this.svg.append('path')
     .datum(this.data)
     .attr("fill", "url(#" + this.areaGradient + ")")
     .attr("d", area)

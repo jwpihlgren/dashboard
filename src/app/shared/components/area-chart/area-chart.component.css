@@ -24,3 +24,10 @@
     ry: 0.5rem;
     fill: var(--blue-500);
 }
+
+:host ::ng-deep g.tick line {
+    stroke: var(--gray-400);
+    stroke-opacity: 0.5;
+    stroke-dasharray: 3, 3;
+    shape-rendering: crispEdges;
+}

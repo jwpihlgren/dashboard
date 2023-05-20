@@ -21,6 +21,7 @@ flex-grow: 1;
 
 :host ::ng-deep g.grid g.tick line {
     color:var(--gray-300);
+    stroke-dasharray: 3, 3;
 }
 
 :host ::ng-deep text {
