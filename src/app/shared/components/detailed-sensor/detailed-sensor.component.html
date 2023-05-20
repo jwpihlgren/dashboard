@@ -23,7 +23,7 @@
         </ng-template>
     </div>
     <ng-container *ngIf="readings$ | async as readings; else loading">
-        <app-area-chart [data]="toChartData(readings)"></app-area-chart>
+        <app-area-chart [chartConfig]="getChartConfig(readings)"></app-area-chart>
     </ng-container>
 
     <ng-template  #loading>

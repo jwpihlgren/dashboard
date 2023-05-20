@@ -6,6 +6,7 @@ import { SensorService } from '../../services/sensor.service';
 import { faTimes, faPen} from '@fortawesome/free-solid-svg-icons';
 import { IPartialSensor } from '../../models/partial-sensor.interface';
 import { IAreaChartData } from '../../models/area-chart-data';
+import { IAreaChartConfig } from '../../models/area-chart-config';
 
 @Component({
   selector: 'app-detailed-sensor',
@@ -35,6 +36,12 @@ export class DetailedSensorComponent implements OnInit, OnChanges {
       toggle: () => this.selections.month.isToggled = true,
       getReadings: (id: string) => this.sensorService.getMonthly(id)
     }
+  }
+
+  chartConfig: IAreaChartConfig = {
+    chartColors: ['#f8c03f', '#32d2ac', '#5693e9'],
+    unit: '%',
+    data: []
   }
 
   isDayToggled: boolean = true
@@ -96,6 +103,11 @@ export class DetailedSensorComponent implements OnInit, OnChanges {
       return {date: new Date(reading.createdAt), value: reading.value}
     })
     return chartData
+  }
+
+  getChartConfig(data: ISoilMoistureData[]): IAreaChartConfig {
+    this.chartConfig.data = this.toChartData(data)
+    return this.chartConfig
   }
 
 }
