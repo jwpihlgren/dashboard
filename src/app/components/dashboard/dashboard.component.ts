@@ -1,7 +1,7 @@
 import { WeatherService } from './../../shared/services/weather.service';
 import { LocationService } from './../../shared/services/location.service';
 import { SensorService } from './../../shared/services/sensor.service';
-import { mergeMap, Observable, forkJoin, of, tap, map, concatMap, ReplaySubject, takeUntil } from 'rxjs';
+import { mergeMap, Observable, forkJoin, of, tap, map, concatMap, ReplaySubject, takeUntil, share, interval, switchMap, timer } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ILocation } from 'src/app/shared/models/location.interface';
 import { ISensor } from 'src/app/shared/models/sensor.interface';
@@ -16,9 +16,7 @@ import { PingService } from 'src/app/shared/services/ping.service';
 export class DashboardComponent implements OnInit, OnDestroy {
   sensors$!: Observable<ISensor[]>
   forecast$!: Observable<IForecast>
-  displayDetails: boolean = false
-  interval!: any 
-  $destroy: ReplaySubject<boolean> = new ReplaySubject(1)
+  destroy$: ReplaySubject<boolean> = new ReplaySubject(1)
 
   constructor(
     private sensorService: SensorService,
@@ -29,37 +27,30 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-  this.sensors$ = this.sensorService.getSensors()
-  this.pingService.ping().pipe(
-    takeUntil(this.$destroy)
-  ).subscribe()
-
-    
-  this.updateWeather()
-  this.interval = setInterval(() => {
-    this.updateWeather();
-  }, 10 * 60 * 1000)
+    this.sensors$ = this.sensorService.getSensors()
+    this.forecast$ = this.getWeather()
+    this.pingService.ping().pipe(
+      takeUntil(this.destroy$)).subscribe()
   }
 
   ngOnDestroy(): void {
     this.sensorService.eventSourceDestory()
-    this.$destroy.next(true)
-    this.$destroy.complete()
-    clearInterval(this.interval)
+    this.destroy$.next(true)
+    this.destroy$.complete()
   }
 
-  updateWeather(): void {
-    this.forecast$ = this.locationService.getUserFavoriteLocation().pipe(
-      mergeMap((favoriteLocation: ILocation) => {
-        return this.weatherService.getForecast(favoriteLocation).pipe()
-      })
-    )
+  getWeather(): Observable<IForecast> {
+    const everyTwoHours = 2 * 60 * 60 * 1000
+    return timer(0, everyTwoHours).pipe(
+      switchMap(() => {
+        return this.locationService.getUserFavoriteLocation().pipe(
+          mergeMap((favoriteLocation: ILocation) => {
+            return this.weatherService.getForecast(favoriteLocation)
+          })
+        )
+      }),
+      share())
   }
-
-  toggleDisplayDetails(){
-    this.displayDetails = !this.displayDetails
-  }
-
 }
 
 

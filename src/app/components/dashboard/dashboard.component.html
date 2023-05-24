@@ -1,5 +1,4 @@
 <app-masonry-grid>
-
     <ng-container *ngIf="sensors$ | async as sensors; else loading">
         <app-small-soil-sensor-card 
         *ngFor="let sensor of sensors"
@@ -8,27 +7,21 @@
          class=" card card-single">
      </app-small-soil-sensor-card>
     </ng-container>
-
     <app-current-weather
-    *ngIf="forecast$ | async as forecast; else loading"
-    [forecast]="forecast"
-    class="card-single">
-        
+        *ngIf="forecast$ | async as forecast; else loading"
+        [forecast]="forecast"
+        class="card-single">  
     </app-current-weather>
-
     <app-weather-card
         *ngIf="forecast$ | async as forecast; else loading"
         [forecast]="forecast"
-        class="card card-double" 
-    >
+        class="card card-double">
     </app-weather-card>
-
     <app-detailed-weather-table
         *ngIf="forecast$ | async as forecast; else loading"
         [forecast]="forecast"
         class="card card-single-quarter">
     </app-detailed-weather-table>
-
     <ng-template #loading>
         <div class="card card-single">Loading</div>
     </ng-template>

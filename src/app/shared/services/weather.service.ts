@@ -2,7 +2,7 @@ import { SessionStorageService } from './session-storage.service';
 import { ILocation } from './../models/location.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, of, timeout, catchError, retry, EMPTY, Observable, forkJoin } from 'rxjs';
+import { map, of, timeout, catchError, retry, EMPTY, Observable, forkJoin, shareReplay, share } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import * as dummydata from '../../../assets/stubs/weather-data.json'
 import { IForecastResponse } from '../models/forecast-response.interface';
@@ -68,7 +68,8 @@ export class WeatherService {
       catchError(error => {
         console.log(error);
         return EMPTY
-      })
+      }),
+      shareReplay(1),
     );
   }
 
