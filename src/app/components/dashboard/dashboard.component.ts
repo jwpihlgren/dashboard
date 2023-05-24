@@ -1,7 +1,7 @@
 import { WeatherService } from './../../shared/services/weather.service';
 import { LocationService } from './../../shared/services/location.service';
 import { SensorService } from './../../shared/services/sensor.service';
-import { mergeMap, Observable, forkJoin, of, tap, map, concatMap, ReplaySubject, takeUntil, share } from 'rxjs';
+import { mergeMap, Observable, forkJoin, of, tap, map, concatMap, ReplaySubject, takeUntil, share, interval, switchMap, timer } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ILocation } from 'src/app/shared/models/location.interface';
 import { ISensor } from 'src/app/shared/models/sensor.interface';
@@ -40,12 +40,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getWeather(): Observable<IForecast> {
-    return this.locationService.getUserFavoriteLocation().pipe(
-      mergeMap((favoriteLocation: ILocation) => {
-        return this.weatherService.getForecast(favoriteLocation)
+    const everyTwoHours = 2 * 60 * 60 * 1000
+    return timer(0, everyTwoHours).pipe(
+      switchMap(() => {
+        return this.locationService.getUserFavoriteLocation().pipe(
+          mergeMap((favoriteLocation: ILocation) => {
+            return this.weatherService.getForecast(favoriteLocation)
+          })
+        )
       }),
-      share()
-    )
+      share())
   }
 }
 
