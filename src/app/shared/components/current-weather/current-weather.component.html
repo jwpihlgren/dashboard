@@ -30,12 +30,12 @@
     </div>
     <div class="card flex col p-md gap-sm">
         <h6>Vind</h6>
-        <div class="flex row gap-lg">
+        <div class="flex row gap-md">
             <div class="flex col gap-xs">
                 <span>{{forecast.current.windSpeed | addUnit: "m/s"}} </span>
                 <span class="helper-text">{{forecast.current.windGust | addUnit: "m/s"}}</span>
             </div>
-            <fa-icon [title]="forecast.current.windDirection | degToCompass " [style.transform]="rotate(forecast.current.windDirection)" [icon]=icons.faArrowDown size="lg"></fa-icon> 
+            <fa-icon [title]="forecast.current.windDirection | degToCompass " [style.transform]="rotate(forecast.current.windDirection)" [icon]=icons.faArrowDown size="2x"></fa-icon> 
         </div>
     </div>
     <div class="card p-md flex col gap-sm">
