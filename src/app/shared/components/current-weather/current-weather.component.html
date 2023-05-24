@@ -43,14 +43,17 @@
         <div class="flex col gap-xs">
             <span>{{forecast.current.minAmountOfPrecipitation}} - {{forecast.current.maxAmountOfPrecipitation | addUnit: 'mm'}}</span>
             
-            <span class="helper-text" *ngIf="forecast.current.precipitationType !== 0">
+            <span class="helper-text">
                 {{translationService.translateWeatherPrecipitationType(forecast.current.precipitationType)}}
             </span>
         </div>
     </div>
     <div class="card flex col p-md gap-sm">
         <h6>Barometer</h6>
-        {{forecast.current.airPressure | addUnit: 'hPa'}}
+        <div class="flex col gap-xs">
+            <span>{{forecast.current.airPressure | addUnit: 'hPa'}}</span>
+            <span class="helper-text">{{forecast.current.airPressure | cyclonicCondition}}</span>
+        </div>
     </div>
 </div>
 

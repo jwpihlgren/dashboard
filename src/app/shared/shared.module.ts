@@ -31,6 +31,7 @@ import { StringToDatePipe } from './pipes/string-to-date.pipe';
 import { TypeofPipe } from './pipes/typeof.pipe';
 import { DetailedWeatherTableComponent } from './components/detailed-weather-table/detailed-weather-table.component';
 import { AreaChartComponent } from './components/area-chart/area-chart.component';
+import { CyclonicConditionPipe } from './pipes/cyclonic-condition.pipe';
 
 
 
@@ -63,7 +64,8 @@ swedishConfig.setLocale(sv)
     StringToDatePipe,
     DetailedWeatherTableComponent,
     TypeofPipe,
-    AreaChartComponent
+    AreaChartComponent,
+    CyclonicConditionPipe
   ],
   imports: [
     CommonModule,

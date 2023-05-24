@@ -37,6 +37,11 @@
             "25": "Lätt snöfall",
             "26": "Snöfall",
             "27": "Kraftigt snöfall"
+          },
+          "cyclonicCondition": {
+            "0": "Normalt",
+            "1": "Lågtryck",
+            "2": "Högtryck"
           }
     }
 

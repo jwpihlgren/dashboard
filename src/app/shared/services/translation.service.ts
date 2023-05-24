@@ -26,6 +26,12 @@ export class TranslationService {
     if(!translations[type]) return ("")
     return translations[type] as string
   }
+
+  translateCyclonicCondition(condition: number): string {
+    const translations: any = this.translations.weather.cyclonicCondition
+    if(!translations[condition]) return ("")
+    return translations[condition] as string
+  }
 }
 
 
