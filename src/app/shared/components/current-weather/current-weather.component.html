@@ -28,9 +28,12 @@
         <h6>Luftfuktighet</h6>
         {{forecast.current.humidity | addUnit: '%'}}
     </div>
-    <div class="card p-md">
+    <div class="card flex col p-md">
         <h6>Vind</h6>
-        {{forecast.current.windSpeed | addUnit: 'm/s'}}
+        <div class="flex row gap-md">
+            {{forecast.current.windSpeed | addUnit: 'm/s'}} 
+            <fa-icon [title]="forecast.current.windDirection | degToCompass " [style.transform]="rotate(forecast.current.windDirection)" [icon]=icons.faArrowDown size="lg"></fa-icon> 
+        </div>
     </div>
     <div class="card p-md">
         <h6>Nederbörd</h6>
