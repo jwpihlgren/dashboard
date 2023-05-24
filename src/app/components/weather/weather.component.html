@@ -9,11 +9,18 @@
         </app-search>
 
         <ng-container *ngIf="forecast$ | async as forecast; else loading">
-            <div class="data">
+            <div class="card-double data">
+                <app-current-weather 
+                    class="card-single" 
+                    [forecast]="forecast">
+                </app-current-weather>
                 <app-weather-card
-                    [forecast]="forecast"
-                    >
+                    class="card card-single-quarter"   
+                    [forecast]="forecast">
                 </app-weather-card>
+                <app-detailed-weather-table
+                    class="card card-double"
+                    [forecast]="forecast"></app-detailed-weather-table>
             </div>
             <button (click)="clearForecast()" class="primary">Sök på nytt</button>
         </ng-container>

@@ -9,6 +9,7 @@ export interface IForecastResponse {
 
  export interface IForecastCurrent {
     windSpeed: number
+    windGust: number
     windDirection: number
     airPressure: number
     humidity: number

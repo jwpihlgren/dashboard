@@ -10,6 +10,7 @@ import { IForecast } from '../models/forecast.interface';
 import { IinsideTemperatureResponse } from '../models/inside-temperature-response.interface';
 
 
+
 @Injectable({
   providedIn: 'root'
 })

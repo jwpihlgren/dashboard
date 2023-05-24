@@ -1,7 +1,8 @@
+import { TranslationService } from './../../services/translation.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { IForecast } from '../../models/forecast.interface';
-import { LanguageService } from '../../services/language.service';
 import { WeatherService } from '../../services/weather.service';
+import { faArrowDown} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-current-weather',
@@ -10,18 +11,28 @@ import { WeatherService } from '../../services/weather.service';
 })
 export class CurrentWeatherComponent implements OnInit {
 
-  constructor(
-    private weatherService: WeatherService,
-    public languageService: LanguageService
-  ) { }
+  icons: any = {
+    faArrowDown,
+  }
 
   @Input() forecast!: IForecast
+
+  constructor(
+    private weatherService: WeatherService,
+    public translationService: TranslationService,
+  ) { }
+
+
 
   ngOnInit(): void {
   }
 
   getIconUrl(icon: number): string {
     return this.weatherService.getIconUrl(icon)
+  }
+
+  rotate(degrees: number): string {
+    return `rotate(${degrees}deg)`
   }
 
 }

@@ -1,7 +1,6 @@
 
-<h5 class="flex row j-start a-center gap-sm">Sjudagars prognos {{forecast.locationName}}</h5>
+<h6 class="flex row j-start a-center gap-sm">Sjudagars prognos</h6>
 
 <app-bar-range-chart
     [forecast]=createForecastDataSeries(forecast.daily)>
 </app-bar-range-chart>
-<span class="helper-text | flex row j-center a-center gap-sm"> {{forecast.fetchDate.toString() | stringToDate | dfnsFormatDistanceToNow}} sedan</span>
