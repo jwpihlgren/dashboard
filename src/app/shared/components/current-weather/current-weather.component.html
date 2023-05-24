@@ -24,22 +24,31 @@
 
 
 <div class="card-grid grow">
-    <div class="card p-md">
+    <div class="card flex col p-md gap-sm">
         <h6>Luftfuktighet</h6>
-        {{forecast.current.humidity | addUnit: '%'}}
+        <span>{{forecast.current.humidity | addUnit: '%'}}</span>
     </div>
-    <div class="card flex col p-md">
+    <div class="card flex col p-md gap-sm">
         <h6>Vind</h6>
-        <div class="flex row gap-md">
-            {{forecast.current.windSpeed | addUnit: 'm/s'}} 
+        <div class="flex row gap-lg">
+            <div class="flex col gap-xs">
+                <span>{{forecast.current.windSpeed | addUnit: "m/s"}} </span>
+                <span class="helper-text">{{forecast.current.windGust | addUnit: "m/s"}}</span>
+            </div>
             <fa-icon [title]="forecast.current.windDirection | degToCompass " [style.transform]="rotate(forecast.current.windDirection)" [icon]=icons.faArrowDown size="lg"></fa-icon> 
         </div>
     </div>
-    <div class="card p-md">
+    <div class="card p-md flex col gap-sm">
         <h6>Nederbörd</h6>
-        {{forecast.current.minAmountOfPrecipitation}} - {{forecast.current.maxAmountOfPrecipitation | addUnit: 'mm'}}
+        <div class="flex col gap-xs">
+            <span>{{forecast.current.minAmountOfPrecipitation}} - {{forecast.current.maxAmountOfPrecipitation | addUnit: 'mm'}}</span>
+            
+            <span class="helper-text" *ngIf="forecast.current.precipitationType !== 0">
+                {{translationService.translateWeatherPrecipitationType(forecast.current.precipitationType)}}
+            </span>
+        </div>
     </div>
-    <div class="card p-md">
+    <div class="card flex col p-md gap-sm">
         <h6>Barometer</h6>
         {{forecast.current.airPressure | addUnit: 'hPa'}}
     </div>

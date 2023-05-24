@@ -1,6 +1,6 @@
+import { TranslationService } from './../../services/translation.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { IForecast } from '../../models/forecast.interface';
-import { LanguageService } from '../../services/language.service';
 import { WeatherService } from '../../services/weather.service';
 import { faArrowDown} from '@fortawesome/free-solid-svg-icons';
 
@@ -19,7 +19,7 @@ export class CurrentWeatherComponent implements OnInit {
 
   constructor(
     private weatherService: WeatherService,
-    public languageService: LanguageService
+    public translationService: TranslationService,
   ) { }
 
 
