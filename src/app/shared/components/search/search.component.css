@@ -38,14 +38,6 @@ input {
 
 input::-webkit-search-cancel-button { display: none; }
 
-label {
-    font-size: var(--fs-300);
-    text-transform: uppercase;
-    font-weight: var(--fw-600);
-    color: var(--on-light-background-100);
-    letter-spacing: 0.067rem;
-}
-
 
 .button-group {
     display: flex;
