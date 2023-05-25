@@ -5,6 +5,7 @@
     padding: var(--medium);
     background-color: var(--light-background-100);
     min-height: 350px;
+    height: 100%;
 }
 
 
