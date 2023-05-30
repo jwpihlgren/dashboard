@@ -7,6 +7,7 @@ import * as dummydata from '../../../assets/stubs/location-data.json'
 import { environment } from 'src/environments/environment';
 import { ILocation } from '../models/location.interface';
 import { SessionStorageService } from './session-storage.service';
+import { ILocationResponse } from '../models/locationResponse.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -60,13 +61,14 @@ export class LocationService {
     return this.userService.getUserMetadata().pipe(
       debounceTime(200),
       map((response:any) => {
+        console.log(response)
         this.sessionStorageService.setStoredData(ITEM_NAME, response.favorite_location)
         return response.favorite_location
       })
     )
   }
 
-  private createLocationObject(obj: any): ILocation {
+  private createLocationObject(obj: ILocationResponse): ILocation {
     const location: ILocation = {
       name: obj.name,
       region: obj.region,
