@@ -1,26 +1,29 @@
 <article>
-    <div class="flex row gap-sm a-center">
-        <div *ngIf="!isEditToggled; else input" class="flex row gap-sm j-center a-center">
-            <h5 unselectable="on">{{sensor.alias}}</h5>
-            <button  class="ternary square" (click)="setEditTrue()">
-                <fa-icon 
-                [icon]=faEdit
-                size="lg"></fa-icon>
-            </button>
-        </div>
-        <ng-template #input>
-            <div class="flex row gap-lg">
-                <form class="flex row gap-sm">
-                    <input #edit type="text" value={{sensor.alias}}>
-                    <button class="primary" type="button" (click)="editName(sensor._id)">
-                        Ändra
-                    </button>
-                </form>
-                <button class="ternary" (click)="abort()">
-                    Avbryt
+    <div class="flex col">
+        <div class="flex row gap-sm a-center">
+            <div *ngIf="!isEditToggled; else input" class="flex row gap-sm j-center a-center">
+                <h5 unselectable="on" [title]="sensor.name">{{sensor.alias}}</h5>
+                <button  class="ternary square" (click)="setEditTrue()">
+                    <fa-icon
+                    [icon]=faEdit
+                    size="lg"></fa-icon>
                 </button>
             </div>
-        </ng-template>
+            <ng-template #input>
+                <div class="flex row gap-lg">
+                    <form class="flex row gap-sm">
+                        <input #edit type="text" value={{sensor.alias}}>
+                        <button class="primary" type="button" (click)="editName(sensor._id)">
+                            Ändra
+                        </button>
+                    </form>
+                    <button class="ternary" (click)="abort()">
+                        Avbryt
+                    </button>
+                </div>
+            </ng-template>
+        </div>
+        <span class="helper-text">({{sensor.name}})</span>
     </div>
     <ng-container *ngIf="readings$ | async as readings; else loading">
         <app-area-chart [chartConfig]="getChartConfig(readings)"></app-area-chart>
