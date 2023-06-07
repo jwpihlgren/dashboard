@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   setForecast(): void {
-    const everyTwoHours = 1 * 10 * 1 * 1000
+    const everyTwoHours = 2 * 60 * 60 * 1000
     this.destroy$.next(true)
     this.destroy$.complete()
     this.destroy$ = new ReplaySubject(1)
