@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.sensors$ = this.sensorService.getSensors()
-    this.forecast$ = this.getWeather()
+    this.setForecast()
     this.pingService.ping().pipe(
       takeUntil(this.destroy$)).subscribe()
   }
@@ -39,9 +39,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.destroy$.complete()
   }
 
-  getWeather(): Observable<IForecast> {
-    const everyTwoHours = 2 * 60 * 60 * 1000
-    return timer(0, everyTwoHours).pipe(
+  setForecast(): void {
+    const everyTwoHours = 1 * 10 * 1 * 1000
+    this.destroy$.next(true)
+    this.destroy$.complete()
+    this.destroy$ = new ReplaySubject(1)
+
+    this.forecast$ = timer(0, everyTwoHours).pipe(
       switchMap(() => {
         return this.locationService.getUserFavoriteLocation().pipe(
           mergeMap((favoriteLocation: ILocation) => {

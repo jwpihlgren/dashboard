@@ -61,7 +61,6 @@ export class LocationService {
     return this.userService.getUserMetadata().pipe(
       debounceTime(200),
       map((response:any) => {
-        console.log(response)
         this.sessionStorageService.setStoredData(ITEM_NAME, response.favorite_location)
         return response.favorite_location
       })
