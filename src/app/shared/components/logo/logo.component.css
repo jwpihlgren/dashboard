@@ -1,9 +1,0 @@
-.logo, .logo * {
-    fill: var(--blue-600);
-}
-
-.icon-logo {
-    width: 50px; 
-    height: 50px;
-    margin: .5em;
-}
