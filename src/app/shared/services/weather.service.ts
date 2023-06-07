@@ -22,7 +22,6 @@ export class WeatherService {
     ) { }
 
   getForecast(location: ILocation): Observable<IForecast>{
-
     const url = environment.dev.serverUrl
     const path = `/weather`
     const params = `?lat=${location.lat}&lon=${location.lon}`
@@ -34,7 +33,6 @@ export class WeatherService {
     if(previousForecasts && previousForecasts[safeName] && !this.isExpired(previousForecasts[safeName].expireDate)) {
         return of(previousForecasts[safeName]) as Observable<IForecast>
       }
-
     const forecastRequest: Observable<IForecastResponse> = this.http.get<IForecastResponse>(`${url}${path}${params}`)
     const insideTemperatureRequest: Observable<IinsideTemperatureResponse> = this.http.get<any>(`${url}/sensors/temperature`)
 
@@ -47,7 +45,6 @@ export class WeatherService {
         with: () => {throw new Error("Request took too long to complete")}
       }),
       map((data: any): IForecast => {
-        console.log(data.insideTemperature.temperature);
         const currentDate = new Date()
         const parsedData: IForecast = {
           
