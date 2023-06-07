@@ -1,0 +1,43 @@
+<div class="profile">
+    <!-- Logged in -->
+    <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+        <ng-container *ngIf="auth.user$ | async as user">
+            <!-- The menu is a button on mobile -->
+            <app-menu-item  name={{user.nickname}}>
+                <li>
+                    <a routerLink="/profile">{{buttonGroup.profile.title}}</a>
+                </li>
+                <li>
+                    <a routerLink="" (click)="logout()">{{buttonGroup.logout.title}}</a>
+                </li>
+            </app-menu-item>
+            <!-- The menu is separated in to to links on larger screens -->
+            <div class="button-group">
+                <a routerLink="/profile">
+                    <div class="icon">  
+                        <fa-icon [icon]=buttonGroup.profile.icon size="lg"></fa-icon>         
+                    </div>
+                    <span>{{buttonGroup.profile.title}}</span>
+                </a>
+                <a routerLink="" (click)="logout()">
+                    <div class="icon">  
+                        <fa-icon [icon]=buttonGroup.logout.icon size="lg"></fa-icon>         
+                    </div>
+                   <span>{{buttonGroup.logout.title}}</span>
+                </a>
+            </div>
+        </ng-container>
+    </ng-container>
+
+    <!-- Logged out -->
+    <ng-template #loggedOut>
+        <div class="button-group">
+        <a routerLink="" (click)="loginWithRedirect($event)">
+            <div class="icon">  
+                <fa-icon [icon]=buttonGroup.login.icon size="lg"></fa-icon>         
+            </div>
+           <span>{{buttonGroup.login.title}}</span>
+        </a>
+    </div>
+    </ng-template>
+</div>

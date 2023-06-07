@@ -1,0 +1,120 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    padding: var(--medium);
+    gap: var(--small);
+    background-color: var(--light-background-100);
+  }
+table {
+    background-color: var(--white);
+    font-weight: var(--fw-500);
+    padding: var(--small);
+    border-radius: var(--small);
+}
+
+th, td {
+    padding-inline: var(--medium);
+    text-align: start;
+}
+
+
+.numerical {
+    text-align: end;
+}
+
+.text {
+    text-align: start
+}
+
+.badge, .symbol {
+    text-align: center;
+}
+
+
+.badge > div {
+    height: calc(var(--medium) + var(--small));
+    min-width: 8ch;
+    width: 100%;
+    border-radius: var(--large);
+    padding-inline: var(--small);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: var(--fs-100);
+    font-weight: var(--fw-600);
+    letter-spacing: 2px;
+  }
+
+.badge[data-value="Låg"] > div {
+    background-color: var(--green-300);
+    color: var(--green-800);
+  }
+.badge[data-value="Måttlig"] > div {
+    background-color: var(--green-500);
+    color: var(--white);
+  }
+.badge[data-value="Hög"] > div {
+    background-color: var(--yellow-300);
+    color: var(--yellow-800);
+  }
+.badge[data-value="Mycket hög"] > div {
+    background-color: var(--orange-500);
+    color: var(--orange-800);
+  }
+.badge[data-value="Extrem"] > div {
+    background-color: var(--red-500);
+    color: var(--red-800);
+}
+
+.icon {
+    width: calc(var(--large) - var(--small));
+    height: calc(var(--large) - var(--small));
+}
+
+
+@media (max-width: 700px) {
+    table {
+        width: 100%;
+    }
+
+    th {
+        display: none;
+    }
+
+    td {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: var(--medium);
+        padding: var(--extra-small) var(--small);
+    }
+
+    .numerical, .text, .badge, .symbol {
+        text-align: start;
+    }
+
+    td:first-child {
+        padding-block-start: var(--medium);
+    }
+    td:last-child {
+        padding-block-end: var(--medium);
+    }
+
+    td::before {
+        content: attr(data-cell);
+        float: left;
+        font-size: var(--fs-100);
+        text-transform: uppercase;
+        font-weight: var(--fw-600);
+        color: var(--on-light-background-100);
+        letter-spacing: 0.067rem;
+    }
+
+    tr:nth-of-type(2n) {
+        width: 100%;
+        background-color: var(--gray-100);
+    }
+
+}

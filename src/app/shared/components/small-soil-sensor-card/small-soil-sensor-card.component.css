@@ -1,0 +1,37 @@
+:host {
+    display: flex;
+    padding: var(--medium);
+    height: min-content;
+}
+
+.content {
+    display: flex;
+    flex-grow: 1;
+    gap: var(--large);
+    position: relative;
+}
+
+.content-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--small);
+}
+
+.ball {
+    position: absolute;
+    top: -4px;
+    right: -4px
+}
+
+.ball.error {
+    background-color: var(--red-500);
+
+}
+
+:host ::ng-deep .reading-block {
+    font-weight: 700;
+}
+:host ::ng-deep .reading-affix {
+    font-weight: 700;
+}
+

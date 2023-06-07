@@ -1,0 +1,48 @@
+:host {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+app-column {
+    flex-grow: 1;
+}
+
+/* section {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    gap: var(--large);
+    flex-direction: column;
+    padding-block: var(--medium);
+    padding-inline: var(--small);
+} */
+
+
+@media (min-width: 600px) {
+    section {
+        padding: var(--medium);
+        border-radius: var(--rounded);
+    }
+}
+
+
+.data {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    width: 100%;
+    gap: var(--medium);
+    border-radius: var(--rounded);
+    padding: var(--medium);
+
+}
+
+app-weather-card, .loading {
+    width: 100%;
+    max-width: 1280px;
+    align-self: center;
+}
+
+
+
+
