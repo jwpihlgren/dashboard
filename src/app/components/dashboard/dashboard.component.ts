@@ -1,7 +1,7 @@
 import { WeatherService } from './../../shared/services/weather.service';
 import { LocationService } from './../../shared/services/location.service';
 import { SensorService } from './../../shared/services/sensor.service';
-import { mergeMap, Observable, forkJoin, of, tap, map, concatMap, ReplaySubject, takeUntil, share, interval, switchMap, timer } from 'rxjs';
+import { mergeMap, Observable, forkJoin, of, tap, map, concatMap, ReplaySubject, takeUntil, share, interval, switchMap, timer, take } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ILocation } from 'src/app/shared/models/location.interface';
 import { ISensor } from 'src/app/shared/models/sensor.interface';
@@ -16,6 +16,7 @@ import { PingService } from 'src/app/shared/services/ping.service';
 export class DashboardComponent implements OnInit, OnDestroy {
   sensors$!: Observable<ISensor[]>
   forecast$!: Observable<IForecast>
+  forecast!: IForecast
   destroy$: ReplaySubject<boolean> = new ReplaySubject(1)
 
   constructor(
@@ -40,7 +41,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   setForecast(): void {
-    const everyTwoHours = 1 * 10 * 1 * 1000
+    const everyTwoHours = 2 * 60 * 60 * 1000
+
     this.destroy$.next(true)
     this.destroy$.complete()
     this.destroy$ = new ReplaySubject(1)
@@ -53,7 +55,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
           })
         )
       }),
+      takeUntil(this.destroy$),
       share())
+
+    this.forecast$.subscribe((forecast: IForecast) => {
+      this.forecast = forecast
+    })
   }
 }
 
