@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { IForecastHourly } from '../../models/forecast-response.interface';
 import { UviConverterPipe } from '../../pipes/uvi-converter.pipe';
 import { WeatherService } from '../../services/weather.service';
@@ -9,7 +9,7 @@ import { IForecast } from '../../models/forecast.interface';
   templateUrl: './detailed-weather-table.component.html',
   styleUrls: ['./detailed-weather-table.component.css']
 })
-export class DetailedWeatherTableComponent implements OnInit {
+export class DetailedWeatherTableComponent implements OnInit/* , OnChanges */ {
 
   SE_LOCALE: any = 'sv-SE'
   LOCALE_OPTIONS: any = {
@@ -40,6 +40,10 @@ export class DetailedWeatherTableComponent implements OnInit {
     this.tableRows = this.createHourlyTableCells(this.forecast.hourly)
   }
 
+/*   ngOnChanges(): void {
+    console.log("weathertable on change");
+  }
+ */
   createHourlyTableCells(hourlyForecast: IForecastHourly[]): ITableRow[] {
       
       const rows: ITableRow[] = []

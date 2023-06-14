@@ -13,12 +13,12 @@
         class="card-single">  
     </app-current-weather>
     <app-weather-card
-        *ngIf=" forecast; else loading"
+        *ngIf="forecast; else loading"
         [forecast]="forecast"
         class="card card-double">
     </app-weather-card>
     <app-detailed-weather-table
-        *ngIf=" forecast; else loading"
+        *ngIf="forecast; else loading"
         [forecast]="forecast"
         class="card card-single-quarter">
     </app-detailed-weather-table>

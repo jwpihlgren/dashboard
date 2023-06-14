@@ -41,16 +41,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   setForecast(): void {
-    const everyTwoHours = 2 * 60 * 60 * 1000
+    const delay = 0;
+    const everyTwoHours = 10 * 1 * 1 * 1000
 
     this.destroy$.next(true)
     this.destroy$.complete()
     this.destroy$ = new ReplaySubject(1)
 
-    this.forecast$ = timer(0, everyTwoHours).pipe(
+    this.forecast$ = timer(delay, everyTwoHours).pipe(
       switchMap(() => {
         return this.locationService.getUserFavoriteLocation().pipe(
-          mergeMap((favoriteLocation: ILocation) => {
+          switchMap((favoriteLocation: ILocation) => {
             return this.weatherService.getForecast(favoriteLocation)
           })
         )
