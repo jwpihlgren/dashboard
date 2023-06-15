@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       share())
 
     this.forecast$.subscribe((forecast: IForecast) => {
-      this.forecast = forecast
+      this.forecast = { ...forecast } //Create a new object to trigger change detection
     })
   }
 }
