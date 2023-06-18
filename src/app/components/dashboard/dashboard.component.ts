@@ -16,7 +16,6 @@ import { PingService } from 'src/app/shared/services/ping.service';
 export class DashboardComponent implements OnInit, OnDestroy {
   sensors$!: Observable<ISensor[]>
   forecast$!: Observable<IForecast>
-  forecast!: IForecast
   destroy$: ReplaySubject<boolean> = new ReplaySubject(1)
 
   constructor(
@@ -29,7 +28,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.sensors$ = this.sensorService.getSensors()
-    this.setForecast()
+    this.forecast$ = this.getForecast()
     this.pingService.ping().pipe(
       takeUntil(this.destroy$)).subscribe()
   }
@@ -40,28 +39,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.destroy$.complete()
   }
 
-  setForecast(): void {
+  getForecast(): Observable<IForecast> {
     const delay = 0;
     const everyTwoHours = 10 * 1 * 1 * 1000
 
-    this.destroy$.next(true)
-    this.destroy$.complete()
-    this.destroy$ = new ReplaySubject(1)
-
-    this.forecast$ = timer(delay, everyTwoHours).pipe(
+    return timer(delay, everyTwoHours).pipe(
       switchMap(() => {
         return this.locationService.getUserFavoriteLocation().pipe(
           switchMap((favoriteLocation: ILocation) => {
+            console.log("test");
             return this.weatherService.getForecast(favoriteLocation)
           })
         )
       }),
-      takeUntil(this.destroy$),
       share())
-
-    this.forecast$.subscribe((forecast: IForecast) => {
-      this.forecast = { ...forecast } //Create a new object to trigger change detection
-    })
   }
 }
 

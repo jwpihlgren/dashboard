@@ -59,7 +59,6 @@ export class BarRangeChartComponent implements OnInit, OnChanges{
   }
 
   ngOnChanges(): void {
-    /* console.log("Weather graph on change"); */
     if(this.svg){
       let dirty: boolean = false;
       if(this.svg.node().getBoundingClientRect().width !== this.width) {
