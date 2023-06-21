@@ -14,8 +14,8 @@ export class BarRangeChartComponent implements OnInit, OnChanges{
   @Input() forecast!: IForecastDaily[]
 
   svg: any;
-  width!: number
-  height!: number
+  width: number = 400 /* Just to stop d3 from complaining before the width and height is decided */
+  height: number = 500 /* Just to stop d3 from complaining before the width and height is decided */
 
   margin =  {top: 20, right: 30, bottom: 30, left: 40}
   parentPadding = 16
@@ -109,7 +109,7 @@ export class BarRangeChartComponent implements OnInit, OnChanges{
     
     this.svg.append("g")
     .attr("class", "grid")
-    .attr("transform", "translate("+ (this.width - (this.margin.left * 0.75)) +","+ this.margin.top+")")
+    .attr("transform", "translate("+ (this.width - (this.margin.left * 0.75)) +","+ this.margin.top +")")
     .call(yGrid)
  
 
@@ -128,7 +128,7 @@ export class BarRangeChartComponent implements OnInit, OnChanges{
     .transition()
     .duration(1500)
     .attr("height", (datum: IForecastDaily) => ((this.height - this.yTickOffset) - y(datum.maxTemperature)) - ((this.height - this.yTickOffset) - y(datum.minTemperature)) )
-    .attr("transform", "translate(0," + (this.margin.top) + ")")
+    .attr("transform", "translate(0," + this.margin.top + ")")
 
 
     /* Add the weather icons to each tick */
