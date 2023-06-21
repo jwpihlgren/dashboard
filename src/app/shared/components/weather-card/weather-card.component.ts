@@ -14,24 +14,8 @@ export class WeatherCardComponent{
 
   @Input() forecast!: IForecast
 
-  constructor() {
-    
-  }
-
-  epochToDay(epoch: any): string {
-    const weekday = ["Sön","Mån","Tis","Ons","Tor","Fre","Lör"];
-    const day = new Date(epoch)
-    return `${weekday[day.getDay()]}`
-  }
-
   createForecastDataSeries(forecastDays: IForecastDaily[]): any {
-    const forecastDataSeries = forecastDays.map((day: IForecastDaily) => {
-      day.minTemperature = day.minTemperature
-      day.maxTemperature = day.maxTemperature
-
-      return day
-    })
-    return forecastDataSeries
+    return [...forecastDays]
   }
 
 

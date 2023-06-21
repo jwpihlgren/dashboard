@@ -1,5 +1,5 @@
 import { WeatherService } from './../../services/weather.service';
-import { Component, OnInit, ElementRef, Input, AfterViewChecked, AfterViewInit, HostListener, ViewChild, HostBinding, OnChanges} from '@angular/core';
+import { Component, OnInit, ElementRef, Input, AfterViewChecked, AfterViewInit, HostListener, ViewChild, HostBinding, OnChanges, KeyValueDifferFactory, KeyValueDiffers} from '@angular/core';
 import * as d3 from 'd3'
 import { IForecastDaily } from '../../models/forecast-response.interface';
 
@@ -11,24 +11,7 @@ import { IForecastDaily } from '../../models/forecast-response.interface';
 })
 export class BarRangeChartComponent implements OnInit, OnChanges{
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-/*     this.deleteSvg()
-    this.createSvg()
-    this.drawBars(this.forecast) */
-  }
-
-
-
-  @Input() forecast: IForecastDaily[] = [
-    { validTime: new Date(new Date().setDate( new Date().getDate() + 0)),   minTemperature: -5,  maxTemperature: 10, symbol: 1 },
-    { validTime: new Date(new Date().setDate( new Date().getDate() + 1)),   minTemperature: 5,   maxTemperature: 15, symbol: 1 },
-    { validTime: new Date(new Date().setDate( new Date().getDate() + 2)),   minTemperature: -2,  maxTemperature: 8,  symbol: 1 },
-    { validTime: new Date(new Date().setDate( new Date().getDate() + 3)),   minTemperature: 8,   maxTemperature: 18, symbol: 1 },
-    { validTime: new Date(new Date().setDate( new Date().getDate() + 4)),   minTemperature: 6,   maxTemperature: 15, symbol: 1 },
-    { validTime: new Date(new Date().setDate( new Date().getDate() + 5)),   minTemperature: 12,  maxTemperature: 22, symbol: 1 },
-    { validTime: new Date(new Date().setDate( new Date().getDate() + 6)),   minTemperature: 15,  maxTemperature: 25, symbol: 1 },
-  ]
+  @Input() forecast!: IForecastDaily[]
 
   svg: any;
   width!: number
@@ -42,10 +25,15 @@ export class BarRangeChartComponent implements OnInit, OnChanges{
   domainMax = 35
   domainPadding = 5
 
+  differ: any
+
   constructor(
     private elementRef: ElementRef,
-    private weatherService: WeatherService
-    ) { }
+    private weatherService: WeatherService,
+    private differs: KeyValueDiffers
+    ) { 
+      this.differ = differs.find({}).create()
+    }
 
   ngOnInit(): void {
     this.width = this.elementRef.nativeElement.offsetWidth
@@ -58,7 +46,16 @@ export class BarRangeChartComponent implements OnInit, OnChanges{
     this.createChart()
   }
 
-  ngOnChanges(): void {
+  ngDoCheck(): void {
+    const changes = this.differ.diff(this.forecast)
+    if(changes) {
+      this.deleteChart()
+      this.createChart()
+      this.drawBars(this.forecast)
+    }
+  }
+
+  ngOnChanges(event: any): void {
     if(this.svg){
       let dirty: boolean = false;
       if(this.svg.node().getBoundingClientRect().width !== this.width) {
@@ -106,16 +103,17 @@ export class BarRangeChartComponent implements OnInit, OnChanges{
     .style("text-anchor", "center")
     
 
- 
-    this.svg.append("g")
-    .attr("class", "grid")
-    .attr("transform", "translate("+ (this.width - (this.margin.left * 0.75)) +","+ this.margin.top+")")
- 
     const yGrid = d3.axisLeft(y)
     .tickSize(this.width - (this.margin.left * 2))
     .ticks(5)
+    
+    this.svg.append("g")
+    .attr("class", "grid")
+    .attr("transform", "translate("+ (this.width - (this.margin.left * 0.75)) +","+ this.margin.top+")")
+    .call(yGrid)
+ 
+
    
-    yGrid(d3.select("g.grid"))
  
     /* Draw the bars */
     this.svg.selectAll("bars")

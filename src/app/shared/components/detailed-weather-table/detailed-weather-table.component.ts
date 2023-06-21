@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, DoCheck, Input, KeyValueDiffers, OnChanges, OnInit } from '@angular/core';
 import { IForecastHourly } from '../../models/forecast-response.interface';
 import { UviConverterPipe } from '../../pipes/uvi-converter.pipe';
 import { WeatherService } from '../../services/weather.service';
@@ -9,7 +9,7 @@ import { IForecast } from '../../models/forecast.interface';
   templateUrl: './detailed-weather-table.component.html',
   styleUrls: ['./detailed-weather-table.component.css']
 })
-export class DetailedWeatherTableComponent implements OnInit/* , OnChanges */ {
+export class DetailedWeatherTableComponent implements OnInit, DoCheck {
 
   SE_LOCALE: any = 'sv-SE'
   LOCALE_OPTIONS: any = {
@@ -28,22 +28,31 @@ export class DetailedWeatherTableComponent implements OnInit/* , OnChanges */ {
   ]
 
   @Input() forecast!: IForecast
+  differ: any
 
   tableRows: ITableRow[] = []
 
   constructor(
     private uviConverterPipe: UviConverterPipe,
-    private weatherService: WeatherService) { }
+    private weatherService: WeatherService,
+    private differs: KeyValueDiffers
+    ) { 
+      this.differ = this.differs.find({}).create()
+    }
 
 
   ngOnInit(): void {
     this.tableRows = this.createHourlyTableCells(this.forecast.hourly)
   }
 
-/*   ngOnChanges(): void {
-    console.log("weathertable on change");
+  ngDoCheck(): void {
+      const changes = this.differ.diff(this.forecast)
+      if(changes) {
+        this.tableRows = this.createHourlyTableCells(this.forecast.hourly)
+      }
   }
- */
+
+
   createHourlyTableCells(hourlyForecast: IForecastHourly[]): ITableRow[] {
       
       const rows: ITableRow[] = []
