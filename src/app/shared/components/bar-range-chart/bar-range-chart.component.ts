@@ -32,7 +32,7 @@ export class BarRangeChartComponent implements OnInit, OnChanges{
     private weatherService: WeatherService,
     private differs: KeyValueDiffers
     ) { 
-      this.differ = differs.find({}).create()
+      this.differ = this.differs.find({}).create()
     }
 
   ngOnInit(): void {
