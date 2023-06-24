@@ -1,3 +1,4 @@
+<!-- Location and temperature -->
 <div class=" card flex row gap-lg p-md ">
     <div class="flex col grow j-center no-grow">
         <svg class="icon">
@@ -19,15 +20,18 @@
         </div>
         <span class="helper-text"> {{forecast.fetchDate.toString() | stringToDate | dfnsFormatDistanceToNow}} sedan</span> 
     </div>
-   
 </div>
 
-
+<!-- Container -->
 <div class="card-grid grow">
+
+    <!-- Humidity -->
     <div class="card flex col p-md gap-sm">
         <h6>Luftfuktighet</h6>
         <span>{{forecast.current.humidity | addUnit: '%'}}</span>
     </div>
+
+    <!-- Wind -->
     <div class="card flex col p-md gap-sm">
         <h6>Vind</h6>
         <div class="flex row gap-md">
@@ -38,6 +42,8 @@
             <fa-icon [title]="forecast.current.windDirection | degToCompass " [style.transform]="windDirectionArrowRotation" [icon]=icons.faArrowDown size="2x"></fa-icon> 
         </div>
     </div>
+
+    <!-- Precipitation -->
     <div class="card p-md flex col gap-sm">
         <h6>Nederbörd</h6>
         <div class="flex col gap-xs">
@@ -48,6 +54,8 @@
             </span>
         </div>
     </div>
+
+    <!-- Air pressure -->
     <div class="card flex col p-md gap-sm">
         <h6>Barometer</h6>
         <div class="flex row gap-md">
@@ -58,6 +66,7 @@
             <fa-icon *ngIf="airPressureChangeIndicator" [icon]="airPressureChangeIndicator" size="1x"></fa-icon>
         </div>
     </div>
+
 </div>
 
 
