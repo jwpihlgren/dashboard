@@ -21,15 +21,15 @@ app-column {
         padding: var(--medium);
         border-radius: var(--rounded);
     }
-
-    :host {
-        margin-inline-start: var(--small-navigation-drawer-width);
-        margin-bottom: 0 ;
-        width: calc(100% - var(--small-navigation-drawer-width));
-    }
     .container {
         gap: var(--medium);
         padding: var(--medium);
+    }
+}
+
+@media (min-width: 840px) {
+    .container{
+        grid-template-columns: repeat(8, 1fr);
     }
 }
 
@@ -41,10 +41,6 @@ app-column {
 }
 
 @media (min-width:1440px) {
-    :host {
-        margin-inline-start: var(--large-navigation-drawer-width);
-        width: calc(100% - var(--large-navigation-drawer-width));
-    }
     .container {
         gap: var(--medium);
         padding: var(--large);

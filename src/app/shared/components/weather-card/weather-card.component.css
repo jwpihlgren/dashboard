@@ -60,11 +60,6 @@ app-bar-range-chart {
 }
 
 @media (min-width: 768px) {
-    :host {
-        grid-row: auto / span 1;
-    }
-
-
     .weather-side-info-details {
         display: flex;
         flex-direction: column;
