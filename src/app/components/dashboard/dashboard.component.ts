@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   getForecast(): Observable<IForecast> {
     const delay = 0;
-    const everyTwoHours = 1000 * 60 * 60 * 2
+    const everyTwoHours = 1000 * 60 * 60 * 0.5
 
     return timer(delay, everyTwoHours).pipe(
       switchMap(() => {
