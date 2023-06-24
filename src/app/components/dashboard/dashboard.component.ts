@@ -47,7 +47,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       switchMap(() => {
         return this.locationService.getUserFavoriteLocation().pipe(
           switchMap((favoriteLocation: ILocation) => {
-            console.log("test");
             return this.weatherService.getForecast(favoriteLocation)
           })
         )
