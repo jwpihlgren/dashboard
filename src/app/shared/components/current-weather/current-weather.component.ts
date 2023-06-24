@@ -1,5 +1,5 @@
 import { TranslationService } from './../../services/translation.service';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IForecast } from '../../models/forecast.interface';
 import { WeatherService } from '../../services/weather.service';
 import { faArrowDown, faArrowUp} from '@fortawesome/free-solid-svg-icons';
@@ -9,11 +9,12 @@ import { faArrowDown, faArrowUp} from '@fortawesome/free-solid-svg-icons';
   templateUrl: './current-weather.component.html',
   styleUrls: ['./current-weather.component.css']
 })
-export class CurrentWeatherComponent implements OnInit, OnChanges{
+
+export class CurrentWeatherComponent implements OnInit{
 
   icons: any = {
-    faArrowDown,
-    faArrowUp
+      faArrowDown,
+      faArrowUp
   }
 
   windDirectionArrowRotation!: string
@@ -29,20 +30,10 @@ export class CurrentWeatherComponent implements OnInit, OnChanges{
   ngOnInit(): void {
     this.setWindDirectionArrowRotation()
     this.setAirPressureIndicator()
-    console.log(this.forecast);
-  }
-
-  ngOnChanges(event: any): void {
-    console.log(event);
   }
 
   getIconUrl(icon: number): string {
     return this.weatherService.getIconUrl(icon)
-  }
-
-  rotate(degrees: number): string {
-    console.log("test");
-    return `rotate(${degrees}deg)`
   }
 
   setWindDirectionArrowRotation() {
