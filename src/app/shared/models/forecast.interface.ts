@@ -5,5 +5,5 @@ export interface IForecast extends IForecastResponse {
     fetchDate: Date
     expireDate:Date
     insideTemperature: number
-
+    airPressureChange: -1 | 0 | 1
 }

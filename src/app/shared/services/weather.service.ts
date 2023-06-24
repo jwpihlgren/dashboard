@@ -38,7 +38,8 @@ export class WeatherService {
 
   return forkJoin({
       forecast: forecastRequest,
-      insideTemperature: insideTemperatureRequest
+      insideTemperature: insideTemperatureRequest,
+      previousForecast: of((previousForecasts && previousForecasts[safeName] ? previousForecasts[safeName] : undefined))
     }).pipe(
       timeout({
         each: 30 * 1000,
@@ -52,7 +53,9 @@ export class WeatherService {
           locationName: location.local_name,
           fetchDate: currentDate,
           expireDate: new Date(new Date().setHours(currentDate.getHours() + hoursUntilExpire)),
-      /* expireDate: new Date(new Date().setMinutes(currentDate.getMinutes() + minutesuntilExpire)), */
+          /* expireDate: new Date(new Date().setMinutes(currentDate.getMinutes() + minutesuntilExpire)), */ // Enable for testing purposes
+          /* airPressureChange: this.getAirPressureChangeIndication(data.previousForecast?.airPressure, data.forecast.airPressure), */
+          airPressureChange: 1, //Enable for testing purposes
           ...data.forecast
         }
 
@@ -68,339 +71,6 @@ export class WeatherService {
       }),
       shareReplay(1),
     );
-  }
-
-  /* Write a function that returns a forecast with all parameters randomized */
-  getForecast2(location: ILocation): Observable<IForecast> {
-    /* Create a const of type IForecast with all parameters randomized */
-    const randomForecast: IForecast = {
-      locationName: "Random",
-      fetchDate: new Date(),
-      expireDate: new Date(),
-      insideTemperature: Math.floor(Math.random() * 30),
-      updatedAt: new Date(),
-      current: {
-        apparentTemperature: Math.floor(Math.random() * 30),
-        currentTemperature: Math.floor(Math.random() * 30),
-        maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-        minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-        airPressure: Math.floor(Math.random() * 1100),
-        humidity: Math.floor(Math.random() * 100),
-        windSpeed: Math.floor(Math.random() * 30),
-        windDirection: Math.floor(Math.random() * 360),
-        precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-        symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-        windGust: Math.floor(Math.random() * 30),
-      },
-      hourly: [
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },
-        {
-          symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-          precipitationType: Math.floor(Math.random() * 6) as 0 | 1 | 2 | 3 | 4 | 5,
-          apparentTemperature: Math.floor(Math.random() * 30),
-          cloudiness: Math.floor(Math.random() * 100),
-          maxAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          minAmountOfPrecipitation: Math.floor(Math.random() * 30),
-          currentTemperature: Math.floor(Math.random() * 30),
-          UVI: Math.floor(Math.random() * 10),
-          validTime: new Date(),
-        },],
-      daily: [{
-        symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-        maxTemperature: Math.floor(Math.random() * 30),
-        minTemperature: Math.floor(Math.random() * 30),
-        validTime: new Date(new Date().setHours(Math.floor(Math.random() * 30))),
-      },
-      {
-        symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-        maxTemperature: Math.floor(Math.random() * 30),
-        minTemperature: Math.floor(Math.random() * 30),
-        validTime: new Date(new Date().setHours(Math.floor(Math.random() * 30))),
-      },
-      {
-        symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-        maxTemperature: Math.floor(Math.random() * 30),
-        minTemperature: Math.floor(Math.random() * 30),
-        validTime: new Date(new Date().setHours(Math.floor(Math.random() * 30))),
-      },
-      {
-        symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-        maxTemperature: Math.floor(Math.random() * 30),
-        minTemperature: Math.floor(Math.random() * 30),
-        validTime: new Date(new Date().setHours(Math.floor(Math.random() * 30))),
-      },
-      {
-        symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-        maxTemperature: Math.floor(Math.random() * 30),
-        minTemperature: Math.floor(Math.random() * 30),
-        validTime:new Date(new Date().setHours(Math.floor(Math.random() * 30))),
-      },
-      {
-        symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-        maxTemperature: Math.floor(Math.random() * 30),
-        minTemperature: Math.floor(Math.random() * 30),
-        validTime: new Date(new Date().setHours(Math.floor(Math.random() * 30))),
-      },
-      {
-        symbol: Math.floor(Math.random() * 11) as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11,
-        maxTemperature: Math.floor(Math.random() * 30),
-        minTemperature: Math.floor(Math.random() * 30),
-        validTime: new Date(new Date().setHours(Math.floor(Math.random() * 30))),
-      }],
-    }
-    return of(randomForecast)
   }
 
   getIconUrl(icon: number) {
@@ -438,6 +108,19 @@ export class WeatherService {
 
   isExpired(expireDate: any): boolean {
     return expireDate <= new Date().toISOString()
+  }
+
+  getAirPressureChangeIndication(previousAirPressure: number | undefined, currentAirPressure: number): -1 | 0 | 1 {
+    if(!previousAirPressure) {
+      return 0
+    }
+    if(previousAirPressure < currentAirPressure) {
+      return 1
+    }
+    if(previousAirPressure > currentAirPressure) {
+      return -1
+    }
+    return 0
   }
 
 
