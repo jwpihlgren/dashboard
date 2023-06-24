@@ -12,7 +12,6 @@ main {
     flex-direction: column;
     justify-content: stretch;
     gap: var(--small);
-    
 }
 
 @media (min-width: 600px) {
@@ -29,6 +28,13 @@ main {
     }
 }
 
+@media (min-width: 840px) {
+    main{
+        grid-template-columns: repeat(8, 1fr);
+    }
+}
+
+
 @media (min-width:1440px) {
     :host {
         margin-inline-start: var(--large-navigation-drawer-width);
@@ -43,4 +49,7 @@ main {
         margin: 0 auto;
     }
 }
+
+
+
 
