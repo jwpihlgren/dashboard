@@ -37,15 +37,15 @@ export class AreaChartComponent implements OnInit {
       { date: new Date(new Date().setDate( new Date().getDate() + 4)), value: 60 },
       { date: new Date(new Date().setDate( new Date().getDate() + 5)), value: 90 },
       { date: new Date(new Date().setDate( new Date().getDate() + 6)), value: 100 },
-    ],
-    thresholds: [0, 30, 60, 100]
-
+    ]
   }
 
 
   constructor(private elementRef: ElementRef) { }
 
   ngOnInit(): void {
+
+    console.log(this.chartConfig);
     this.width = this.elementRef.nativeElement.offsetWidth
     this.height = this.elementRef.nativeElement.offsetHeight
     this.y = this.createY()
@@ -145,35 +145,35 @@ export class AreaChartComponent implements OnInit {
       .attr('offset', '0%')
       .attr('stop-color', this.chartConfig.chartColors![0])
       .attr('stop-opacity', 0)
-      .attr('offset', '2%')
+      .attr('offset', this.chartConfig.thresholds![0] * 10 + '%')
       .attr('stop-color', this.chartConfig.chartColors![0])
       .attr('stop-opacity', 0.)
     gradient.append('stop')
-      .attr('offset', '25%')
+      .attr('offset', this.chartConfig.thresholds![0] * 80 + '%')
       .attr('stop-color', this.chartConfig.chartColors![0])
       .attr('stop-opacity', 0.3)
     gradient.append('stop')
-      .attr('offset', this.chartConfig.thresholds![0] + '%')
+      .attr('offset', this.chartConfig.thresholds![0] * 100 + '%')
       .attr('stop-color', this.chartConfig.chartColors![0])
       .attr('stop-opacity', 0.2)
 
       /* Second */
     gradient.append('stop')
-      .attr('offset', this.chartConfig.thresholds![0] + '%')
+      .attr('offset', this.chartConfig.thresholds![0] * 100 + '%')
       .attr('stop-color', this.chartConfig.chartColors![1])
       .attr('stop-opacity', 0.05)
     gradient.append('stop')
-      .attr('offset', '55%')
+      .attr('offset', this.chartConfig.thresholds![1] * 80 + '%')
       .attr('stop-color', this.chartConfig.chartColors![1])
       .attr('stop-opacity', 0.3)
     gradient.append('stop')
-      .attr('offset', this.chartConfig.thresholds![1] + '%')
+      .attr('offset', this.chartConfig.thresholds![1] * 100 + '%')
       .attr('stop-color', this.chartConfig.chartColors![1])
       .attr('stop-opacity', 0.4)
 
       /* Third */
     gradient.append('stop')
-      .attr('offset', this.chartConfig.thresholds![1] + '%')
+      .attr('offset', this.chartConfig.thresholds![1] * 100 + '%')
       .attr('stop-color', this.chartConfig.chartColors![2])
       .attr('stop-opacity', 0.4)
     gradient.append('stop')
