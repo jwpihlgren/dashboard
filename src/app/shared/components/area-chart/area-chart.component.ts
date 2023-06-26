@@ -126,7 +126,7 @@ export class AreaChartComponent implements OnInit {
       .data(d3.ticks(0, 1, 10))
   .join("stop")
       .attr("offset", d => d )
-      .attr("stop-color", d => this.colorFinder(d, [0.3, 0.6, 1]))
+      .attr("stop-color", d => this.colorFinder(d, [...this.chartConfig.thresholds!, 1]))
   }
 
   appendLinearGradientToArea() {
@@ -153,13 +153,13 @@ export class AreaChartComponent implements OnInit {
       .attr('stop-color', this.chartConfig.chartColors![0])
       .attr('stop-opacity', 0.3)
     gradient.append('stop')
-      .attr('offset', '30%')
+      .attr('offset', this.chartConfig.thresholds![0] + '%')
       .attr('stop-color', this.chartConfig.chartColors![0])
       .attr('stop-opacity', 0.2)
 
       /* Second */
     gradient.append('stop')
-      .attr('offset', '30%')
+      .attr('offset', this.chartConfig.thresholds![0] + '%')
       .attr('stop-color', this.chartConfig.chartColors![1])
       .attr('stop-opacity', 0.05)
     gradient.append('stop')
@@ -167,13 +167,13 @@ export class AreaChartComponent implements OnInit {
       .attr('stop-color', this.chartConfig.chartColors![1])
       .attr('stop-opacity', 0.3)
     gradient.append('stop')
-      .attr('offset', '60%')
+      .attr('offset', this.chartConfig.thresholds![1] + '%')
       .attr('stop-color', this.chartConfig.chartColors![1])
       .attr('stop-opacity', 0.4)
 
       /* Third */
     gradient.append('stop')
-      .attr('offset', '60%')
+      .attr('offset', this.chartConfig.thresholds![1] + '%')
       .attr('stop-color', this.chartConfig.chartColors![2])
       .attr('stop-opacity', 0.4)
     gradient.append('stop')

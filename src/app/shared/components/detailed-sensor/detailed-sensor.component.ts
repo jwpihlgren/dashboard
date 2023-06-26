@@ -65,7 +65,7 @@ export class DetailedSensorComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.readings$ = this.sensorService.getDaily(this.sensor._id)
-    this.chartConfig.thresholds = [this.sensor.minThreshold, this.sensor.maxThreshold]
+    this.chartConfig.thresholds = [this.sensor.minThreshold / 100, this.sensor.maxThreshold / 100]
   }
 
   ngOnChanges(changes: SimpleChanges): void {
