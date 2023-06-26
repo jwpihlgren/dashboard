@@ -37,7 +37,8 @@ export class AreaChartComponent implements OnInit {
       { date: new Date(new Date().setDate( new Date().getDate() + 4)), value: 60 },
       { date: new Date(new Date().setDate( new Date().getDate() + 5)), value: 90 },
       { date: new Date(new Date().setDate( new Date().getDate() + 6)), value: 100 },
-    ]
+    ],
+    thresholds: [0, 30, 60, 100]
 
   }
 

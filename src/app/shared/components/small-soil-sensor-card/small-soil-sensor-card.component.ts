@@ -38,13 +38,19 @@ export class SmallSoilSensorCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.measurement$ = this.sensorService.subscribeToSensor(this.sensor._id)
+    const minThreshold = this.sensor.minThreshold + ''
+    const maxThreshold = this.sensor.maxThreshold + ''
+    this.gaugeParams.thresholds = {
+      [minThreshold]: {color: '#32d2ac'},
+      [maxThreshold]: {color: '#5693e9'},
+    }
   }
 
   getStatusText(value: number): string {
     if(value === -1) return `Det finns inga mätvärden ännu`
-    else if(value < 45) return "Dags att vattna"
-    else if( value >= 45 && value <= 80) return "Allt ser bra ut"
-    else if (value > 80) return "Vattna inte mer just nu"
+    else if(value < this.sensor.minThreshold) return "Dags att vattna"
+    else if( value >= this.sensor.minThreshold && value <= this.sensor.maxThreshold) return "Allt ser bra ut"
+    else if (value > this.sensor.maxThreshold) return "Vattna inte mer just nu"
     else return `Det finns inga mätvärden ännu`
   }
 

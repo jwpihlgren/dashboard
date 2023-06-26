@@ -56,14 +56,16 @@ export class DetailedSensorComponent implements OnInit, OnChanges {
 
   
 
-  constructor(private sensorService: SensorService,
-              private ref: ChangeDetectorRef
+  constructor(
+    private sensorService: SensorService,
+    private ref: ChangeDetectorRef
     ) { }
 
 
 
   ngOnInit(): void {
     this.readings$ = this.sensorService.getDaily(this.sensor._id)
+    this.chartConfig.thresholds = [this.sensor.minThreshold, this.sensor.maxThreshold]
   }
 
   ngOnChanges(changes: SimpleChanges): void {
