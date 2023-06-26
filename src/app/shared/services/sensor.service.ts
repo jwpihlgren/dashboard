@@ -156,14 +156,14 @@ export class SensorService {
     )
   }
 
-  updateSensor(partialSensor: IPartialSensor): Observable<any> {
+  updateSensorAlias(partialSensor: IPartialSensor): Observable<any> {
     console.log("update sensor");
     const {_id, alias} = partialSensor
     const api = environment.dev.serverUrl
     const path = `/sensors/${_id}`
     const data = {_id: _id, alias: alias}
 
-    return this.http.put(`${api}${path}`, data).pipe(
+    return this.http.patch(`${api}${path}`, data).pipe(
       tap(data => console.log(data)),
       timeout({
         each: 1000,

@@ -27,8 +27,8 @@ export class SoilmoistureComponent implements OnInit, OnDestroy {
     this.sensors$ = this.sensorService.getSensors()
   }
 
-  updateSensor(partialSensor: IPartialSensor) {
-    this.subscriptions$.push(this.sensorService.updateSensor(partialSensor).subscribe())
+  updateSensorAlias(partialSensor: IPartialSensor) {
+    this.subscriptions$.push(this.sensorService.updateSensorAlias(partialSensor).subscribe())
     this.sensors$ = new Observable()
     this.getSensors()
   }

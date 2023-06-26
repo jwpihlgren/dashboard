@@ -3,5 +3,7 @@ export interface ISensor {
     alias: string
     name: string
     createdAt: Date
-    updatedAt: Date
+    updatedAt: Date,
+    minThreshold: number,
+    maxThreshold: number,
 }
