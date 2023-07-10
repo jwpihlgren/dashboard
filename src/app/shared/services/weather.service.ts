@@ -33,13 +33,15 @@ export class WeatherService {
     if(previousForecasts && previousForecasts[safeName] && !this.isExpired(previousForecasts[safeName].expireDate)) {
         return of(previousForecasts[safeName]) as Observable<IForecast>
       }
+    else if(previousForecasts && previousForecasts[safeName] ) {
+      this.sessionStorageService.setStoredData("previous_forecasts", previousForecasts)
+    }
     const forecastRequest: Observable<IForecastResponse> = this.http.get<IForecastResponse>(`${url}${path}${params}`)
     const insideTemperatureRequest: Observable<IinsideTemperatureResponse> = this.http.get<any>(`${url}/sensors/temperature`)
 
   return forkJoin({
       forecast: forecastRequest,
       insideTemperature: insideTemperatureRequest,
-      previousForecast: of((previousForecasts && previousForecasts[safeName] ? previousForecasts[safeName] : undefined))
     }).pipe(
       timeout({
         each: 30 * 1000,
@@ -54,7 +56,7 @@ export class WeatherService {
           fetchDate: currentDate,
           expireDate: new Date(new Date().setHours(currentDate.getHours() + hoursUntilExpire)),
           /* expireDate: new Date(new Date().setMinutes(currentDate.getMinutes() + minutesuntilExpire)), */ // Enable for testing purposes
-          airPressureChange: this.getAirPressureChangeIndication(data.previousForecast?.airPressure, data.forecast.airPressure),
+          airPressureChange: this.getAirPressureChangeIndication(this.getHistoricForecast(location)?.current.airPressure, data.forecast.current.airPressure),
           /* airPressureChange: 1, */ //Enable for testing purposes
           ...data.forecast
         }
@@ -111,6 +113,7 @@ export class WeatherService {
   }
 
   getAirPressureChangeIndication(previousAirPressure: number | undefined, currentAirPressure: number): -1 | 0 | 1 {
+    console.log(previousAirPressure, currentAirPressure);
     if(!previousAirPressure) {
       return 0
     }
@@ -121,6 +124,15 @@ export class WeatherService {
       return -1
     }
     return 0
+  }
+
+  getHistoricForecast(location: ILocation): IForecast | undefined {
+    const safeName = location.name.replace(" ", "")
+    const previousForecasts: any = this.sessionStorageService.getStoredData("previous_forecasts")
+    if(previousForecasts && previousForecasts[safeName]) {
+      return previousForecasts[safeName]
+    }
+    return undefined
   }
 
 
