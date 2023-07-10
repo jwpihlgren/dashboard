@@ -54,7 +54,7 @@ export class WeatherService {
           fetchDate: currentDate,
           expireDate: new Date(new Date().setHours(currentDate.getHours() + hoursUntilExpire)),
           /* expireDate: new Date(new Date().setMinutes(currentDate.getMinutes() + minutesuntilExpire)), */ // Enable for testing purposes
-          airPressureChange: this.getAirPressureChangeIndication(data.previousForecast?.airPressure, data.forecast.airPressure),
+          airPressureChange: this.getAirPressureChangeIndication(data.previousForecast?.airPressure, data.forecast.current.airPressure),
           /* airPressureChange: 1, */ //Enable for testing purposes
           ...data.forecast
         }
