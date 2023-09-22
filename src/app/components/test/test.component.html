@@ -1,3 +1,8 @@
-<app-masonry-grid>
-    <app-area-chart class="card-full"></app-area-chart>
-</app-masonry-grid>
+<app-column>
+    <div *ngIf="stations$ | async as stations">
+        <h1>{{stations.title}}</h1>
+        <div *ngFor="let station of stations.station">
+            {{station.name}}
+        </div>
+    </div>
+</app-column>

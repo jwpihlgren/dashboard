@@ -1,9 +1,7 @@
-import { LocationService } from './../../shared/services/location.service';
+import { WaterLevelService } from './../../shared/services/water-level.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable, mergeMap } from 'rxjs';
-import { IForecast } from 'src/app/shared/models/forecast.interface';
-import { ILocation } from 'src/app/shared/models/location.interface';
-import { WeatherService } from 'src/app/shared/services/weather.service';
+import { ISMHIHydrologicalBase } from 'src/app/shared/models/smhi-hydrological-base';
 
 @Component({
   selector: 'app-test',
@@ -13,16 +11,12 @@ import { WeatherService } from 'src/app/shared/services/weather.service';
 export class TestComponent implements OnInit {
 
 
-  forecast$!: Observable<IForecast>
+  stations$!: Observable<ISMHIHydrologicalBase>
 
-  constructor(private locationService: LocationService,private weatherService: WeatherService) { }
+  constructor(private waterLevelService: WaterLevelService) { }
 
   ngOnInit(): void {
-    this.forecast$ = this.locationService.getUserFavoriteLocation().pipe(
-      mergeMap((favoriteLocation: ILocation) => {
-        return this.weatherService.getForecast(favoriteLocation).pipe()
-      })
-    )
+    this.stations$ = this.waterLevelService.getWaterLevels()
   }
 
 }
