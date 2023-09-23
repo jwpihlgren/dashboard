@@ -7,6 +7,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { WeatherComponent } from './components/weather/weather.component';
 import { SoilmoistureComponent } from './components/soilmoisture/soilmoisture.component';
 import { TestComponent } from './components/test/test.component';
+import { HydrologicalObservationsComponent } from './components/hydrological-observations/hydrological-observations.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
@@ -14,7 +15,8 @@ const routes: Routes = [
   {path: "profile", component: ProfileComponent, canActivate: [AuthGuard]},
   {path: "weather", component: WeatherComponent, canActivate: [AuthGuard]},
   {path: "soilmoisture", component: SoilmoistureComponent, canActivate: [AuthGuard]},
-  {path: "test", component: TestComponent},
+  {path: "hydrologicalobservations", component: HydrologicalObservationsComponent, canActivate: [AuthGuard]},
+ /*  {path: "test", component: TestComponent}, */
   {path: "**", redirectTo: ""}
 
 ];
