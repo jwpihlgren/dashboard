@@ -1,12 +1,15 @@
 <app-masonry-grid>
-    <div class="card card-full" *ngIf="hydrologicalStations$ | async as stations">
-        <div (click)="setStationWaterLevelData(station.id)" *ngFor="let station of stations">
+    <ul class="card card-full" *ngIf="hydrologicalStations$ | async as stations">
+        <li (click)="setStationWaterLevelData(station.id)" *ngFor="let station of stations">
             {{station.name}}
-        </div>
-    </div>
+        </li>
+    </ul>
 
     <div class="card card-full" *ngIf="stationWaterLevelData$ | async as stationWaterLevelData">
-        <app-area-chart [chartConfig]="getChartConfig(stationWaterLevelData)"></app-area-chart>
+        <app-simple-water-level
+        [stationWaterLevelData]="stationWaterLevelData">
+
+        </app-simple-water-level>
         <button (click)="clearStationWaterLevelData()">Rensa</button>
     </div>
 </app-masonry-grid>

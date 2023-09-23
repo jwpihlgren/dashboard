@@ -1,3 +1,26 @@
 app-area-chart {
     display: block;
 }
+
+ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding-block: var(--medium);
+}
+
+li {
+    padding-block: var(--small);
+    padding-inline: var(--medium);
+}
+
+
+li:hover {
+    cursor: pointer;
+    background-color: var(--blue-516);
+}
+
+li:active {
+    cursor: pointer;
+    background-color: var(--blue-511);
+}

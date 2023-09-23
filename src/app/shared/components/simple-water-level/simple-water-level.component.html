@@ -15,11 +15,18 @@
     </div>
     <div class="flex col gap-xs grow">
         <h6 class="card-title">Min</h6>
-        <span>{{(stationWaterLevelData.value | hydrologicalMinMax: "min").value | addUnit: stationWaterLevelData.parameter.unit}}</span>
+        <span>{{(stationWaterLevelData.value | hydrologicalMinMax: "min": "value").value | addUnit: stationWaterLevelData.parameter.unit}}</span>
+        <span class="helper-text">{{(stationWaterLevelData.value | hydrologicalMinMax: "min" : "value").date | date }}</span>
     </div>
     <div class="flex col gap-xs grow">
         <h6 class="card-title">Max</h6>
-        <span>{{(stationWaterLevelData.value | hydrologicalMinMax: "max").value | addUnit: stationWaterLevelData.parameter.unit}}</span>
+        <span>{{(stationWaterLevelData.value | hydrologicalMinMax: "max": "value").value | addUnit: stationWaterLevelData.parameter.unit}}</span>
+        <span class="helper-text">{{(stationWaterLevelData.value | hydrologicalMinMax: "max": "value").date | date }}</span>
+    </div>
+    <div class="flex col gap-xs grow">
+        <h6 class="card-title">Senast</h6>
+        <span>{{(stationWaterLevelData.value | hydrologicalMinMax: "max" : "date").value | addUnit: stationWaterLevelData.parameter.unit }}</span>
+        <span class="helper-text">{{(stationWaterLevelData.value | hydrologicalMinMax: "max": "date").date | date }}</span>
     </div>
 </div>
 

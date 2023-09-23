@@ -6,16 +6,26 @@ import { ISMHIWaterLevelSample } from '../models/smhi-water-level-sample';
 })
 export class HydrologicalMinMaxPipe implements PipeTransform {
 
-  transform(value: ISMHIWaterLevelSample[], minmax: "min" | "max"): ISMHIWaterLevelSample {
-    if(minmax === "min") {
+  transform(value: ISMHIWaterLevelSample[], minmax: "min" | "max", type: "value" | "date"): ISMHIWaterLevelSample {
+    if(type === "value" && minmax === "min") {
       return value.reduce((acc: ISMHIWaterLevelSample , cur: ISMHIWaterLevelSample) => {
         return acc.value <= cur.value ? acc : cur
       })
     }
-    return value.reduce((acc: ISMHIWaterLevelSample , cur: ISMHIWaterLevelSample) => {
-      return acc.value >= cur.value ? acc : cur
-    })
-    
-  }
+    if(type === "value" && minmax === "max") {
+      return value.reduce((acc: ISMHIWaterLevelSample , cur: ISMHIWaterLevelSample) => {
+        return acc.value >= cur.value ? acc : cur
+      })
+    }
 
+    if(type === "date" && minmax === "min") {
+      return value.reduce((acc: ISMHIWaterLevelSample , cur: ISMHIWaterLevelSample) => {
+        return acc.date <= cur.date ? acc : cur
+      })
+    }
+    
+    return value.reduce((acc: ISMHIWaterLevelSample , cur: ISMHIWaterLevelSample) => {
+      return acc.date >= cur.date ? acc : cur
+    })
+  }
 }
