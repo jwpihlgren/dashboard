@@ -1,6 +1,6 @@
 import { ISMHIHydrologicalObservationsFileType } from "./smhi-hydrological-observations-file-type"
 
-export interface SMHIHydrologicalObservationPeriod {
+export interface ISMHIHydrologicalObservationPeriod {
     key: "corrected-archive" | "latest-hour" | "latest-day" | "latest-months"
     updated: number
     title: string

@@ -1,5 +1,5 @@
-import { ISMHIHydrologicalStationWaterLevelData } from './../../shared/models/smhi-detailed-water-level';
-import { ISMHIHydrologicalStationWithPeriods } from './../../shared/models/smhi-hydrological-station-with-periods';
+import { ISMHIHydrologicalStationWaterLevelData } from '../../shared/models/smhi-hydrological-station-water-level-data';
+import { ISMHIHydrologicalStation } from '../../shared/models/smhi-hydrological-station';
 import { WaterLevelService } from './../../shared/services/water-level.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -16,14 +16,15 @@ import { ISMHIWaterLevelSample } from 'src/app/shared/models/smhi-water-level-sa
 export class TestComponent implements OnInit {
 
 
-  hydrologicalStations$!: Observable<ISMHIHydrologicalStationWithPeriods[]>
+  hydrologicalStations$!: Observable<ISMHIHydrologicalStation[]>
   stationWaterLevelData$?: Observable<ISMHIHydrologicalStationWaterLevelData>
-
+  
   chartConfig: IAreaChartConfig = {
     chartColors: ['#f8c03f', '#32d2ac', '#5693e9'],
-    thresholds: [0],
+    thresholds: [0.2, 0.7, 1 ],
     unit: '%',
     domain: [0, 1000],
+    margins: {top: 20, right: 0, bottom: 30, left: 55},
     data: []
   }
   
@@ -52,7 +53,7 @@ export class TestComponent implements OnInit {
   getChartConfig(data: ISMHIHydrologicalStationWaterLevelData): IAreaChartConfig {
     this.chartConfig.data = this.toChartData(data.value)
     this.chartConfig.unit = data.parameter.unit
-    this.chartConfig.domain = [0, Math.max(...this.chartConfig.data.map(reading => reading.value))]
+    this.chartConfig.domain = [Math.min(...this.chartConfig.data.map(reading => reading.value)), Math.max(...this.chartConfig.data.map(reading => reading.value))]
     return this.chartConfig
   }
 

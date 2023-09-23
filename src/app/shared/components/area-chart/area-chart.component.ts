@@ -46,8 +46,6 @@ export class AreaChartComponent implements OnInit {
   constructor(private elementRef: ElementRef) { }
 
   ngOnInit(): void {
-
-    console.log(this.chartConfig);
     this.width = this.elementRef.nativeElement.offsetWidth
     this.height = this.elementRef.nativeElement.offsetHeight
     this.y = this.createY()
