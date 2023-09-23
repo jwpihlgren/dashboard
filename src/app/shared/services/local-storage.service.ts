@@ -14,10 +14,12 @@ export class LocalStorageService {
   }
 
    setStoredData(key: string, data: object): void {
-    console.log(JSON.stringify(data).length);
-    if(JSON.stringify(data).length >= this.MAX_STORAGE_SIZE) return
-
-    localStorage.setItem(key, JSON.stringify(data))
+    const serializedData = JSON.stringify(data)
+    if(serializedData.length >= this.MAX_STORAGE_SIZE) {
+      console.log(`Object was too large to store in session storage ${serializedData.length}/${this.MAX_STORAGE_SIZE} characters  `);
+      return
+    }
+    localStorage.setItem(key, serializedData)
 
     
   }
