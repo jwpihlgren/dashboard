@@ -69,7 +69,7 @@ swedishConfig.setLocale(sv)
     AreaChartComponent,
     CyclonicConditionPipe,
     SimpleWaterLevelComponent,
-    HydrologicalMinMaxPipe
+    HydrologicalMinMaxPipe,
   ],
   imports: [
     CommonModule,

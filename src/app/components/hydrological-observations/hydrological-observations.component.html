@@ -6,7 +6,10 @@
     </div>
 
     <div class="card card-full" *ngIf="stationWaterLevelData$ | async as stationWaterLevelData">
-        <app-area-chart [chartConfig]="getChartConfig(stationWaterLevelData)"></app-area-chart>
+        <app-simple-water-level
+        [stationWaterLevelData]="stationWaterLevelData">
+
+        </app-simple-water-level>
         <button (click)="clearStationWaterLevelData()">Rensa</button>
     </div>
 </app-masonry-grid>
