@@ -1,11 +1,10 @@
+import { ISMHIHydrologicalStationWithPeriods } from './../models/smhi-hydrological-station-with-periods';
 import { ISMHIHydrologicalBase } from './../models/smhi-hydrological-base';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { tap, Observable, catchError, EMPTY, map,} from 'rxjs';
-import { ISMHIDetailedWaterLevel } from '../models/smhi-detailed-water-level';
-import { ISMHIHydrologicalStation } from '../models/smhi-hydrological-station';
-import { ISMHIStationWithPeriods } from '../models/smhi-station-with-periods';
-import { SMHIHydrologicalObservationPeriod } from '../models/smhi-hydrological-observation-period';
+import { tap, Observable, catchError, EMPTY, mergeMap, forkJoin, filter, of,} from 'rxjs';
+import { ISMHIHydrologicalStationWaterLevelData } from '../models/smhi-detailed-water-level';
+import * as dummydata from '../../../assets/stubs/hydrological-value.json'
 
 @Injectable({
   providedIn: 'root'
@@ -16,29 +15,23 @@ export class WaterLevelService {
 
   base = "https://opendata-download-hydroobs.smhi.se/api/"
   version = "version/1.0/"
-  waterLevelParameter = "parameter/3"
   fileType = ".json"
 
 
-  getWaterLevels(): Observable<ISMHIHydrologicalBase> {
-    return this.http.get<ISMHIHydrologicalBase>(`${this.base}${this.version}${this.waterLevelParameter}${this.fileType}`).pipe(
-      tap(data => console.log(data)),
-      map(data => {
-        let stations: ISMHIHydrologicalStation[] = data.station.filter((station: ISMHIHydrologicalStation ) => {
-          return this.getWaterLevelStationPeriods(station.id).pipe(
-            tap(data => console.log(data)),
-            map((stationPeriods: ISMHIStationWithPeriods) => {
-              console.log(stationPeriods)
-              return stationPeriods.period.reduce((acc: boolean, cur: SMHIHydrologicalObservationPeriod ) => {
-                console.log(cur)
-                return acc || cur.key === "corrected-archive"
-              }, false)
-            })
+  getHydrologicalStations(): Observable<ISMHIHydrologicalStationWithPeriods[]> {
+    const waterLevelParameter = "parameter/3"
+    return this.http.get<ISMHIHydrologicalBase>(`${this.base}${this.version}${waterLevelParameter}${this.fileType}`).pipe(
+      mergeMap(hydrologicalBaseData => {
+        const stations: Observable<ISMHIHydrologicalStationWithPeriods>[] = hydrologicalBaseData.station.map(station => {
+          const stationDataURLForJson = station.link[0].href
+          return this.http.get<ISMHIHydrologicalStationWithPeriods>(stationDataURLForJson).pipe(
+            filter(data => {
+              console.log(data)
+              return data.period.find( station => station.key === "corrected-archive") ? true : false
+            }),
           )
         })
-        console.log(stations);
-        data.station = stations
-        return data
+        return forkJoin(stations)
       }),
       catchError(err => {
         console.log(err)
@@ -46,30 +39,28 @@ export class WaterLevelService {
       })
     )
   }
-
-  getWaterLevel(id: number): Observable<ISMHIDetailedWaterLevel> {
+  
+  getWaterLevel(id: number): Observable<ISMHIHydrologicalStationWaterLevelData> {
     const period = "period/corrected-archive/"
+    const waterLevelParameter = "parameter/3/"
     const station = `station/${id}/`
     const data = "data"
-    return this.http.get<ISMHIDetailedWaterLevel>(`${this.base}${this.version}${this.waterLevelParameter}${station}${period}${data}${this.fileType}`).pipe(
-      tap(data => console.log(data)),
-      catchError(err => {
-        console.log(err)
-        return EMPTY
-      })
-    )
+    return of(dummydata as ISMHIHydrologicalStationWaterLevelData)
   }
 
-  private getWaterLevelStationPeriods(id: number): Observable<ISMHIStationWithPeriods> {
-
+/*   getWaterLevel(id: number): Observable<ISMHIHydrologicalStationWaterLevelData> {
+    const period = "period/corrected-archive/"
+    const waterLevelParameter = "parameter/3/"
     const station = `station/${id}/`
-    return this.http.get<ISMHIStationWithPeriods>(`${this.base}${this.version}${this.waterLevelParameter}${station}/${id}.json`).pipe(
+    const data = "data"
+    return this.http.get<ISMHIHydrologicalStationWaterLevelData>(`${this.base}${this.version}${waterLevelParameter}${station}${period}${data}${this.fileType}`).pipe(
       tap(data => console.log(data)),
       catchError(err => {
         console.log(err)
         return EMPTY
       })
     )
-  }
+  } */
+
 }
 

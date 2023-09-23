@@ -1,0 +1,5 @@
+<h6 class="card-title">Pliscos stånd</h6>
+<app-area-chart 
+    *ngIf="stationWaterLevelData$ | async as setStationWaterLevelData" 
+    [chartConfig]="chartConfig">
+</app-area-chart>

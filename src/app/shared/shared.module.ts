@@ -32,6 +32,7 @@ import { TypeofPipe } from './pipes/typeof.pipe';
 import { DetailedWeatherTableComponent } from './components/detailed-weather-table/detailed-weather-table.component';
 import { AreaChartComponent } from './components/area-chart/area-chart.component';
 import { CyclonicConditionPipe } from './pipes/cyclonic-condition.pipe';
+import { SimpleWaterLevelComponent } from './components/simple-water-level/simple-water-level.component';
 
 
 
@@ -65,7 +66,8 @@ swedishConfig.setLocale(sv)
     DetailedWeatherTableComponent,
     TypeofPipe,
     AreaChartComponent,
-    CyclonicConditionPipe
+    CyclonicConditionPipe,
+    SimpleWaterLevelComponent
   ],
   imports: [
     CommonModule,
@@ -100,7 +102,8 @@ swedishConfig.setLocale(sv)
     DateFnsModule,
     StringToDatePipe,
     DetailedWeatherTableComponent,
-    AreaChartComponent
+    AreaChartComponent,
+    SimpleWaterLevelComponent
   ],
   providers: [
     UviConverterPipe,

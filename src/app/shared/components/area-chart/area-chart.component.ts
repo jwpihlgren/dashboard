@@ -28,6 +28,8 @@ export class AreaChartComponent implements OnInit {
 
   @Input() chartConfig: IAreaChartConfig = {
     chartColors: ['#f8c03f', '#32d2ac', '#5693e9'],
+    thresholds: [0.3, 0.6],
+    domain: [0, 100],
     unit: '',
     data: [
       { date: new Date(new Date().setDate( new Date().getDate() + 0)), value: 20 },
@@ -75,14 +77,14 @@ export class AreaChartComponent implements OnInit {
   createX(): d3.AxisScale<Date> {
     return d3.scaleUtc()
       .domain(<[Date, Date]>d3.extent(this.chartConfig.data, (d) => d.date))
-      .range([this.margin.left, this.width - this.margin.right])
+      .range(this.chartConfig.margins ? [this.chartConfig.margins.left, this.width - this.chartConfig.margins.right] : [this.margin.left, this.width - this.margin.right])
   }
 
 
   appendXAxis() {
 
     const xAxis = (g: any) => {
-      g.attr('transform', `translate(0, -${this.margin.top})`)
+      g.attr('transform', `translate(0, -${this.chartConfig.margins ? this.chartConfig.margins.top :this.margin.top})`)
       .call(d3.axisBottom(this.x).ticks(this.width / (this.width * 0.15) ).tickSizeOuter(0).tickSize(this.height))
       .call((g: any) => g.select('.domain').remove())
     }
@@ -93,15 +95,15 @@ export class AreaChartComponent implements OnInit {
 
   createY(): d3.AxisScale<number> {
     return d3.scaleLinear()
-    .domain([0, 100]).nice()
-    .range([this.height - this.margin.bottom, this.margin.top])
+    .domain(this.chartConfig.domain).nice()
+    .range(this.chartConfig.margins ? [this.height - this.chartConfig.margins.bottom, this.chartConfig.margins.top] : [this.height - this.margin.bottom, this.margin.top])
   }
 
 
   appendYAxis() {
     const yAxis = (g: any) => {
       g.attr('transform', `translate(${this.width},0)`)
-      .call(d3.axisLeft(this.y).ticks(this.height / (this.height * 0.15)).tickSize(this.width - this.margin.left + this.margin.right))
+      .call(d3.axisLeft(this.y).ticks(this.height / (this.height * 0.15)).tickSize(this.width - (this.chartConfig.margins?.left || this.margin.left) + ( this.chartConfig.margins?.right || this.margin.right)))
       .call((g: any) => g.select('.domain').remove())
       .call((g: any) => g.select(".tick:last-of-type text").append("tspan").text(this.chartConfig.unit))
     }
@@ -119,9 +121,9 @@ export class AreaChartComponent implements OnInit {
       .attr("id", this.pathGradient)
       .attr("gradientUnits", "userSpaceOnUse")
       .attr("x1", 0)
-      .attr("y1", this.height - this.margin.bottom)
+      .attr("y1", this.height - (this.chartConfig.margins ? this.chartConfig.margins?.bottom : this.margin.bottom))
       .attr("x2", 0)
-      .attr("y2", this.margin.top)
+      .attr("y2", this.chartConfig.margins ? this.chartConfig.margins.top : this.margin.top)
   .selectAll("stop")
       .data(d3.ticks(0, 1, 10))
   .join("stop")
@@ -136,9 +138,9 @@ export class AreaChartComponent implements OnInit {
     .attr("id", this.areaGradient)
     .attr("gradientUnits", "userSpaceOnUse")
     .attr("x1", 0)
-    .attr("y1", this.height - this.margin.bottom)
+    .attr("y1", this.height - (this.chartConfig.margins ? this.chartConfig.margins.bottom : this.margin.bottom))
     .attr("x2", 0)
-    .attr("y2", this.margin.top)
+    .attr("y2", this.chartConfig.margins ? this.chartConfig.margins.top : this.margin.top)
 
     /* First */
     gradient.append('stop')
@@ -220,7 +222,7 @@ export class AreaChartComponent implements OnInit {
       .curve(d3.curveStep)
       .defined((d: any) => !isNaN(d.value))
       .x((d: any) => this.x(d.date)!)
-      .y0(this.height - this.margin.bottom)
+      .y0(this.height - (this.chartConfig.margins ? this.chartConfig.margins.bottom : this.margin.bottom))
       .y1((d: any) => this.y(d.value)!)
 
     this.svg.append('path')

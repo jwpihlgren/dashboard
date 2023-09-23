@@ -1,8 +1,12 @@
-<app-column>
-    <div *ngIf="stations$ | async as stations">
-        <h1>{{stations.title}}</h1>
-        <div *ngFor="let station of stations.station">
+<app-masonry-grid>
+    <div class="card card-full" *ngIf="hydrologicalStations$ | async as stations">
+        <div (click)="setStationWaterLevelData(station.id)" *ngFor="let station of stations">
             {{station.name}}
         </div>
     </div>
-</app-column>
+
+    <div class="card card-full" *ngIf="stationWaterLevelData$ | async as stationWaterLevelData">
+        <app-area-chart [chartConfig]="getChartConfig(stationWaterLevelData)"></app-area-chart>
+        <button (click)="clearStationWaterLevelData()">Rensa</button>
+    </div>
+</app-masonry-grid>
