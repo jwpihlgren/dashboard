@@ -13,6 +13,7 @@ import { WeatherComponent } from './components/weather/weather.component';
 import { SoilmoistureComponent } from './components/soilmoisture/soilmoisture.component';
 import { FormsModule } from '@angular/forms';
 import { TestComponent } from './components/test/test.component';
+import { HydrologicalObservationsComponent } from './components/hydrological-observations/hydrological-observations.component';
 
 
 
@@ -24,7 +25,8 @@ import { TestComponent } from './components/test/test.component';
     ProfileComponent,
     WeatherComponent,
     SoilmoistureComponent,
-    TestComponent
+    TestComponent,
+    HydrologicalObservationsComponent
   ],
   imports: [
     HttpClientModule,

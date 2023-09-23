@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faHouse, faCloudSun, faSeedling, faThLarge, faVial } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faCloudSun, faSeedling, faThLarge, faVial, faWater, } from '@fortawesome/free-solid-svg-icons';
 import { INavItem } from '../../models/nav-item';
 
 
@@ -15,7 +15,8 @@ export class LeftNavComponent implements OnInit {
     {route: "/dashboard", icon: faThLarge, title: "Dashboard"},
     {route: "/weather", icon: faCloudSun, title: "Sök väder"},
     {route: "/soilmoisture", icon: faSeedling, title: "Sensorer"},
-    {route: "/test", icon: faVial, title: "Test"}
+    {route: "/hydrologicalobservations", icon: faWater, title: "Hydrologiska Observationer"},
+   /*  {route: "/test", icon: faVial, title: "Test"} */
   ]
 
   constructor() { }
