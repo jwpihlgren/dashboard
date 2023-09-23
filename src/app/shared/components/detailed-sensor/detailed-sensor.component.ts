@@ -41,6 +41,7 @@ export class DetailedSensorComponent implements OnInit, OnChanges {
   chartConfig: IAreaChartConfig = {
     chartColors: ['#f8c03f', '#32d2ac', '#5693e9'],
     unit: '%',
+    domain: [0, 100],
     data: []
   }
 

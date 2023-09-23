@@ -1,0 +1,28 @@
+<h6 class="card-title">Pliscos stånd</h6>
+
+<div class="flex row gap-md">
+    <div class="flex col gap-xs grow">
+        <h6 class="card-title">Vattendrag</h6>
+        <span>{{stationWaterLevelData.station.name}}</span>
+    </div>
+    <div class="flex col gap-xs grow">
+        <h6 class="card-title">Ägare</h6>
+        <span>{{stationWaterLevelData.station.owner}}</span>
+    </div>
+    <div class="flex col gap-xs grow">
+        <h6 class="card-title">Mätstation</h6>
+        <span>{{stationWaterLevelData.station.measuringStations}}</span>
+    </div>
+    <div class="flex col gap-xs grow">
+        <h6 class="card-title">Min</h6>
+        <span>{{(stationWaterLevelData.value | hydrologicalMinMax: "min").value | addUnit: stationWaterLevelData.parameter.unit}}</span>
+    </div>
+    <div class="flex col gap-xs grow">
+        <h6 class="card-title">Max</h6>
+        <span>{{(stationWaterLevelData.value | hydrologicalMinMax: "max").value | addUnit: stationWaterLevelData.parameter.unit}}</span>
+    </div>
+</div>
+
+<app-area-chart 
+    [chartConfig]="chartConfig">
+</app-area-chart>

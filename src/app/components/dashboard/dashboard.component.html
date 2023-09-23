@@ -17,6 +17,11 @@
         [forecast]="forecast"
         class="card card-double">
     </app-weather-card>
+    <app-simple-water-level 
+        *ngIf="stationWaterLevelData$ | async as stationWaterLevelData; else loading"
+        class="card card-full"
+        [stationWaterLevelData]="stationWaterLevelData">
+    </app-simple-water-level>
     <app-detailed-weather-table
         *ngIf="forecast$ | async as forecast; else loading"
         [forecast]="forecast"
