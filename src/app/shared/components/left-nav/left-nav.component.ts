@@ -15,7 +15,8 @@ export class LeftNavComponent implements OnInit {
     {route: "/dashboard", icon: faThLarge, title: "Dashboard"},
     {route: "/weather", icon: faCloudSun, title: "Sök väder"},
     {route: "/soilmoisture", icon: faSeedling, title: "Sensorer"},
-    {route: "/hydrologicalobservations", icon: faWater, title: "Hydrologiska Observationer"},
+    {route: "/hydrologicalobservations", icon: faWater, title: "Hydrologi"},
+    {route: "/oceanographicalobservations", icon: faWater, title: "Oceanografi"},
    /*  {route: "/test", icon: faVial, title: "Test"} */
   ]
 

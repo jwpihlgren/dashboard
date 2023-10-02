@@ -8,6 +8,7 @@ import { WeatherComponent } from './components/weather/weather.component';
 import { SoilmoistureComponent } from './components/soilmoisture/soilmoisture.component';
 import { TestComponent } from './components/test/test.component';
 import { HydrologicalObservationsComponent } from './components/hydrological-observations/hydrological-observations.component';
+import { OceanographicalObservationsComponent } from './components/oceanographical-observations/oceanographical-observations.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
@@ -16,6 +17,7 @@ const routes: Routes = [
   {path: "weather", component: WeatherComponent, canActivate: [AuthGuard]},
   {path: "soilmoisture", component: SoilmoistureComponent, canActivate: [AuthGuard]},
   {path: "hydrologicalobservations", component: HydrologicalObservationsComponent, canActivate: [AuthGuard]},
+  {path: "oceanographicalobservations", component: OceanographicalObservationsComponent, canActivate: [AuthGuard]},
  /*  {path: "test", component: TestComponent}, */
   {path: "**", redirectTo: ""}
 

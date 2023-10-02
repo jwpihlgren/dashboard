@@ -1,17 +1,17 @@
-import { ISMHIHydrologicalObservationsFileType } from './smhi-hydrological-observations-file-type';
+import { ISMHIObservationsFileType } from './smhi-observations-file-type';
 import { ISMHIHydrologicalObservationPeriod } from "./smhi-hydrological-observation-period"
 
 export interface ISMHIHydrologicalStationWaterLevelMeta {
     data: ISMHIHydrologicalObservationStationMetaData[]
     key: ISMHIHydrologicalObservationPeriod
-    link: ISMHIHydrologicalObservationsFileType[]
+    link: ISMHIObservationsFileType[]
     summary: string
     title: string
 }
 
 interface ISMHIHydrologicalObservationStationMetaData {
     key: string
-    link: ISMHIHydrologicalObservationsFileType[]
+    link: ISMHIObservationsFileType[]
     summary: string
     title: string
     updated: number
