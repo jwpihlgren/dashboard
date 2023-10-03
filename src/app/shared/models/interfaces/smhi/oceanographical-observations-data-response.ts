@@ -16,7 +16,27 @@ interface IOceanographicalObservationsDataResponseValue {
     value: number
     quality: TSMHIObservationsQuality
 }
-interface IOceanographicalObservationsDataResponseParameter {}
-interface IOceanographicalObservationsDataResponseStation {}
-interface IOceanographicalObservationsDataResponsePeriod {}
-interface IOceanographicalObservationsDataResponsePosition {}
+
+interface IOceanographicalObservationsDataResponseParameter {
+    key: string
+    name: string
+    unit: string
+}
+
+interface IOceanographicalObservationsDataResponseStation {
+    key: string
+    name: string
+}
+
+interface IOceanographicalObservationsDataResponsePeriod {
+    key: string
+    from: number
+    to: number
+    summary: string
+}
+interface IOceanographicalObservationsDataResponsePosition {
+    from: number
+    to: number
+    latitude: number
+    longitude: number
+}

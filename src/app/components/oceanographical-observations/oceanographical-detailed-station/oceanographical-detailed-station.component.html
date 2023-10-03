@@ -10,7 +10,9 @@
         {{ oceanographicalObservationsPeriod.title}}
     </div>
     <div *ngIf="oceanographicalObservationsData$ | async as oceanographicalObservationsPeriodData">
-        {{ oceanographicalObservationsPeriodData.period}}
+        <div *ngFor="let value of oceanographicalObservationsPeriodData.value">
+            {{value.date}}: {{value.value}}{{oceanographicalObservationsPeriodData.parameter.unit}}
+        </div>
     </div>
 </div>
 
