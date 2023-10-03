@@ -1,26 +1,6 @@
-<app-masonry-grid>
-    <h2 class="card-full">Oceanogragiska observationer</h2>
-    <ul class="card-full" *ngIf="oceanographicalObservationsParameters$ | async as oceanographicalObservationsParameters">
-        <h3>{{oceanographicalObservationsParameters.title}}</h3>
-        <li *ngFor="let parameter of oceanographicalObservationsParameters.resource">
-            <a (click)="getStations(parameter)">{{parameter.title}}</a>
-        </li>
-    </ul>
 
-    <ul class="card-full" *ngIf="oceanographicalObservationsStations$ | async as oceanographicalObservationsStations">
-        <h3>{{oceanographicalObservationsStations.title}}</h3>
-        <li *ngFor="let station of oceanographicalObservationsStations.station">
-            <a (click)="getStation(station)">{{station.title}}</a>
-        </li>
-    </ul>
-    <ul class="card-full" *ngIf="oceanographicalObservationsStation$ | async as oceanographicalObservationsStation">
-        <h3>{{oceanographicalObservationsStation.title}}</h3>
-        <li *ngFor="let period of oceanographicalObservationsStation.period">
-            <a (click)="getPeriod(period)">{{period.title}}</a>
-        </li>
-    </ul>
-    <ul class="card-full" *ngIf="oceanographicalObservationsPeriod$ | async as oceanographicalObservationsPeriod">
-        <h3>{{oceanographicalObservationsPeriod.title}}</h3>
-        <a>{{oceanographicalObservationsPeriod.data}}</a>
-    </ul>
-</app-masonry-grid>
+<app-column>
+    <h2>Oceanogragiska observationer</h2>
+    <router-outlet></router-outlet>
+</app-column>
+

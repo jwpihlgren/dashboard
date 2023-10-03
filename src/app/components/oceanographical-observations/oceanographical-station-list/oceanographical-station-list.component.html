@@ -1,0 +1,9 @@
+<ul class="card-full" *ngIf="oceanographicalObservationsStations$ | async as oceanographicalObservationsStations">
+    <h3>{{oceanographicalObservationsStations.title}}</h3>
+    <li *ngFor="let station of oceanographicalObservationsStations.station">
+        <a [routerLink]="['station', station.key]">{{station.title}} ({{station.key}})</a>
+    </li>
+</ul>
+
+<button (click)="back()" class="secondary | flex no-grow">Tillbaks</button>
+

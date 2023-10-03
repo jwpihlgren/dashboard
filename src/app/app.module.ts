@@ -15,6 +15,9 @@ import { FormsModule } from '@angular/forms';
 import { TestComponent } from './components/test/test.component';
 import { HydrologicalObservationsComponent } from './components/hydrological-observations/hydrological-observations.component';
 import { OceanographicalObservationsComponent } from './components/oceanographical-observations/oceanographical-observations.component';
+import { OceanographicalParameterListComponent } from './components/oceanographical-observations/oceanographical-parameter-list/oceanographical-parameter-list.component';
+import { OceanographicalStationListComponent } from './components/oceanographical-observations/oceanographical-station-list/oceanographical-station-list.component';
+import { OceanographicalDetailedStationComponent } from './components/oceanographical-observations/oceanographical-detailed-station/oceanographical-detailed-station.component';
 
 
 
@@ -28,7 +31,10 @@ import { OceanographicalObservationsComponent } from './components/oceanographic
     SoilmoistureComponent,
     TestComponent,
     HydrologicalObservationsComponent,
-    OceanographicalObservationsComponent
+    OceanographicalObservationsComponent,
+    OceanographicalParameterListComponent,
+    OceanographicalStationListComponent,
+    OceanographicalDetailedStationComponent
   ],
   imports: [
     HttpClientModule,

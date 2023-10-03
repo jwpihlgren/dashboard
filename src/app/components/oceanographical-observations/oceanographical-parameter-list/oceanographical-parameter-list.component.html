@@ -1,0 +1,8 @@
+<ul class="card-full" *ngIf="oceanographicalObservationsParameters$ | async as oceanographicalObservationsParameters">
+    <h3>{{oceanographicalObservationsParameters.title}}</h3>
+    <li *ngFor="let parameter of oceanographicalObservationsParameters.resource">
+        <a [routerLink]="['parameter', parameter.key]">{{parameter.title}} ({{parameter.key}})</a>
+    </li>
+</ul>
+
+
