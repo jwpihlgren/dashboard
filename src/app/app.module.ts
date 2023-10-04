@@ -44,6 +44,9 @@ import { OceanographicalDetailedStationComponent } from './components/oceanograp
     FormsModule,
     AuthModule.forRoot({
       ...environment.auth,
+      authorizationParams: {
+        redirect_uri: `${window.location.origin}`,
+      },
       httpInterceptor: {
         allowedList: [
           `${environment.dev.serverUrl}/sensors`,
