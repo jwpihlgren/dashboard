@@ -74,7 +74,10 @@ export class OceanographicalObservationsService {
     const station = `station/${stationId}`
     const period = `period/${periodName}`
     const data = `data`
-    return this.http.get<IOceanographicalObservationsDataResponse>(`${this.API}/${this.VERSION}/${parameter}/${station}/${period}/${data}${this.MEDIA_TYPE}`).pipe(
+    return this.http.get<IOceanographicalObservationsDataResponse>(`${this.API}/${this.VERSION}/${parameter}/${station}/${period}/${data}.csv`, {
+      responseType: 'text' as 'json'
+    }).pipe(
+      tap(data => {console.log(data)}),
       catchError(err => {
         console.log(err)
         return EMPTY
