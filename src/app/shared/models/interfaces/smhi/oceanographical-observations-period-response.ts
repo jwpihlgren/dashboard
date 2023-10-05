@@ -6,6 +6,7 @@ export interface IOceanographicalObservationsPeriodResponse {
     link: ISMHIObservationsFileType[]
     summary: string
     title: string
+    
 }
 
 export interface IOceanographicalObservationsPeriodResponseData {

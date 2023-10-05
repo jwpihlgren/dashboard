@@ -1,4 +1,4 @@
-import { EMPTY, Observable, catchError, tap } from 'rxjs';
+import { EMPTY, Observable, catchError, map, of, tap } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { IOceanographicalObservationsVersionResponse } from '../models/interfaces/smhi/oceanographical-observations-version-response';
 import { LocalStorageService } from './local-storage.service';
@@ -18,10 +18,12 @@ export class OceanographicalObservationsService {
   VERSION = "version/1.0"
   MEDIA_TYPE = ".json"
   APPLICATION_TYPE = "application/json"
+  BAD_PERIODS = ["corrected-archive"]
 
   constructor(
     private http: HttpClient, 
-    private localStorageService: LocalStorageService) { }
+    private localStorageService: LocalStorageService,
+    ) { }
 
   getParameters(): Observable<IOceanographicalObservationsVersionResponse> {
     return this.http.get<IOceanographicalObservationsVersionResponse>(`${this.API}/${this.VERSION}${this.MEDIA_TYPE}`).pipe(
@@ -49,6 +51,11 @@ export class OceanographicalObservationsService {
     const parameter = `parameter/${parameterId}`
     const station = `station/${stationId}`
     return this.http.get<IOceanographicalObservationsStationResponse>(`${this.API}/${this.VERSION}/${parameter}/${station}${this.MEDIA_TYPE}`).pipe(
+      map(data => {
+        const filteredPeriod = data.period.filter(period => !this.BAD_PERIODS.includes(period.key))
+        data.period = filteredPeriod
+        return data
+      }),
       catchError(err => {
         console.log(err)
         return EMPTY
@@ -61,7 +68,13 @@ export class OceanographicalObservationsService {
     const station = `station/${stationId}`
     const period = `period/${periodName}`
     return this.http.get<IOceanographicalObservationsPeriodResponse>(`${this.API}/${this.VERSION}/${parameter}/${station}/${period}${this.MEDIA_TYPE}`).pipe(
-      tap(data => {console.log(data)}),
+      tap(data => {console.log(data);}),
+      map(data => {
+        const previousData = this.localStorageService.getStoredData("oceanographicalPeriods") as {[key: string]: IOceanographicalObservationsPeriodResponse };
+        this.localStorageService.setStoredData("oceanographicalPeriods", {...previousData, [stationId]: {[periodName]: data}})
+        return data
+        
+      }),
       catchError(err => {
         console.log(err)
         return EMPTY
@@ -69,15 +82,32 @@ export class OceanographicalObservationsService {
     ) )
   }
 
-  getPeriodData(parameterId: string, stationId: number, periodName: string): Observable<IOceanographicalObservationsDataResponse> {
+  getPeriodData(parameterId: string, stationId: number, periodName: string): Observable<IOceanographicalObservationsDataResponse> {    
     const parameter = `parameter/${parameterId}`
     const station = `station/${stationId}`
     const period = `period/${periodName}`
     const data = `data`
-    return this.http.get<IOceanographicalObservationsDataResponse>(`${this.API}/${this.VERSION}/${parameter}/${station}/${period}/${data}.csv`, {
-      responseType: 'text' as 'json'
-    }).pipe(
-      tap(data => {console.log(data)}),
+
+    const previousStation= (this.localStorageService.getStoredData("oceanographicalPeriods") as {[key: string]: {[key: string]: IOceanographicalObservationsPeriodResponse} })[stationId];
+    const previousStationData = (this.localStorageService.getStoredData("oceanographicalData") as {[key: string]: {[key: string]: IOceanographicalObservationsDataResponse} })[stationId];
+    
+    const previousPeriod = previousStation ? previousStation[periodName] : undefined
+    const previousData = previousStationData ? previousStationData[periodName] : undefined
+
+    if(previousPeriod && previousData && previousPeriod.data[0].updated === previousData.updated ) {
+      console.log("Using stored data")
+      return of(previousData)
+    }
+    console.log("No stored data")
+    return this.http.get<IOceanographicalObservationsDataResponse>(`${this.API}/${this.VERSION}/${parameter}/${station}/${period}/${data}${this.MEDIA_TYPE}`)
+    .pipe(
+      tap(data =>  console.log(data)),
+      map(data => {
+        const storedData = this.localStorageService.getStoredData("oceanographicalPeriods") as {[key: string]: IOceanographicalObservationsPeriodResponse }
+        this.localStorageService.setStoredData("oceanographicalData", {...storedData, [stationId]: {[periodName]: data}})
+        return data
+
+      }),
       catchError(err => {
         console.log(err)
         return EMPTY
