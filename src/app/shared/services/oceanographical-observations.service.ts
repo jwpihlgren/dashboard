@@ -67,11 +67,11 @@ export class OceanographicalObservationsService {
     const parameter = `parameter/${parameterId}`
     const station = `station/${stationId}`
     const period = `period/${periodName}`
+    const thisStation = `${stationId}-${periodName}`
     return this.http.get<IOceanographicalObservationsPeriodResponse>(`${this.API}/${this.VERSION}/${parameter}/${station}/${period}${this.MEDIA_TYPE}`).pipe(
-      tap(data => {console.log(data);}),
       map(data => {
         const previousData = this.localStorageService.getStoredData("oceanographicalPeriods") as {[key: string]: IOceanographicalObservationsPeriodResponse };
-        this.localStorageService.setStoredData("oceanographicalPeriods", {...previousData, [stationId]: {[periodName]: data}})
+        this.localStorageService.setStoredData("oceanographicalPeriods", {...previousData, [thisStation]: data})
         return data
         
       }),
@@ -87,13 +87,14 @@ export class OceanographicalObservationsService {
     const station = `station/${stationId}`
     const period = `period/${periodName}`
     const data = `data`
+    const thisStation = `${stationId}-${periodName}`
 
-    const previousStation= (this.localStorageService.getStoredData("oceanographicalPeriods") as {[key: string]: {[key: string]: IOceanographicalObservationsPeriodResponse} })[stationId];
-    const previousStationData = (this.localStorageService.getStoredData("oceanographicalData") as {[key: string]: {[key: string]: IOceanographicalObservationsDataResponse} })[stationId];
-    
-    const previousPeriod = previousStation ? previousStation[periodName] : undefined
-    const previousData = previousStationData ? previousStationData[periodName] : undefined
+    const previousPeriods: any = this.localStorageService.getStoredData("oceanographicalPeriods");
+    const previousDatas: any = this.localStorageService.getStoredData("oceanographicalData");
+    const previousPeriod: IOceanographicalObservationsPeriodResponse  = previousPeriods[thisStation] as IOceanographicalObservationsPeriodResponse
+    const previousData: IOceanographicalObservationsDataResponse = previousDatas[thisStation] as IOceanographicalObservationsDataResponse
 
+    console.log(previousPeriods, previousData);
     if(previousPeriod && previousData && previousPeriod.data[0].updated === previousData.updated ) {
       console.log("Using stored data")
       return of(previousData)
@@ -101,10 +102,10 @@ export class OceanographicalObservationsService {
     console.log("No stored data")
     return this.http.get<IOceanographicalObservationsDataResponse>(`${this.API}/${this.VERSION}/${parameter}/${station}/${period}/${data}${this.MEDIA_TYPE}`)
     .pipe(
-      tap(data =>  console.log(data)),
       map(data => {
-        const storedData = this.localStorageService.getStoredData("oceanographicalPeriods") as {[key: string]: IOceanographicalObservationsPeriodResponse }
-        this.localStorageService.setStoredData("oceanographicalData", {...storedData, [stationId]: {[periodName]: data}})
+        let storedData: any = this.localStorageService.getStoredData("oceanographicalData");
+        storedData[thisStation] = data
+        this.localStorageService.setStoredData("oceanographicalData", {...storedData, [thisStation]:  data})
         return data
 
       }),
