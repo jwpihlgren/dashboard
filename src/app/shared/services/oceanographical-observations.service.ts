@@ -7,8 +7,6 @@ import { IOceanographicalObservationsParameterResponse } from '../models/interfa
 import { IOceanographicalObservationsStationResponse } from '../models/interfaces/smhi/oceanographical-observations-station-response';
 import { IOceanographicalObservationsPeriodResponse } from '../models/interfaces/smhi/oceanographical-observations-period-response';
 import { IOceanographicalObservationsDataResponse } from '../models/interfaces/smhi/oceanographical-observations-data-response';
-import { ISMHIObservationsFileType } from '../models/smhi-observations-file-type';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -67,7 +65,7 @@ export class OceanographicalObservationsService {
     const parameter = `parameter/${parameterId}`
     const station = `station/${stationId}`
     const period = `period/${periodName}`
-    const thisStation = `${stationId}-${periodName}`
+    const thisStation = `${parameterId}-${stationId}-${periodName}`
     return this.http.get<IOceanographicalObservationsPeriodResponse>(`${this.API}/${this.VERSION}/${parameter}/${station}/${period}${this.MEDIA_TYPE}`).pipe(
       map(data => {
         const previousData = this.localStorageService.getStoredData("oceanographicalPeriods") as {[key: string]: IOceanographicalObservationsPeriodResponse };
@@ -87,14 +85,13 @@ export class OceanographicalObservationsService {
     const station = `station/${stationId}`
     const period = `period/${periodName}`
     const data = `data`
-    const thisStation = `${stationId}-${periodName}`
-
+    const thisStation = `${parameterId}-${stationId}-${periodName}`
+    
     const previousPeriods: any = this.localStorageService.getStoredData("oceanographicalPeriods");
     const previousDatas: any = this.localStorageService.getStoredData("oceanographicalData");
     const previousPeriod: IOceanographicalObservationsPeriodResponse  = previousPeriods[thisStation] as IOceanographicalObservationsPeriodResponse
     const previousData: IOceanographicalObservationsDataResponse = previousDatas[thisStation] as IOceanographicalObservationsDataResponse
 
-    console.log(previousPeriods, previousData);
     if(previousPeriod && previousData && previousPeriod.data[0].updated === previousData.updated ) {
       console.log("Using stored data")
       return of(previousData)
@@ -115,11 +112,5 @@ export class OceanographicalObservationsService {
       }
     ) )
   }
-
-  private getLinkByMediaType(links: ISMHIObservationsFileType[]): string {
-    return links.find(link => link.type === this.APPLICATION_TYPE)?.href as string
-  }
-
-
   
 }

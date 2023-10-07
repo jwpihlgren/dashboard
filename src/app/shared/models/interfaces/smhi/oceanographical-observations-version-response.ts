@@ -21,4 +21,5 @@ export interface IOceanographicalObservationsVersionResponseResource {
     summary: string
     title: string
     updated: number
+    unit: string
 }

@@ -1,5 +1,7 @@
+<button (click)="back()" class="secondary | flex no-grow">Tillbaka</button>
+
 <div *ngIf="oceanographicalObservationsStation$ | async as oceanographicalObservationsStation">
-    {{ oceanographicalObservationsStation.title}}
+    <h3>{{ oceanographicalObservationsStation.title }}</h3>
 
         <button class="primary" (click)="setPeriodData(period.key)" *ngFor="let period of oceanographicalObservationsStation.period">
             {{period.title}}
@@ -16,4 +18,4 @@
     </div>
 </div>
 
-<button (click)="back()" class="secondary | flex no-grow">Tillbaks</button>
+

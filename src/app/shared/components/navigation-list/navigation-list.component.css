@@ -1,0 +1,25 @@
+ul {
+    list-style: none;
+    padding-block: var(--medium); 
+    padding-inline-start: 0;
+}
+  
+li {
+    padding-block: var(--small);
+    padding-inline: var(--medium);
+}
+  
+li:hover {
+    cursor: pointer;
+    background-color: var(--blue-516);
+}
+  
+li:active {
+    cursor: pointer;
+    background-color: var(--blue-511);
+}
+  
+a {
+    text-decoration: none;
+    color: var(--gray-900);
+}

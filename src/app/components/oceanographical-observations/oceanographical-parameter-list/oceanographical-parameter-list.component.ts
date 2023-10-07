@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { IOceanographicalObservationsVersionResponse } from 'src/app/shared/models/interfaces/smhi/oceanographical-observations-version-response';
+import { INavigationItem } from 'src/app/shared/models/interfaces/navigation-item';
+import { IOceanographicalObservationsVersionResponse, IOceanographicalObservationsVersionResponseResource } from 'src/app/shared/models/interfaces/smhi/oceanographical-observations-version-response';
 import { OceanographicalObservationsService } from 'src/app/shared/services/oceanographical-observations.service';
 
 @Component({
@@ -19,5 +19,17 @@ export class OceanographicalParameterListComponent implements OnInit{
 
   ngOnInit(): void {
     this.oceanographicalObservationsParameters$ = this.oceanographicalObservationsService.getParameters()
-  }  
+  }
+  
+  
+  getNavigationItems(parameters: IOceanographicalObservationsVersionResponseResource[]): INavigationItem[] {
+    const navigationItems: INavigationItem[] = []
+    parameters.forEach(parameter => {
+      navigationItems.push({
+        title: parameter.title,
+        link: ['parameter', parameter.key]
+      })
+    })
+    return navigationItems
+  }
 }

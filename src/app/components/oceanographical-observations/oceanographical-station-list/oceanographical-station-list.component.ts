@@ -1,6 +1,8 @@
+import { IOceanographicalObservationsParameterResponseStation } from './../../../shared/models/interfaces/smhi/oceanographical-observations-parameter-response';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+import { INavigationItem } from 'src/app/shared/models/interfaces/navigation-item';
 import { IOceanographicalObservationsParameterResponse } from 'src/app/shared/models/interfaces/smhi/oceanographical-observations-parameter-response';
 import { OceanographicalObservationsService } from 'src/app/shared/services/oceanographical-observations.service';
 
@@ -22,9 +24,23 @@ export class OceanographicalStationListComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.oceanographicalObservationsStations$ = this.oceanographicalObservationsService.getStations(params.get("parameter") as string)
+      this.oceanographicalObservationsStations$ = this.oceanographicalObservationsService.getStations(params.get("parameter") as string).pipe(
+        tap(stations => console.log(stations))
+      )
     })
   }
+
+  getNavigationItems(stations: IOceanographicalObservationsParameterResponseStation[]): INavigationItem[] {
+    const navigationItems: INavigationItem[] = []
+    stations.forEach(station => {
+      navigationItems.push({
+        title: `${station.title.split(' - ')[1]} - ${station.key}`,
+        link: ['station', station.key]
+      })
+    })
+    return navigationItems
+  }
+
   back(): void {
     this.router.navigate(['/oceanographical-observations'])
   }
