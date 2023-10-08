@@ -18,6 +18,7 @@ import { OceanographicalObservationsComponent } from './components/oceanographic
 import { OceanographicalParameterListComponent } from './components/oceanographical-observations/oceanographical-parameter-list/oceanographical-parameter-list.component';
 import { OceanographicalStationListComponent } from './components/oceanographical-observations/oceanographical-station-list/oceanographical-station-list.component';
 import { OceanographicalDetailedStationComponent } from './components/oceanographical-observations/oceanographical-detailed-station/oceanographical-detailed-station.component';
+import { OceanographicalPeriodComponent } from './components/oceanographical-observations/oceanographical-detailed-station/components/oceanographical-period/oceanographical-period.component';
 
 
 
@@ -34,7 +35,8 @@ import { OceanographicalDetailedStationComponent } from './components/oceanograp
     OceanographicalObservationsComponent,
     OceanographicalParameterListComponent,
     OceanographicalStationListComponent,
-    OceanographicalDetailedStationComponent
+    OceanographicalDetailedStationComponent,
+    OceanographicalPeriodComponent
   ],
   imports: [
     HttpClientModule,

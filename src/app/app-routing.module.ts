@@ -12,6 +12,7 @@ import { OceanographicalObservationsComponent } from './components/oceanographic
 import { OceanographicalParameterListComponent } from './components/oceanographical-observations/oceanographical-parameter-list/oceanographical-parameter-list.component';
 import { OceanographicalStationListComponent } from './components/oceanographical-observations/oceanographical-station-list/oceanographical-station-list.component';
 import { OceanographicalDetailedStationComponent } from './components/oceanographical-observations/oceanographical-detailed-station/oceanographical-detailed-station.component';
+import { OceanographicalPeriodComponent } from './components/oceanographical-observations/oceanographical-detailed-station/components/oceanographical-period/oceanographical-period.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
@@ -23,7 +24,9 @@ const routes: Routes = [
   {path: "oceanographical-observations", component: OceanographicalObservationsComponent, canActivate: [AuthGuard], children: [
     {path: "", component: OceanographicalParameterListComponent, canActivate: [AuthGuard]},
     {path: "parameter/:parameter", component: OceanographicalStationListComponent, canActivate: [AuthGuard]},
-    {path: "parameter/:parameter/station/:station", component: OceanographicalDetailedStationComponent, canActivate: [AuthGuard]},
+    {path: "parameter/:parameter/station/:station", component: OceanographicalDetailedStationComponent, canActivate: [AuthGuard], children: [
+      {path: "period/:period", component: OceanographicalPeriodComponent, canActivate: [AuthGuard]},
+    ]},
   ]},
 
  /*  {path: "test", component: TestComponent}, */

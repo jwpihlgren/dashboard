@@ -267,7 +267,7 @@ a.button-primary:hover {
     color: var(--white);
 }
 
-a.button-primary:active {
+a.button-primary:active, a.button-primary.active  {
     background-color: var(--blue-600);
     border-color: var(--blue-600);
     color: var(--white);
