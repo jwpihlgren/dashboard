@@ -6,6 +6,7 @@ import auth from '../../auth_config.json'
 
 export const environment = {
   production: true,
+  path: '/dashboard',
   auth: {
     domain: auth.domain,
     clientId: auth.clientId,
