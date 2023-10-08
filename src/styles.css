@@ -278,6 +278,13 @@ a.button-primary:focus-visible {
     outline-offset: 2px;
 }
 
+app-area-chart {
+    display: block;
+    height: 100%;
+    background-color: var(--white);
+    border-radius: var(--small);
+}
+
 fa-icon {
     color: var(--blue-500);
 }

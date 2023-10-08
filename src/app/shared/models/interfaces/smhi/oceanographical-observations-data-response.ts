@@ -26,6 +26,7 @@ interface IOceanographicalObservationsDataResponseParameter {
 interface IOceanographicalObservationsDataResponseStation {
     key: string
     name: string
+    owner: string
 }
 
 interface IOceanographicalObservationsDataResponsePeriod {

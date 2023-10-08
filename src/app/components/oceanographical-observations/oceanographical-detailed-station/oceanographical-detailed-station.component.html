@@ -1,21 +1,68 @@
-<button (click)="back()" class="secondary | flex no-grow">Tillbaka</button>
+<div class="button-group">
+    <button (click)="back()" class="secondary | flex no-grow">Tillbaka</button>
+</div>
 
-<div *ngIf="oceanographicalObservationsStation$ | async as oceanographicalObservationsStation">
-    <h3>{{ oceanographicalObservationsStation.title }}</h3>
-
-        <button class="primary" (click)="setPeriodData(period.key)" *ngFor="let period of oceanographicalObservationsStation.period">
-            {{period.title}}
-        </button>
-
-
-    <div *ngIf="oceanographicalObservationsPeriod$ | async as oceanographicalObservationsPeriod">
-        {{ oceanographicalObservationsPeriod.title}}
-    </div>
-    <div *ngIf="oceanographicalObservationsData$ | async as oceanographicalObservationsPeriodData">
-        <div *ngFor="let value of oceanographicalObservationsPeriodData.value">
-            {{value.date}}: {{value.value}}{{oceanographicalObservationsPeriodData.parameter.unit}}
+<ng-container *ngIf="oceanographicalObservationsStation$ | async as oceanographicalObservationsStation">
+    <div class="component-header | flex col gap-md">
+        <div class="component-header__title | flex col">
+            <h3>{{ oceanographicalObservationsStation.name}} station</h3>
+            <h5> ({{oceanographicalObservationsStation.key}})</h5>
+        </div>
+        <div class="component-header__body | flex col gap-sm">
+            <span>Aktiv: {{oceanographicalObservationsStation.active ? "ja" : "nej"}}</span>
+            <span>Första mätning : {{oceanographicalObservationsStation.from | date}}</span>
+            <span>Senaste mätning : {{oceanographicalObservationsStation.to | date}}</span>
         </div>
     </div>
-</div>
+        
+    <div class="component-body | flex col gap-md ">
+    <h4>Välj period</h4>
+        <div class="button-group | flex row gap-md">
+            <button class="primary" (click)="setPeriodData(period.key)" *ngFor="let period of oceanographicalObservationsStation.period">
+                {{period.title}}
+            </button>
+        </div>  
+
+        <div class="data">
+            <div *ngIf="oceanographicalObservationsPeriod$ | async as oceanographicalObservationsPeriod">
+                {{ oceanographicalObservationsPeriod.title}}
+            </div>
+            <div class="card p-md gap-sm" *ngIf="oceanographicalObservationsData$ | async as oceanographicalObservationsPeriodData">
+                <div class="flex row gap-md">
+                    <div class="flex col gap-xs grow">
+                        <h6 class="card-title">Vattendrag</h6>
+                        <span>{{oceanographicalObservationsPeriodData.station.name}}</span>
+                    </div>
+                    <div class="flex col gap-xs grow">
+                        <h6 class="card-title">Ägare</h6>
+                        <span>{{oceanographicalObservationsPeriodData.station.owner}}</span>
+                    </div>
+                    <div class="flex col gap-xs grow">
+                        <h6 class="card-title">Min</h6>
+                        <span>{{(oceanographicalObservationsPeriodData.value | hydrologicalMinMax: "min": "value").value | addUnit: oceanographicalObservationsPeriodData.parameter.unit}}</span>
+                        <span class="helper-text">{{(oceanographicalObservationsPeriodData.value | hydrologicalMinMax: "min" : "value").date | date }}</span>
+                    </div>
+                    <div class="flex col gap-xs grow">
+                        <h6 class="card-title">Max</h6>
+                        <span>{{(oceanographicalObservationsPeriodData.value | hydrologicalMinMax: "max": "value").value | addUnit: oceanographicalObservationsPeriodData.parameter.unit}}</span>
+                        <span class="helper-text">{{(oceanographicalObservationsPeriodData.value | hydrologicalMinMax: "max": "value").date | date }}</span>
+                    </div>
+                    <div class="flex col gap-xs grow">
+                        <h6 class="card-title">Senast</h6>
+                        <span>{{(oceanographicalObservationsPeriodData.value | hydrologicalMinMax: "max" : "date").value | addUnit: oceanographicalObservationsPeriodData.parameter.unit }}</span>
+                        <span class="helper-text">{{(oceanographicalObservationsPeriodData.value | hydrologicalMinMax: "max": "date").date | date }}</span>
+                    </div>
+                </div>
+                
+                <app-area-chart
+                    [chartConfig]="this.createChartConfig(oceanographicalObservationsPeriodData)">
+                </app-area-chart>
+            </div>
+        </div>
+    </div>
+
+
+
+</ng-container>
 
 

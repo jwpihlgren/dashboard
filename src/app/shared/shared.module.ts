@@ -35,6 +35,7 @@ import { CyclonicConditionPipe } from './pipes/cyclonic-condition.pipe';
 import { SimpleWaterLevelComponent } from './components/simple-water-level/simple-water-level.component';
 import { HydrologicalMinMaxPipe } from './pipes/hydrological-min-max.pipe';
 import { NavigationListComponent } from './components/navigation-list/navigation-list.component';
+import { add } from 'date-fns';
 
 
 
@@ -109,6 +110,8 @@ swedishConfig.setLocale(sv)
     AreaChartComponent,
     SimpleWaterLevelComponent,
     NavigationListComponent,
+    HydrologicalMinMaxPipe,
+    AddUnitPipe
   ],
   providers: [
     UviConverterPipe,

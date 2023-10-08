@@ -26,7 +26,7 @@ export class OceanographicalParameterListComponent implements OnInit{
     const navigationItems: INavigationItem[] = []
     parameters.forEach(parameter => {
       navigationItems.push({
-        title: parameter.title,
+        title: `${parameter.title} (${parameter.key})`,
         link: ['parameter', parameter.key]
       })
     })
