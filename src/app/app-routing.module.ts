@@ -21,11 +21,11 @@ const routes: Routes = [
   {path: "weather", component: WeatherComponent, canActivate: [AuthGuard]},
   {path: "soilmoisture", component: SoilmoistureComponent, canActivate: [AuthGuard]},
   {path: "hydrological-observations", component: HydrologicalObservationsComponent, canActivate: [AuthGuard]},
-  {path: "oceanographical-observations", component: OceanographicalObservationsComponent, canActivate: [AuthGuard], children: [
-    {path: "", component: OceanographicalParameterListComponent, canActivate: [AuthGuard]},
-    {path: "parameter/:parameter", component: OceanographicalStationListComponent, canActivate: [AuthGuard]},
-    {path: "parameter/:parameter/station/:station", component: OceanographicalDetailedStationComponent, canActivate: [AuthGuard], children: [
-      {path: "period/:period", component: OceanographicalPeriodComponent, canActivate: [AuthGuard]},
+  {path: "oceanographical-observations", component: OceanographicalObservationsComponent, /* canActivate: [AuthGuard],  */children: [
+    {path: "", component: OceanographicalParameterListComponent, /* canActivate: [AuthGuard] */},
+    {path: "parameter/:parameter", component: OceanographicalStationListComponent, /* canActivate: [AuthGuard] */},
+    {path: "parameter/:parameter/station/:station", component: OceanographicalDetailedStationComponent, /* canActivate: [AuthGuard], */ children: [
+      {path: "period/:period", component: OceanographicalPeriodComponent, /* canActivate: [AuthGuard] */},
     ]},
   ]},
 
