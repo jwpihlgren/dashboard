@@ -1,4 +1,4 @@
-import { ISMHIHydrologicalObservationsFileType } from "./smhi-hydrological-observations-file-type"
+import { ISMHIObservationsFileType } from "./smhi-observations-file-type"
 import { ISMHIWaterLevelSample } from "./smhi-water-level-sample"
 
 export interface ISMHIHydrologicalStationWaterLevelData {
@@ -20,6 +20,6 @@ export interface ISMHIHydrologicalStationWaterLevelData {
       to: number
       summary: string
     },
-    link: ISMHIHydrologicalObservationsFileType[],
+    link: ISMHIObservationsFileType[],
     value: ISMHIWaterLevelSample[]
   }

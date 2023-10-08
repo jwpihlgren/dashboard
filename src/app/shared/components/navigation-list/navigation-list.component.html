@@ -1,0 +1,5 @@
+<ul class="card card-full" >
+    <li *ngFor="let navigationItem of navigationItems">
+        <a [routerLink]="navigationItem.link">{{navigationItem.title}}</a>
+    </li>
+</ul>

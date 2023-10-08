@@ -267,7 +267,7 @@ a.button-primary:hover {
     color: var(--white);
 }
 
-a.button-primary:active {
+a.button-primary:active, a.button-primary.active  {
     background-color: var(--blue-600);
     border-color: var(--blue-600);
     color: var(--white);
@@ -276,6 +276,13 @@ a.button-primary:active {
 a.button-primary:focus-visible {
     outline: 2px solid;
     outline-offset: 2px;
+}
+
+app-area-chart {
+    display: block;
+    height: 100%;
+    background-color: var(--white);
+    border-radius: var(--small);
 }
 
 fa-icon {

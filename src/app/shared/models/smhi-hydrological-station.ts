@@ -1,5 +1,5 @@
 import { ISMHIHydrologicalObservationPeriod } from './smhi-hydrological-observation-period';
-import { ISMHIHydrologicalObservationsFileType } from './smhi-hydrological-observations-file-type';
+import { ISMHIObservationsFileType } from './smhi-observations-file-type';
 
 export interface ISMHIHydrologicalStation {
     id: number
@@ -15,7 +15,7 @@ export interface ISMHIHydrologicalStation {
     region: number
     title: string
     summary: string
-    link: ISMHIHydrologicalObservationsFileType[]
+    link: ISMHIObservationsFileType[]
     period: ISMHIHydrologicalObservationPeriod[]
 }
 

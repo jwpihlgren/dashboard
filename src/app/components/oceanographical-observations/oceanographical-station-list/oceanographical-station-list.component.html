@@ -1,0 +1,15 @@
+<button (click)="back()" class="secondary | flex no-grow">Tillbaka</button>
+
+<ng-container *ngIf="oceanographicalObservationsStations$ | async as oceanographicalObservationsStations">
+
+    <h3>{{oceanographicalObservationsStations.title}}</h3>
+    <h4>Välj station</h4>
+    <app-navigation-list
+        [navigationItems]="getNavigationItems(oceanographicalObservationsStations.station)">
+
+    </app-navigation-list>
+
+</ng-container>
+
+
+

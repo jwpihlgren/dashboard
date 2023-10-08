@@ -14,6 +14,11 @@ import { SoilmoistureComponent } from './components/soilmoisture/soilmoisture.co
 import { FormsModule } from '@angular/forms';
 import { TestComponent } from './components/test/test.component';
 import { HydrologicalObservationsComponent } from './components/hydrological-observations/hydrological-observations.component';
+import { OceanographicalObservationsComponent } from './components/oceanographical-observations/oceanographical-observations.component';
+import { OceanographicalParameterListComponent } from './components/oceanographical-observations/oceanographical-parameter-list/oceanographical-parameter-list.component';
+import { OceanographicalStationListComponent } from './components/oceanographical-observations/oceanographical-station-list/oceanographical-station-list.component';
+import { OceanographicalDetailedStationComponent } from './components/oceanographical-observations/oceanographical-detailed-station/oceanographical-detailed-station.component';
+import { OceanographicalPeriodComponent } from './components/oceanographical-observations/oceanographical-detailed-station/components/oceanographical-period/oceanographical-period.component';
 
 
 
@@ -26,7 +31,12 @@ import { HydrologicalObservationsComponent } from './components/hydrological-obs
     WeatherComponent,
     SoilmoistureComponent,
     TestComponent,
-    HydrologicalObservationsComponent
+    HydrologicalObservationsComponent,
+    OceanographicalObservationsComponent,
+    OceanographicalParameterListComponent,
+    OceanographicalStationListComponent,
+    OceanographicalDetailedStationComponent,
+    OceanographicalPeriodComponent
   ],
   imports: [
     HttpClientModule,
@@ -36,6 +46,9 @@ import { HydrologicalObservationsComponent } from './components/hydrological-obs
     FormsModule,
     AuthModule.forRoot({
       ...environment.auth,
+      authorizationParams: {
+        redirect_uri: `${window.location.origin}`,
+      },
       httpInterceptor: {
         allowedList: [
           `${environment.dev.serverUrl}/sensors`,

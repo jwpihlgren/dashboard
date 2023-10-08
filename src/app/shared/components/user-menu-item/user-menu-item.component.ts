@@ -22,7 +22,7 @@ export class UserMenuItemComponent implements OnInit {
 
   constructor(
     public auth: AuthService,
-    @Inject(DOCUMENT) private doc: Document
+    @Inject(DOCUMENT) public document: Document
     
     ) { }
 
@@ -33,15 +33,16 @@ export class UserMenuItemComponent implements OnInit {
     event.preventDefault();
     console.log("test");
     this.auth.loginWithRedirect({
-      redirectUri: `${window.location.origin}${environment.auth.redirectPath}`,
-      appState: {
+/*       appState: {
         target: `${window.location.origin}${environment.auth.redirectPath}}`,
-      }
+      } */
     });
   }
 
   logout() {
-    this.auth.logout({ returnTo: `${this.doc.location.origin}${environment.auth.redirectPath}` })
+    this.auth.logout({ logoutParams: {
+      returnTo: document.location.origin
+    } })
   }
 
   showuser() {

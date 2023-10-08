@@ -1,11 +1,11 @@
-import { ISMHIHydrologicalObservationsFileType } from "./smhi-hydrological-observations-file-type"
+import { ISMHIObservationsFileType } from "./smhi-observations-file-type"
 
 export interface ISMHIHydrologicalParameterStationDescription {
     key: string
     updated: number
     title: string
     summary: string
-    link: ISMHIHydrologicalObservationsFileType[]
+    link: ISMHIObservationsFileType[]
     name: string
     id: number
     owner: string
