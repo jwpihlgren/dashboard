@@ -9,7 +9,13 @@
             <h5> ({{oceanographicalObservationsStation.key}})</h5>
         </div>
         <div class="component-header__body | flex col gap-sm">
-            <span>Aktiv: {{oceanographicalObservationsStation.active ? "ja" : "nej"}}</span>
+            <div class="wrapper">
+                <span 
+                    [ngClass]="{'active': oceanographicalObservationsStation.active }"
+                    class="pill">
+                    {{oceanographicalObservationsStation.active ? "aktiv" : "inaktiv"}}
+                </span>
+            </div>
             <span>Första mätning : {{oceanographicalObservationsStation.from | date}}</span>
             <span>Senaste mätning : {{oceanographicalObservationsStation.to | date}}</span>
         </div>

@@ -4,3 +4,15 @@
     gap: var(--large);
     flex-grow: 0;
 }
+
+
+.pill{
+    text-transform: capitalize;
+    padding-block: var(--extra-small);
+    padding-inline: var(--medium);
+    background-color: var(--red-200); 
+}
+
+.active {
+    background-color: var(--green-200); 
+}
