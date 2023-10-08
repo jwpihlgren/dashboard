@@ -5,8 +5,7 @@ ul {
 }
   
 li {
-    padding-block: var(--small);
-    padding-inline: var(--medium);
+    width: 100%;
 }
   
 li:hover {
@@ -20,6 +19,10 @@ li:active {
 }
   
 a {
+    display: flex;
+    padding-block: var(--small);
+    padding-inline: var(--medium);
     text-decoration: none;
     color: var(--gray-900);
+    width: 100%;
 }
