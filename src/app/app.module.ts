@@ -47,7 +47,7 @@ import { OceanographicalPeriodComponent } from './components/oceanographical-obs
     AuthModule.forRoot({
       ...environment.auth,
       authorizationParams: {
-        redirect_uri: `${window.location.origin}${environment.path}`,
+        redirect_uri: `${environment.auth.redirectUri}`,
       },
       httpInterceptor: {
         allowedList: [

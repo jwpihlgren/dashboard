@@ -6,7 +6,6 @@ import auth from '../../auth_config.json'
 
 export const environment = {
   production: false,
-  path: "",
   auth: {
     domain: auth.domain,
     clientId: auth.clientId,
