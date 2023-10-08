@@ -41,7 +41,7 @@ export class UserMenuItemComponent implements OnInit {
 
   logout() {
     this.auth.logout({ logoutParams: {
-      returnTo: document.location.origin
+     /*  returnTo: `${environment.auth.redirectPath}` */
     } })
   }
 
