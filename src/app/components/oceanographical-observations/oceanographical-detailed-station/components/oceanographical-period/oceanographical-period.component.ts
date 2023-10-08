@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { IAreaChartConfig } from 'src/app/shared/models/area-chart-config';
 import { IOceanographicalObservationsDataResponse } from 'src/app/shared/models/interfaces/smhi/oceanographical-observations-data-response';
 import { OceanographicalObservationsService } from 'src/app/shared/services/oceanographical-observations.service';
@@ -32,9 +32,14 @@ export class OceanographicalPeriodComponent implements OnInit {
   ngOnInit(): void {
     const station = parseInt(this.route.parent?.snapshot.paramMap.get("station") as string)
     const parameter = this.route.parent?.snapshot.paramMap.get("parameter") as string
-    const period = this.route.snapshot.paramMap.get("period") as string
+    this.route.paramMap.subscribe((params) => {
+      const period = params.get("period") as string
+      this.oceanographicalObservationsData$ = this.oceanographicalObservationsService.getPeriodData(parameter, station, period).pipe(
+        tap((data) => console.log(data))
+      )
+    })
 
-    this.oceanographicalObservationsData$ = this.oceanographicalObservationsService.getPeriodData(parameter, station, period)
+
   } 
 
   createChartConfig(data: IOceanographicalObservationsDataResponse): IAreaChartConfig {

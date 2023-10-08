@@ -1,5 +1,5 @@
 import { StringToDatePipe } from './../../pipes/string-to-date.pipe';
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { Component, DoCheck, ElementRef, HostListener, Input, KeyValueDiffers, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import * as d3 from 'd3'
 import { IAreaChartData } from '../../models/area-chart-data';
 import { clamp, min } from 'date-fns';
@@ -10,8 +10,7 @@ import { IAreaChartConfig } from '../../models/area-chart-config';
   templateUrl: './area-chart.component.html',
   styleUrls: ['./area-chart.component.css']
 })
-export class AreaChartComponent implements OnInit {
-
+export class AreaChartComponent implements OnInit{
 
   margin: {top: number, right: number, bottom: number, left: number} = {top: 20, right: 0, bottom: 30, left: 35}
   pathGradient = 'gradient-id-1'
@@ -42,15 +41,26 @@ export class AreaChartComponent implements OnInit {
     ]
   }
 
+  
 
-  constructor(private elementRef: ElementRef) { }
+  differ: any
+  constructor(
+    private elementRef: ElementRef,
+    private differs: KeyValueDiffers) {
+      this.differ = this.differs.find({}).create()
+     }
 
   ngOnInit(): void {
     this.width = this.elementRef.nativeElement.offsetWidth
     this.height = this.elementRef.nativeElement.offsetHeight
+    this.renderChart()
+  }
+
+
+  renderChart() {
     this.y = this.createY()
     this.x = this.createX()
-    this.createChart()
+    this.appendChartToDOM()
     this.appendXAxis()
     this.appendYAxis()
     this.appendLinearGradientToPath()
@@ -61,7 +71,7 @@ export class AreaChartComponent implements OnInit {
     this.elementRef.nativeElement.appendChild(this.svg.node())
   }
 
-  createChart() {
+  appendChartToDOM() {
     const svg: any = d3.create('svg')
     svg
       .attr('width', '100%')
@@ -71,6 +81,9 @@ export class AreaChartComponent implements OnInit {
     this.defs = this.svg.append('defs')
   }
 
+  removeChart() {
+    d3.selectAll("svg > *").remove();
+  }
 
   createX(): d3.AxisScale<Date> {
     return d3.scaleUtc()
@@ -123,6 +136,8 @@ export class AreaChartComponent implements OnInit {
       .attr("x2", 0)
       .attr("y2", this.chartConfig.margins ? this.chartConfig.margins.top : this.margin.top)
   .selectAll("stop")
+      .exit()
+      .remove()
       .data(d3.ticks(0, 1, 10))
   .join("stop")
       .attr("offset", d => d )
