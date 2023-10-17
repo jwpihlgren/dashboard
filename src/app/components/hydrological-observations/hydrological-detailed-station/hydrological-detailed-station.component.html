@@ -1,0 +1,39 @@
+<div class="button-group">
+    <button (click)="back()" class="secondary | flex no-grow">Tillbaka</button>
+</div>
+
+<ng-container *ngIf="hydrologicalObservationsStation$ | async as hydrologicalObservationsStation">
+    <div class="component-header | flex col gap-md">
+        <div class="component-header__title | flex col">
+            <h3>{{ hydrologicalObservationsStation.name}} station</h3>
+            <h5> ({{hydrologicalObservationsStation.key}})</h5>
+        </div>
+        <div class="component-header__body | flex col gap-sm">
+            <div class="wrapper">
+                <span 
+                    [ngClass]="{'active': hydrologicalObservationsStation.active }"
+                    class="pill">
+                    {{hydrologicalObservationsStation.active ? "aktiv" : "inaktiv"}}
+                </span>
+            </div>
+            <span>Första mätning : {{hydrologicalObservationsStation.from | date}}</span>
+            <span>Senaste mätning : {{hydrologicalObservationsStation.to | date}}</span>
+        </div>
+    </div>
+        
+    <div class="component-body | flex col gap-md ">
+    <h4>Välj period</h4>
+        <div class="button-group | flex row gap-md">
+            <a [routerLink]="['period', period.key]" [routerLinkActive]="['active']" class="button-primary" *ngFor="let period of hydrologicalObservationsStation.period">
+                {{period.title}}
+            </a>
+        </div>  
+
+        <router-outlet></router-outlet>
+    </div>
+
+
+
+</ng-container>
+
+

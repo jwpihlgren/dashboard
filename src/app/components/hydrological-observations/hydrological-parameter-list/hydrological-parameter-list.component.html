@@ -1,0 +1,13 @@
+<ng-container *ngIf="hydrologicalObservationsParameters$ | async as hydrologicalObservationsParameters">
+    <h3>Välj parameter</h3>
+    <app-navigation-list
+        [navigationItems]="getNavigationItems(hydrologicalObservationsParameters.resource)">
+    </app-navigation-list>
+
+    <div class="component-footer | flex col">
+        <span>Data från <a href="https://opendata-download-ocobs.smhi.se/api">SMHI OCOBS</a>, Version {{hydrologicalObservationsParameters.key}}</span>
+        <span class="helper-text">Updaterades senast {{hydrologicalObservationsParameters.updated | date}}</span>
+    </div>
+</ng-container>
+
+
