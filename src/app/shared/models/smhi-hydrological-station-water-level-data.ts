@@ -1,7 +1,7 @@
 import { ISMHIObservationsFileType } from "./smhi-observations-file-type"
 import { ISMHIWaterLevelSample } from "./smhi-water-level-sample"
 
-export interface ISMHIHydrologicalStationWaterLevelData {
+export interface IOceanographicalObservationsDataResponse {
     updated: number
     parameter: {
       key: string

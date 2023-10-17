@@ -1,0 +1,30 @@
+<div class="data">
+    <div class="card flex col p-md gap-md" *ngIf="hydrologicalObservationsData$ | async as hydrologicalObservationsPeriodData">
+        <h6 class="card-title">{{hydrologicalObservationsPeriodData.parameter.name}}</h6>
+        <div class="flex row gap-md">
+            <div class="flex col gap-xs grow">
+                <h6 class="card-title">Ägare</h6>
+                <span>{{hydrologicalObservationsPeriodData.station.owner}}</span>
+            </div>
+            <div class="flex col gap-xs grow">
+                <h6 class="card-title">Min</h6>
+                <span>{{(hydrologicalObservationsPeriodData.value | hydrologicalMinMax: "min": "value").value | addUnit: hydrologicalObservationsPeriodData.parameter.unit}}</span>
+                <span class="helper-text">{{(hydrologicalObservationsPeriodData.value | hydrologicalMinMax: "min" : "value").date | date }}</span>
+            </div>
+            <div class="flex col gap-xs grow">
+                <h6 class="card-title">Max</h6>
+                <span>{{(hydrologicalObservationsPeriodData.value | hydrologicalMinMax: "max": "value").value | addUnit: hydrologicalObservationsPeriodData.parameter.unit}}</span>
+                <span class="helper-text">{{(hydrologicalObservationsPeriodData.value | hydrologicalMinMax: "max": "value").date | date }}</span>
+            </div>
+            <div class="flex col gap-xs grow">
+                <h6 class="card-title">Senast</h6>
+                <span>{{(hydrologicalObservationsPeriodData.value | hydrologicalMinMax: "max" : "date").value | addUnit: hydrologicalObservationsPeriodData.parameter.unit }}</span>
+                <span class="helper-text">{{(hydrologicalObservationsPeriodData.value | hydrologicalMinMax: "max": "date").date | date }}</span>
+            </div>
+        </div>
+        
+        <app-area-chart
+            [chartConfig]="this.createChartConfig(hydrologicalObservationsPeriodData)">
+        </app-area-chart>
+    </div>
+</div>

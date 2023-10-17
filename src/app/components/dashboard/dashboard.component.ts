@@ -1,14 +1,14 @@
+import { OceanographicalObservationsService } from './../../shared/services/oceanographical-observations.service';
 import { WeatherService } from './../../shared/services/weather.service';
 import { LocationService } from './../../shared/services/location.service';
 import { SensorService } from './../../shared/services/sensor.service';
-import { mergeMap, Observable, forkJoin, of, tap, map, concatMap, ReplaySubject, takeUntil, share, interval, switchMap, timer, take } from 'rxjs';
+import { Observable, ReplaySubject, takeUntil, share, switchMap, timer, } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ILocation } from 'src/app/shared/models/location.interface';
 import { ISensor } from 'src/app/shared/models/sensor.interface';
 import { IForecast } from 'src/app/shared/models/forecast.interface';
 import { PingService } from 'src/app/shared/services/ping.service';
-import { ISMHIHydrologicalStationWaterLevelData } from 'src/app/shared/models/smhi-hydrological-station-water-level-data';
-import { WaterLevelService } from 'src/app/shared/services/water-level.service';
+import { IOceanographicalObservationsDataResponse } from 'src/app/shared/models/interfaces/smhi/oceanographical-observations-data-response';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,19 +16,21 @@ import { WaterLevelService } from 'src/app/shared/services/water-level.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  defaultStation = 154 //motala
+  defaultStation = 35101 //Juten sjöv
+  defaultParameter = "13" // Havsvattenstånd, minutvärde
+  defaultPeriod = "latest-day" // latest-day | latest-hour
 
 
   sensors$!: Observable<ISensor[]>
   forecast$!: Observable<IForecast>
-  stationWaterLevelData$!: Observable<ISMHIHydrologicalStationWaterLevelData>
+  stationWaterLevelData$!: Observable<IOceanographicalObservationsDataResponse>
   destroy$: ReplaySubject<boolean> = new ReplaySubject(1)
 
   constructor(
     private sensorService: SensorService,
     private locationService: LocationService,
     private weatherService: WeatherService,
-    private waterLevelService: WaterLevelService,
+    private oceanographicalObservationsService: OceanographicalObservationsService,
     private pingService: PingService
   ){}
 
@@ -36,9 +38,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.sensors$ = this.sensorService.getSensors()
     this.forecast$ = this.getForecast()
-    this.stationWaterLevelData$ = this.waterLevelService.getWaterLevel(this.defaultStation)
-    this.pingService.ping().pipe(
-      takeUntil(this.destroy$)).subscribe()
+    this.stationWaterLevelData$ = this.oceanographicalObservationsService.getPeriodData(this.defaultParameter, this.defaultStation, this.defaultPeriod).pipe(
+      takeUntil(this.destroy$))
   }
 
   ngOnDestroy(): void {

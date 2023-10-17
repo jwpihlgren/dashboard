@@ -1,8 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { ISMHIHydrologicalStationWaterLevelData } from '../../models/smhi-hydrological-station-water-level-data';
 import { IAreaChartConfig } from '../../models/area-chart-config';
 import { IAreaChartData } from '../../models/area-chart-data';
 import { ISMHIWaterLevelSample } from '../../models/smhi-water-level-sample';
+import { IOceanographicalObservationsPeriodResponse, } from '../../models/interfaces/smhi/oceanographical-observations-period-response';
+import { IHydrologicalObservationsDataResponse } from '../../models/interfaces/smhi/hydrological-observations-data-response ';
 
 @Component({
   selector: 'app-simple-water-level',
@@ -12,7 +13,7 @@ import { ISMHIWaterLevelSample } from '../../models/smhi-water-level-sample';
 export class SimpleWaterLevelComponent {
 
  /*  stationWaterLevelData$!: Observable<ISMHIHydrologicalStationWaterLevelData> */
-  @Input() stationWaterLevelData!: ISMHIHydrologicalStationWaterLevelData
+  @Input() oceanographicalObservationsPeriodData!: IHydrologicalObservationsDataResponse
 
   chartConfig: IAreaChartConfig = {
     chartColors: ['#f8c03f', '#32d2ac', '#5693e9'],
@@ -26,18 +27,14 @@ export class SimpleWaterLevelComponent {
   constructor() { }
 
   ngOnInit(): void {
-    this.chartConfig = this.getChartConfig(this.stationWaterLevelData)
+    this.chartConfig = this.createChartConfig(this.oceanographicalObservationsPeriodData)
   }
 
-  toChartData(data: ISMHIWaterLevelSample[]): IAreaChartData[] {
-    const chartData: IAreaChartData[] = data.map((reading: ISMHIWaterLevelSample) => {
+
+  createChartConfig(data: IHydrologicalObservationsDataResponse): IAreaChartConfig {
+    this.chartConfig.data = data.value.map((reading) => {
       return {date: new Date(reading.date), value: reading.value}
     })
-    return chartData
-  }
-
-  getChartConfig(data: ISMHIHydrologicalStationWaterLevelData): IAreaChartConfig {
-    this.chartConfig.data = this.toChartData(data.value)
     this.chartConfig.unit = data.parameter.unit
     this.chartConfig.domain = [Math.min(...this.chartConfig.data.map(reading => reading.value)), Math.max(...this.chartConfig.data.map(reading => reading.value))]
     return this.chartConfig
