@@ -18,7 +18,7 @@ import { IOceanographicalObservationsDataResponse } from 'src/app/shared/models/
 export class DashboardComponent implements OnInit, OnDestroy {
   defaultStation = 35101 //Juten sjöv
   defaultParameter = "13" // Havsvattenstånd, minutvärde
-  defaultPeriod = "latest-hour"
+  defaultPeriod = "latest-day" // latest-day | latest-hour
 
 
   sensors$!: Observable<ISensor[]>
