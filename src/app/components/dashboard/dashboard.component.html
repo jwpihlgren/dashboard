@@ -20,7 +20,7 @@
     <app-simple-water-level 
         *ngIf="stationWaterLevelData$ | async as stationWaterLevelData; else loading"
         class="card card-full"
-        [stationWaterLevelData]="stationWaterLevelData">
+        [oceanographicalObservationsPeriodData]="stationWaterLevelData">
     </app-simple-water-level>
     <app-detailed-weather-table
         *ngIf="forecast$ | async as forecast; else loading"

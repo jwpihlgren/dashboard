@@ -19,6 +19,10 @@ import { OceanographicalParameterListComponent } from './components/oceanographi
 import { OceanographicalStationListComponent } from './components/oceanographical-observations/oceanographical-station-list/oceanographical-station-list.component';
 import { OceanographicalDetailedStationComponent } from './components/oceanographical-observations/oceanographical-detailed-station/oceanographical-detailed-station.component';
 import { OceanographicalPeriodComponent } from './components/oceanographical-observations/oceanographical-detailed-station/components/oceanographical-period/oceanographical-period.component';
+import { HydrologicalPeriodComponent } from './components/hydrological-observations/hydrological-detailed-station/components/oceanographical-period/hydrological-period.component';
+import { HydrologicalDetailedStationComponent } from './components/hydrological-observations/hydrological-detailed-station/hydrological-detailed-station.component';
+import { HydrologicalParameterListComponent } from './components/hydrological-observations/hydrological-parameter-list/hydrological-parameter-list.component';
+import { HydrologicalStationListComponent } from './components/hydrological-observations/hydrological-station-list/oceanographical-station-list.component';
 
 
 
@@ -31,12 +35,16 @@ import { OceanographicalPeriodComponent } from './components/oceanographical-obs
     WeatherComponent,
     SoilmoistureComponent,
     TestComponent,
-    HydrologicalObservationsComponent,
     OceanographicalObservationsComponent,
     OceanographicalParameterListComponent,
     OceanographicalStationListComponent,
     OceanographicalDetailedStationComponent,
-    OceanographicalPeriodComponent
+    OceanographicalPeriodComponent,
+    HydrologicalObservationsComponent,
+    HydrologicalParameterListComponent,
+    HydrologicalStationListComponent,
+    HydrologicalDetailedStationComponent,
+    HydrologicalPeriodComponent,
   ],
   imports: [
     HttpClientModule,

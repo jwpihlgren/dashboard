@@ -13,7 +13,7 @@ import { IHydrologicalObservationsVersionResponse } from '../models/interfaces/s
 })
 export class HydrologicalObservationsService {
 
-  API = "https://opendata-download-ocobs.smhi.se/api"
+  API = "https://opendata-download-hydroobs.smhi.se/api"
   VERSION = "version/1.0"
   MEDIA_TYPE = ".json"
   APPLICATION_TYPE = "application/json"

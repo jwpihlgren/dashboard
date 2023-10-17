@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
-import { IHydrologicalObservationsPeriodResponse } from 'src/app/shared/models/interfaces/smhi/hydrological-observations-period-response';
-import { IHydrologicalObservationsStationResponse } from 'src/app/shared/models/interfaces/smhi/hydrological-observations-station-response';
+import { IHydrologicalObservationsPeriodResponse } from 'src/app/shared/models/interfaces/smhi/hydrological-observations-period-response ';
+import { IHydrologicalObservationsStationResponse } from 'src/app/shared/models/interfaces/smhi/hydrological-observations-station-response ';
 import { HydrologicalObservationsService } from 'src/app/shared/services/hydrological-observations.service';
+
 
 @Component({
   selector: 'app-hydrological-detailed-station',

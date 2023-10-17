@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { IAreaChartConfig } from 'src/app/shared/models/area-chart-config';
-import { IHydrologicalObservationsDataResponse } from 'src/app/shared/models/interfaces/smhi/hydrological-observations-data-response';
+import { IHydrologicalObservationsDataResponse } from 'src/app/shared/models/interfaces/smhi/hydrological-observations-data-response ';
 import { HydrologicalObservationsService } from 'src/app/shared/services/hydrological-observations.service';
+
 
 @Component({
   selector: 'app-hydrological-period',
