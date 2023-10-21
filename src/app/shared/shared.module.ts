@@ -36,6 +36,7 @@ import { SimpleWaterLevelComponent } from './components/simple-water-level/simpl
 import { HydrologicalMinMaxPipe } from './pipes/hydrological-min-max.pipe';
 import { NavigationListComponent } from './components/navigation-list/navigation-list.component';
 import { add } from 'date-fns';
+import { NavItemComponent } from './components/left-nav/components/nav-item/nav-item.component';
 
 
 
@@ -73,6 +74,7 @@ swedishConfig.setLocale(sv)
     SimpleWaterLevelComponent,
     HydrologicalMinMaxPipe,
     NavigationListComponent,
+    NavItemComponent,
   ],
   imports: [
     CommonModule,

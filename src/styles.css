@@ -1,3 +1,8 @@
+@import url(assets/css/theme.css);
+@import url(assets/css/theme.light.css) (prefers-color-scheme: light);
+@import url(assets/css/theme.dark.css) (prefers-color-scheme: dark);
+
+
 /* Reset */
 * {
     margin:0;
@@ -108,12 +113,6 @@
     --gray-900:     #272727;
 
 
-    --light-background-100: var(--white);
-    --light-background-200: var(--gray-100);
-    --light-background-300: var(--gray-300);
-
-    --on-light-background-100: var(--gray-500);
-    --on-light-background-900: var(--gray-900);
 
     --duration-short: 200ms;
     --ease-in-out: cubic-bezier(0.445, 0.05, 0.55, 0.95);
@@ -125,13 +124,30 @@
     --small-navigation-drawer-width: var(--x-extra-large);
     --large-navigation-drawer-width: calc(1rem * 20);
 
-    --on-light-primary-surface-elevation-1: linear-gradient(var(--blue-505), var(--blue-505)), linear-gradient(var(--light-background-100), var(--light-background-100));
-    --on-light-primary-surface-elevation-2: linear-gradient(var(--blue-508), var(--blue-508)), linear-gradient(var(--light-background-100), var(--light-background-100));
-    --on-light-primary-surface-elevation-3: linear-gradient(var(--blue-511), var(--blue-511)), linear-gradient(var(--light-background-100), var(--light-background-100));
-    --on-light-primary-surface-elevation-4: linear-gradient(var(--blue-512), var(--blue-512)), linear-gradient(var(--light-background-100), var(--light-background-100));
-    --on-light-primary-surface-elevation-5: linear-gradient(var(--blue-514), var(--blue-514)), linear-gradient(var(--light-background-100), var(--light-background-100));
+
+    
+    --light-background-100: var(--white);
+    --light-background-200: var(--gray-100);
+/*     --light-background-300: var(--gray-300); */
+
+    --on-light-background-100: var(--gray-500);
+    --on-light-background-900: var(--gray-900);
+
+
+    --surface-dim: 
+    --surface
+    --surface-bright
+
+    --primary-surface-elevation-1: linear-gradient(var(--blue-505), var(--blue-505)), linear-gradient(var(--light-background-100), var(--light-background-100));
+    --primary-surface-elevation-2: linear-gradient(var(--blue-508), var(--blue-508)), linear-gradient(var(--light-background-100), var(--light-background-100));
+    --primary-surface-elevation-3: linear-gradient(var(--blue-511), var(--blue-511)), linear-gradient(var(--light-background-100), var(--light-background-100));
+    --primary-surface-elevation-4: linear-gradient(var(--blue-512), var(--blue-512)), linear-gradient(var(--light-background-100), var(--light-background-100));
+    --primary-surface-elevation-5: linear-gradient(var(--blue-514), var(--blue-514)), linear-gradient(var(--light-background-100), var(--light-background-100));
 
 }
+
+
+
 
 /* Utility */
 .flex { display: flex; }
@@ -233,7 +249,7 @@ body {
 
 
 .card {
-    background-image: var(--on-light-primary-surface-elevation-1);
+    background-image: var(--primary-surface-elevation-1);
     border-radius: 1rem;
 }
 
