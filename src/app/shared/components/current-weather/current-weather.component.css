@@ -20,5 +20,9 @@
 }
 
 fa-icon {
-    color: var(--gray-900);
+    color: var(--pnc-sys-color-on-primary-container);
+}
+
+.icon {
+    fill: var(--pnc-sys-color-on-surface);
 }

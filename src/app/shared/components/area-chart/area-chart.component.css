@@ -8,7 +8,7 @@
 }
 
 :host ::ng-deep .y-axis .tick line {
-    stroke:var(--blue-100);
+    stroke:var(--pnc-sys-color-on-surface);
     
 }
 
@@ -16,17 +16,17 @@
     font-size: var(--fs-100);
     text-transform: uppercase;
     font-weight: 600;
-    color: var(--on-light-background-100);
+    color: var(--pnc-sys-color-on-surface);
     letter-spacing: .067rem;
 }
 
 :host ::ng-deep rect {
     ry: 0.5rem;
-    fill: var(--blue-500);
+    fill: var( --pnc-sys-color-primary);
 }
 
 :host ::ng-deep g.tick line {
-    stroke: var(--gray-400);
+    stroke: var(--pnc-sys-color-on-surface);
     stroke-opacity: 0.5;
     stroke-dasharray: 3, 3;
     shape-rendering: crispEdges;

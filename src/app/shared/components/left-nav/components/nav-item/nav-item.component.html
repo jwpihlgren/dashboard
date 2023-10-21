@@ -1,0 +1,9 @@
+<a 
+    [routerLink]=config.route 
+    routerLinkActive="active" 
+    [routerLinkActiveOptions]="{ exact: true }"> 
+    <div class="icon">  
+        <fa-icon [icon]=config.icon [size]="config.size"></fa-icon>         
+    </div>
+    <h6>{{config.title}}</h6>
+</a>

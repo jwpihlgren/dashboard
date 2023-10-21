@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faHouse, faCloudSun, faSeedling, faThLarge, faVial, faWater, } from '@fortawesome/free-solid-svg-icons';
 import { INavItem } from '../../models/nav-item';
+import { ILeftNavItemConfig } from '../../models/interfaces/ileft-nav-item-config';
 
 
 @Component({
@@ -23,6 +24,16 @@ export class LeftNavComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+
+  createConfig(navItem: INavItem): ILeftNavItemConfig {
+    return {
+      route: navItem.route,
+      icon: navItem.icon,
+      size: "lg",
+      title: navItem.title,
+    }
   }
 
 }

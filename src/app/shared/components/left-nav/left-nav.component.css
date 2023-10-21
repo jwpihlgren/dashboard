@@ -8,7 +8,7 @@
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    background-image: var(--on-light-primary-surface-elevation-5);
+    background-color: var(--pnc-sys-color-surface-container-low);
     background-blend-mode: multiply;
 /*     box-shadow: var(--bs-2-top); */
     transition-duration: var(--duration-short);
@@ -32,46 +32,6 @@ li {
     flex-grow: 1;
 }
 
-
-a {
-    display: flex;
-    flex-direction: column;
-    gap: var(--extra-small);
-    align-items: center;
-    justify-content: center;
-
-}
-
-a span {
-    font-size: var(--fs-100);
-    color: var(--gray-500)
-}
-
-a .icon {
-    transition-duration: var(--duration-short);
-    transition-timing-function: var(--ease-in-out);
-}
-
-a:hover {
-    cursor: pointer;
-}
-
-.icon {
-    height: 32px;
-    width: 4rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 100vw;
-    flex-direction: column;
-
-}
-a:hover .icon {
-    background-color: var(--blue-508);
-}
-a:active .icon, .active-link .icon {
-    background-color: var(--blue-516);
-}
 
 app-logo, app-user-menu-item {
     display: none;
@@ -139,19 +99,6 @@ app-logo, app-user-menu-item {
     a span {
         font-size: var(--fs-400);
         font-weight: var(--fw-500);
-    }
-
-    a:hover .icon, a:active .icon, .active-link .icon {
-        background-color: transparent;
-    }
-
-    a:hover {
-        background-color: var(--blue-508);
-
-    }
-
-    a:active , .active-link {
-        background-color: var(--blue-516);
     }
     
 }

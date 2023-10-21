@@ -1,3 +1,8 @@
+@import url(assets/css/tokens.css);
+@import url(assets/css/theme.light.css) (prefers-color-scheme: light);
+@import url(assets/css/theme.dark.css) (prefers-color-scheme: dark);
+
+
 /* Reset */
 * {
     margin:0;
@@ -25,6 +30,45 @@
     --fw-600: 600;
     --fw-700: 700;
     --fw-800: 800;
+
+
+    --green-100:    #C2F2E6;
+    --green-200:    #ADEDDE;
+    --green-300:    #84E4CD;
+    --green-400:    #5BDBBD;
+    --green-500:    #32d2ac;
+    --green-600:    #28A88A;
+    --green-700:    #1E7E67; 
+    --green-800:    #145445;
+    --green-900:    #0F3F34;
+    --yellow-100:   #FDECC5;
+    --yellow-200:   #FCE6B2;
+    --yellow-300:   #FBDA8C;
+    --yellow-400:   #F9CD65;
+    --yellow-500:   #f8c03f;
+    --yellow-600:   #C99C33;
+    --yellow-700:   #9B7826; 
+    --yellow-800:   #6C531A;
+    --yellow-900:   #554114;
+    --orange-100:   #FBE2DC;
+    --orange-200:   #FAD8D1;
+    --orange-300:   #F8C4B9;
+    --orange-400:   #F5B1A2;
+    --orange-500:   #F39D8B;
+    --orange-600:   #D28271;
+    --orange-700:   #B16657; 
+    --orange-800:   #904B3C;
+    --orange-900:   #803D2F;
+    --red-100:      #F5CBCB;
+    --red-200:      #F2BABA;
+    --red-300:      #EB9898;
+    --red-400:      #E57575;
+    --red-500:      #DE5353;
+    --red-600:      #B34343;
+    --red-700:      #883232;
+    --red-800:      #5E2222;
+    --red-900:      #481A1A;
+
     
     --bs-1: var(--gray-720) 0px 3px 14px 0px;
     --bs-2: 0 0.2rem 1rem rgb(0 0 0 / 12%);
@@ -47,74 +91,6 @@
 
     --card-height: calc(425px);
 
-    --white:        #FFFFFF;
-    --blue-100:     #CCDFF8;
-    --blue-200:     #BBD4F6;
-    --blue-300:     #9ABEF2;
-    --blue-400:     #78A9ED;
-    --blue-500:     #5693e9;
-    --blue-505:     #5693e90D;
-    --blue-508:     #5693e914;
-    --blue-511:     #5693e91C;
-    --blue-512:     #5693e91F;
-    --blue-514:     #5693e924;
-    --blue-516:     #5693e929;
-    --blue-600:     #4578BF; /* White has better contrast than black */
-    --blue-700:     #355C94;
-    --blue-800:     #24416A;
-    --blue-900:     #1C3355;
-    --green-100:    #C2F2E6;
-    --green-200:    #ADEDDE;
-    --green-300:    #84E4CD;
-    --green-400:    #5BDBBD;
-    --green-500:    #32d2ac;
-    --green-600:    #28A88A;
-    --green-700:    #1E7E67; /* White has better contrast than black */
-    --green-800:    #145445;
-    --green-900:    #0F3F34;
-    --yellow-100:   #FDECC5;
-    --yellow-200:   #FCE6B2;
-    --yellow-300:   #FBDA8C;
-    --yellow-400:   #F9CD65;
-    --yellow-500:   #f8c03f;
-    --yellow-600:   #C99C33;
-    --yellow-700:   #9B7826; /* White has better contrast than black */
-    --yellow-800:   #6C531A;
-    --yellow-900:   #554114;
-    --orange-100:   #FBE2DC;
-    --orange-200:   #FAD8D1;
-    --orange-300:   #F8C4B9;
-    --orange-400:   #F5B1A2;
-    --orange-500:   #F39D8B;
-    --orange-600:   #D28271;
-    --orange-700:   #B16657; /* White has better contrast than black */
-    --orange-800:   #904B3C;
-    --orange-900:   #803D2F;
-    --red-100:      #F5CBCB;
-    --red-200:      #F2BABA;
-    --red-300:      #EB9898;
-    --red-400:      #E57575;
-    --red-500:      #DE5353;/* White has better contrast than black */
-    --red-600:      #B34343;
-    --red-700:      #883232;
-    --red-800:      #5E2222;
-    --red-900:      #481A1A;
-    --gray-100:     #F2F2F2;
-    --gray-300:     #e5e5e5;
-    --gray-400:     #b8b8b8;
-    --gray-500:     #6E6E6E;
-    --gray-720:     #64646f33;
-    --gray-700:     rgb(100, 100, 111);
-    --gray-900:     #272727;
-
-
-    --light-background-100: var(--white);
-    --light-background-200: var(--gray-100);
-    --light-background-300: var(--gray-300);
-
-    --on-light-background-100: var(--gray-500);
-    --on-light-background-900: var(--gray-900);
-
     --duration-short: 200ms;
     --ease-in-out: cubic-bezier(0.445, 0.05, 0.55, 0.95);
 
@@ -124,14 +100,10 @@
     --navigation-bar-height: var(--x-extra-large);
     --small-navigation-drawer-width: var(--x-extra-large);
     --large-navigation-drawer-width: calc(1rem * 20);
-
-    --on-light-primary-surface-elevation-1: linear-gradient(var(--blue-505), var(--blue-505)), linear-gradient(var(--light-background-100), var(--light-background-100));
-    --on-light-primary-surface-elevation-2: linear-gradient(var(--blue-508), var(--blue-508)), linear-gradient(var(--light-background-100), var(--light-background-100));
-    --on-light-primary-surface-elevation-3: linear-gradient(var(--blue-511), var(--blue-511)), linear-gradient(var(--light-background-100), var(--light-background-100));
-    --on-light-primary-surface-elevation-4: linear-gradient(var(--blue-512), var(--blue-512)), linear-gradient(var(--light-background-100), var(--light-background-100));
-    --on-light-primary-surface-elevation-5: linear-gradient(var(--blue-514), var(--blue-514)), linear-gradient(var(--light-background-100), var(--light-background-100));
-
 }
+
+
+
 
 /* Utility */
 .flex { display: flex; }
@@ -201,50 +173,43 @@ h6 {
     font-size: var(--fs-100);
     text-transform: uppercase;
     font-weight: var(--fw-600);
-    color: var(--on-light-background-100);
+    color: var( --pnc-sys-color-on-surface);
     letter-spacing: 0.067rem;
  }
 
  .helper-text {
-    color: var(--on-light-background-100);
+    color: var( --pnc-sys-color-on-surface);
     font-size: var(--fs-300);
     font-weight: var(--fw-300);
  }
 
  .fetch-date {
-    color: var(--on-light-background-100);
+    color: var( --pnc-sys-color-on-surface);
     font-size: var(--fs-400);
     font-weight: var(--fw-300);
  }
 
-
-
-html, body {
-    
+body {
+    background-color: var(--pnc-sys-color-surface-container-lowest);
     font-family: 'Raleway', sans-serif;
     font-weight: var(--fw-600);
-    color: var(--on-light-background-900);
-}
-
-body {
-    background-color: var(--light-background-100);
-    
+    color: var( --pnc-sys-color-on-surface);
 }
 
 
 .card {
-    background-image: var(--on-light-primary-surface-elevation-1);
+    background: var(--pnc-sys-color-surface-container);
     border-radius: 1rem;
 }
 
 
 a {
     text-decoration: none;
-    color: var(--on-light-background-900);
+    color: var( --pnc-sys-color-on-surface);
 }
 
 a:hover {
-    color: var(--gray-500);
+    color: var(--pnc-sys-color-surface-tint);
     cursor: pointer;
 }
 
@@ -255,22 +220,22 @@ a.button-primary {
     transition-timing-function: var(--ease-in-out);
     padding-block: 0.5rem;
     padding-inline: 1rem;
-    border: 2px solid var(--blue-500);
+    border: 2px solid var(--pnc-sys-color-primary);
     border-radius: var(--pill);
-    color: var(--blue-500);
+    color: var(--pnc-sys-color-primary);
     user-select: none;
     min-width: 0;
 }
 
 a.button-primary:hover {
-    background-color: var(--blue-500);
-    color: var(--white);
+    background-color: var(--pnc-sys-color-primary);
+    color: var(--pnc-sys-color-on-primary);
 }
 
 a.button-primary:active, a.button-primary.active  {
-    background-color: var(--blue-600);
-    border-color: var(--blue-600);
-    color: var(--white);
+    background-color: var(--pnc-sys-color-primary);
+    border-color: var(--pnc-sys-color-outline);
+    color: var(--pnc-sys-color-on-primary);
 }
 
 a.button-primary:focus-visible {
@@ -281,12 +246,12 @@ a.button-primary:focus-visible {
 app-area-chart {
     display: block;
     height: 100%;
-    background-color: var(--white);
+    background-color: var(--pnc-sys-color-surface-container-high);
     border-radius: var(--small);
 }
 
 fa-icon {
-    color: var(--blue-500);
+    color: var( --pnc-sys-color-primary);
 }
 
 button {
@@ -316,44 +281,44 @@ button:focus-visible {
 
 /* Primary buttonn */
 button.primary {
-    background-color: var(--blue-500);
-    color: var(--white);
+    background-color: var(--pnc-sys-color-primary);
+    color: var(--pnc-sys-color-on-primary);
     
 }
 button.primary:hover {
-    background-color: var(--blue-600);
+    background-color: var( --pnc-sys-color-inverse-surface);
 }
 button.primary:active {
-    background-color: var(--blue-700);
+    background-color: var( --pnc-sys-color-inverse-surface);
 }
 
 /* Secondary button */
 button.secondary {
-    border: 2px solid var(--blue-500);
-    color: var(--blue-500);
+    border: 2px solid var(--pnc-sys-color-primary);
+    color: var(--pnc-sys-color-primary);
 }
 
 button.secondary:hover {
-    background-color: var(--blue-500);
-    color: var(--white);
+    background-color: var(--pnc-sys-color-primary);
+    color: var(--pnc-sys-color-on-primary);
 
 }
 button.secondary:active {
-    background-color: var(--blue-600);
-    border-color: var(--blue-600);
-    color: var(--white);
+    background-color: var( --pnc-sys-color-inverse-primary);
+    border-color: var( --pnc-sys-color-inverse-primary);
+    color: var(--pnc-sys-color-on-primary);
 }
 
 
 /* Ternary button */
 button.ternary {
-    color: var(--blue-500)
+    color: var(--pnc-sys-color-primary)
 }
 button.ternary:hover {
-    background-color: var(--blue-508);
+    background-color: var(--pnc-sys-color-inverse-primary);
 }
 button.ternary:focus-visible, button.ternary:active {
-    background-color: var(--blue-516);
+    background-color: var(--pnc-sys-color-inverse-primary);
 }
 
 button.round {

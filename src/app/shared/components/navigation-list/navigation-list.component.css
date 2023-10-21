@@ -10,12 +10,12 @@ li {
   
 li:hover {
     cursor: pointer;
-    background-color: var(--blue-516);
+    background-color: var(--pnc-sys-color-surface-container-high);
 }
   
 li:active {
     cursor: pointer;
-    background-color: var(--blue-511);
+    background-color: var( --pnc-sys-color-inverse-primary);
 }
   
 a {
@@ -23,6 +23,5 @@ a {
     padding-block: var(--small);
     padding-inline: var(--medium);
     text-decoration: none;
-    color: var(--gray-900);
     width: 100%;
 }

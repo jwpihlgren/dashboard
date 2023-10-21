@@ -5,10 +5,11 @@
 }
 
 :host:hover{
-    background-color: var(--gray-100);
+    
+    background-color: var( --pnc-sys-color-surface-container-high);
 }
 :host:focus, :host:active{
-    background-color: var(--gray-300);
+    background-color: var(--pnc-sys-color-primary-container);
 }
 
 li {

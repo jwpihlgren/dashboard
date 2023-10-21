@@ -8,21 +8,21 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 2px solid var(--gray-400);
+    border: 2px solid var(--pnc-sys-color-outline);
     min-height: 68px;
     border-radius: 34px;
     gap: var(--extra-small);
-    background-color: var(--white); 
+    background-color: var( --pnc-sys-color-surface-container-highest); 
     cursor: pointer;
     
 }
 
 .search-field:hover {
-    border-color: var(--blue-500);
+    border-color: var(--pnc-sys-color-primary);
 }
 
 .search-field.focus {
-    border-color: var(--blue-500);
+    border-color: var(--pnc-sys-color-primary);
 }
 
 .search-field-input {
@@ -48,7 +48,7 @@ input::-webkit-search-cancel-button { display: none; }
     content: "";
     height: var(--large);
     width: 1px;
-    background-color: var(--gray-800);
+    background-color: var(--pnc-sys-color-surface-container-lowest);
 }
 
 .hidden {display: none;}
@@ -66,7 +66,7 @@ ul {
 
 hr {
     width: 90%;
-    color: var(--gray-100);
+    color: var(--pnc-sys-color-surface-container-highest);
 }
 
 
@@ -77,15 +77,15 @@ hr {
     display: none;
  }
 ::-webkit-scrollbar-track        { 
-    background-color: var(--gray-300);
+    background-color: var( --pnc-sys-color-surface-container);
     border-radius: 100px;
  }
 ::-webkit-scrollbar-track-piece  { 
-    background-color: var(--gray-300);
+    background-color: var( --pnc-sys-color-surface-container);
     border-radius: 100px;
 }
 ::-webkit-scrollbar-thumb        { 
-    background-color: var(--gray-500);
+    background-color: var( --pnc-sys-color-surface-container-high);
     border-radius: 100px;
  }
 ::-webkit-scrollbar-corner       { 
