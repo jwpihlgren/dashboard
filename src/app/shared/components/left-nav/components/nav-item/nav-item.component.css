@@ -7,10 +7,6 @@ a {
 
 }
 
-a .icon {
-    transition-duration: var(--duration-short);
-    transition-timing-function: var(--ease-in-out);
-}
 
 a:hover {
     cursor: pointer;
@@ -27,14 +23,15 @@ a:hover {
 
 }
 a:hover, a:hover .icon {
-    background-image: var(--primary-surface-elevation-4);
+    background: var( --pnc-sys-color-surface-container-high);
 }
 a.active, a.active .icon {
-    background-image: var(--primary-surface-elevation-5);
+    background: var(--pnc-sys-color-inverse-primary);
 }
 
 
 @media (min-width: 1440px) {
+
 
     a {
         width: 100%;

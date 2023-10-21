@@ -8,7 +8,7 @@
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    background-image: var(--primary-surface-elevation-1);
+    background-color: var(--pnc-sys-color-surface-container-low);
     background-blend-mode: multiply;
 /*     box-shadow: var(--bs-2-top); */
     transition-duration: var(--duration-short);
@@ -99,19 +99,6 @@ app-logo, app-user-menu-item {
     a span {
         font-size: var(--fs-400);
         font-weight: var(--fw-500);
-    }
-
-    a:hover .icon, a:active .icon, .active-link .icon {
-        background-color: transparent;
-    }
-
-    a:hover {
-        background-color: var(--blue-508);
-
-    }
-
-    a:active , .active-link {
-        background-color: var(--blue-516);
     }
     
 }

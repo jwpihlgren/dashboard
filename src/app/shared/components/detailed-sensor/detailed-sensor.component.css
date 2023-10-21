@@ -18,7 +18,7 @@ app-area-chart {
 }
 
 .active {
-   background-color: var(--blue-516);
+   background-color: var(--pnc-sys-color-inverse-primary);
 }
 
 button {
@@ -32,7 +32,7 @@ h5 {
 input {
     all: unset;
     padding-inline: var(--medium);
-    border: 2px solid var(--gray-500);
+    border: 2px solid var( --pnc-sys-color-outline);
     border-radius: 5px;
     height: var(--extra-large);
     max-height: var(--extra-large);
@@ -43,8 +43,8 @@ input:focus {
     outline: none;
 }
 input:focus-visible {
-    border-color: var(--blue-500);
+    border-color: var(--pnc-sys-color-primary);
 }
 input:active {
-    border-color: var(--blue-500);
+    border-color: var(--pnc-sys-color-primary);
 }

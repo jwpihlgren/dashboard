@@ -3,10 +3,10 @@
     flex-direction: column;
     padding: var(--medium);
     gap: var(--small);
-    background-color: var(--light-background-100);
+    background-color: var(--pnc-sys-color-surface-container);
   }
 table {
-    background-color: var(--white);
+    background-color: var( --pnc-sys-color-surface-container-highest);
     font-weight: var(--fw-500);
     padding: var(--small);
     border-radius: var(--small);

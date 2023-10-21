@@ -9,6 +9,6 @@
 app-area-chart {
     display: block;
     height: 100%;
-    background-color: var(--white);
+    background-color: var( --pnc-sys-color-surface-container-high);
     border-radius: var(--small);
 }
