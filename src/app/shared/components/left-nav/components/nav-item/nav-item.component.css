@@ -25,13 +25,12 @@ a:hover {
 a:hover, a:hover .icon {
     background: var( --pnc-sys-color-surface-container-high);
 }
-a.active, a.active .icon {
+ a.active .icon {
     background: var(--pnc-sys-color-inverse-primary);
 }
 
 
 @media (min-width: 1440px) {
-
 
     a {
         width: 100%;
@@ -44,7 +43,7 @@ a.active, a.active .icon {
         align-items: center;
     }
 
-    a.active, a.active .icon {
-        background-image: var(--primary-surface-elevation-5);
+   a.active, a.active .icon {
+        background: var(--pnc-sys-color-inverse-primary);
     }
 }

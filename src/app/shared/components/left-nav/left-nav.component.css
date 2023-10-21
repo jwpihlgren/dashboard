@@ -87,18 +87,6 @@ app-logo, app-user-menu-item {
     li {
         flex-grow: 0;
     }
-    a {
-        flex-direction: row;
-        width: 100%;
-        padding-inline: var(--medium);
-        gap: var(--medium);
-        justify-content: flex-start;
-        align-items: center;
-        border-radius: var(--pill);
-    }
-    a span {
-        font-size: var(--fs-400);
-        font-weight: var(--fw-500);
-    }
+
     
 }
