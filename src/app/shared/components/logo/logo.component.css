@@ -1,5 +1,5 @@
 .logo, .logo * {
-    fill: var(--blue-600);
+    fill: var(--pnc-sys-color-inverse-primary);
 }
 
 .icon-logo {
