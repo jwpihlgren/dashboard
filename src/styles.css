@@ -98,7 +98,7 @@
     --pill: 100vw;
 
     --navigation-bar-height: var(--x-extra-large);
-    --small-navigation-drawer-width: var(--x-extra-large);
+    --small-navigation-drawer-width: 96px;
     --large-navigation-drawer-width: calc(1rem * 20);
 }
 
