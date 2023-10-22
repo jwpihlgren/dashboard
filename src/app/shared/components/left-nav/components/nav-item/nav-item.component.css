@@ -4,7 +4,7 @@ a {
     gap: var(--extra-small);
     align-items: center;
     justify-content: center;
-
+    padding-block: var(--small);
 }
 
 
@@ -22,7 +22,7 @@ a:hover {
     flex-direction: column;
 
 }
-a:hover, a:hover .icon {
+ a:hover .icon {
     background: var( --pnc-sys-color-surface-container-high);
 }
  a.active .icon {
@@ -43,6 +43,10 @@ a:hover, a:hover .icon {
         align-items: center;
     }
 
+
+   a:hover, a:hover .icon {
+        background: var(--pnc-sys-color-surface-container-high);
+    }
    a.active, a.active .icon {
         background: var(--pnc-sys-color-inverse-primary);
     }
