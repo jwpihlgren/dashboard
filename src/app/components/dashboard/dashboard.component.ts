@@ -2,7 +2,7 @@ import { OceanographicalObservationsService } from './../../shared/services/ocea
 import { WeatherService } from './../../shared/services/weather.service';
 import { LocationService } from './../../shared/services/location.service';
 import { SensorService } from './../../shared/services/sensor.service';
-import { Observable, ReplaySubject, takeUntil, share, switchMap, timer, } from 'rxjs';
+import { Observable, ReplaySubject, takeUntil, share, switchMap, timer, delay } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ILocation } from 'src/app/shared/models/location.interface';
 import { ISensor } from 'src/app/shared/models/sensor.interface';
@@ -38,8 +38,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.sensors$ = this.sensorService.getSensors()
     this.forecast$ = this.getForecast()
-    this.stationWaterLevelData$ = this.oceanographicalObservationsService.getPeriodData(this.defaultParameter, this.defaultStation, this.defaultPeriod).pipe(
-      takeUntil(this.destroy$))
+    this.stationWaterLevelData$ = this.getPeriodData()
   }
 
   ngOnDestroy(): void {
@@ -59,6 +58,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
             return this.weatherService.getForecast(favoriteLocation)
           })
         )
+      }),
+      share())
+  }
+
+  getPeriodData(): Observable<IOceanographicalObservationsDataResponse> {
+    const delay = 0;
+    const everyTwoHours = 1000 * 60 * 60 * 0.5
+
+    return timer(delay, everyTwoHours).pipe(
+      switchMap(() => {
+        return this.oceanographicalObservationsService.getPeriodData(this.defaultParameter, this.defaultStation, this.defaultPeriod).pipe(
+          takeUntil(this.destroy$))
       }),
       share())
   }
