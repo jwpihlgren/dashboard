@@ -68,8 +68,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     return timer(delay, everyTwoHours).pipe(
       switchMap(() => {
-        return this.oceanographicalObservationsService.getPeriodData(this.defaultParameter, this.defaultStation, this.defaultPeriod).pipe(
-          takeUntil(this.destroy$))
+        return this.oceanographicalObservationsService.getPeriod(this.defaultParameter, this.defaultStation, this.defaultPeriod).pipe(
+          switchMap(() => {
+            return this.oceanographicalObservationsService.getPeriodData(this.defaultParameter, this.defaultStation, this.defaultPeriod).pipe(
+              takeUntil(this.destroy$))
+          })
+        )
       }),
       share())
   }
