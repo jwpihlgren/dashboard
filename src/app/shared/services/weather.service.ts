@@ -36,7 +36,7 @@ export class WeatherService {
     const forecastRequest: Observable<IForecastResponse> = this.http.get<IForecastResponse>(`${url}${path}${params}`)
     const insideTemperatureRequest: Observable<IinsideTemperatureResponse> = this.http.get<any>(`${url}/sensors/temperature`)
 
-  return forkJoin({
+    return forkJoin({
       forecast: forecastRequest,
       insideTemperature: insideTemperatureRequest,
       previousForecast: of((previousForecasts && previousForecasts[safeName] ? previousForecasts[safeName] : undefined))
@@ -48,17 +48,16 @@ export class WeatherService {
       map((data: any): IForecast => {
         const currentDate = new Date()
         const parsedData: IForecast = {
-          
           insideTemperature: Math.floor(data.insideTemperature.temperature),
           locationName: location.local_name,
           fetchDate: currentDate,
           expireDate: new Date(new Date().setHours(currentDate.getHours() + hoursUntilExpire)),
           /* expireDate: new Date(new Date().setMinutes(currentDate.getMinutes() + minutesuntilExpire)), */ // Enable for testing purposes
-          airPressureChange: this.getAirPressureChangeIndication(data.previousForecast?.airPressure, data.forecast.current.airPressure),
+          airPressureChange: this.getAirPressureChangeIndication(data.previousForecast?.current.airPressure, data.forecast.current.airPressure),
           /* airPressureChange: 1, */ //Enable for testing purposes
           ...data.forecast
         }
-
+        console.log(parsedData)
         const previousForecasts: any = this.sessionStorageService.getStoredData("forecasts")
         previousForecasts[safeName] = parsedData
         this.sessionStorageService.setStoredData("forecasts", previousForecasts)
@@ -125,7 +124,7 @@ export class WeatherService {
 
 
 
-  
+
 /*   getForecast(location: any){
     return of(dummydata)
   } */
