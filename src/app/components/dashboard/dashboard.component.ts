@@ -7,8 +7,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ILocation } from 'src/app/shared/models/location.interface';
 import { ISensor } from 'src/app/shared/models/sensor.interface';
 import { IForecast } from 'src/app/shared/models/forecast.interface';
-import { PingService } from 'src/app/shared/services/ping.service';
 import { IOceanographicalObservationsDataResponse } from 'src/app/shared/models/interfaces/smhi/oceanographical-observations-data-response';
+import { IThresholdConfig } from 'src/app/shared/models/interfaces/threshold-config';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +20,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   defaultStation = 35101 //Juten sjöv
   defaultParameter = "13" // Havsvattenstånd, minutvärde
   defaultPeriod = "latest-day" // latest-day | latest-hour
-
+  thresholdConfig: IThresholdConfig = {
+   thresholdColors : ['#f8c03f', '#32d2ac', '#5693e9'],
+    thresholdsAsUnits: [20, 80, 0]
+  }
 
   sensors$!: Observable<ISensor[]>
   forecast$!: Observable<IForecast>
@@ -31,7 +35,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private locationService: LocationService,
     private weatherService: WeatherService,
     private oceanographicalObservationsService: OceanographicalObservationsService,
-    private pingService: PingService
   ){}
 
   ngOnInit(): void {
