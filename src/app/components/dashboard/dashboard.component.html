@@ -1,23 +1,23 @@
 <app-masonry-grid>
     <ng-container *ngIf="sensors$ | async as sensors; else loading">
-        <app-small-soil-sensor-card 
+        <app-small-soil-sensor-card
         *ngFor="let sensor of sensors"
         [sensor]="sensor"
-         [ngClass]="{'warning': sensor.hasOwnProperty('warning')}" 
+         [ngClass]="{'warning': sensor.hasOwnProperty('warning')}"
          class=" card card-single">
      </app-small-soil-sensor-card>
     </ng-container>
     <app-current-weather
         *ngIf="forecast$ | async as forecast ; else loading"
         [forecast]="forecast"
-        class="card-single">  
+        class="card-single">
     </app-current-weather>
     <app-weather-card
         *ngIf="forecast$ | async as forecast; else loading"
         [forecast]="forecast"
         class="card card-double">
     </app-weather-card>
-    <app-simple-water-level 
+    <app-simple-water-level
         *ngIf="stationWaterLevelData$ | async as stationWaterLevelData; else loading"
         class="card card-full"
         [oceanographicalObservationsPeriodData]="stationWaterLevelData">
