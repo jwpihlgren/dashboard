@@ -25,13 +25,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     thresholdsAsUnits: [20, 80, 0]
   }
 
-  sensors$!: Observable<ISensor[]>
+//  sensors$!: Observable<ISensor[]>
   forecast$!: Observable<IForecast>
   stationWaterLevelData$!: Observable<IOceanographicalObservationsDataResponse>
   destroy$: ReplaySubject<boolean> = new ReplaySubject(1)
 
   constructor(
-    private sensorService: SensorService,
+ //   private sensorService: SensorService,
     private locationService: LocationService,
     private weatherService: WeatherService,
     private oceanographicalObservationsService: OceanographicalObservationsService,
@@ -39,13 +39,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.sensors$ = this.sensorService.getSensors()
+ //   this.sensors$ = this.sensorService.getSensors()
     this.forecast$ = this.getForecast()
     this.stationWaterLevelData$ = this.getPeriodData()
   }
 
   ngOnDestroy(): void {
-    this.sensorService.eventSourceDestory()
+//    this.sensorService.eventSourceDestory()
     this.destroy$.next(true)
     this.destroy$.complete()
   }

@@ -23,7 +23,7 @@ const routes: Routes = [
   {path: "dashboard", component: DashboardComponent, canActivate: [AuthGuard]},
   {path: "profile", component: ProfileComponent, canActivate: [AuthGuard]},
   {path: "weather", component: WeatherComponent, canActivate: [AuthGuard]},
-  {path: "soilmoisture", component: SoilmoistureComponent, canActivate: [AuthGuard]},
+//  {path: "soilmoisture", component: SoilmoistureComponent, canActivate: [AuthGuard]},
   {path: "oceanographical-observations", component: OceanographicalObservationsComponent, /* canActivate: [AuthGuard],  */children: [
     {path: "", component: OceanographicalParameterListComponent, /* canActivate: [AuthGuard] */},
     {path: "parameter/:parameter", component: OceanographicalStationListComponent, /* canActivate: [AuthGuard] */},
