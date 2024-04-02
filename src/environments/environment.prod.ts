@@ -16,7 +16,7 @@ export const environment = {
     scope: auth.scope
   },
   dev: {
-    serverUrl: auth.serverUrl
+    serverUrl: auth.serverUrl,
   }
 };
 

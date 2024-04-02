@@ -65,7 +65,8 @@ import { HydrologicalStationListComponent } from './components/hydrological-obse
           `${environment.dev.serverUrl}/location`,
           `${environment.dev.serverUrl}/weather`,
           `${environment.dev.serverUrl}/user/`,
-          `${environment.dev.serverUrl}/user/*`
+          `${environment.dev.serverUrl}/user/*`,
+          `${environment.dev.serverUrl}/hass/*`
         ]
       }
     }),

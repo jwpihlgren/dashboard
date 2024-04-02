@@ -34,7 +34,7 @@ export class WeatherService {
         return of(previousForecasts[safeName]) as Observable<IForecast>
       }
     const forecastRequest: Observable<IForecastResponse> = this.http.get<IForecastResponse>(`${url}${path}${params}`)
-    const insideTemperatureRequest: Observable<IinsideTemperatureResponse> = this.http.get<any>(`${url}/sensors/temperature`)
+    const insideTemperatureRequest: Observable<IinsideTemperatureResponse> = this.http.get<IinsideTemperatureResponse>(`${url}/hass/temperature-sensors`)
 
     return forkJoin({
       forecast: forecastRequest,
@@ -46,9 +46,10 @@ export class WeatherService {
         with: () => {throw new Error("Request took too long to complete")}
       }),
       map((data: any): IForecast => {
+        console.log(data)
         const currentDate = new Date()
         const parsedData: IForecast = {
-          insideTemperature: Math.floor(data.insideTemperature.temperature),
+          insideTemperature: Math.floor(data.insideTemperature.data.temperature),
           locationName: location.local_name,
           fetchDate: currentDate,
           expireDate: new Date(new Date().setHours(currentDate.getHours() + hoursUntilExpire)),

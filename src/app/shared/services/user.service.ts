@@ -25,8 +25,8 @@ export class UserService {
         console.log(error);
         return EMPTY
       }),
-      shareReplay() 
-    ) 
+      shareReplay()
+    )
   }
 
   getUser(): Observable<any> {

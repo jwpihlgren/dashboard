@@ -1,3 +1,5 @@
 export interface IinsideTemperatureResponse {
-    temperature: number
+    data: {
+      temperature: number
+    }
 }
