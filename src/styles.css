@@ -38,7 +38,7 @@
     --green-400:    #5BDBBD;
     --green-500:    #32d2ac;
     --green-600:    #28A88A;
-    --green-700:    #1E7E67; 
+    --green-700:    #1E7E67;
     --green-800:    #145445;
     --green-900:    #0F3F34;
     --yellow-100:   #FDECC5;
@@ -47,7 +47,7 @@
     --yellow-400:   #F9CD65;
     --yellow-500:   #f8c03f;
     --yellow-600:   #C99C33;
-    --yellow-700:   #9B7826; 
+    --yellow-700:   #9B7826;
     --yellow-800:   #6C531A;
     --yellow-900:   #554114;
     --orange-100:   #FBE2DC;
@@ -56,7 +56,7 @@
     --orange-400:   #F5B1A2;
     --orange-500:   #F39D8B;
     --orange-600:   #D28271;
-    --orange-700:   #B16657; 
+    --orange-700:   #B16657;
     --orange-800:   #904B3C;
     --orange-900:   #803D2F;
     --red-100:      #F5CBCB;
@@ -69,7 +69,7 @@
     --red-800:      #5E2222;
     --red-900:      #481A1A;
 
-    
+
     --bs-1: var(--gray-720) 0px 3px 14px 0px;
     --bs-2: 0 0.2rem 1rem rgb(0 0 0 / 12%);
     --bs-in-2: 0 0.2rem 1rem rgb(0 0 0 / 12%) inset;
@@ -95,7 +95,7 @@
     --ease-in-out: cubic-bezier(0.445, 0.05, 0.55, 0.95);
 
     --rounded: var(--medium);
-    --pill: 100vw;
+    --pill: 9999px;
 
     --navigation-bar-height: var(--x-extra-large);
     --small-navigation-drawer-width: 96px;
@@ -164,12 +164,12 @@
 
 
 /* General styling */
-h1 { font-size: var(--fs-900) } 
-h2 { font-size: var(--fs-800) } 
-h3 { font-size: var(--fs-700) } 
+h1 { font-size: var(--fs-900) }
+h2 { font-size: var(--fs-800) }
+h3 { font-size: var(--fs-700) }
 h4 { font-size: var(--fs-600) }
 h5 { font-size: var(--fs-500) }
-h6 { 
+h6 {
     font-size: var(--fs-100);
     text-transform: uppercase;
     font-weight: var(--fw-600);
@@ -283,7 +283,7 @@ button:focus-visible {
 button.primary {
     background-color: var(--pnc-sys-color-primary);
     color: var(--pnc-sys-color-on-primary);
-    
+
 }
 button.primary:hover {
     background-color: var( --pnc-sys-color-inverse-surface);
@@ -363,37 +363,37 @@ button.square {
 @media (min-width: 840px) {
     .card-single {
         grid-column: auto / span 4;
-    
+
     }
 
     .card-single-quarter {
         grid-column: auto / span 8;
-    
+
     }
 
     .card-double {
         grid-column: auto / span 8;
-    
+
     }
-    
+
 }
 
 
 @media (min-width: 1180px) {
     .card-single {
         grid-column: auto / span 4;
-    
+
     }
 
     .card-single-quarter {
         grid-column: auto / span 8;
-    
+
     }
     .card-double {
         grid-column: auto / span 8;
-    
+
     }
-    
+
 }
 
 
