@@ -1,40 +1,5 @@
 <app-masonry-grid>
   <div class="card card-full">
-    <div class="content | flex col gap-md">
-      <span> Pollenrapport - Göteborg</span>
-      <h4>Prognos för perioden måndag 23 - tisdag 24 maj</h4>
-      <div class="button-group | flex row">
-        <button class="ternary">Idag</button>
-        <button class="ternary">Imorgon</button>
-        <button class="ternary">Torsdag</button>
-        <button class="ternary">Fredag</button>
-      </div>
-      <div class="pollen-levels | flex col gap-md">
-        <div *ngFor="let level of [].constructor(10)" class="pollen-level | flex col a-center gap-sm">
-          <div class="pollen-level-gauge | flex row" [attr.data-pollen-level]="7">
-            <span *ngFor="let indicator of [].constructor(7)" class="pollen-level-indicator"></span>
-          </div>
-          <span class="pollen-level-name"> Björk (quercus)</span>
-        </div>
-      </div>
-      <footer class="flex row gap-lg wrap">
-        <div class="pollen-level-legend | flex col gap-sm grow">
-          <div class="legend-text | flex row j-between">
-            <span>Låga halter</span>
-            <span>Mycket höga halter</span>
-          </div>
-          <div class="legend-bars">
-            <span class="legend-level-low"></span>
-            <span class="legend-level-medium"></span>
-            <span class="legend-level-high"></span>
-            <span class="legend-level-extreme"></span>
-          </div>
-        </div>
-        <div class="meta-information | flex col a-end grow">
-          <span>Publicerades yyyy-mm-dd av <a href="/" rel="noopener noreferrer">Palynologiska laboratoriet</a></span>
-          <span>Nästa uppdatering: tisdag 24 maj</span>
-        </div>
-      </footer>
-    </div>
+    <app-pollen-forecast *ngIf="forecast$ | async as forecast" [forecast]=forecast></app-pollen-forecast>
   </div>
 </app-masonry-grid>

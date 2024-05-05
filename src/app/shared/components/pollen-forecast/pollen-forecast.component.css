@@ -1,7 +1,3 @@
-app-area-chart {
-  display: block;
-}
-
 /*
   * Component API
   */
@@ -18,6 +14,7 @@ app-area-chart {
   --radius-pollen-level-gauge: var(--small, 8px);
   --border-width-pollen-level-gauge: 2px;
   --max-width-pollen-level-gauge: 3rem;
+  --height-pollen-level-gauge: calc(1rem + (var(--padding-pollen-level-gauge) * 2) + (var(--border-width-pollen-level-gauge) * 2));
 
   --margin-pollen-level-indicator: var(--extra-small, 2px);
   --radius-pollen-level-indicator: calc(var(--radius-pollen-level-gauge) / 2);
@@ -27,9 +24,15 @@ app-area-chart {
 
   --number-of-indicator-in-gauge: 8;
 }
-.content {
-  padding: var(--large);
+
+:host {
+  padding: var(--medium);
+  display: flex;
+  flex-direction: column;
+  gap: var(--medium);
 }
+
+
 
 /*
  * Pollen level gauge settings
@@ -74,7 +77,8 @@ app-area-chart {
   border: var(--border-width-pollen-level-gauge) solid var(--color-pollen);
   border-radius: var(--radius-pollen-level-gauge);
   padding: var(--padding-pollen-level-gauge);
-  width: 100%
+  width: 100%;
+  min-height: var(--height-pollen-level-gauge)
 }
 
 /*
@@ -113,11 +117,15 @@ app-area-chart {
     justify-content: center;
   }
 
-  .pollen-level-gauge {
+  .pollen-level {
     max-width: var(--max-width-pollen-level-gauge);
-    height: calc(
-      (var(--height-pollen-level-indicator) * var(--number-of-indicator-in-gauge)) +
-      (5 * var(--margin-pollen-level-indicator)));
+    overflow-wrap: anywhere;
+  }
+
+  .pollen-level-gauge {
+    min-width: var(--max-width-pollen-level-gauge);
+    max-width: var(--max-width-pollen-level-gauge);
+    height: calc((var(--height-pollen-level-indicator) * var(--number-of-indicator-in-gauge)) + (5 * var(--margin-pollen-level-indicator)));
     flex-direction: column;
     transform: rotate(180deg);
   }
@@ -144,6 +152,10 @@ app-area-chart {
     border-radius: 0;
     border-bottom-left-radius: var(--radius-pollen-level-indicator);
     border-bottom-right-radius: var(--radius-pollen-level-indicator);
+  }
+
+  .pollen-level-name {
+    text-wrap: balance;
   }
 
 }

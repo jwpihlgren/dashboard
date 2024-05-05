@@ -1,0 +1,36 @@
+<header>
+  <h6> Pollenrapport - {{forecast.regionName}}</h6>
+  <span class="card-title">Prognos för perioden {{forecast.availableDates[0].getMilliseconds() | dfnsWeekdayName}} -
+    {{forecast.availableDates[forecast.availableDates.length - 1].getMilliseconds() | dfnsWeekdayName}}</span>
+</header>
+
+<div class="button-group | flex row">
+  <button *ngFor="let date of forecast.availableDates" class="ternary">{{date | dfnsFormatRelativeToNow}}</button>
+</div>
+<div class="pollen-levels | flex col gap-md">
+  <div *ngFor="let level of forecast.pollenLevels" class="pollen-level | flex col a-center gap-sm">
+    <div class="pollen-level-gauge | flex row" [attr.data-pollen-level]=level.level>
+      <span *ngFor="let indicator of [].constructor(level.level)" class="pollen-level-indicator"></span>
+    </div>
+    <span class="pollen-level-name | helper-text">{{level.levelName}}</span>
+  </div>
+</div>
+<footer class="flex row gap-lg wrap">
+  <div class="pollen-level-legend | flex col gap-sm grow">
+    <div class="legend-text | flex row j-between">
+      <span class="helper-text">Låga halter</span>
+      <span class="helper-text">Mycket höga halter</span>
+    </div>
+    <div class="legend-bars">
+      <span class="legend-level-low"></span>
+      <span class="legend-level-medium"></span>
+      <span class="legend-level-high"></span>
+      <span class="legend-level-extreme"></span>
+    </div>
+  </div>
+  <div class="meta-information | flex col a-end grow">
+    <span class="helper-text">Publicerades yyyy-mm-dd av <a href="/" rel="noopener noreferrer">Palynologiska
+        laboratoriet</a></span>
+    <span class="helper-text">Nästa uppdatering: tisdag 24 maj</span>
+  </div>
+</footer>
