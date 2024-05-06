@@ -9,6 +9,8 @@ import { ISensor } from 'src/app/shared/models/sensor.interface';
 import { IForecast } from 'src/app/shared/models/forecast.interface';
 import { IOceanographicalObservationsDataResponse } from 'src/app/shared/models/interfaces/smhi/oceanographical-observations-data-response';
 import { IThresholdConfig } from 'src/app/shared/models/interfaces/threshold-config';
+import { IPollenForecast } from 'src/app/shared/models/interfaces/pollenrapporten/pollen-forecast';
+import { PollenService } from 'src/app/shared/services/pollen.service';
 
 
 @Component({
@@ -25,9 +27,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     thresholdsAsUnits: [20, 80, 0]
   }
 
+  REGION = "2a2a2a2a-2a2a-4a2a-aa2a-2a2a2a303a38"
+
 //  sensors$!: Observable<ISensor[]>
   forecast$!: Observable<IForecast>
   stationWaterLevelData$!: Observable<IOceanographicalObservationsDataResponse>
+  pollenForecast$!: Observable<IPollenForecast>
   destroy$: ReplaySubject<boolean> = new ReplaySubject(1)
 
   constructor(
@@ -35,6 +40,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private locationService: LocationService,
     private weatherService: WeatherService,
     private oceanographicalObservationsService: OceanographicalObservationsService,
+    private pollenService: PollenService,
   ){}
 
   ngOnInit(): void {
@@ -42,12 +48,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
  //   this.sensors$ = this.sensorService.getSensors()
     this.forecast$ = this.getForecast()
     this.stationWaterLevelData$ = this.getPeriodData()
+    this.pollenForecast$ = this.pollenService.detailedForecast(this.REGION)
   }
 
   ngOnDestroy(): void {
 //    this.sensorService.eventSourceDestory()
     this.destroy$.next(true)
     this.destroy$.complete()
+  }
+
+  updatePollenData(date: any): void {
+    this.pollenForecast$ = this.pollenService.detailedForecast(this.REGION, date)
   }
 
   getForecast(): Observable<IForecast> {
