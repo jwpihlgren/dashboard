@@ -37,6 +37,7 @@ import { HydrologicalMinMaxPipe } from './pipes/hydrological-min-max.pipe';
 import { NavigationListComponent } from './components/navigation-list/navigation-list.component';
 import { add } from 'date-fns';
 import { NavItemComponent } from './components/left-nav/components/nav-item/nav-item.component';
+import { PollenForecastComponent } from './components/pollen-forecast/pollen-forecast.component';
 
 
 
@@ -75,6 +76,7 @@ swedishConfig.setLocale(sv)
     HydrologicalMinMaxPipe,
     NavigationListComponent,
     NavItemComponent,
+    PollenForecastComponent,
   ],
   imports: [
     CommonModule,
@@ -113,12 +115,13 @@ swedishConfig.setLocale(sv)
     SimpleWaterLevelComponent,
     NavigationListComponent,
     HydrologicalMinMaxPipe,
-    AddUnitPipe
+    AddUnitPipe,
+    PollenForecastComponent,
   ],
   providers: [
     UviConverterPipe,
     {
-      provide: DateFnsConfigurationService, useValue: swedishConfig 
+      provide: DateFnsConfigurationService, useValue: swedishConfig
     }
   ]
 })

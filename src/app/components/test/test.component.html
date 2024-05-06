@@ -1,3 +1,9 @@
 <app-masonry-grid>
-    hello
+  <div class="card card-full">
+    <app-pollen-forecast
+      *ngIf="forecast$ | async as forecast"
+      [forecast]=forecast
+      (requestNewData)="updateData($event)">
+    </app-pollen-forecast>
+  </div>
 </app-masonry-grid>
