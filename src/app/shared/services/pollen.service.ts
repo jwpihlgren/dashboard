@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, EMPTY, map, Observable, of, tap, throwError, concatMap, forkJoin } from 'rxjs';
+import { catchError, EMPTY, map, Observable, of, tap, forkJoin } from 'rxjs';
 import { IPollenForecast } from '../models/interfaces/pollenrapporten/pollen-forecast';
 import { LocalStorageService } from './local-storage.service';
 
@@ -13,9 +13,11 @@ export class PollenService {
   private ISSUER_URL = "https://pollenrapporten.se/omwebbplatsen/attanvandapollenprognoserna"
   private REGION_STORE_KEY = "regions"
   private REGION_TTL = 1000 * 60 * 60 * 24
-  private POLLEN_TTL = 1000 * 60 * 60 * 24
+  private POLLEN_TYPES_TTL = 1000 * 60 * 60 * 24
+  private POLLEN_FORECAST_TTL = 1000 * 60 * 60 * 1
   private BASE_URL = "https://api.pollenrapporten.se/v1"
   private POLLEN_TYPE_STORE_KEY = "pollen_type"
+  private POLLEN_FORECAST_STORE_KEY = "pollen_forecast"
 
   constructor(
     private localStorage: LocalStorageService,
@@ -26,7 +28,6 @@ export class PollenService {
     const regions: Observable<IOPARegionsDto> = this.getRegions()
     const pollenTypes: Observable<IOPAPollenTypesDto> = this.getPollenTypes()
     const forecasts: Observable<IOPAForecastDto> = this.getForecasts(regionId)
-
     return forkJoin({
       regions: regions,
       pollenTypes: pollenTypes,
@@ -52,18 +53,41 @@ export class PollenService {
     )
   }
 
-  // Forecasts
   private getForecasts(regionId?: string): Observable<IOPAForecastDto> {
     const endpoint = "forecasts"
     const quaryParams = `current=true${regionId ? "&region_id=" + regionId : ""}`
     const url = `${this.BASE_URL}/${endpoint}?${quaryParams}`
-
+    const forecast = this.getForecastStore()
+    if(forecast) {
+      return of(forecast)
+    }
     return this.http.get<IOPAForecastDto>(url).pipe(
+      tap(data => this.setForecastStore(data)),
       catchError(error => {
         console.log(error)
         return EMPTY
       }
       ))
+  }
+
+  private getForecastStore(): IOPAForecastDto | undefined {
+    const data: any = this.localStorage.getStoredData(this.POLLEN_FORECAST_STORE_KEY)
+    const time: number = new Date().getTime()
+    if(!data.ttl || !data.timestamp || time > data.timestamp + data.ttl) {
+      console.log("Pollen forecast not stored or invalidated")
+      return undefined
+    }
+    console.log("Pollen forecast stored")
+    return data as IOPAForecastDto
+  }
+
+  setForecastStore(pollenForecasts: IOPAForecastDto): void {
+    const timestamp = new Date().getTime()
+    this.localStorage.setStoredData(this.POLLEN_FORECAST_STORE_KEY, {
+      timestamp: timestamp,
+      ttl: this.POLLEN_FORECAST_TTL,
+      ...pollenForecasts
+    })
   }
 
   private mapOPAForecast(data: {
@@ -117,17 +141,19 @@ export class PollenService {
   private getPollenTypesStore(): IOPAPollenTypesDto | undefined {
     const data: any = this.localStorage.getStoredData(this.POLLEN_TYPE_STORE_KEY)
     const time: number = new Date().getTime()
-    if (!data.ttl || !data.timestamp || time > data.timeStamp + data.ttl) {
+    if (!data.ttl || !data.timestamp || time > data.timestamp + data.ttl) {
+      console.log("Pollen types not stored or invalidated")
       return undefined
     }
-    return
+    console.log("Pollen types stored")
+    return data as IOPAPollenTypesDto
   }
 
   private setPollenTypesStore(pollenTypes: IOPAPollenTypesDto): void {
-    const timeStamp = new Date().getTime()
+    const timestamp = new Date().getTime()
     this.localStorage.setStoredData(this.POLLEN_TYPE_STORE_KEY, {
-      timeStamp: timeStamp,
-      ttl: this.POLLEN_TTL,
+      timestamp: timestamp,
+      ttl: this.POLLEN_TYPES_TTL,
       ...pollenTypes
     })
   }
@@ -136,19 +162,16 @@ export class PollenService {
       return { name: item.name, id: item.id }
     })
     return pollenTypes
-
   }
 
   // Region
   private getRegions(): Observable<IOPARegionsDto> {
     const endpoint = "regions"
     const url = `${this.BASE_URL}/${endpoint}`
-
     let regions: IOPARegionsDto | undefined = this.getRegionStore()
     if (regions) {
       return of(regions)
     }
-
     return this.http.get<IOPARegionsDto>(url).pipe(
       tap((data) => this.setRegionStore(data)),
       catchError((error) => {
@@ -161,22 +184,23 @@ export class PollenService {
   private getRegionStore(): IOPARegionsDto | undefined {
     const data: any = this.localStorage.getStoredData(this.REGION_STORE_KEY)
     const time: number = new Date().getTime()
-    if (!data.ttl || !data.timeStamp || time > data.timeStamp + data.ttl) {
+    if (!data.ttl || !data.timestamp || time > data.timestamp + data.ttl) {
+      console.log("Pollen regions not stored or invalidated")
       return undefined
     }
+    console.log("Pollen regions stored")
     return data as IOPARegionsDto
   }
 
   private setRegionStore(regions: IOPARegionsDto): void {
-    const timeStamp = new Date().getTime()
+    const timestamp = new Date().getTime()
     this.localStorage.setStoredData(this.REGION_STORE_KEY, {
-      timeStamp: timeStamp,
+      timestamp: timestamp,
       ttl: this.REGION_TTL,
       ...regions
     })
   }
   private mapOPARegion(data: IOPARegionsDto): IPollenRegion[] {
-
     const regions: IPollenRegion[] = []
     data.items.forEach(item => regions.push({ id: item.id, name: item.name }))
     return regions

@@ -15,13 +15,13 @@ export class TestComponent implements OnInit {
   forecast$!: Observable<IPollenForecast>
   ngOnInit(): void {
     this.forecast$ = this.pollenService.detailedForecast(this.REGION).pipe(
-      tap(data => console.log(data))
+      //tap(data => console.log(data))
     )
   }
 
   updateData(date: any): void {
     this.forecast$ = this.pollenService.detailedForecast(this.REGION, date).pipe(
-      tap(data => console.log(data))
+      //tap(data => console.log(data))
     )
   }
 
