@@ -29,8 +29,13 @@
     </div>
   </div>
   <div class="meta-information | flex col a-end grow">
-    <span class="helper-text">Publicerades yyyy-mm-dd av <a href="/" rel="noopener noreferrer">Palynologiska
-        laboratoriet</a></span>
-    <span class="helper-text">Nästa uppdatering: tisdag 24 maj</span>
+    <span class="helper-text">Upphovsman:
+      <a
+        [href]=forecast.issuerLink
+        target="_blank"
+        rel="noopener noreferrer">
+          {{forecast.issuerName}}
+      </a>
+    </span>
   </div>
 </footer>
