@@ -23,8 +23,6 @@ export class PollenService {
   ) { }
 
   detailedForecast(regionId: string, dateInForecast?: Date): Observable<IPollenForecast> {
-
-
     const regions: Observable<IOPARegionsDto> = this.getRegions()
     const pollenTypes: Observable<IOPAPollenTypesDto> = this.getPollenTypes()
     const forecasts: Observable<IOPAForecastDto> = this.getForecasts(regionId)
@@ -35,7 +33,6 @@ export class PollenService {
       forecasts: forecasts
     }).pipe(
       map(data => {
-        console.log(data)
         const mappedPollenTypes = this.mapOPAPollenTypes(data.pollenTypes)
         const mappedRegions = this.mapOPARegion(data.regions)
         const mappedForecastData = {
@@ -48,12 +45,13 @@ export class PollenService {
         mappedForecasts.pollenLevels = [...mappedForecasts.pollenLevels].filter(pollenLevel => {
           const pollenLevelTimeAtZweroHours = new Date(pollenLevel.time.setHours(0)).getTime()
           const currentDateAtZeroHours = new Date(mappedForecasts.currentDate.setHours(0)).getTime()
-         return pollenLevelTimeAtZweroHours === currentDateAtZeroHours
+          return pollenLevelTimeAtZweroHours === currentDateAtZeroHours
         })
         return mappedForecasts
       })
     )
   }
+
   // Forecasts
   private getForecasts(regionId?: string): Observable<IOPAForecastDto> {
     const endpoint = "forecasts"
@@ -65,19 +63,17 @@ export class PollenService {
         console.log(error)
         return EMPTY
       }
-    ))
+      ))
   }
 
   private mapOPAForecast(data: {
     forecast: IOPAForecastDto,
     pollenTypes: IPollenType[],
     regions: IPollenRegion[],
-    dateInForecast?: Date}): IPollenForecast {
+    dateInForecast?: Date
+  }): IPollenForecast {
     const innerData = data.forecast.items[0]
-    const availableDates: Date[] = []
-    for (let i = new Date(innerData.startDate); i <= new Date(innerData.endDate); i = new Date(i.setDate(i.getDate() + 1))) {
-      availableDates.push(i)
-    }
+    const availableDates: Date[] = Array.from(new Set(innerData.levelSeries.map(level => level.time))).map(date => new Date(date))
     const forecast: IPollenForecast = {
       id: innerData.id,
       fetchDate: new Date(),
@@ -115,8 +111,7 @@ export class PollenService {
         console.log(error)
         return EMPTY
       }
-    ))
-
+      ))
   }
 
   private getPollenTypesStore(): IOPAPollenTypesDto | undefined {
@@ -161,13 +156,6 @@ export class PollenService {
         return EMPTY
       }
       ))
-  }
-
-  private verifyRegion(regionId: string, regions: IPollenRegion[]): boolean {
-    const region: IPollenRegion | undefined = regions.find((region: IPollenRegion) => {
-      region.id === regionId
-    })
-    return region !== undefined
   }
 
   private getRegionStore(): IOPARegionsDto | undefined {

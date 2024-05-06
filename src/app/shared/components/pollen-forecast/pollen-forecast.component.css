@@ -23,6 +23,8 @@
   --height-pollen-legend-bar: 8px;
 
   --number-of-indicator-in-gauge: 8;
+
+  --color-background-button-active: var(--pnc-sys-color-inverse-primary, blue);
 }
 
 :host {
@@ -32,7 +34,15 @@
   gap: var(--medium);
 }
 
+.active {
+  background: var(--color-background-button-active);
 
+}
+.description {
+  max-width: 60ch;
+  margin: 0 auto;
+  display: block;
+}
 
 /*
  * Pollen level gauge settings
