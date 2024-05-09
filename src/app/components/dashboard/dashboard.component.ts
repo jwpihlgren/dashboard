@@ -23,42 +23,53 @@ export class DashboardComponent implements OnInit, OnDestroy {
   defaultParameter = "13" // Havsvattenstånd, minutvärde
   defaultPeriod = "latest-day" // latest-day | latest-hour
   thresholdConfig: IThresholdConfig = {
-   thresholdColors : ['#f8c03f', '#32d2ac', '#5693e9'],
+    thresholdColors: ['#f8c03f', '#32d2ac', '#5693e9'],
     thresholdsAsUnits: [20, 80, 0]
   }
 
   REGION = "2a2a2a2a-2a2a-4a2a-aa2a-2a2a2a303a38"
 
-//  sensors$!: Observable<ISensor[]>
+  //  sensors$!: Observable<ISensor[]>
   forecast$!: Observable<IForecast>
   stationWaterLevelData$!: Observable<IOceanographicalObservationsDataResponse>
   pollenForecast$!: Observable<IPollenForecast>
   destroy$: ReplaySubject<boolean> = new ReplaySubject(1)
 
   constructor(
- //   private sensorService: SensorService,
+    //   private sensorService: SensorService,
     private locationService: LocationService,
     private weatherService: WeatherService,
     private oceanographicalObservationsService: OceanographicalObservationsService,
     private pollenService: PollenService,
-  ){}
+  ) { }
 
   ngOnInit(): void {
 
- //   this.sensors$ = this.sensorService.getSensors()
+    //   this.sensors$ = this.sensorService.getSensors()
     this.forecast$ = this.getForecast()
     this.stationWaterLevelData$ = this.getPeriodData()
-    this.pollenForecast$ = this.pollenService.detailedForecast(this.REGION)
+    this.pollenForecast$ = this.getPollenForecast()
   }
 
   ngOnDestroy(): void {
-//    this.sensorService.eventSourceDestory()
+    //    this.sensorService.eventSourceDestory()
     this.destroy$.next(true)
     this.destroy$.complete()
   }
 
-  updatePollenData(date: any): void {
-    this.pollenForecast$ = this.pollenService.detailedForecast(this.REGION, date)
+  updatePollenData(date: Date): void {
+    this.pollenForecast$ = this.getPollenForecast(date)
+  }
+
+  getPollenForecast(date?: Date): Observable<IPollenForecast> {
+    const delay = 0;
+    const frequency = 1000 * 60 * 60 * 8;
+
+    return (timer(delay, frequency).pipe(
+      switchMap(() => {
+        return this.pollenService.detailedForecast(this.REGION, date)
+      })
+    ))
   }
 
   getForecast(): Observable<IForecast> {

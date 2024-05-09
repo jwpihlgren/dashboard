@@ -1,11 +1,14 @@
 <header class="flex col gap-md">
   <h6> Pollenrapport - {{forecast.regionName}}</h6>
-  <span class="description">{{forecast.description}}</span>
+  <details class="description">
+    <summary>{{forecast.description.substr(0, 120)}}</summary>
+    {{forecast.description}}
+  </details>
 </header>
 
 <div class="button-group | flex row">
   <button
-    *ngFor="let date of forecast.availableDates"
+    *ngFor="let date of forecast.availableDates;"
     [ngClass]="{'active': isCurrent(date, forecast.currentDate)}"
     (click)="selectDate(date)"
     class="ternary">
