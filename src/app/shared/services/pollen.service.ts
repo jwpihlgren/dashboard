@@ -18,6 +18,7 @@ export class PollenService {
   private REGION_STORE_KEY = "regions"
   private POLLEN_TYPE_STORE_KEY = "pollen_type"
   private POLLEN_FORECAST_STORE_KEY = "pollen_forecast"
+  private MAX_CHAR_COUNT_SHORT_DESCRIPTION = 150
 
   constructor(
     private localStorage: LocalStorageService,
@@ -106,7 +107,8 @@ export class PollenService {
       fetchDate: new Date(),
       issuerName: this.ISSUER,
       issuerLink: this.ISSUER_URL,
-      description: innerData.text,
+      shortDescription : innerData.text.length > this.MAX_CHAR_COUNT_SHORT_DESCRIPTION ? innerData.text.substring(0, this.MAX_CHAR_COUNT_SHORT_DESCRIPTION - 3) + "..." : innerData.text,
+      description: innerData.text.length > this.MAX_CHAR_COUNT_SHORT_DESCRIPTION ? innerData.text : undefined,
       regionId: innerData.regionId,
       regionName: (data.regions.find((region: IPollenRegion) => region.id === innerData.regionId) as IPollenRegion).name,
       currentDate: data.dateInForecast || today,
