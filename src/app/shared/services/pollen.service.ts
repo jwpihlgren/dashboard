@@ -9,15 +9,16 @@ import { LocalStorageService } from './local-storage.service';
 })
 export class PollenService {
 
+  private BASE_URL = "https://api.pollenrapporten.se/v1"
   private ISSUER = "Palynologiska laboratoriet vid Naturhistoriska riksmuseet"
   private ISSUER_URL = "https://pollenrapporten.se/omwebbplatsen/attanvandapollenprognoserna"
-  private REGION_STORE_KEY = "regions"
   private REGION_TTL = 1000 * 60 * 60 * 24
   private POLLEN_TYPES_TTL = 1000 * 60 * 60 * 24
   private POLLEN_FORECAST_TTL = 1000 * 60 * 60 * 1
-  private BASE_URL = "https://api.pollenrapporten.se/v1"
+  private REGION_STORE_KEY = "regions"
   private POLLEN_TYPE_STORE_KEY = "pollen_type"
   private POLLEN_FORECAST_STORE_KEY = "pollen_forecast"
+  private MAX_CHAR_COUNT_SHORT_DESCRIPTION = 150
 
   constructor(
     private localStorage: LocalStorageService,
@@ -74,10 +75,8 @@ export class PollenService {
     const data: any = this.localStorage.getStoredData(this.POLLEN_FORECAST_STORE_KEY)
     const time: number = new Date().getTime()
     if(!data.ttl || !data.timestamp || time > data.timestamp + data.ttl) {
-      console.log("Pollen forecast not stored or invalidated")
       return undefined
     }
-    console.log("Pollen forecast stored")
     return data as IOPAForecastDto
   }
 
@@ -97,16 +96,22 @@ export class PollenService {
     dateInForecast?: Date
   }): IPollenForecast {
     const innerData = data.forecast.items[0]
+    const today = new Date()
+    today.setHours(0)
+    today.setMinutes(0)
+    today.setSeconds(0)
+    today.setMilliseconds(0)
     const availableDates: Date[] = Array.from(new Set(innerData.levelSeries.map(level => level.time))).map(date => new Date(date))
     const forecast: IPollenForecast = {
       id: innerData.id,
       fetchDate: new Date(),
       issuerName: this.ISSUER,
       issuerLink: this.ISSUER_URL,
-      description: innerData.text,
+      shortDescription : innerData.text.length > this.MAX_CHAR_COUNT_SHORT_DESCRIPTION ? innerData.text.substring(0, this.MAX_CHAR_COUNT_SHORT_DESCRIPTION - 3) + "..." : innerData.text,
+      description: innerData.text.length > this.MAX_CHAR_COUNT_SHORT_DESCRIPTION ? innerData.text : undefined,
       regionId: innerData.regionId,
       regionName: (data.regions.find((region: IPollenRegion) => region.id === innerData.regionId) as IPollenRegion).name,
-      currentDate: data.dateInForecast || new Date(innerData.startDate),
+      currentDate: data.dateInForecast || today,
       availableDates: availableDates,
       pollenLevels: innerData.levelSeries.map((levelSerie) => {
         return {
@@ -142,10 +147,8 @@ export class PollenService {
     const data: any = this.localStorage.getStoredData(this.POLLEN_TYPE_STORE_KEY)
     const time: number = new Date().getTime()
     if (!data.ttl || !data.timestamp || time > data.timestamp + data.ttl) {
-      console.log("Pollen types not stored or invalidated")
       return undefined
     }
-    console.log("Pollen types stored")
     return data as IOPAPollenTypesDto
   }
 
@@ -185,10 +188,8 @@ export class PollenService {
     const data: any = this.localStorage.getStoredData(this.REGION_STORE_KEY)
     const time: number = new Date().getTime()
     if (!data.ttl || !data.timestamp || time > data.timestamp + data.ttl) {
-      console.log("Pollen regions not stored or invalidated")
       return undefined
     }
-    console.log("Pollen regions stored")
     return data as IOPARegionsDto
   }
 

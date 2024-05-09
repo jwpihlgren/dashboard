@@ -11,14 +11,18 @@ export class PollenForecastComponent {
   now: Date = new Date()
   @Input() forecast!: IPollenForecast
   @Output() requestNewData: EventEmitter<Date> = new EventEmitter()
+  showLongDescription: boolean = false
 
   selectDate(date: Date): void {
-    console.log("click")
     this.requestNewData.emit(date)
   }
 
   isCurrent(date: Date, currentDate: Date): boolean {
     return new Date(date).getTime() === new Date(currentDate).getTime()
+  }
+
+  toggleShowLongDescription(): void {
+    this.showLongDescription = !this.showLongDescription
   }
 
 }

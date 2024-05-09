@@ -3,7 +3,8 @@ export interface IPollenForecast {
   fetchDate: Date
   availableDates: Date[]
   currentDate: Date
-  description: string
+  shortDescription: string
+  description: string | undefined
   regionId: string
   regionName: string
   pollenLevels: { pollenTypeName: string, level: number, levelName: string, time: Date}[]

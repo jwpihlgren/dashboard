@@ -1,11 +1,22 @@
 <header class="flex col gap-md">
   <h6> Pollenrapport - {{forecast.regionName}}</h6>
-  <span class="description">{{forecast.description}}</span>
+  <span class="description" *ngIf="!showLongDescription">{{forecast.shortDescription}}
+    <button
+      *ngIf="forecast.description"
+      class="ternary"
+      (click)="toggleShowLongDescription()">Visa mer</button>
+  </span>
+  <span class="description" *ngIf="forecast.description && showLongDescription">{{forecast.description}}
+    <button
+      *ngIf="forecast.description"
+      class="ternary"
+      (click)="toggleShowLongDescription()">Visa mindre</button>
+  </span>
 </header>
 
 <div class="button-group | flex row">
   <button
-    *ngFor="let date of forecast.availableDates"
+    *ngFor="let date of forecast.availableDates;"
     [ngClass]="{'active': isCurrent(date, forecast.currentDate)}"
     (click)="selectDate(date)"
     class="ternary">
