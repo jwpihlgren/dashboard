@@ -54,16 +54,18 @@ export class PollenService {
     )
   }
 
-  private getForecasts(regionId?: string): Observable<IOPAForecastDto> {
+  private getForecasts(regionId: string = "all"): Observable<IOPAForecastDto> {
     const endpoint = "forecasts"
-    const quaryParams = `current=true${regionId ? "&region_id=" + regionId : ""}`
+    const regionParam = regionId === "all" ? "" : "&region_id=" + regionId
+    const currentParam = "current=true"
+    const quaryParams = `${currentParam}${regionParam}`
     const url = `${this.BASE_URL}/${endpoint}?${quaryParams}`
-    const forecast = this.getForecastStore()
+    const forecast = this.getForecastStore(regionId)
     if(forecast) {
       return of(forecast)
     }
     return this.http.get<IOPAForecastDto>(url).pipe(
-      tap(data => this.setForecastStore(data)),
+      tap(data => this.setForecastStore(regionId, data)),
       catchError(error => {
         console.log(error)
         return EMPTY
@@ -71,8 +73,8 @@ export class PollenService {
       ))
   }
 
-  private getForecastStore(): IOPAForecastDto | undefined {
-    const data: any = this.localStorage.getStoredData(this.POLLEN_FORECAST_STORE_KEY)
+  private getForecastStore(id: string): IOPAForecastDto | undefined {
+    const data: any = this.localStorage.getStoredData(id)
     const time: number = new Date().getTime()
     if(!data.ttl || !data.timestamp || time > data.timestamp + data.ttl) {
       return undefined
@@ -80,9 +82,9 @@ export class PollenService {
     return data as IOPAForecastDto
   }
 
-  setForecastStore(pollenForecasts: IOPAForecastDto): void {
+  setForecastStore(id: string, pollenForecasts: IOPAForecastDto): void {
     const timestamp = new Date().getTime()
-    this.localStorage.setStoredData(this.POLLEN_FORECAST_STORE_KEY, {
+    this.localStorage.setStoredData(id, {
       timestamp: timestamp,
       ttl: this.POLLEN_FORECAST_TTL,
       ...pollenForecasts
@@ -101,7 +103,13 @@ export class PollenService {
     today.setMinutes(0)
     today.setSeconds(0)
     today.setMilliseconds(0)
-    const availableDates: Date[] = Array.from(new Set(innerData.levelSeries.map(level => level.time))).map(date => new Date(date))
+    console.log(data)
+    const availableDates: {id: number, date: Date}[] =
+      Array.from(new Set(innerData.levelSeries.map(level => level.time))).map((date, index: number) => {
+      return {
+      id: index,
+      date: new Date(date)
+    }})
     const forecast: IPollenForecast = {
       id: innerData.id,
       fetchDate: new Date(),
@@ -266,7 +274,6 @@ interface IOPAForecastDto {
     }[]
   }[]
 }
-
 
 interface IOPAPollenTypesDto {
   ttl?: Date

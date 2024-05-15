@@ -1,5 +1,5 @@
 import { WeatherService } from './../../services/weather.service';
-import { Component, OnInit, ElementRef, Input, AfterViewChecked, AfterViewInit, HostListener, ViewChild, HostBinding, OnChanges, KeyValueDifferFactory, KeyValueDiffers} from '@angular/core';
+import { Component, OnInit, ElementRef, Input, OnChanges, KeyValueDiffers} from '@angular/core';
 import * as d3 from 'd3'
 import { IForecastDaily } from '../../models/forecast-response.interface';
 
@@ -31,13 +31,13 @@ export class BarRangeChartComponent implements OnInit, OnChanges{
     private elementRef: ElementRef,
     private weatherService: WeatherService,
     private differs: KeyValueDiffers
-    ) { 
+    ) {
       this.differ = this.differs.find({}).create()
     }
 
   ngOnInit(): void {
     this.width = this.elementRef.nativeElement.offsetWidth
-    
+
     const [currentMin, currentMax]: number[] = this.forecast.reduce((acc: number[], day: IForecastDaily) => {
       return [Math.min(acc[0], day.minTemperature), Math.max(acc[1], day.maxTemperature)]
     }, [Infinity, -Infinity])
@@ -92,29 +92,29 @@ export class BarRangeChartComponent implements OnInit, OnChanges{
     .domain([this.domainMin, this.domainMax])
     .range([this.height - this.yTickOffset - this.margin.top, 0])
     .nice()
- 
+
     const ticklabels: string[] = ["SÖN","MÅN","TIS","ONS","TOR","FRE","LÖR",]
- 
+
     this.svg.append("g")
     .attr("transform", "translate(0," +  (this.height - this.yTickHeight) + ")")
     .attr("class", "no-grid")
     .call(d3.axisBottom(x).tickFormat((d: any,i: any) => {return ticklabels[new Date(d).getDay()]}))
     .selectAll("text")
     .style("text-anchor", "center")
-    
+
 
     const yGrid = d3.axisLeft(y)
     .tickSize(this.width - (this.margin.left * 2))
     .ticks(5)
-    
+
     this.svg.append("g")
     .attr("class", "grid")
     .attr("transform", "translate("+ (this.width - (this.margin.left * 0.75)) +","+ this.margin.top +")")
     .call(yGrid)
- 
 
-   
- 
+
+
+
     /* Draw the bars */
     this.svg.selectAll("bars")
     .data(data)
@@ -152,7 +152,7 @@ export class BarRangeChartComponent implements OnInit, OnChanges{
     this.svg?.remove()
   }
 
-  
+
 }
 
- 
+

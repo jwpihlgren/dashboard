@@ -16,11 +16,11 @@
 
 <div class="button-group | flex row">
   <button
-    *ngFor="let date of forecast.availableDates;"
-    [ngClass]="{'active': isCurrent(date, forecast.currentDate)}"
-    (click)="selectDate(date)"
+    *ngFor="let availableDate of forecast.availableDates;"
+    [ngClass]="{'active': availableDate.date.getTime() === forecast.currentDate.getTime()}"
+    (click)="selectDate(availableDate.date)"
     class="ternary">
-    {{date  | dfnsSubDays: 1 | dfnsGetDay | dfnsWeekdayName}}
+    {{availableDate.date  | dfnsSubDays: 1 | dfnsGetDay | dfnsWeekdayName}}
   </button>
 </div>
 <div class="pollen-levels | flex col gap-md">

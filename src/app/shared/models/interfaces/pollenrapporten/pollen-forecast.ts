@@ -1,7 +1,7 @@
 export interface IPollenForecast {
   id: string
   fetchDate: Date
-  availableDates: Date[]
+  availableDates: {id: number, date: Date}[]
   currentDate: Date
   shortDescription: string
   description: string | undefined

@@ -28,6 +28,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   REGION = "2a2a2a2a-2a2a-4a2a-aa2a-2a2a2a303a38"
+  // REGION = "2a2a2a2a-2a2a-4a2a-aa2a-2a2a2a303a32"
 
   //  sensors$!: Observable<ISensor[]>
   forecast$!: Observable<IForecast>
@@ -68,7 +69,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     return (timer(delay, frequency).pipe(
       switchMap(() => {
         return this.pollenService.detailedForecast(this.REGION, date)
-      })
+      }),
+    share()
     ))
   }
 

@@ -12,11 +12,8 @@
   </app-current-weather>
   <app-weather-card *ngIf="forecast$ | async as forecast; else loading" [forecast]="forecast" class="card card-double">
   </app-weather-card>
-  <app-pollen-forecast
-    *ngIf="pollenForecast$ | async as pollenForecast"
-    [forecast]="pollenForecast"
-    (requestNewData)="updatePollenData($event)"
-    class="card card-full"></app-pollen-forecast>
+  <app-pollen-forecast *ngIf="pollenForecast$ | async as pollenForecast" [forecast]="pollenForecast"
+    (requestNewData)="updatePollenData($event)" class="card card-full"></app-pollen-forecast>
   <app-detailed-weather-table *ngIf="forecast$ | async as forecast; else loading" [forecast]="forecast"
     class="card card-single-quarter">
   </app-detailed-weather-table>
