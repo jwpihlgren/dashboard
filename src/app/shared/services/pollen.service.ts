@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { catchError, EMPTY, map, Observable, of, tap, forkJoin } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { catchError, EMPTY, map, Observable, of, tap, forkJoin, BehaviorSubject, Subject, mergeMap, takeUntil, ReplaySubject } from 'rxjs';
 import { IPollenForecast } from '../models/interfaces/pollenrapporten/pollen-forecast';
 import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PollenService {
+export class PollenService implements OnDestroy {
 
   private BASE_URL = "https://api.pollenrapporten.se/v1"
   private ISSUER = "Palynologiska laboratoriet vid Naturhistoriska riksmuseet"
@@ -20,21 +20,49 @@ export class PollenService {
   private POLLEN_FORECAST_STORE_KEY = "pollen_forecast"
   private MAX_CHAR_COUNT_SHORT_DESCRIPTION = 150
 
+  private destroy$: ReplaySubject<boolean> = new ReplaySubject(1)
+  private detailedForecastRequests: { [key: string]: Subject<IPollenForecast> } = {}
+  private detailedForecastResults$: { [key: string]: Observable<IPollenForecast> } = {}
+
   constructor(
     private localStorage: LocalStorageService,
     private http: HttpClient,
   ) { }
 
-  detailedForecast(regionId: string, dateInForecast?: Date): Observable<IPollenForecast> {
+  ngOnDestroy(): void {
+    this.destroy$.next(true)
+    this.destroy$.complete()
+  }
+
+  getDetailedForecast$(regionId: string): Observable<IPollenForecast> {
+    if (!this.detailedForecastRequests[regionId]) {
+      this.detailedForecastRequests[regionId] = new Subject<IPollenForecast>()
+      this.detailedForecastResults$[regionId] = this.detailedForecastRequests[regionId].asObservable()
+    }
+    return this.detailedForecastResults$[regionId]
+  }
+
+  queryDetailedForecast(regionId: string, dateInForecast?: Date): void {
+    this.generateDetailedForecast(regionId, dateInForecast).pipe(
+      map(data => {
+        console.log(data)
+        this.detailedForecastRequests[regionId].next(data)
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe()
+  }
+
+  private generateDetailedForecast(regionId: string, dateInForecast?: Date): Observable<IPollenForecast> {
     const regions: Observable<IOPARegionsDto> = this.getRegions()
     const pollenTypes: Observable<IOPAPollenTypesDto> = this.getPollenTypes()
     const forecasts: Observable<IOPAForecastDto> = this.getForecasts(regionId)
+
     return forkJoin({
       regions: regions,
       pollenTypes: pollenTypes,
       forecasts: forecasts
     }).pipe(
-      map(data => {
+      map((data: any) => {
         const mappedPollenTypes = this.mapOPAPollenTypes(data.pollenTypes)
         const mappedRegions = this.mapOPARegion(data.regions)
         const mappedForecastData = {
@@ -43,7 +71,7 @@ export class PollenService {
           regions: mappedRegions,
           dateInForecast: dateInForecast
         }
-        const mappedForecasts = this.mapOPAForecast(mappedForecastData)
+        const mappedForecasts: IPollenForecast = this.mapOPAForecast(mappedForecastData)
         mappedForecasts.pollenLevels = [...mappedForecasts.pollenLevels].filter(pollenLevel => {
           const pollenLevelTimeAtZweroHours = new Date(pollenLevel.time.setHours(0)).getTime()
           const currentDateAtZeroHours = new Date(mappedForecasts.currentDate.setHours(0)).getTime()
@@ -61,7 +89,7 @@ export class PollenService {
     const quaryParams = `${currentParam}${regionParam}`
     const url = `${this.BASE_URL}/${endpoint}?${quaryParams}`
     const forecast = this.getForecastStore(regionId)
-    if(forecast) {
+    if (forecast) {
       return of(forecast)
     }
     return this.http.get<IOPAForecastDto>(url).pipe(
@@ -76,7 +104,7 @@ export class PollenService {
   private getForecastStore(id: string): IOPAForecastDto | undefined {
     const data: any = this.localStorage.getStoredData(id)
     const time: number = new Date().getTime()
-    if(!data.ttl || !data.timestamp || time > data.timestamp + data.ttl) {
+    if (!data.ttl || !data.timestamp || time > data.timestamp + data.ttl) {
       return undefined
     }
     return data as IOPAForecastDto
@@ -103,19 +131,19 @@ export class PollenService {
     today.setMinutes(0)
     today.setSeconds(0)
     today.setMilliseconds(0)
-    console.log(data)
-    const availableDates: {id: number, date: Date}[] =
+    const availableDates: { id: number, date: Date }[] =
       Array.from(new Set(innerData.levelSeries.map(level => level.time))).map((date, index: number) => {
-      return {
-      id: index,
-      date: new Date(date)
-    }})
+        return {
+          id: index,
+          date: new Date(date)
+        }
+      })
     const forecast: IPollenForecast = {
       id: innerData.id,
       fetchDate: new Date(),
       issuerName: this.ISSUER,
       issuerLink: this.ISSUER_URL,
-      shortDescription : innerData.text.length > this.MAX_CHAR_COUNT_SHORT_DESCRIPTION ? innerData.text.substring(0, this.MAX_CHAR_COUNT_SHORT_DESCRIPTION - 3) + "..." : innerData.text,
+      shortDescription: innerData.text.length > this.MAX_CHAR_COUNT_SHORT_DESCRIPTION ? innerData.text.substring(0, this.MAX_CHAR_COUNT_SHORT_DESCRIPTION - 3) + "..." : innerData.text,
       description: innerData.text.length > this.MAX_CHAR_COUNT_SHORT_DESCRIPTION ? innerData.text : undefined,
       regionId: innerData.regionId,
       regionName: (data.regions.find((region: IPollenRegion) => region.id === innerData.regionId) as IPollenRegion).name,

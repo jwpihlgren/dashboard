@@ -2,8 +2,8 @@ import { OceanographicalObservationsService } from './../../shared/services/ocea
 import { WeatherService } from './../../shared/services/weather.service';
 import { LocationService } from './../../shared/services/location.service';
 import { SensorService } from './../../shared/services/sensor.service';
-import { Observable, ReplaySubject, takeUntil, share, switchMap, timer, delay } from 'rxjs';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, ReplaySubject, takeUntil, share, switchMap, timer, delay, mergeMap, concatMap, tap } from 'rxjs';
+import { Component, OnInit, OnDestroy, DoCheck, KeyValueDiffers, KeyValueDiffer } from '@angular/core';
 import { ILocation } from 'src/app/shared/models/location.interface';
 import { ISensor } from 'src/app/shared/models/sensor.interface';
 import { IForecast } from 'src/app/shared/models/forecast.interface';
@@ -36,20 +36,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
   pollenForecast$!: Observable<IPollenForecast>
   destroy$: ReplaySubject<boolean> = new ReplaySubject(1)
 
+  differ!: KeyValueDiffer<any, any>
   constructor(
     //   private sensorService: SensorService,
     private locationService: LocationService,
     private weatherService: WeatherService,
     private oceanographicalObservationsService: OceanographicalObservationsService,
     private pollenService: PollenService,
-  ) { }
+    private differService: KeyValueDiffers
+  ) {
+  }
 
   ngOnInit(): void {
 
     //   this.sensors$ = this.sensorService.getSensors()
     this.forecast$ = this.getForecast()
     this.stationWaterLevelData$ = this.getPeriodData()
-    this.pollenForecast$ = this.getPollenForecast()
+    this.pollenForecast$ = this.getPollenForecast(this.REGION)
+    this.updatePollenData({regionId: this.REGION})
   }
 
   ngOnDestroy(): void {
@@ -58,20 +62,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.destroy$.complete()
   }
 
-  updatePollenData(date: Date): void {
-    this.pollenForecast$ = this.getPollenForecast(date)
+  updatePollenData(data: { regionId: string, date?: Date}): void {
+    const frequency = 1000 * 60 * 60 * 8;
+    const delay = 0;
+    timer(delay, frequency).pipe(
+      tap(() => {
+        this.pollenService.queryDetailedForecast(data.regionId, data.date)
+      })
+    )
+    this.pollenService.queryDetailedForecast(data.regionId, data.date)
   }
 
-  getPollenForecast(date?: Date): Observable<IPollenForecast> {
-    const delay = 0;
-    const frequency = 1000 * 60 * 60 * 8;
-
-    return (timer(delay, frequency).pipe(
-      switchMap(() => {
-        return this.pollenService.detailedForecast(this.REGION, date)
-      }),
-    share()
-    ))
+  getPollenForecast(regionId: string): Observable<IPollenForecast> {
+    return this.pollenService.getDetailedForecast$(regionId)
   }
 
   getForecast(): Observable<IForecast> {

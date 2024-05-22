@@ -1,21 +1,22 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DoCheck, EventEmitter, Input, KeyValueDiffer, KeyValueDiffers, OnInit, Output } from '@angular/core';
 import { IPollenForecast } from '../../models/interfaces/pollenrapporten/pollen-forecast';
 
 @Component({
   selector: 'app-pollen-forecast',
   templateUrl: './pollen-forecast.component.html',
   styleUrls: ['./pollen-forecast.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PollenForecastComponent implements OnInit {
 
   now: Date = new Date()
   @Input() forecast!: IPollenForecast
-  @Output() requestNewData: EventEmitter<Date> = new EventEmitter()
+  @Output() requestNewData: EventEmitter<{regionId: string, date: Date}> = new EventEmitter()
   showLongDescription: boolean = false
 
 
-  constructor() {}
+
+  constructor(private differService: KeyValueDiffers) {
+  }
   ngOnInit(): void {
     this.now.setHours(0)
     this.now.setMinutes(0)
@@ -23,8 +24,9 @@ export class PollenForecastComponent implements OnInit {
     this.now.setMilliseconds(0)
   }
 
-  selectDate(date: Date): void {
-    this.requestNewData.emit(date)
+
+  selectDate(regionId: string, date: Date): void {
+    this.requestNewData.emit({regionId: regionId, date: date})
   }
 
   toggleShowLongDescription(): void {

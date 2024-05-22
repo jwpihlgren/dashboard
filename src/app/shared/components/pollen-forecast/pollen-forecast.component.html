@@ -18,7 +18,7 @@
   <button
     *ngFor="let availableDate of forecast.availableDates;"
     [ngClass]="{'active': availableDate.date.getTime() === forecast.currentDate.getTime()}"
-    (click)="selectDate(availableDate.date)"
+    (click)="selectDate(forecast.regionId, availableDate.date)"
     class="ternary">
     {{availableDate.date  | dfnsSubDays: 1 | dfnsGetDay | dfnsWeekdayName}}
   </button>
