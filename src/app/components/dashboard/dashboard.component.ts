@@ -43,7 +43,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private weatherService: WeatherService,
     private oceanographicalObservationsService: OceanographicalObservationsService,
     private pollenService: PollenService,
-    private differService: KeyValueDiffers
   ) {
   }
 
@@ -52,7 +51,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     //   this.sensors$ = this.sensorService.getSensors()
     this.forecast$ = this.getForecast()
     this.stationWaterLevelData$ = this.getPeriodData()
-    this.pollenForecast$ = this.getPollenForecast(this.REGION)
+    this.pollenForecast$ = this.getPollenForecast(this.REGION).pipe(tap(data => console.log("data")))
     this.updatePollenData({regionId: this.REGION})
   }
 
@@ -65,12 +64,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   updatePollenData(data: { regionId: string, date?: Date}): void {
     const frequency = 1000 * 60 * 60 * 8;
     const delay = 0;
+    this.pollenService.queryDetailedForecast(data.regionId, data.date)
     timer(delay, frequency).pipe(
       tap(() => {
         this.pollenService.queryDetailedForecast(data.regionId, data.date)
       })
     )
-    this.pollenService.queryDetailedForecast(data.regionId, data.date)
   }
 
   getPollenForecast(regionId: string): Observable<IPollenForecast> {

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { catchError, EMPTY, map, Observable, of, tap, forkJoin, BehaviorSubject, Subject, mergeMap, takeUntil, ReplaySubject } from 'rxjs';
+import { catchError, EMPTY, map, Observable, of, tap, forkJoin, BehaviorSubject, Subject, mergeMap, takeUntil, ReplaySubject, shareReplay } from 'rxjs';
 import { IPollenForecast } from '../models/interfaces/pollenrapporten/pollen-forecast';
 import { LocalStorageService } from './local-storage.service';
 
@@ -45,7 +45,6 @@ export class PollenService implements OnDestroy {
   queryDetailedForecast(regionId: string, dateInForecast?: Date): void {
     this.generateDetailedForecast(regionId, dateInForecast).pipe(
       map(data => {
-        console.log(data)
         this.detailedForecastRequests[regionId].next(data)
       }),
       takeUntil(this.destroy$)
@@ -78,7 +77,8 @@ export class PollenService implements OnDestroy {
           return pollenLevelTimeAtZweroHours === currentDateAtZeroHours
         })
         return mappedForecasts
-      })
+      }),
+      shareReplay(1)
     )
   }
 
@@ -90,7 +90,7 @@ export class PollenService implements OnDestroy {
     const url = `${this.BASE_URL}/${endpoint}?${quaryParams}`
     const forecast = this.getForecastStore(regionId)
     if (forecast) {
-      return of(forecast)
+      return new BehaviorSubject<IOPAForecastDto>(forecast).asObservable().pipe(tap(data => console.log(data)))
     }
     return this.http.get<IOPAForecastDto>(url).pipe(
       tap(data => this.setForecastStore(regionId, data)),
