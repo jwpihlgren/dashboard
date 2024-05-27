@@ -19,15 +19,12 @@ export class OceanographicalObservationsService {
   BAD_PERIODS = ["corrected-archive"]
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private localStorageService: LocalStorageService,
     ) { }
 
   getParameters(): Observable<IOceanographicalObservationsVersionResponse> {
     return this.http.get<IOceanographicalObservationsVersionResponse>(`${this.API}/${this.VERSION}${this.MEDIA_TYPE}`).pipe(
-      tap(data => {
-        console.log(data);
-      }),
       catchError(err => {
         console.log(err)
         return EMPTY
@@ -71,7 +68,7 @@ export class OceanographicalObservationsService {
         const previousData = this.localStorageService.getStoredData("oceanographicalPeriods") as {[key: string]: IOceanographicalObservationsPeriodResponse };
         this.localStorageService.setStoredData("oceanographicalPeriods", {...previousData, [thisStation]: data})
         return data
-        
+
       }),
       catchError(err => {
         console.log(err)
@@ -80,23 +77,21 @@ export class OceanographicalObservationsService {
     ) )
   }
 
-  getPeriodData(parameterId: string, stationId: number, periodName: string): Observable<IOceanographicalObservationsDataResponse> {    
+  getPeriodData(parameterId: string, stationId: number, periodName: string): Observable<IOceanographicalObservationsDataResponse> {
     const parameter = `parameter/${parameterId}`
     const station = `station/${stationId}`
     const period = `period/${periodName}`
     const data = `data`
     const thisStation = `${parameterId}-${stationId}-${periodName}`
-    
+
     const previousPeriods: any = this.localStorageService.getStoredData("oceanographicalPeriods");
     const previousDatas: any = this.localStorageService.getStoredData("oceanographicalData");
     const previousPeriod: IOceanographicalObservationsPeriodResponse  = previousPeriods[thisStation] as IOceanographicalObservationsPeriodResponse
     const previousData: IOceanographicalObservationsDataResponse = previousDatas[thisStation] as IOceanographicalObservationsDataResponse
 
     if(previousPeriod && previousData && previousPeriod.data[0].updated === previousData.updated ) {
-      console.log("Using stored data")
       return of(previousData)
     }
-    console.log("No stored data")
     return this.http.get<IOceanographicalObservationsDataResponse>(`${this.API}/${this.VERSION}/${parameter}/${station}/${period}/${data}${this.MEDIA_TYPE}`)
     .pipe(
       map(data => {
@@ -112,5 +107,5 @@ export class OceanographicalObservationsService {
       }
     ) )
   }
-  
+
 }

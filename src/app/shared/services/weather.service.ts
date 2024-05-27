@@ -46,7 +46,6 @@ export class WeatherService {
         with: () => {throw new Error("Request took too long to complete")}
       }),
       map((data: any): IForecast => {
-        console.log(data)
         const currentDate = new Date()
         const parsedData: IForecast = {
           insideTemperature: Math.floor(data.insideTemperature.data.temperature),
@@ -58,7 +57,6 @@ export class WeatherService {
           /* airPressureChange: 1, */ //Enable for testing purposes
           ...data.forecast
         }
-        console.log(parsedData)
         const previousForecasts: any = this.sessionStorageService.getStoredData("forecasts")
         previousForecasts[safeName] = parsedData
         this.sessionStorageService.setStoredData("forecasts", previousForecasts)
