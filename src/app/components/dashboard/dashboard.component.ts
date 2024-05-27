@@ -3,7 +3,7 @@ import { WeatherService } from './../../shared/services/weather.service';
 import { LocationService } from './../../shared/services/location.service';
 import { SensorService } from './../../shared/services/sensor.service';
 import { Observable, ReplaySubject, takeUntil, share, switchMap, timer, delay, mergeMap, concatMap, tap } from 'rxjs';
-import { Component, OnInit, OnDestroy, DoCheck, KeyValueDiffers, KeyValueDiffer } from '@angular/core';
+import { Component, OnInit, OnDestroy, DoCheck, KeyValueDiffers, KeyValueDiffer, OnChanges, SimpleChanges } from '@angular/core';
 import { ILocation } from 'src/app/shared/models/location.interface';
 import { ISensor } from 'src/app/shared/models/sensor.interface';
 import { IForecast } from 'src/app/shared/models/forecast.interface';
@@ -51,61 +51,61 @@ export class DashboardComponent implements OnInit, OnDestroy {
     //   this.sensors$ = this.sensorService.getSensors()
     this.forecast$ = this.getForecast()
     this.stationWaterLevelData$ = this.getPeriodData()
-    this.pollenForecast$ = this.getPollenForecast(this.REGION).pipe(tap(data => console.log("data")))
-    this.updatePollenData({regionId: this.REGION})
-  }
+    this.pollenForecast$ = this.getPollenForecast(this.REGION)
 
-  ngOnDestroy(): void {
-    //    this.sensorService.eventSourceDestory()
-    this.destroy$.next(true)
-    this.destroy$.complete()
-  }
-
-  updatePollenData(data: { regionId: string, date?: Date}): void {
     const frequency = 1000 * 60 * 60 * 8;
     const delay = 0;
-    this.pollenService.queryDetailedForecast(data.regionId, data.date)
     timer(delay, frequency).pipe(
       tap(() => {
-        this.pollenService.queryDetailedForecast(data.regionId, data.date)
+        this.updatePollenData({ regionId: this.REGION })
       })
     )
-  }
+}
 
-  getPollenForecast(regionId: string): Observable<IPollenForecast> {
-    return this.pollenService.getDetailedForecast$(regionId)
-  }
+ngOnDestroy(): void {
+  //    this.sensorService.eventSourceDestory()
+  this.destroy$.next(true)
+    this.destroy$.complete()
+}
 
-  getForecast(): Observable<IForecast> {
-    const delay = 0;
-    const everyTwoHours = 1000 * 60 * 60 * 0.5
+updatePollenData(data: { regionId: string, date?: Date }): void {
+  this.pollenService.queryDetailedForecast(data.regionId, data.date)
+}
 
-    return timer(delay, everyTwoHours).pipe(
-      switchMap(() => {
-        return this.locationService.getUserFavoriteLocation().pipe(
-          switchMap((favoriteLocation: ILocation) => {
-            return this.weatherService.getForecast(favoriteLocation)
-          })
-        )
-      }),
-      share())
-  }
+getPollenForecast(regionId: string): Observable < IPollenForecast > {
+  return this.pollenService.getDetailedForecast$(regionId)
+}
 
-  getPeriodData(): Observable<IOceanographicalObservationsDataResponse> {
-    const delay = 0;
-    const everyTwoHours = 1000 * 60 * 60 * 0.5
+getForecast(): Observable < IForecast > {
+  const delay = 0;
+  const everyTwoHours = 1000 * 60 * 60 * 0.5
 
     return timer(delay, everyTwoHours).pipe(
-      switchMap(() => {
-        return this.oceanographicalObservationsService.getPeriod(this.defaultParameter, this.defaultStation, this.defaultPeriod).pipe(
-          switchMap(() => {
-            return this.oceanographicalObservationsService.getPeriodData(this.defaultParameter, this.defaultStation, this.defaultPeriod).pipe(
-              takeUntil(this.destroy$))
-          })
-        )
-      }),
-      share())
-  }
+    switchMap(() => {
+      return this.locationService.getUserFavoriteLocation().pipe(
+        switchMap((favoriteLocation: ILocation) => {
+          return this.weatherService.getForecast(favoriteLocation)
+        })
+      )
+    }),
+    share())
+}
+
+getPeriodData(): Observable < IOceanographicalObservationsDataResponse > {
+  const delay = 0;
+  const everyTwoHours = 1000 * 60 * 60 * 0.5
+
+    return timer(delay, everyTwoHours).pipe(
+    switchMap(() => {
+      return this.oceanographicalObservationsService.getPeriod(this.defaultParameter, this.defaultStation, this.defaultPeriod).pipe(
+        switchMap(() => {
+          return this.oceanographicalObservationsService.getPeriodData(this.defaultParameter, this.defaultStation, this.defaultPeriod).pipe(
+            takeUntil(this.destroy$))
+        })
+      )
+    }),
+    share())
+}
 }
 
 
