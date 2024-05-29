@@ -42,7 +42,7 @@ export class PollenService implements OnDestroy {
           this.detailedForecastResults$[regionId] = this.detailedForecastRequests[regionId]
           return this.detailedForecastResults$[regionId]
         }
-      ))
+        ))
     }
     return this.detailedForecastResults$[regionId]
   }
@@ -50,7 +50,9 @@ export class PollenService implements OnDestroy {
   queryDetailedForecast(regionId: string, dateInForecast?: Date): void {
     this.generateDetailedForecast(regionId, dateInForecast).pipe(
       map(data => {
-        this.detailedForecastRequests[regionId].next(data)
+        if(this.detailedForecastRequests[regionId]) {
+          this.detailedForecastRequests[regionId].next(data)
+        }
       }),
       takeUntil(this.destroy$)
     ).subscribe()
