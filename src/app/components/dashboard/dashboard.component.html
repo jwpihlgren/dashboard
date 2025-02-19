@@ -15,10 +15,8 @@
  <app-simple-water-level *ngIf="stationWaterLevelData$ | async as stationWaterLevelData; else loading"
     class="card card-full" [oceanographicalObservationsPeriodData]="stationWaterLevelData">
   </app-simple-water-level>
-  <!--
   <app-pollen-forecast *ngIf="pollenForecast$ | async as pollenForecast" [forecast]="pollenForecast"
     (requestNewData)="updatePollenData($event)" class="card card-full"></app-pollen-forecast>
-  -->
   <app-detailed-weather-table *ngIf="forecast$ | async as forecast; else loading" [forecast]="forecast"
     class="card card-single-quarter">
   </app-detailed-weather-table>
