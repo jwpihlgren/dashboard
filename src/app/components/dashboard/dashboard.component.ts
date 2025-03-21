@@ -27,7 +27,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     thresholdsAsUnits: [20, 80, 0]
   }
 
-  REGION = "2a2a2a2a-2a2a-4a2a-aa2a-2a2a2a303a38"
+  REGION = "2a2a2a2a-2a2a-4a2a-aa2a-2a2a303a3234"
+  //REGION = "2a2a2a2a-2a2a-4a2a-aa2a-2a2a2a303a38"
   // REGION = "2a2a2a2a-2a2a-4a2a-aa2a-2a2a2a303a32"
 
   //  sensors$!: Observable<ISensor[]>
