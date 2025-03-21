@@ -1,5 +1,6 @@
+import { DatePipe, NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { IOceanographicalObservationsPeriodResponse } from 'src/app/shared/models/interfaces/smhi/oceanographical-observations-period-response';
 import { IOceanographicalObservationsStationResponse } from 'src/app/shared/models/interfaces/smhi/oceanographical-observations-station-response';
@@ -8,7 +9,8 @@ import { OceanographicalObservationsService } from 'src/app/shared/services/ocea
 @Component({
   selector: 'app-oceanographical-detailed-station',
   templateUrl: './oceanographical-detailed-station.component.html',
-  styleUrls: ['./oceanographical-detailed-station.component.css']
+  styleUrls: ['./oceanographical-detailed-station.component.css'],
+  imports:  [RouterOutlet, RouterLink, RouterLinkActive, DatePipe, NgClass]
 })
 export class OceanographicalDetailedStationComponent implements OnInit {
 
@@ -20,7 +22,7 @@ export class OceanographicalDetailedStationComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
     ) { }
-   
+
   ngOnInit(): void {
       const parameter = this.route.snapshot.paramMap.get("parameter") as string
       const station = parseInt(this.route.snapshot.paramMap.get("station") as string)

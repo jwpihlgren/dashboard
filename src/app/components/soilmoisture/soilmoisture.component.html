@@ -1,12 +1,12 @@
 <app-masonry-grid>
-    <ng-container *ngIf="sensors$ | async as sensors else loading">
-        <app-detailed-sensor *ngFor="let sensor of sensors" class="card card-full" [sensor]="sensor" (requestChangename)="updateSensorAlias($event)"></app-detailed-sensor>
-    </ng-container>
-
-    <ng-template #loading>
-        <article>
-            <div>Loading</div>
-        </article>
-    </ng-template>
+  @defer(when sensorArr() !== undefined) {
+  @let sensors = sensorArr()!;
+  <app-detailed-sensor *ngFor="let sensor of sensors" class="card card-full" [sensor]="sensor"
+    (requestChangename)="updateSensorAlias($event)"></app-detailed-sensor>
+  }
+  @loading{
+  <article>
+    <div>Loading</div>
+  </article>
+  }
 </app-masonry-grid>
-

@@ -1,5 +1,6 @@
+import { DatePipe, NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { IHydrologicalObservationsPeriodResponse } from 'src/app/shared/models/interfaces/smhi/hydrological-observations-period-response ';
 import { IHydrologicalObservationsStationResponse } from 'src/app/shared/models/interfaces/smhi/hydrological-observations-station-response ';
@@ -9,7 +10,8 @@ import { HydrologicalObservationsService } from 'src/app/shared/services/hydrolo
 @Component({
   selector: 'app-hydrological-detailed-station',
   templateUrl: './hydrological-detailed-station.component.html',
-  styleUrls: ['./hydrological-detailed-station.component.css']
+  styleUrls: ['./hydrological-detailed-station.component.css'],
+  imports: [RouterOutlet, RouterLinkActive, RouterLink, DatePipe, NgClass]
 })
 export class HydrologicalDetailedStationComponent implements OnInit {
 
@@ -21,7 +23,7 @@ export class HydrologicalDetailedStationComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
     ) { }
-   
+
   ngOnInit(): void {
       const parameter = this.route.snapshot.paramMap.get("parameter") as string
       const station = parseInt(this.route.snapshot.paramMap.get("station") as string)

@@ -1,11 +1,16 @@
 import { Component, Input } from '@angular/core';
 import { IAreaChartConfig } from '../../models/area-chart-config';
 import { IHydrologicalObservationsDataResponse } from '../../models/interfaces/smhi/hydrological-observations-data-response ';
+import { AreaChartComponent } from '../area-chart/area-chart.component';
+import { DatePipe } from '@angular/common';
+import { HydrologicalMinMaxPipe } from '../../pipes/hydrological-min-max.pipe';
+import { AddUnitPipe } from '../../pipes/add-unit.pipe';
 
 @Component({
   selector: 'app-simple-water-level',
   templateUrl: './simple-water-level.component.html',
-  styleUrls: ['./simple-water-level.component.css']
+  styleUrls: ['./simple-water-level.component.css'],
+  imports: [AreaChartComponent, DatePipe, HydrologicalMinMaxPipe, AddUnitPipe]
 })
 export class SimpleWaterLevelComponent {
 

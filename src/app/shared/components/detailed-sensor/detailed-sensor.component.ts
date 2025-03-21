@@ -7,14 +7,18 @@ import { faTimes, faPen} from '@fortawesome/free-solid-svg-icons';
 import { IPartialSensor } from '../../models/partial-sensor.interface';
 import { IAreaChartData } from '../../models/area-chart-data';
 import { IAreaChartConfig } from '../../models/area-chart-config';
+import { NgClass } from '@angular/common';
+import { AreaChartComponent } from '../area-chart/area-chart.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-detailed-sensor',
   templateUrl: './detailed-sensor.component.html',
   styleUrls: ['./detailed-sensor.component.css'],
+  imports: [NgClass, AreaChartComponent, FontAwesomeModule]
 })
 export class DetailedSensorComponent implements OnInit, OnChanges {
-  
+
   @ViewChild("edit") elementRef!: ElementRef
   @Input() sensor!: ISensor
   @Output() requestChangename: EventEmitter<IPartialSensor> = new EventEmitter()
@@ -55,7 +59,7 @@ export class DetailedSensorComponent implements OnInit, OnChanges {
   faEdit = faPen
   faTimes = faTimes
 
-  
+
 
   constructor(
     private sensorService: SensorService,
@@ -92,7 +96,7 @@ export class DetailedSensorComponent implements OnInit, OnChanges {
       this.abort()
     }
   }
-  
+
 
   abort(): void {
     this.isEditToggled = false;

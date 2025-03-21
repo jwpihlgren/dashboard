@@ -2,6 +2,7 @@ import { IOceanographicalObservationsParameterResponseStation } from './../../..
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
+import { NavigationListComponent } from 'src/app/shared/components/navigation-list/navigation-list.component';
 import { INavigationItem } from 'src/app/shared/models/interfaces/navigation-item';
 import { IOceanographicalObservationsParameterResponse } from 'src/app/shared/models/interfaces/smhi/oceanographical-observations-parameter-response';
 import { OceanographicalObservationsService } from 'src/app/shared/services/oceanographical-observations.service';
@@ -9,7 +10,8 @@ import { OceanographicalObservationsService } from 'src/app/shared/services/ocea
 @Component({
   selector: 'app-oceanographical-station-list',
   templateUrl: './oceanographical-station-list.component.html',
-  styleUrls: ['./oceanographical-station-list.component.css']
+  styleUrls: ['./oceanographical-station-list.component.css'],
+  imports: [NavigationListComponent]
 })
 export class OceanographicalStationListComponent implements OnInit {
 

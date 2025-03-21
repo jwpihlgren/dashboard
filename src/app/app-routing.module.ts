@@ -17,6 +17,7 @@ import { HydrologicalPeriodComponent } from './components/hydrological-observati
 import { HydrologicalDetailedStationComponent } from './components/hydrological-observations/hydrological-detailed-station/hydrological-detailed-station.component';
 import { HydrologicalParameterListComponent } from './components/hydrological-observations/hydrological-parameter-list/hydrological-parameter-list.component';
 import { HydrologicalStationListComponent } from './components/hydrological-observations/hydrological-station-list/oceanographical-station-list.component';
+import { SharedModule } from './shared/shared.module';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},

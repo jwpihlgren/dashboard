@@ -1,15 +1,20 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Observable, tap } from 'rxjs';
+import { AreaChartComponent } from 'src/app/shared/components/area-chart/area-chart.component';
 import { IAreaChartConfig } from 'src/app/shared/models/area-chart-config';
 import { IHydrologicalObservationsDataResponse } from 'src/app/shared/models/interfaces/smhi/hydrological-observations-data-response ';
+import { AddUnitPipe } from 'src/app/shared/pipes/add-unit.pipe';
+import { HydrologicalMinMaxPipe } from 'src/app/shared/pipes/hydrological-min-max.pipe';
 import { HydrologicalObservationsService } from 'src/app/shared/services/hydrological-observations.service';
 
 
 @Component({
   selector: 'app-hydrological-period',
   templateUrl: './hydrological-period.component.html',
-  styleUrls: ['./hydrological-period.component.css']
+  styleUrls: ['./hydrological-period.component.css'],
+  imports: [RouterOutlet, AreaChartComponent, DatePipe,HydrologicalMinMaxPipe, AddUnitPipe]
 })
 export class HydrologicalPeriodComponent implements OnInit {
 
@@ -41,7 +46,7 @@ export class HydrologicalPeriodComponent implements OnInit {
     })
 
 
-  } 
+  }
 
   createChartConfig(data: IHydrologicalObservationsDataResponse): IAreaChartConfig {
     this.chartConfig.data = data.value.map((reading) => {

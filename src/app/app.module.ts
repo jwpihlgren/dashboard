@@ -27,25 +27,7 @@ import { HydrologicalStationListComponent } from './components/hydrological-obse
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    DashboardComponent,
-    HomeComponent,
-    ProfileComponent,
-    WeatherComponent,
-    SoilmoistureComponent,
-    TestComponent,
-    OceanographicalObservationsComponent,
-    OceanographicalParameterListComponent,
-    OceanographicalStationListComponent,
-    OceanographicalDetailedStationComponent,
-    OceanographicalPeriodComponent,
-    HydrologicalObservationsComponent,
-    HydrologicalParameterListComponent,
-    HydrologicalStationListComponent,
-    HydrologicalDetailedStationComponent,
-    HydrologicalPeriodComponent,
-  ],
+  declarations: [],
   imports: [
     HttpClientModule,
     BrowserModule,
@@ -78,6 +60,5 @@ import { HydrologicalStationListComponent } from './components/hydrological-obse
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,10 +1,13 @@
-import { ChangeDetectionStrategy, Component, DoCheck, EventEmitter, Input, KeyValueDiffer, KeyValueDiffers, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, KeyValueDiffers, OnInit, Output } from '@angular/core';
 import { IPollenForecast } from '../../models/interfaces/pollenrapporten/pollen-forecast';
+import { DateFnsModule } from 'ngx-date-fns';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-pollen-forecast',
   templateUrl: './pollen-forecast.component.html',
   styleUrls: ['./pollen-forecast.component.css'],
+  imports: [DateFnsModule, NgClass]
 })
 export class PollenForecastComponent implements OnInit {
 

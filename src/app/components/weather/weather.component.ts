@@ -1,13 +1,21 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Signal, signal } from '@angular/core';
 import { Observable, finalize, Subscription } from 'rxjs';
+import { CurrentWeatherComponent } from 'src/app/shared/components/current-weather/current-weather.component';
+import { DetailedWeatherTableComponent } from 'src/app/shared/components/detailed-weather-table/detailed-weather-table.component';
+import { SearchComponent } from 'src/app/shared/components/search/search.component';
+import { WeatherCardComponent } from 'src/app/shared/components/weather-card/weather-card.component';
+import { ColumnComponent } from 'src/app/shared/layouts/column/column.component';
 import { ILocation } from 'src/app/shared/models/location.interface';
 import { LocationService } from 'src/app/shared/services/location.service';
 import { WeatherService } from 'src/app/shared/services/weather.service';
+import { toSignal } from '@angular/core/rxjs-interop'
+import { IForecast } from 'src/app/shared/models/forecast.interface';
 
 @Component({
   selector: 'app-weather',
   templateUrl: './weather.component.html',
-  styleUrls: ['./weather.component.css']
+  styleUrls: ['./weather.component.css'],
+  imports: [DetailedWeatherTableComponent, WeatherCardComponent, CurrentWeatherComponent, SearchComponent, ColumnComponent]
 })
 export class WeatherComponent implements OnInit, OnDestroy {
 
@@ -19,7 +27,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   forecastIsLoading: boolean = false
   locationIsLoading: boolean = false
-  forecast$!: Observable<any> | undefined
+  forecast!: Signal<IForecast | undefined>
 
 
   constructor(
@@ -42,13 +50,13 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
   getForecast(location: ILocation): void {
     this.forecastIsLoading = true
-    this.forecast$ = this.weatherService.getForecast(location).pipe(
+    this.forecast = toSignal(this.weatherService.getForecast(location).pipe(
       finalize(() => this.forecastIsLoading = false)
-    )
+    ))
   }
 
   clearForecast(): void {
-    this.forecast$ = undefined
+    this.forecast = signal(undefined)
   }
   ngOnDestroy(): void {
       this.subscriptions.forEach((subscription: Subscription) => subscription.unsubscribe())

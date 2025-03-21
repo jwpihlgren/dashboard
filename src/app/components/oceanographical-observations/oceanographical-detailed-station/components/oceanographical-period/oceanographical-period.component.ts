@@ -1,14 +1,19 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, tap } from 'rxjs';
+import { AreaChartComponent } from 'src/app/shared/components/area-chart/area-chart.component';
 import { IAreaChartConfig } from 'src/app/shared/models/area-chart-config';
 import { IOceanographicalObservationsDataResponse } from 'src/app/shared/models/interfaces/smhi/oceanographical-observations-data-response';
+import { AddUnitPipe } from 'src/app/shared/pipes/add-unit.pipe';
+import { HydrologicalMinMaxPipe } from 'src/app/shared/pipes/hydrological-min-max.pipe';
 import { OceanographicalObservationsService } from 'src/app/shared/services/oceanographical-observations.service';
 
 @Component({
   selector: 'app-oceanographical-period',
   templateUrl: './oceanographical-period.component.html',
-  styleUrls: ['./oceanographical-period.component.css']
+  styleUrls: ['./oceanographical-period.component.css'],
+  imports: [AreaChartComponent, DatePipe, HydrologicalMinMaxPipe, AddUnitPipe]
 })
 export class OceanographicalPeriodComponent implements OnInit {
 
@@ -40,7 +45,7 @@ export class OceanographicalPeriodComponent implements OnInit {
     })
 
 
-  } 
+  }
 
   createChartConfig(data: IOceanographicalObservationsDataResponse): IAreaChartConfig {
     this.chartConfig.data = data.value.map((reading) => {

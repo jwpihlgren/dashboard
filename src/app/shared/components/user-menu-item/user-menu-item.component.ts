@@ -1,14 +1,16 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { environment } from 'src/environments/environment';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faRightToBracket, faSignIn, faSignOut } from '@fortawesome/free-solid-svg-icons';
-import { faUser, faThLarge } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { MenuItemComponent } from '../menu-item/menu-item.component';
 
 @Component({
   selector: 'app-user-menu-item',
   templateUrl: './user-menu-item.component.html',
-  styleUrls: ['./user-menu-item.component.css']
+  styleUrls: ['./user-menu-item.component.css'],
+  imports: [FontAwesomeModule, MenuItemComponent]
 })
 export class UserMenuItemComponent implements OnInit {
 
@@ -23,7 +25,7 @@ export class UserMenuItemComponent implements OnInit {
   constructor(
     public auth: AuthService,
     @Inject(DOCUMENT) public document: Document
-    
+
     ) { }
 
   ngOnInit(): void {

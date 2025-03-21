@@ -1,26 +1,20 @@
 <header class="flex col gap-md">
   <h6> Pollenrapport - {{forecast.regionName}}</h6>
   <span class="description" *ngIf="!showLongDescription">{{forecast.shortDescription}}
-    <button
-      *ngIf="forecast.description"
-      class="ternary"
-      (click)="toggleShowLongDescription()">Visa mer</button>
+    @if(forecast.description) {
+    <button class="ternary" (click)="toggleShowLongDescription()">Visa mer</button>
+    }
   </span>
   <span class="description" *ngIf="forecast.description && showLongDescription">{{forecast.description}}
-    <button
-      *ngIf="forecast.description"
-      class="ternary"
-      (click)="toggleShowLongDescription()">Visa mindre</button>
+    <button *ngIf="forecast.description" class="ternary" (click)="toggleShowLongDescription()">Visa mindre</button>
   </span>
 </header>
 
 <div class="button-group | flex row">
-  <button
-    *ngFor="let availableDate of forecast.availableDates;"
+  <button *ngFor="let availableDate of forecast.availableDates;"
     [ngClass]="{'active': availableDate.date.getTime() === forecast.currentDate.getTime()}"
-    (click)="selectDate(forecast.regionId, availableDate.date)"
-    class="ternary">
-    {{availableDate.date  | dfnsSubDays: 1 | dfnsGetDay | dfnsWeekdayName}}
+    (click)="selectDate(forecast.regionId, availableDate.date)" class="ternary">
+    {{availableDate.date | dfnsSubDays: 1 | dfnsGetDay | dfnsWeekdayName}}
   </button>
 </div>
 <div class="pollen-levels | flex col gap-md">
@@ -46,11 +40,8 @@
   </div>
   <div class="meta-information | flex col a-end grow">
     <span class="helper-text">Upphovsman:
-      <a
-        [href]=forecast.issuerLink
-        target="_blank"
-        rel="noopener noreferrer">
-          {{forecast.issuerName}}
+      <a [href]=forecast.issuerLink target="_blank" rel="noopener noreferrer">
+        {{forecast.issuerName}}
       </a>
     </span>
   </div>

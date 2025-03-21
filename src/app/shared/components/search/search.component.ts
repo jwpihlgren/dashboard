@@ -1,19 +1,23 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { faTimes, faSearch} from '@fortawesome/free-solid-svg-icons';
 import { ILocation } from '../../models/location.interface';
+import { SearchResultComponent } from '../search-result/search-result.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.component.css'],
+  imports: [SearchResultComponent, FontAwesomeModule, NgClass]
 })
 export class SearchComponent {
 
   @ViewChild("search") elementRef!: ElementRef
- 
+
   @Input() searchResults: ILocation[] = []
   @Input() isLoading: boolean = false
- 
+
   @Output() requestLocationSearch: EventEmitter<string> = new EventEmitter()
   @Output() resultClicked: EventEmitter<ILocation> = new EventEmitter()
   @Output() focusChange: EventEmitter<boolean> = new EventEmitter()
@@ -64,7 +68,7 @@ export class SearchComponent {
     this.clearSearchQuery()
     this.clearSearchFocus()
   }
-    
+
 
 
 }

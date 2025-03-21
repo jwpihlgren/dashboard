@@ -1,10 +1,12 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
 
 
 @Component({
   selector: 'app-menu-item',
   templateUrl: './menu-item.component.html',
-  styleUrls: ['./menu-item.component.css']
+  styleUrls: ['./menu-item.component.css'],
+  imports: [NgClass]
 })
 export class MenuItemComponent implements OnInit {
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
+import { NavigationListComponent } from 'src/app/shared/components/navigation-list/navigation-list.component';
 import { INavigationItem } from 'src/app/shared/models/interfaces/navigation-item';
 import { IHydrologicalObservationsParameterResponse, IHydrologicalObservationsParameterResponseStation } from 'src/app/shared/models/interfaces/smhi/hydrological-observations-parameter-response ';
 import { HydrologicalObservationsService } from 'src/app/shared/services/hydrological-observations.service';
@@ -9,7 +10,8 @@ import { HydrologicalObservationsService } from 'src/app/shared/services/hydrolo
 @Component({
   selector: 'app-hydrological-station-list',
   templateUrl: './hydrological-station-list.component.html',
-  styleUrls: ['./hydrological-station-list.component.css']
+  styleUrls: ['./hydrological-station-list.component.css'],
+  imports: [NavigationListComponent]
 })
 export class HydrologicalStationListComponent implements OnInit {
 

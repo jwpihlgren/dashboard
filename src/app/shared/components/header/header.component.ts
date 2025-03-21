@@ -1,13 +1,12 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
-import { environment } from 'src/environments/environment';
-import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
+import { Component, OnInit } from '@angular/core';
+import { UserMenuItemComponent } from '../user-menu-item/user-menu-item.component';
+import { LogoComponent } from '../logo/logo.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
+  imports: [UserMenuItemComponent, LogoComponent]
 })
 export class HeaderComponent implements OnInit {
 

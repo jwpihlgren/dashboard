@@ -4,12 +4,14 @@ import { UserService } from './../../shared/services/user.service';
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { Observable, ReplaySubject, take, takeUntil, tap } from 'rxjs';
+import { Observable, ReplaySubject, takeUntil, tap } from 'rxjs';
+import { ColumnComponent } from 'src/app/shared/layouts/column/column.component';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.css'],
+  imports: [ColumnComponent]
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
@@ -44,7 +46,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.idTokenClaims$ = this.auth.idTokenClaims$.pipe(
       takeUntil(this.destroy$),
       tap((idTokenClaims: any) => console.log("idTokenClaims", idTokenClaims)))
-    
+
     this.idTokenClaims$.subscribe()
 
     this.user$ = this.auth.user$.pipe(

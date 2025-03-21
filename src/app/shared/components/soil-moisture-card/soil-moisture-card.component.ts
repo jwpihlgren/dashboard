@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Input, OnInit, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ISensor } from '../../models/sensor.interface';
 import { ISoilMoistureData } from '../../models/soil-moisture-data.interface';
 import { SensorService } from '../../services/sensor.service';
@@ -41,15 +41,14 @@ export class SoilMoistureCardComponent implements OnInit{
 
 
  @Input() sensor!: ISensor
-  measurement$!: Observable<ISoilMoistureData>
-
+  measurement!: Signal<ISoilMoistureData | undefined>
   constructor(private sensorService: SensorService) {
-    
+
    }
 
   ngOnInit(): void {
     /* Todo: Move this to parent component */
-    this.measurement$ = this.sensorService.subscribeToSensor(this.sensor._id)
+    this.measurement = toSignal(this.sensorService.subscribeToSensor(this.sensor._id))
   }
 
 /*   ngOnChanges(): void {
