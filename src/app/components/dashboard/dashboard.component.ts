@@ -41,6 +41,7 @@ export class DashboardComponent {
   pollenForecast: Signal<IPollenForecast | undefined> = signal(undefined)
   favoriteLocation: Signal<ILocation | undefined>
   timer: Signal<any>
+  pollenForecastPeriod: Date
 
   protected locationService: LocationService = inject(LocationService)
   protected weatherService: WeatherService = inject(WeatherService)
@@ -51,31 +52,18 @@ export class DashboardComponent {
   constructor() {
     this.forecast = toSignal(this.weatherService.forecastResult$)
     this.stationWaterLevelData = toSignal(this.getPeriodData())
-    this.pollenForecast = toSignal(this.getPollenForecast(this.REGION))
+    this.pollenForecast = toSignal(this.pollenService.pollenForecast$)
     this.favoriteLocation = toSignal(this.locationService.getUserFavoriteLocation().pipe(
       tap(location => {
         this.weatherService.forecastByLocation(location)
       })
     ))
     this.timer = toSignal(this.getTimer())
+    this.pollenForecastPeriod = new Date()
+    this.pollenService.queryPollenForecast(this.REGION, this.pollenForecastPeriod)
   }
 
-  updatePollenData(data: { regionId: string, date?: Date }): void {
-    this.pollenService.queryDetailedForecast(data.regionId, data.date)
-  }
-
-  getPollenForecast(regionId: string): Observable<IPollenForecast> {
-    const frequency = 1000 * 60 * 60 * 8;
-    const delay = 0;
-    return timer(delay, frequency).pipe(
-      switchMap(() => {
-        this.updatePollenData({ regionId: regionId })
-        return this.pollenService.getDetailedForecast$(regionId)
-      })
-    )
-  }
-
-  getTimer(): Observable<number> {
+   getTimer(): Observable<number> {
     const delay = 1000 * 60 * 60 * 0.5
     const interval = 1000 * 60 * 60 * 0.5
 
@@ -84,6 +72,7 @@ export class DashboardComponent {
       tap(() => {
         if (this.favoriteLocation()) {
           this.weatherService.forecastByLocation(this.favoriteLocation()!)
+          this.pollenService.queryPollenForecast(this.REGION, this.pollenForecastPeriod)
         }
       })
     )

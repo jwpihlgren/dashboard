@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnDestroy } from '@angular/core';
-import { catchError, EMPTY, map, Observable, of, tap, forkJoin, BehaviorSubject, Subject, mergeMap, takeUntil, ReplaySubject, shareReplay, delay } from 'rxjs';
+import { inject, Injectable, OnDestroy } from '@angular/core';
+import { catchError, EMPTY, map, Observable, of, tap, forkJoin, BehaviorSubject, Subject, mergeMap, takeUntil, ReplaySubject, shareReplay, delay, switchMap, find } from 'rxjs';
 import { IPollenForecast } from '../models/interfaces/pollenrapporten/pollen-forecast';
 import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PollenService implements OnDestroy {
+export class PollenService {
+  protected localStorage: LocalStorageService = inject(LocalStorageService)
+  protected http: HttpClient = inject(HttpClient)
 
   private BASE_URL = "https://api.pollenrapporten.se/v1"
   private ISSUER = "Palynologiska laboratoriet vid Naturhistoriska riksmuseet"
@@ -20,45 +22,28 @@ export class PollenService implements OnDestroy {
   private POLLEN_FORECAST_STORE_KEY = "pollen_forecast"
   private MAX_CHAR_COUNT_SHORT_DESCRIPTION = 150
 
-  private destroy$: ReplaySubject<boolean> = new ReplaySubject(1)
-  private detailedForecastRequests: { [key: string]: Subject<IPollenForecast> } = {}
-  private detailedForecastResults$: { [key: string]: Observable<IPollenForecast> } = {}
+  private query$: Subject<{region: string, date: Date}> = new Subject()
+  pollenForecast$: Observable<IPollenForecast>
 
-  constructor(
-    private localStorage: LocalStorageService,
-    private http: HttpClient,
-  ) { }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true)
-    this.destroy$.complete()
+  constructor() {
+    this.pollenForecast$ = this.query$.pipe(
+      switchMap(query => {
+        return this.request(query.region, query.date)
+      })
+    )
   }
 
-  getDetailedForecast$(regionId: string): Observable<IPollenForecast> {
-    if (!this.detailedForecastRequests[regionId]) {
-      return this.generateDetailedForecast(regionId).pipe(
-        mergeMap(data => {
-          this.detailedForecastRequests[regionId] = new BehaviorSubject(data)
-          this.detailedForecastResults$[regionId] = this.detailedForecastRequests[regionId]
-          return this.detailedForecastResults$[regionId]
-        }
-        ))
-    }
-    return this.detailedForecastResults$[regionId]
+  queryPollenForecast(regionId: string, date: Date): void {
+    this.query$.next({region: regionId, date: date})
   }
 
-  queryDetailedForecast(regionId: string, dateInForecast?: Date): void {
-    this.generateDetailedForecast(regionId, dateInForecast).pipe(
-      map(data => {
-        if(this.detailedForecastRequests[regionId]) {
-          this.detailedForecastRequests[regionId].next(data)
-        }
-      }),
-      takeUntil(this.destroy$)
-    ).subscribe()
+  private request(regionId: string, date: Date): Observable<IPollenForecast> {
+      return this.generateDetailedForecast(regionId, date).pipe(
+      tap(data => console.log(data))
+    )
   }
 
-  private generateDetailedForecast(regionId: string, dateInForecast?: Date): Observable<IPollenForecast> {
+    private generateDetailedForecast(regionId: string, dateInForecast?: Date): Observable<IPollenForecast> {
     const regions: Observable<IOPARegionsDto> = this.getRegions()
     const pollenTypes: Observable<IOPAPollenTypesDto> = this.getPollenTypes()
     const forecasts: Observable<IOPAForecastDto> = this.getForecasts(regionId)
@@ -69,6 +54,7 @@ export class PollenService implements OnDestroy {
       forecasts: forecasts
     }).pipe(
       map((data: any) => {
+          console.log(data)
         const mappedPollenTypes = this.mapOPAPollenTypes(data.pollenTypes)
         const mappedRegions = this.mapOPARegion(data.regions)
         const mappedForecastData = {
@@ -117,7 +103,7 @@ export class PollenService implements OnDestroy {
     return data as IOPAForecastDto
   }
 
-  setForecastStore(id: string, pollenForecasts: IOPAForecastDto): void {
+  private setForecastStore(id: string, pollenForecasts: IOPAForecastDto): void {
     const timestamp = new Date().getTime()
     this.localStorage.setStoredData(id, {
       timestamp: timestamp,
@@ -145,6 +131,8 @@ export class PollenService implements OnDestroy {
           date: new Date(date)
         }
       })
+    console.log(innerData)
+    console.log(data.pollenTypes)
     const forecast: IPollenForecast = {
       id: innerData.id,
       fetchDate: new Date(),
@@ -157,14 +145,18 @@ export class PollenService implements OnDestroy {
       currentDate: data.dateInForecast || today,
       availableDates: availableDates,
       pollenLevels: innerData.levelSeries.map((levelSerie) => {
-        return {
+        const res = {
           pollenTypeName: levelSerie.pollenId,
           level: levelSerie.level,
           levelName: (data.pollenTypes.find((pollenType: IPollenType) => pollenType.id === levelSerie.pollenId) as IPollenType).name,
           time: new Date(levelSerie.time)
         }
+        console.log(res)
+        return res
       })
     }
+
+    console.log(forecast)
     return forecast
   }
 
