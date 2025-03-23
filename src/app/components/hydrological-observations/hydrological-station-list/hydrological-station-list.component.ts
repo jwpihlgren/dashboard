@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { switchMap } from 'rxjs';
 import { NavigationListComponent } from 'src/app/shared/components/navigation-list/navigation-list.component';
 import { INavigationItem } from 'src/app/shared/models/interfaces/navigation-item';
 import { IHydrologicalObservationsParameterResponse, IHydrologicalObservationsParameterResponseStation } from 'src/app/shared/models/interfaces/smhi/hydrological-observations-parameter-response ';
@@ -13,23 +14,21 @@ import { HydrologicalObservationsService } from 'src/app/shared/services/hydrolo
   styleUrls: ['./hydrological-station-list.component.css'],
   imports: [NavigationListComponent]
 })
-export class HydrologicalStationListComponent implements OnInit {
+export class HydrologicalStationListComponent {
 
+  protected hydrologicalObservationsService: HydrologicalObservationsService = inject(HydrologicalObservationsService)
+  protected route: ActivatedRoute = inject(ActivatedRoute)
+  protected router: Router = inject(Router)
 
-  hydrologicalObservationsStations$?: Observable<IHydrologicalObservationsParameterResponse>
+  hydrologicalObservationsStations: Signal<IHydrologicalObservationsParameterResponse | undefined> = signal(undefined)
 
-  constructor(
-    private hydrologicalObservationsService: HydrologicalObservationsService,
-    private route: ActivatedRoute,
-    private router: Router
-    ) { }
-
-  ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.hydrologicalObservationsStations$ = this.hydrologicalObservationsService.getStations(params.get("parameter") as string).pipe(
-        tap(stations => console.log(stations))
-      )
-    })
+  constructor() {
+    this.hydrologicalObservationsStations = toSignal(this.route.paramMap.pipe(
+      switchMap(params => {
+        const parameter = params.get("parameter") as string
+        return this.hydrologicalObservationsService.getStations(parameter)
+      })
+    ))
   }
 
   getNavigationItems(stations: IHydrologicalObservationsParameterResponseStation[]): INavigationItem[] {

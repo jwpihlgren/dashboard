@@ -1,13 +1,13 @@
-<ng-container *ngIf="hydrologicalObservationsParameters$ | async as hydrologicalObservationsParameters">
+  @if(hydrologicalObservationsParameters() !== undefined) {
+  @let h = hydrologicalObservationsParameters()!;
     <h3>Välj parameter</h3>
     <app-navigation-list
-        [navigationItems]="getNavigationItems(hydrologicalObservationsParameters.resource)">
+        [navigationItems]="getNavigationItems(h.resource)">
     </app-navigation-list>
 
     <div class="component-footer | flex col">
-        <span>Data från <a href="https://opendata-download-hydroobs.smhi.se/api.">SMHI HYDROOBS</a>, Version {{hydrologicalObservationsParameters.key}}</span>
-        <span class="helper-text">Updaterades senast {{hydrologicalObservationsParameters.updated | date}}</span>
+        <span>Data från <a href="https://opendata-download-hydroobs.smhi.se/api.">SMHI HYDROOBS</a>, Version {{h.key}}</span>
+        <span class="helper-text">Updaterades senast {{h.updated | date}}</span>
     </div>
-</ng-container>
-
+    }
 

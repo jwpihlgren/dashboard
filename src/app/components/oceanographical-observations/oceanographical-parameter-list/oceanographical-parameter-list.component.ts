@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, inject, signal, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationListComponent } from 'src/app/shared/components/navigation-list/navigation-list.component';
 import { INavigationItem } from 'src/app/shared/models/interfaces/navigation-item';
 import { IOceanographicalObservationsVersionResponse, IOceanographicalObservationsVersionResponseResource } from 'src/app/shared/models/interfaces/smhi/oceanographical-observations-version-response';
@@ -12,18 +12,14 @@ import { OceanographicalObservationsService } from 'src/app/shared/services/ocea
   styleUrls: ['./oceanographical-parameter-list.component.css'],
   imports: [DatePipe, NavigationListComponent]
 })
-export class OceanographicalParameterListComponent implements OnInit{
+export class OceanographicalParameterListComponent {
 
-  oceanographicalObservationsParameters$?: Observable<IOceanographicalObservationsVersionResponse>
+  protected oceanographicalObservationsService: OceanographicalObservationsService = inject(OceanographicalObservationsService)
+  oceanographicalObservationsParameters: Signal<IOceanographicalObservationsVersionResponse | undefined> = signal(undefined)
 
-  constructor(
-    private oceanographicalObservationsService: OceanographicalObservationsService
-    ) { }
-
-  ngOnInit(): void {
-    this.oceanographicalObservationsParameters$ = this.oceanographicalObservationsService.getParameters()
+  constructor() {
+    this.oceanographicalObservationsParameters = toSignal(this.oceanographicalObservationsService.getParameters())
   }
-
 
   getNavigationItems(parameters: IOceanographicalObservationsVersionResponseResource[]): INavigationItem[] {
     const navigationItems: INavigationItem[] = []

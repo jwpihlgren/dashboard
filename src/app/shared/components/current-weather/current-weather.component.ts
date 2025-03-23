@@ -1,5 +1,5 @@
 import { TranslationService } from './../../services/translation.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, input, Input, InputSignal, OnInit } from '@angular/core';
 import { IForecast } from '../../models/forecast.interface';
 import { WeatherService } from '../../services/weather.service';
 import { faArrowDown, faArrowUp} from '@fortawesome/free-solid-svg-icons';
@@ -27,7 +27,7 @@ export class CurrentWeatherComponent implements OnInit{
   windDirectionArrowRotation!: string
   airPressureChangeIndicator!: any
 
-  @Input() forecast!: IForecast
+  forecast: InputSignal<IForecast> = input.required()
 
   constructor(
     private weatherService: WeatherService,
@@ -44,11 +44,11 @@ export class CurrentWeatherComponent implements OnInit{
   }
 
   setWindDirectionArrowRotation() {
-    this.windDirectionArrowRotation = `rotate(${this.forecast.current.windDirection}deg)`
+    this.windDirectionArrowRotation = `rotate(${this.forecast().current.windDirection}deg)`
   }
 
   setAirPressureIndicator(): void {
-    if(this.forecast.airPressureChange === -1) this.airPressureChangeIndicator = this.icons.faArrowDown
-    if(this.forecast.airPressureChange === 1) this.airPressureChangeIndicator = this.icons.faArrowUp
+    if(this.forecast().airPressureChange === -1) this.airPressureChangeIndicator = this.icons.faArrowDown
+    if(this.forecast().airPressureChange === 1) this.airPressureChangeIndicator = this.icons.faArrowUp
   }
 }

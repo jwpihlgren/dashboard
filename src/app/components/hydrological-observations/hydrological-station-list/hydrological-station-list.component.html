@@ -1,15 +1,14 @@
 <button (click)="back()" class="secondary | flex no-grow">Tillbaka</button>
 
-<ng-container *ngIf="hydrologicalObservationsStations$ | async as hydrologicalObservationsStations">
-
-    <h3>{{hydrologicalObservationsStations.title}}</h3>
+  @if(hydrologicalObservationsStations() !== undefined){
+  @let h = hydrologicalObservationsStations()!;
+    <h3>{{h.title}}</h3>
     <h4>Välj station</h4>
     <app-navigation-list
-        [navigationItems]="getNavigationItems(hydrologicalObservationsStations.station)">
+        [navigationItems]="getNavigationItems(h.station)">
 
     </app-navigation-list>
 
-</ng-container>
-
+    }
 
 

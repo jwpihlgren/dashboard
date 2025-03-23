@@ -3,13 +3,16 @@
   <!--   <caption>Test</caption> -->
     <thead>
         <tr>
-            <th *ngFor="let columnHeading of columnHeadings" [class]="columnHeading.type">
+          @for(columnHeading of columnHeadings; track $index){
+            <th>
                 <h6>{{columnHeading.title}}</h6>
             </th>
+            }
         </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let row of tableRows">
+      @for(row of tableRows; track $index){
+    <tr>
         <td [attr.data-cell]="columnHeadings[0].title" [class]="row.time.type">{{row.time.value}}</td>
         <td [attr.data-cell]="columnHeadings[1].title" [class]="row.temp.type">{{row.temp.value}}</td>
         <td [attr.data-cell]="columnHeadings[2].title" [attr.data-value]="row.uvi.value" [class]="row.uvi.type" >
@@ -17,10 +20,12 @@
         </td>
         <td [attr.data-cell]="columnHeadings[3].title" [class]="row.precipitation.type">{{row.precipitation.value}}</td>
         <td [attr.data-cell]="columnHeadings[4].title" [class]="row.clouds.type">{{row.clouds.value}}</td>
-        <td [attr.data-cell]="columnHeadings[5].title" [class]="row.symbol.type">            
+        <td [attr.data-cell]="columnHeadings[5].title" [class]="row.symbol.type">
             <svg class="icon currently-icon">
                 <use [attr.xlink:href]="row.symbol.value"></use>
             </svg>
         </td>
+        </tr>
+        }
     </tbody>
 </table>

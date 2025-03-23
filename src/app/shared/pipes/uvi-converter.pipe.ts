@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'uviConverter'
+  name: 'uviConverter',
+  standalone: true
 })
 export class UviConverterPipe implements PipeTransform {
 

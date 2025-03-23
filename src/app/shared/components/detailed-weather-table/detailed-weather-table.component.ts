@@ -1,4 +1,4 @@
-import { Component, DoCheck, Input, KeyValueDiffers, OnChanges, OnInit } from '@angular/core';
+import { Component, DoCheck, inject, Input, KeyValueDiffers, OnInit } from '@angular/core';
 import { IForecastHourly } from '../../models/forecast-response.interface';
 import { UviConverterPipe } from '../../pipes/uvi-converter.pipe';
 import { WeatherService } from '../../services/weather.service';
@@ -7,7 +7,8 @@ import { IForecast } from '../../models/forecast.interface';
 @Component({
   selector: 'app-detailed-weather-table',
   templateUrl: './detailed-weather-table.component.html',
-  styleUrls: ['./detailed-weather-table.component.css']
+  styleUrls: ['./detailed-weather-table.component.css'],
+  providers: [UviConverterPipe]
 })
 export class DetailedWeatherTableComponent implements OnInit, DoCheck {
 
@@ -15,7 +16,7 @@ export class DetailedWeatherTableComponent implements OnInit, DoCheck {
   LOCALE_OPTIONS: any = {
     hour: '2-digit',
     minute: '2-digit',
-    hour12: false 
+    hour12: false
   }
 
   columnHeadings: IColumnHeading[] = [
@@ -31,14 +32,13 @@ export class DetailedWeatherTableComponent implements OnInit, DoCheck {
   differ: any
 
   tableRows: ITableRow[] = []
+  protected uviConverterPipe: UviConverterPipe = inject(UviConverterPipe)
+  protected weatherService: WeatherService = inject(WeatherService)
+  protected differs: KeyValueDiffers = inject(KeyValueDiffers)
 
-  constructor(
-    private uviConverterPipe: UviConverterPipe,
-    private weatherService: WeatherService,
-    private differs: KeyValueDiffers
-    ) { 
-      this.differ = this.differs.find({}).create()
-    }
+  constructor() {
+    this.differ = this.differs.find({}).create()
+  }
 
 
   ngOnInit(): void {
@@ -46,29 +46,29 @@ export class DetailedWeatherTableComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck(): void {
-      const changes = this.differ.diff(this.forecast)
-      if(changes) {
-        this.tableRows = this.createHourlyTableCells(this.forecast.hourly)
-      }
+    const changes = this.differ.diff(this.forecast)
+    if (changes) {
+      this.tableRows = this.createHourlyTableCells(this.forecast.hourly)
+    }
   }
 
 
   createHourlyTableCells(hourlyForecast: IForecastHourly[]): ITableRow[] {
-      
-      const rows: ITableRow[] = []
-  
-      hourlyForecast.forEach((hourlyData: IForecastHourly) => {
-        rows.push({
-          time: this.formatTime(hourlyData.validTime),
-          temp: this.formatTemp(hourlyData.currentTemperature, hourlyData.apparentTemperature),
-          uvi: this.formatUvi(hourlyData.UVI),
-          precipitation: this.formatPrecipitation(hourlyData.minAmountOfPrecipitation, hourlyData.maxAmountOfPrecipitation),
-          clouds: this.formatCloudiness(hourlyData.cloudiness), 
-          symbol: this.formatSymbol(hourlyData.symbol)
-        })
+
+    const rows: ITableRow[] = []
+
+    hourlyForecast.forEach((hourlyData: IForecastHourly) => {
+      rows.push({
+        time: this.formatTime(hourlyData.validTime),
+        temp: this.formatTemp(hourlyData.currentTemperature, hourlyData.apparentTemperature),
+        uvi: this.formatUvi(hourlyData.UVI),
+        precipitation: this.formatPrecipitation(hourlyData.minAmountOfPrecipitation, hourlyData.maxAmountOfPrecipitation),
+        clouds: this.formatCloudiness(hourlyData.cloudiness),
+        symbol: this.formatSymbol(hourlyData.symbol)
       })
-  
-      return rows
+    })
+
+    return rows
   }
 
   private formatTime(time: Date): ITableCell {
@@ -86,8 +86,9 @@ export class DetailedWeatherTableComponent implements OnInit, DoCheck {
   }
 
   private formatUvi(uvi: number): ITableCell {
-    return {value: this.uviConverterPipe.transform(uvi),
-    type: 'badge'
+    return {
+      value: this.uviConverterPipe.transform(uvi),
+      type: 'badge'
     }
   }
 

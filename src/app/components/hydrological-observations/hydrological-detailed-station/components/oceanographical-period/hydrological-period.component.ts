@@ -1,7 +1,8 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { Component, OnInit, signal, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
+import {switchMap } from 'rxjs';
 import { AreaChartComponent } from 'src/app/shared/components/area-chart/area-chart.component';
 import { IAreaChartConfig } from 'src/app/shared/models/area-chart-config';
 import { IHydrologicalObservationsDataResponse } from 'src/app/shared/models/interfaces/smhi/hydrological-observations-data-response ';
@@ -14,12 +15,12 @@ import { HydrologicalObservationsService } from 'src/app/shared/services/hydrolo
   selector: 'app-hydrological-period',
   templateUrl: './hydrological-period.component.html',
   styleUrls: ['./hydrological-period.component.css'],
-  imports: [RouterOutlet, AreaChartComponent, DatePipe,HydrologicalMinMaxPipe, AddUnitPipe]
+  imports: [AreaChartComponent, DatePipe,HydrologicalMinMaxPipe, AddUnitPipe]
 })
 export class HydrologicalPeriodComponent implements OnInit {
 
 
-  hydrologicalObservationsData$?: Observable<IHydrologicalObservationsDataResponse>
+  hydrologicalObservationsData: Signal<IHydrologicalObservationsDataResponse | undefined> = signal(undefined)
 
   chartConfig: IAreaChartConfig = {
     chartColors: ['#f8c03f', '#32d2ac', '#5693e9'],
@@ -36,16 +37,14 @@ export class HydrologicalPeriodComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    const station = parseInt(this.route.parent?.snapshot.paramMap.get("station") as string)
-    const parameter = this.route.parent?.snapshot.paramMap.get("parameter") as string
-    this.route.paramMap.subscribe((params) => {
-      const period = params.get("period") as string
-      this.hydrologicalObservationsData$ = this.hydrologicalObservationsService.getPeriodData(parameter, station, period).pipe(
-        tap((data) => console.log(data))
-      )
-    })
-
-
+    this.hydrologicalObservationsData = toSignal(this.route.parent!.paramMap.pipe(
+      switchMap(params => {
+        const station = parseInt(params.get("station") as string)
+        const parameter = params.get("parameter") as string
+        const period = this.route.snapshot.paramMap.get("period") as string
+        return this.hydrologicalObservationsService.getPeriodData(parameter, station, period)
+      })
+    ))
   }
 
   createChartConfig(data: IHydrologicalObservationsDataResponse): IAreaChartConfig {

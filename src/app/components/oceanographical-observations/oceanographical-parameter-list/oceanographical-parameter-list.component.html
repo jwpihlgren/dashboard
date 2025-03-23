@@ -1,13 +1,12 @@
-<ng-container *ngIf="oceanographicalObservationsParameters$ | async as oceanographicalObservationsParameters">
-    <h3>Välj parameter</h3>
-    <app-navigation-list
-        [navigationItems]="getNavigationItems(oceanographicalObservationsParameters.resource)">
-    </app-navigation-list>
+@if(oceanographicalObservationsParameters()) {
+@let o = oceanographicalObservationsParameters()!;
+<h3>Välj parameter</h3>
+<app-navigation-list [navigationItems]="getNavigationItems(o.resource)">
+</app-navigation-list>
 
-    <div class="component-footer | flex col">
-        <span>Data från <a href="https://opendata-download-ocobs.smhi.se/api">SMHI OCOBS</a>, Version {{oceanographicalObservationsParameters.key}}</span>
-        <span class="helper-text">Updaterades senast {{oceanographicalObservationsParameters.updated | date}}</span>
-    </div>
-</ng-container>
-
-
+<div class="component-footer | flex col">
+  <span>Data från <a href="https://opendata-download-ocobs.smhi.se/api">SMHI OCOBS</a>, Version
+    {{o.key}}</span>
+  <span class="helper-text">Updaterades senast {{o.updated | date}}</span>
+</div>
+}

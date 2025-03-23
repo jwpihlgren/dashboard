@@ -5,8 +5,6 @@ import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { ProfileComponent } from './components/profile/profile.component';
 import { WeatherComponent } from './components/weather/weather.component';
-import { SoilmoistureComponent } from './components/soilmoisture/soilmoisture.component';
-import { TestComponent } from './components/test/test.component';
 import { HydrologicalObservationsComponent } from './components/hydrological-observations/hydrological-observations.component';
 import { OceanographicalObservationsComponent } from './components/oceanographical-observations/oceanographical-observations.component';
 import { OceanographicalParameterListComponent } from './components/oceanographical-observations/oceanographical-parameter-list/oceanographical-parameter-list.component';

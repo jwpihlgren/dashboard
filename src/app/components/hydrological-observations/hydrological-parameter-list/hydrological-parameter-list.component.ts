@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, inject, signal, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationListComponent } from 'src/app/shared/components/navigation-list/navigation-list.component';
 import { INavigationItem } from 'src/app/shared/models/interfaces/navigation-item';
 import { IHydrologicalObservationsVersionResponse, IHydrologicalObservationsVersionResponseResource } from 'src/app/shared/models/interfaces/smhi/hydrological-observations-version-response ';
@@ -12,18 +12,14 @@ import { HydrologicalObservationsService } from 'src/app/shared/services/hydrolo
   styleUrls: ['./hydrological-parameter-list.component.css'],
   imports: [DatePipe, NavigationListComponent]
 })
-export class HydrologicalParameterListComponent implements OnInit{
+export class HydrologicalParameterListComponent {
 
-  hydrologicalObservationsParameters$?: Observable<IHydrologicalObservationsVersionResponse>
+  protected hydrologicalObservationsService: HydrologicalObservationsService = inject(HydrologicalObservationsService)
+  hydrologicalObservationsParameters: Signal<IHydrologicalObservationsVersionResponse | undefined> = signal(undefined)
 
-  constructor(
-    private hydrologicalObservationsService: HydrologicalObservationsService
-    ) { }
-
-  ngOnInit(): void {
-    this.hydrologicalObservationsParameters$ = this.hydrologicalObservationsService.getParameters()
+  constructor() {
+    this.hydrologicalObservationsParameters = toSignal(this.hydrologicalObservationsService.getParameters())
   }
-
 
   getNavigationItems(parameters: IHydrologicalObservationsVersionResponseResource[]): INavigationItem[] {
     const navigationItems: INavigationItem[] = []

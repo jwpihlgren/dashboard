@@ -36,7 +36,7 @@ app-column {
 
 @media (min-width: 1180px) {
     .container {
-        grid-template-columns: repeat(12, 1fr); 
+        grid-template-columns: repeat(12, 1fr);
     }
 }
 
@@ -56,6 +56,13 @@ app-weather-card, .loading {
     align-self: center;
 }
 
-
+ul {
+    padding-bottom: var(--large);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: auto;
+    max-height: 80vh;
+}
 
 

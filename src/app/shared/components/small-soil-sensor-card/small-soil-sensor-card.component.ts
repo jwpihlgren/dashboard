@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Signal, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ISoilMoistureData } from '../../models/soil-moisture-data.interface';
 import { NgxGaugeType } from 'ngx-gauge/gauge/gauge';
 import { SensorService } from '../../services/sensor.service';
 import { ISensor } from '../../models/sensor.interface';
-import { Observable } from 'rxjs/internal/Observable';
 import { DateFnsInputDate } from 'ngx-date-fns';
 
 @Component({
@@ -14,7 +14,7 @@ import { DateFnsInputDate } from 'ngx-date-fns';
 export class SmallSoilSensorCardComponent implements OnInit {
 
   @Input() sensor!: ISensor
-  measurement$!: Observable<ISoilMoistureData>
+  measurement: Signal<ISoilMoistureData | undefined> = signal(undefined)
   title: string = "Växter"
   gaugeParams: gaugeParams = {
     value: 0,
@@ -37,7 +37,7 @@ export class SmallSoilSensorCardComponent implements OnInit {
   constructor(private sensorService: SensorService) { }
 
   ngOnInit(): void {
-    this.measurement$ = this.sensorService.subscribeToSensor(this.sensor._id)
+    this.measurement = toSignal(this.sensorService.subscribeToSensor(this.sensor._id))
     const minThreshold = this.sensor.minThreshold + ''
     const maxThreshold = this.sensor.maxThreshold + ''
     this.gaugeParams.thresholds = {

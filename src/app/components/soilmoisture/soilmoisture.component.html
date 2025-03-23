@@ -1,8 +1,10 @@
 <app-masonry-grid>
   @defer(when sensorArr() !== undefined) {
   @let sensors = sensorArr()!;
-  <app-detailed-sensor *ngFor="let sensor of sensors" class="card card-full" [sensor]="sensor"
+  @for(sensor of sensors; track $index) {
+  <app-detailed-sensor class="card card-full" [sensor]="sensor"
     (requestChangename)="updateSensorAlias($event)"></app-detailed-sensor>
+  }
   }
   @loading{
   <article>

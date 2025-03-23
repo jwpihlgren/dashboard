@@ -1,11 +1,13 @@
 <app-logo></app-logo>
 
 <nav>
-    <ul>
-        <li *ngFor="let link of links">
-            <left-nav-item [config]="createConfig(link)"></left-nav-item>
-        </li>
-    </ul>
+  <ul>
+    @for(link of links; track $index) {
+    <li>
+      <left-nav-item [config]="createConfig(link)"></left-nav-item>
+    </li>
+    }
+  </ul>
 </nav>
 
 <app-user-menu-item></app-user-menu-item>

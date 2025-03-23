@@ -1,8 +1,9 @@
 import { OceanographicalObservationsService } from './../../shared/services/oceanographical-observations.service';
 import { WeatherService } from './../../shared/services/weather.service';
 import { LocationService } from './../../shared/services/location.service';
-import { Observable, ReplaySubject, takeUntil, share, switchMap, timer } from 'rxjs';
-import { Component, OnInit, OnDestroy, KeyValueDiffer } from '@angular/core';
+import { Observable, share, switchMap, tap, timer } from 'rxjs';
+import { Component, signal, Signal, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ILocation } from 'src/app/shared/models/location.interface';
 import { IForecast } from 'src/app/shared/models/forecast.interface';
 import { IOceanographicalObservationsDataResponse } from 'src/app/shared/models/interfaces/smhi/oceanographical-observations-data-response';
@@ -23,7 +24,7 @@ import { MasonryGridComponent } from 'src/app/shared/layouts/masonry-grid/masonr
   styleUrls: ['./dashboard.component.css'],
   imports: [DetailedWeatherTableComponent, SimpleWaterLevelComponent, PollenForecastComponent, WeatherCardComponent, CurrentWeatherComponent, MasonryGridComponent]
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent {
   defaultStation = 35101 //Juten sjöv
   defaultParameter = "13" // Havsvattenstånd, minutvärde
   defaultPeriod = "latest-day" // latest-day | latest-hour
@@ -32,38 +33,31 @@ export class DashboardComponent implements OnInit, OnDestroy {
     thresholdsAsUnits: [20, 80, 0]
   }
 
+  //This changes often
   REGION = "2a2a2a2a-2a2a-4a2a-aa2a-2a2a303a3234"
-  //REGION = "2a2a2a2a-2a2a-4a2a-aa2a-2a2a2a303a38"
-  // REGION = "2a2a2a2a-2a2a-4a2a-aa2a-2a2a2a303a32"
 
-  //  sensors$!: Observable<ISensor[]>
-  forecast$!: Observable<IForecast>
-  stationWaterLevelData$!: Observable<IOceanographicalObservationsDataResponse>
-  pollenForecast$!: Observable<IPollenForecast>
-  destroy$: ReplaySubject<boolean> = new ReplaySubject(1)
+  forecast: Signal<IForecast | undefined> = signal(undefined)
+  stationWaterLevelData: Signal<IOceanographicalObservationsDataResponse | undefined> = signal(undefined)
+  pollenForecast: Signal<IPollenForecast | undefined> = signal(undefined)
+  favoriteLocation: Signal<ILocation | undefined>
+  timer: Signal<any>
 
-  differ!: KeyValueDiffer<any, any>
-  constructor(
-    //   private sensorService: SensorService,
-    private locationService: LocationService,
-    private weatherService: WeatherService,
-    private oceanographicalObservationsService: OceanographicalObservationsService,
-    private pollenService: PollenService,
-  ) {
-  }
+  protected locationService: LocationService = inject(LocationService)
+  protected weatherService: WeatherService = inject(WeatherService)
+  protected oceanographicalObservationsService: OceanographicalObservationsService = inject(OceanographicalObservationsService)
+  protected pollenService: PollenService = inject(PollenService)
 
-  ngOnInit(): void {
 
-    //   this.sensors$ = this.sensorService.getSensors()
-    this.forecast$ = this.getForecast()
-    this.stationWaterLevelData$ = this.getPeriodData()
-    this.pollenForecast$ = this.getPollenForecast(this.REGION)
-  }
-
-  ngOnDestroy(): void {
-    //    this.sensorService.eventSourceDestory()
-    this.destroy$.next(true)
-    this.destroy$.complete()
+  constructor() {
+    this.forecast = toSignal(this.weatherService.forecastResult$)
+    this.stationWaterLevelData = toSignal(this.getPeriodData())
+    this.pollenForecast = toSignal(this.getPollenForecast(this.REGION))
+    this.favoriteLocation = toSignal(this.locationService.getUserFavoriteLocation().pipe(
+      tap(location => {
+        this.weatherService.forecastByLocation(location)
+      })
+    ))
+    this.timer = toSignal(this.getTimer())
   }
 
   updatePollenData(data: { regionId: string, date?: Date }): void {
@@ -81,19 +75,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     )
   }
 
-  getForecast(): Observable<IForecast> {
-    const delay = 0;
-    const everyTwoHours = 1000 * 60 * 60 * 0.5
+  getTimer(): Observable<number> {
+    const delay = 1000 * 60 * 60 * 0.5
+    const interval = 1000 * 60 * 60 * 0.5
 
-    return timer(delay, everyTwoHours).pipe(
-      switchMap(() => {
-        return this.locationService.getUserFavoriteLocation().pipe(
-          switchMap((favoriteLocation: ILocation) => {
-            return this.weatherService.getForecast(favoriteLocation)
-          })
-        )
-      }),
-      share())
+
+    return timer(delay, interval).pipe(
+      tap(() => {
+        if (this.favoriteLocation()) {
+          this.weatherService.forecastByLocation(this.favoriteLocation()!)
+        }
+      })
+    )
   }
 
   getPeriodData(): Observable<IOceanographicalObservationsDataResponse> {
@@ -105,12 +98,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
         return this.oceanographicalObservationsService.getPeriod(this.defaultParameter, this.defaultStation, this.defaultPeriod).pipe(
           switchMap(() => {
             return this.oceanographicalObservationsService.getPeriodData(this.defaultParameter, this.defaultStation, this.defaultPeriod).pipe(
-              takeUntil(this.destroy$))
-          })
-        )
-      }),
-      share())
+              share())
+          }))
+      }))
   }
 }
+
 
 

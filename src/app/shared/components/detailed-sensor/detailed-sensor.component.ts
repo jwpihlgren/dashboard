@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, Signal, signal, SimpleChanges, ViewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ISensor } from '../../models/sensor.interface';
 import { ISoilMoistureData } from '../../models/soil-moisture-data.interface';
 import { SensorService } from '../../services/sensor.service';
@@ -22,7 +22,7 @@ export class DetailedSensorComponent implements OnInit, OnChanges {
   @ViewChild("edit") elementRef!: ElementRef
   @Input() sensor!: ISensor
   @Output() requestChangename: EventEmitter<IPartialSensor> = new EventEmitter()
-  readings$!: Observable<ISoilMoistureData[]>
+  readings: Signal<ISoilMoistureData[] | undefined> = signal(undefined)
 
   selections: any = {
     day: {
@@ -69,7 +69,7 @@ export class DetailedSensorComponent implements OnInit, OnChanges {
 
 
   ngOnInit(): void {
-    this.readings$ = this.sensorService.getDaily(this.sensor._id)
+    this.readings = toSignal(this.sensorService.getDaily(this.sensor._id))
     this.chartConfig.thresholds = [this.sensor.minThreshold / 100, this.sensor.maxThreshold / 100]
   }
 
@@ -81,7 +81,7 @@ export class DetailedSensorComponent implements OnInit, OnChanges {
   toggleSelection(selection: string, sensorId: string) {
     Object.values(this.selections).forEach((selection: any) => selection.isToggled = false)
     this.selections[selection].toggle()
-    this.readings$ = this.selections[selection].getReadings(sensorId)
+    this.readings = this.selections[selection].getReadings(sensorId)
   }
 
   setEditTrue(): void {
