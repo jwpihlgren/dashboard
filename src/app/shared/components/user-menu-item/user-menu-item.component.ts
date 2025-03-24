@@ -1,19 +1,20 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faRightToBracket, faSignIn, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { MenuItemComponent } from '../menu-item/menu-item.component';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user-menu-item',
   templateUrl: './user-menu-item.component.html',
   styleUrls: ['./user-menu-item.component.css'],
-  imports: [FontAwesomeModule, MenuItemComponent]
+  imports: [FontAwesomeModule, MenuItemComponent, RouterLink]
 })
-export class UserMenuItemComponent implements OnInit {
+export class UserMenuItemComponent {
 
   protected auth: AuthService = inject(AuthService)
   user = toSignal(this.auth.user$)
@@ -31,24 +32,15 @@ export class UserMenuItemComponent implements OnInit {
 
   ) { }
 
-  ngOnInit(): void {
-  }
-
-  loginWithRedirect(event: Event) {
+   loginWithRedirect(event: Event) {
     event.preventDefault();
     console.log("test");
-    this.auth.loginWithRedirect({
-      /*       appState: {
-              target: `${window.location.origin}${environment.auth.redirectPath}}`,
-            } */
-    });
+    this.auth.loginWithRedirect({});
   }
 
   logout() {
     this.auth.logout({
-      logoutParams: {
-        /*  returnTo: `${environment.auth.redirectPath}` */
-      }
+      logoutParams: {}
     })
   }
 

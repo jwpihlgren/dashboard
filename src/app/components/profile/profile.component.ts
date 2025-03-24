@@ -4,7 +4,6 @@ import { UserService } from './../../shared/services/user.service';
 import { Component, inject, signal, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AuthService } from '@auth0/auth0-angular';
-import { tap } from 'rxjs';
 import { ColumnComponent } from 'src/app/shared/layouts/column/column.component';
 
 @Component({
@@ -25,27 +24,19 @@ export class ProfileComponent {
   protected auth: AuthService = inject(AuthService)
 
   constructor() {
-
-    this.userMetaData = toSignal(this.userService.getUserMetadata().pipe(
-      tap((user: any) => {
-        console.log(user);
-      })))
-
+    this.userMetaData = toSignal(this.userService.getUserMetadata())
+    this.idTokenClaims = toSignal(this.auth.idTokenClaims$)
+    this.user = toSignal(this.auth.user$)
   }
 
   showuser(event: any) {
-    this.idTokenClaims = toSignal(this.auth.idTokenClaims$.pipe(
-      tap((idTokenClaims: any) => console.log("idTokenClaims", idTokenClaims))))
-
-
-    this.user = toSignal(this.auth.user$.pipe(
-      tap((user: any) => console.log("user", user))))
-
-
-    event.target.innerText = "Användare loggad"
+    event.target.innerText = "Loggad"
+    console.log("userMetaData", this.userMetaData())
+    console.log("idTokenClaims", this.idTokenClaims())
+    console.log("user", this.user())
     setTimeout(() => { event.target.innerText = "Logga användare" }, 3000)
-
   }
+
 
   clearStorage(event: any) {
     this.localStorageService.clearlocalStorage()

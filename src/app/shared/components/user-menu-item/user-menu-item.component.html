@@ -6,21 +6,21 @@
     @let u = user()!;
     <app-menu-item name={{u.nickname}}>
       <li>
-        <a routerLink="/profile">{{buttonGroup.profile.title}}</a>
+        <a [routerLink]="['/', 'profile']">{{buttonGroup.profile.title}}</a>
       </li>
       <li>
-        <a routerLink="" (click)="logout()">{{buttonGroup.logout.title}}</a>
+        <a [routerLink]="" (click)="logout()">{{buttonGroup.logout.title}}</a>
       </li>
     </app-menu-item>
-    <!-- The menu is separated in to to links on larger screens -->
+    <!-- The menu is separated in to links on larger screens -->
     <div class="button-group">
-      <a routerLink="/profile">
+      <a [routerLink]="['/', 'profile']">
         <div class="icon">
           <fa-icon [icon]=buttonGroup.profile.icon size="lg"></fa-icon>
         </div>
         <span>{{buttonGroup.profile.title}}</span>
       </a>
-      <a routerLink="" (click)="logout()">
+      <a routerLink='[]' (click)="logout()">
         <div class="icon">
           <fa-icon [icon]=buttonGroup.logout.icon size="lg"></fa-icon>
         </div>

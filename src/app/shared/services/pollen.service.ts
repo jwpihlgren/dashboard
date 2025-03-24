@@ -39,7 +39,6 @@ export class PollenService {
     date.setMinutes(0)
     date.setSeconds(0)
     date.setMilliseconds(0)
-    console.log(date)
     this.query$.next({ region: regionId, date: date })
   }
 
@@ -119,7 +118,6 @@ export class PollenService {
     regions: IPollenRegion[],
     dateInForecast?: Date
   }): IPollenForecast {
-    console.log(data.forecast)
     const innerData = data.forecast.items[0]
     const today = new Date()
     today.setHours(0)
@@ -155,7 +153,6 @@ export class PollenService {
       })
     }
 
-    console.log(forecast)
     return forecast
   }
 
