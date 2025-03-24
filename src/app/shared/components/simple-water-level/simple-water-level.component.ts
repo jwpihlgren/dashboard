@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, Input, InputSignal } from '@angular/core';
 import { IAreaChartConfig } from '../../models/area-chart-config';
 import { IHydrologicalObservationsDataResponse } from '../../models/interfaces/smhi/hydrological-observations-data-response ';
 import { AreaChartComponent } from '../area-chart/area-chart.component';
@@ -14,12 +14,11 @@ import { AddUnitPipe } from '../../pipes/add-unit.pipe';
 })
 export class SimpleWaterLevelComponent {
 
-  @Input() oceanographicalObservationsPeriodData!: IHydrologicalObservationsDataResponse
-  @Input() thresholdConfig: IThresholdConfig = {
+  oceanographicalObservationsPeriodData: InputSignal<IHydrologicalObservationsDataResponse> = input.required()
+  thresholdConfig: InputSignal<IThresholdConfig> =input({
     thresholdColors : ['#f8c03f', '#32d2ac', '#5693e9'],
     thresholdsAsUnits : [20, 80, 0]
-
-  }
+  })
 
   chartConfig: IAreaChartConfig = {
     chartColors: ['#f8c03f', '#32d2ac', '#5693e9'],
@@ -33,7 +32,7 @@ export class SimpleWaterLevelComponent {
   constructor() { }
 
   ngOnInit(): void {
-    this.chartConfig = this.createChartConfig(this.oceanographicalObservationsPeriodData)
+    this.chartConfig = this.createChartConfig(this.oceanographicalObservationsPeriodData())
   }
 
 
@@ -45,10 +44,10 @@ export class SimpleWaterLevelComponent {
     this.chartConfig.domain = [Math.min(...this.chartConfig.data.map(reading => reading.value)), Math.max(...this.chartConfig.data.map(reading => reading.value))]
     this.chartConfig.thresholds = this.chartConfig.thresholds?.map((_, index: number) => {
       const domainMax: number = Math.max(...this.chartConfig.domain)
-      if(index === this.thresholdConfig.thresholdsAsUnits.length - 1) return domainMax
-      return this.thresholdConfig.thresholdsAsUnits[index] / domainMax
+      if(index === this.thresholdConfig().thresholdsAsUnits.length - 1) return domainMax
+      return this.thresholdConfig().thresholdsAsUnits[index] / domainMax
     })
-    this.chartConfig.chartColors = this.thresholdConfig.thresholdColors.map((color: string) => color)
+    this.chartConfig.chartColors = this.thresholdConfig().thresholdColors.map((color: string) => color)
     return this.chartConfig
   }
 
