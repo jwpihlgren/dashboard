@@ -1,36 +1,37 @@
 <h6 class="card-title">Pliscos stånd</h6>
 
+@let o = oceanographicalObservationsPeriodData();
 <div class="flex row gap-md">
     <div class="flex col gap-xs grow">
         <h6 class="card-title">Vattendrag</h6>
-        <span>{{oceanographicalObservationsPeriodData.station.name}}</span>
+        <span>{{o.station.name}}</span>
     </div>
     <div class="flex col gap-xs grow">
         <h6 class="card-title">Mätstation</h6>
-        <span>{{oceanographicalObservationsPeriodData.station.key}}</span>
+        <span>{{o.station.key}}</span>
     </div>
     <div class="flex col gap-xs grow">
         <h6 class="card-title">Ägare</h6>
-        <span>{{oceanographicalObservationsPeriodData.station.owner}}</span>
+        <span>{{o.station.owner}}</span>
     </div>
     <div class="flex col gap-xs grow">
         <h6 class="card-title">Min</h6>
-        <span>{{(oceanographicalObservationsPeriodData.value | hydrologicalMinMax: "min": "value").value | addUnit: oceanographicalObservationsPeriodData.parameter.unit}}</span>
-        <span class="helper-text">{{(oceanographicalObservationsPeriodData.value | hydrologicalMinMax: "min" : "value").date | date }}</span>
+        <span>{{(o.value | hydrologicalMinMax: "min": "value").value | addUnit: o.parameter.unit}}</span>
+        <span class="helper-text">{{(o.value | hydrologicalMinMax: "min" : "value").date | date }}</span>
     </div>
     <div class="flex col gap-xs grow">
         <h6 class="card-title">Max</h6>
-        <span>{{(oceanographicalObservationsPeriodData.value | hydrologicalMinMax: "max": "value").value | addUnit: oceanographicalObservationsPeriodData.parameter.unit}}</span>
-        <span class="helper-text">{{(oceanographicalObservationsPeriodData.value | hydrologicalMinMax: "max": "value").date | date }}</span>
+        <span>{{(o.value | hydrologicalMinMax: "max": "value").value | addUnit: o.parameter.unit}}</span>
+        <span class="helper-text">{{(o.value | hydrologicalMinMax: "max": "value").date | date }}</span>
     </div>
     <div class="flex col gap-xs grow">
         <h6 class="card-title">Senast</h6>
-        <span>{{(oceanographicalObservationsPeriodData.value | hydrologicalMinMax: "max" : "date").value | addUnit: oceanographicalObservationsPeriodData.parameter.unit }}</span>
-        <span class="helper-text">{{(oceanographicalObservationsPeriodData.value | hydrologicalMinMax: "max": "date").date | date }}</span>
+        <span>{{(o.value | hydrologicalMinMax: "max" : "date").value | addUnit: o.parameter.unit }}</span>
+        <span class="helper-text">{{(o.value | hydrologicalMinMax: "max": "date").date | date }}</span>
     </div>
 </div>
 
-<app-area-chart 
-[chartConfig]="this.createChartConfig(oceanographicalObservationsPeriodData)">
+<app-area-chart
+[chartConfig]="this.createChartConfig(o)">
 
 </app-area-chart>

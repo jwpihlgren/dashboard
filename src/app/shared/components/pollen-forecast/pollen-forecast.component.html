@@ -1,35 +1,43 @@
 <header class="flex col gap-md">
-  <h6> Pollenrapport - {{forecast.regionName}}</h6>
-  <span class="description" *ngIf="!showLongDescription">{{forecast.shortDescription}}
-    <button
-      *ngIf="forecast.description"
-      class="ternary"
-      (click)="toggleShowLongDescription()">Visa mer</button>
+  <h6> Pollenrapport - {{forecast().regionName}}</h6>
+  @if(!showLongDescription) {
+  <span class="description">
+        {{forecast().shortDescription}}
+        @if(forecast().description) {
+        <button class="ternary" (click)="toggleShowLongDescription()">Visa mer</button>
+    }
   </span>
-  <span class="description" *ngIf="forecast.description && showLongDescription">{{forecast.description}}
-    <button
-      *ngIf="forecast.description"
-      class="ternary"
-      (click)="toggleShowLongDescription()">Visa mindre</button>
+  }
+  @if(forecast().description && showLongDescription) {
+  <span class="description">
+    {{forecast().description}}
+    @if(forecast().description){
+    <button class="ternary" (click)="toggleShowLongDescription()">Visa mindre</button>
+    }
   </span>
+  }
 </header>
 
 <div class="button-group | flex row">
+  @for(availableDate of forecast().availableDates; track $index){
   <button
-    *ngFor="let availableDate of forecast.availableDates;"
-    [ngClass]="{'active': availableDate.date.getTime() === forecast.currentDate.getTime()}"
-    (click)="selectDate(forecast.regionId, availableDate.date)"
-    class="ternary">
-    {{availableDate.date  | dfnsSubDays: 1 | dfnsGetDay | dfnsWeekdayName}}
+    [ngClass]="{'active': availableDate.date.getTime() === forecast().currentDate.getTime()}"
+    (click)="selectDate(forecast().regionId, availableDate.date)" class="ternary">
+    {{availableDate.date | dfnsSubDays: 1 | dfnsGetDay | dfnsWeekdayName}}
   </button>
+  }
 </div>
 <div class="pollen-levels | flex col gap-md">
-  <div *ngFor="let level of forecast.pollenLevels" class="pollen-level | flex col a-center gap-sm">
+  @for(level of forecast().pollenLevels; track $index){
+  <div class="pollen-level | flex col a-center gap-sm">
     <div class="pollen-level-gauge | flex row" [attr.data-pollen-level]=level.level>
-      <span *ngFor="let indicator of [].constructor(level.level)" class="pollen-level-indicator"></span>
+      @for(indicator of [].constructor(level.level); track $index) {
+      <span class="pollen-level-indicator"></span>
+      }
     </div>
     <span class="pollen-level-name | helper-text">{{level.levelName}}</span>
   </div>
+  }
 </div>
 <footer class="flex row gap-lg wrap">
   <div class="pollen-level-legend | flex col gap-sm grow">
@@ -46,11 +54,8 @@
   </div>
   <div class="meta-information | flex col a-end grow">
     <span class="helper-text">Upphovsman:
-      <a
-        [href]=forecast.issuerLink
-        target="_blank"
-        rel="noopener noreferrer">
-          {{forecast.issuerName}}
+      <a [href]=forecast().issuerLink target="_blank" rel="noopener noreferrer">
+        {{forecast().issuerName}}
       </a>
     </span>
   </div>

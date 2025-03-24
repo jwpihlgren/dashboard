@@ -2,12 +2,20 @@
     <div class="flex col">
         <div class="flex row">
             <span>{{searchResult.local_name}}</span>
-            <span *ngIf="searchResult.region">, {{searchResult.region}}</span>
-            <span *ngIf="searchResult.country">, {{searchResult.country}}</span>
+            @if(searchResult.region){
+            <span>, {{searchResult.region}}</span>
+            }
+            @if(searchResult.country){
+            <span>, {{searchResult.country}}</span>
+            }
         </div>
         <div class="flex row">
-            <span class="helper-text" *ngIf="searchResult.lat">{{searchResult.lat}}</span>
-            <span class="helper-text" *ngIf="searchResult.lon ">, {{searchResult.lon}}</span>
+          @if(searchResult.lat){
+            <span class="helper-text">{{searchResult.lat}}</span>
+            }
+            @if(searchResult.lon){
+            <span class="helper-text">, {{searchResult.lon}}</span>
+            }
         </div>
     </div>
 </li>

@@ -1,7 +1,9 @@
 import { IOceanographicalObservationsParameterResponseStation } from './../../../shared/models/interfaces/smhi/oceanographical-observations-parameter-response';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, Signal, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { switchMap } from 'rxjs';
+import { NavigationListComponent } from 'src/app/shared/components/navigation-list/navigation-list.component';
 import { INavigationItem } from 'src/app/shared/models/interfaces/navigation-item';
 import { IOceanographicalObservationsParameterResponse } from 'src/app/shared/models/interfaces/smhi/oceanographical-observations-parameter-response';
 import { OceanographicalObservationsService } from 'src/app/shared/services/oceanographical-observations.service';
@@ -9,25 +11,25 @@ import { OceanographicalObservationsService } from 'src/app/shared/services/ocea
 @Component({
   selector: 'app-oceanographical-station-list',
   templateUrl: './oceanographical-station-list.component.html',
-  styleUrls: ['./oceanographical-station-list.component.css']
+  styleUrls: ['./oceanographical-station-list.component.css'],
+  imports: [NavigationListComponent]
 })
-export class OceanographicalStationListComponent implements OnInit {
+export class OceanographicalStationListComponent {
+  protected oceanographicalObservationsService: OceanographicalObservationsService = inject(OceanographicalObservationsService)
+  protected route: ActivatedRoute = inject(ActivatedRoute)
+  protected router: Router = inject(Router)
 
 
-  oceanographicalObservationsStations$?: Observable<IOceanographicalObservationsParameterResponse>
+  oceanographicalObservationsStations: Signal<IOceanographicalObservationsParameterResponse | undefined> = signal(undefined)
 
-  constructor(
-    private oceanographicalObservationsService: OceanographicalObservationsService,
-    private route: ActivatedRoute,
-    private router: Router
-    ) { }
-
-  ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.oceanographicalObservationsStations$ = this.oceanographicalObservationsService.getStations(params.get("parameter") as string).pipe(
-        tap(stations => console.log(stations))
+  constructor() {
+    this.oceanographicalObservationsStations = toSignal(
+      this.route.paramMap.pipe(
+        switchMap(params => {
+          return this.oceanographicalObservationsService.getStations(params.get("parameter") as string)
+        })
       )
-    })
+    )
   }
 
   getNavigationItems(stations: IOceanographicalObservationsParameterResponseStation[]): INavigationItem[] {

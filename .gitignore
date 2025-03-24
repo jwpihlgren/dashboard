@@ -2,7 +2,10 @@
 
 # compiled output
 /dist
+<<<<<<< HEAD
+=======
 #/docs
+>>>>>>> master
 /tmp
 /out-tsc
 # Only exists if Bazel was run

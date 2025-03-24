@@ -12,9 +12,9 @@
     min-height: 68px;
     border-radius: 34px;
     gap: var(--extra-small);
-    background-color: var( --pnc-sys-color-surface-container-highest); 
+    background-color: var( --pnc-sys-color-surface-container-highest);
     cursor: pointer;
-    
+
 }
 
 .search-field:hover {
@@ -53,14 +53,7 @@ input::-webkit-search-cancel-button { display: none; }
 
 .hidden {display: none;}
 
-ul {
-    padding-bottom: var(--large);
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    overflow: auto;
-    max-height: 80vh;
-}
+
 
 
 
@@ -70,25 +63,25 @@ hr {
 }
 
 
-::-webkit-scrollbar { 
+::-webkit-scrollbar {
     width: var(--small);
 }
-::-webkit-scrollbar-button       { 
+::-webkit-scrollbar-button       {
     display: none;
  }
-::-webkit-scrollbar-track        { 
+::-webkit-scrollbar-track        {
     background-color: var( --pnc-sys-color-surface-container);
     border-radius: 100px;
  }
-::-webkit-scrollbar-track-piece  { 
+::-webkit-scrollbar-track-piece  {
     background-color: var( --pnc-sys-color-surface-container);
     border-radius: 100px;
 }
-::-webkit-scrollbar-thumb        { 
+::-webkit-scrollbar-thumb        {
     background-color: var( --pnc-sys-color-surface-container-high);
     border-radius: 100px;
  }
-::-webkit-scrollbar-corner       { 
+::-webkit-scrollbar-corner       {
     border-radius: 100px;
  }
 

@@ -1,5 +1,5 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, Signal, signal, SimpleChanges, ViewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ISensor } from '../../models/sensor.interface';
 import { ISoilMoistureData } from '../../models/soil-moisture-data.interface';
 import { SensorService } from '../../services/sensor.service';
@@ -7,18 +7,22 @@ import { faTimes, faPen} from '@fortawesome/free-solid-svg-icons';
 import { IPartialSensor } from '../../models/partial-sensor.interface';
 import { IAreaChartData } from '../../models/area-chart-data';
 import { IAreaChartConfig } from '../../models/area-chart-config';
+import { NgClass } from '@angular/common';
+import { AreaChartComponent } from '../area-chart/area-chart.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-detailed-sensor',
   templateUrl: './detailed-sensor.component.html',
   styleUrls: ['./detailed-sensor.component.css'],
+  imports: [NgClass, AreaChartComponent, FontAwesomeModule]
 })
 export class DetailedSensorComponent implements OnInit, OnChanges {
-  
+
   @ViewChild("edit") elementRef!: ElementRef
   @Input() sensor!: ISensor
   @Output() requestChangename: EventEmitter<IPartialSensor> = new EventEmitter()
-  readings$!: Observable<ISoilMoistureData[]>
+  readings: Signal<ISoilMoistureData[] | undefined> = signal(undefined)
 
   selections: any = {
     day: {
@@ -55,7 +59,7 @@ export class DetailedSensorComponent implements OnInit, OnChanges {
   faEdit = faPen
   faTimes = faTimes
 
-  
+
 
   constructor(
     private sensorService: SensorService,
@@ -65,7 +69,7 @@ export class DetailedSensorComponent implements OnInit, OnChanges {
 
 
   ngOnInit(): void {
-    this.readings$ = this.sensorService.getDaily(this.sensor._id)
+    this.readings = toSignal(this.sensorService.getDaily(this.sensor._id))
     this.chartConfig.thresholds = [this.sensor.minThreshold / 100, this.sensor.maxThreshold / 100]
   }
 
@@ -77,7 +81,7 @@ export class DetailedSensorComponent implements OnInit, OnChanges {
   toggleSelection(selection: string, sensorId: string) {
     Object.values(this.selections).forEach((selection: any) => selection.isToggled = false)
     this.selections[selection].toggle()
-    this.readings$ = this.selections[selection].getReadings(sensorId)
+    this.readings = this.selections[selection].getReadings(sensorId)
   }
 
   setEditTrue(): void {
@@ -92,7 +96,7 @@ export class DetailedSensorComponent implements OnInit, OnChanges {
       this.abort()
     }
   }
-  
+
 
   abort(): void {
     this.isEditToggled = false;

@@ -16,7 +16,7 @@ export class SearchResultComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  @HostListener('click') 
+  @HostListener('click')
   onClick(): void {
     this.clickRequest.emit(this.searchResult)
   }

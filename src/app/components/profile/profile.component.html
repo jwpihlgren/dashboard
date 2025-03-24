@@ -1,18 +1,20 @@
 <app-column>
-    <ul *ngIf="auth.user$ | async as user">
-        <li>{{user.name}}</li>
-        <li>{{user.nickname}}</li>
-        <li>{{user.email}}</li>
-        <li>{{user.sub}}</li>
-        <li>{{user.updated_at}}</li>
-        <li><img [src]=user.picture alt=""></li>
-        
-    </ul>
-    <div  class="container">
-        <button class="primary" (click)="showuser($event)">Logga användare</button>
-        <button class="secondary" (click)="clearStorage($event)">
-            Rensa lagring
-        </button>
-    </div>
-</app-column>
+  @if(user() !== undefined){
+  @let u = user();
+  <ul>
+    <li>{{u.name}}</li>
+    <li>{{u.nickname}}</li>
+    <li>{{u.email}}</li>
+    <li>{{u.sub}}</li>
+    <li>{{u.updated_at}}</li>
+    <li><img [src]=u.picture alt=""></li>
 
+  </ul>
+  <div class="container">
+    <button class="primary" (click)="showuser($event)">Logga användare</button>
+    <button class="secondary" (click)="clearStorage($event)">
+      Rensa lagring
+    </button>
+  </div>
+  }
+</app-column>
