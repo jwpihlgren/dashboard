@@ -15,6 +15,7 @@ export class SearchComponent {
   @ViewChild("search") elementRef!: ElementRef
 
   @Output() requestLocationSearch: EventEmitter<string> = new EventEmitter()
+  @Output() requestClearSearch: EventEmitter<boolean> = new EventEmitter()
   @Output() resultClicked: EventEmitter<ILocation> = new EventEmitter()
   @Output() focusChange: EventEmitter<boolean> = new EventEmitter()
 
@@ -40,6 +41,7 @@ export class SearchComponent {
     this.elementRef.nativeElement.value = this.searchQuery
     this.elementRef.nativeElement.focus()
     this.setSearchFocus()
+    this.requestClearSearch.emit(true)
   }
 
   setSearchFocus() {

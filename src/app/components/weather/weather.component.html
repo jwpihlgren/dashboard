@@ -1,6 +1,6 @@
 <app-column>
   <section>
-    <app-search (requestLocationSearch)="getLocation($event)" (resultClicked)="getForecast($event)">
+    <app-search (requestLocationSearch)="getLocation($event)" (requestClearSearch)="clearSearch()" (resultClicked)="getForecast($event)">
     </app-search>
     @defer( when searchResults() !== undefined){
     <ul>

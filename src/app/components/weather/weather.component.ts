@@ -31,19 +31,24 @@ export class WeatherComponent {
   }
 
   getLocation(searchQuery: string): void {
-      this.locationService.find(searchQuery)
+    this.locationService.find(searchQuery)
   }
 
   getForecast(location: ILocation): void {
     this.weatherService.forecastByLocation(location)
   }
 
+  handleSearchClick(event: ILocation): void {
+    this.weatherService.forecastByLocation(event)
+  }
+  clearSearch(): void {
+    this.locationService.clear()
+  }
   clearForecast(): void {
-    this.forecast = signal(undefined)
+    this.weatherService.clearForecast()
   }
-  handleSearchClick(event: ILocation):void {
-    console.log(event)
-  }
+
+
 
 }
 

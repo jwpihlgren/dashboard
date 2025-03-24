@@ -20,13 +20,14 @@ export class LocationService {
   protected localStorageService: LocalStorageService = inject(LocalStorageService)
   protected sessionStorageService: SessionStorageService = inject(SessionStorageService)
 
-  private search = new Subject<string>()
+  private search = new Subject<string | undefined>()
   searchResults$: Observable<ILocation[]>
 
   constructor(
   ) {
     this.searchResults$ = this.search.pipe(
       switchMap(query => {
+        if(query === undefined) return of([])
         return this.request(query)
       })
     )
@@ -37,7 +38,7 @@ export class LocationService {
   }
 
   clear(): void {
-    this.search.next("")
+    this.search.next(undefined)
   }
 
   private request(query: string): Observable<ILocation[]> {

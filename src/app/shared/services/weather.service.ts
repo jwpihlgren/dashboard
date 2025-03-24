@@ -10,8 +10,6 @@ import { IForecast } from '../models/forecast.interface';
 import { IinsideTemperatureResponse } from '../models/inside-temperature-response.interface';
 import UrlBuilder from '../utils/url-builder';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -19,12 +17,13 @@ export class WeatherService {
   protected http: HttpClient = inject(HttpClient)
   protected sessionStorageService: SessionStorageService = inject(SessionStorageService)
 
-  forecast_: Subject<ILocation> = new Subject()
-  forecastResult$: Observable<IForecast>
+  forecast_: Subject<ILocation | undefined> = new Subject()
+  forecastResult$: Observable<IForecast | undefined>
 
   constructor() {
     this.forecastResult$ = this.forecast_.pipe(
       switchMap(location => {
+        if(location === undefined) return of(undefined)
         return this.request(location)
       })
     )
@@ -34,14 +33,18 @@ export class WeatherService {
   forecastByLocation(location: ILocation): void {
     this.forecast_.next(location)
   }
+  clearForecast(): void {
+    this.forecast_.next(undefined)
+  }
+
   private request(location: ILocation): Observable<IForecast> {
     const forecastUrl = (new UrlBuilder(environment.dev.serverUrl, "weather"))
-    .addQueryParam("lat", location.lat.toString())
-    .addQueryParam("lon", location.lon.toString())
-    .url
+      .addQueryParam("lat", location.lat.toString())
+      .addQueryParam("lon", location.lon.toString())
+      .url
 
     const insideTemperatureUrl = (new UrlBuilder(environment.dev.serverUrl, "hass/temperature-sensors"))
-    .url
+      .url
     const hoursUntilExpire = 2
     const minutesuntilExpire = 10
     const safeName = location.name.replace(" ", "")
