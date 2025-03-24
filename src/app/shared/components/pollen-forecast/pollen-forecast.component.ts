@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, Input, InputSignal, KeyValueDiffers, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, input,  InputSignal, Output } from '@angular/core';
 import { IPollenForecast } from '../../models/interfaces/pollenrapporten/pollen-forecast';
 import { DateFnsModule } from 'ngx-date-fns';
 import { NgClass } from '@angular/common';
@@ -18,10 +18,6 @@ export class PollenForecastComponent {
   showLongDescription: boolean = false
 
   constructor() {
-    this.now.setHours(0)
-    this.now.setMinutes(0)
-    this.now.setSeconds(0)
-    this.now.setMilliseconds(0)
   }
 
   selectDate(regionId: string, date: Date): void {

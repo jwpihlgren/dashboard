@@ -4,9 +4,14 @@ import { provideRouter } from "@angular/router";
 import { authHttpInterceptorFn, provideAuth0 } from "@auth0/auth0-angular";
 import { environment } from "src/environments/environment";
 import { routes } from "./app.routes";
+import { DateFnsConfigurationService } from 'ngx-date-fns';
+import { sv } from 'date-fns/locale';
 
+const swedishConfig = new DateFnsConfigurationService()
+swedishConfig.setLocale(sv)
 export const appConfig: ApplicationConfig = {
   providers: [
+    { provide: DateFnsConfigurationService, useValue: swedishConfig},
     provideAuth0({
       domain: environment.auth.domain,
       clientId: environment.auth.clientId,

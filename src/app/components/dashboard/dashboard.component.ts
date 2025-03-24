@@ -63,7 +63,11 @@ export class DashboardComponent {
     this.pollenService.queryPollenForecast(this.REGION, this.pollenForecastPeriod)
   }
 
-   getTimer(): Observable<number> {
+  updatePollenData(data: { regionId: string, date: Date }): void {
+    this.pollenService.queryPollenForecast(data.regionId, data.date)
+  }
+
+  getTimer(): Observable<number> {
     const delay = 1000 * 60 * 60 * 0.5
     const interval = 1000 * 60 * 60 * 0.5
 

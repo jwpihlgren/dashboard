@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, OnDestroy } from '@angular/core';
-import { catchError, EMPTY, map, Observable, of, tap, forkJoin, BehaviorSubject, Subject, mergeMap, takeUntil, ReplaySubject, shareReplay, delay, switchMap, find } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { catchError, EMPTY, map, Observable, of, tap, forkJoin, Subject, shareReplay, switchMap } from 'rxjs';
 import { IPollenForecast } from '../models/interfaces/pollenrapporten/pollen-forecast';
 import { LocalStorageService } from './local-storage.service';
+import UrlBuilder from '../utils/url-builder';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class PollenService {
   private POLLEN_FORECAST_STORE_KEY = "pollen_forecast"
   private MAX_CHAR_COUNT_SHORT_DESCRIPTION = 150
 
-  private query$: Subject<{region: string, date: Date}> = new Subject()
+  private query$: Subject<{ region: string, date: Date }> = new Subject()
   pollenForecast$: Observable<IPollenForecast>
 
   constructor() {
@@ -33,17 +34,20 @@ export class PollenService {
     )
   }
 
-  queryPollenForecast(regionId: string, date: Date): void {
-    this.query$.next({region: regionId, date: date})
+  queryPollenForecast(regionId: string, date: Date = new Date()): void {
+    date.setHours(0)
+    date.setMinutes(0)
+    date.setSeconds(0)
+    date.setMilliseconds(0)
+    console.log(date)
+    this.query$.next({ region: regionId, date: date })
   }
 
   private request(regionId: string, date: Date): Observable<IPollenForecast> {
-      return this.generateDetailedForecast(regionId, date).pipe(
-      tap(data => console.log(data))
-    )
+    return this.generateDetailedForecast(regionId, date).pipe()
   }
 
-    private generateDetailedForecast(regionId: string, dateInForecast?: Date): Observable<IPollenForecast> {
+  private generateDetailedForecast(regionId: string, dateInForecast?: Date): Observable<IPollenForecast> {
     const regions: Observable<IOPARegionsDto> = this.getRegions()
     const pollenTypes: Observable<IOPAPollenTypesDto> = this.getPollenTypes()
     const forecasts: Observable<IOPAForecastDto> = this.getForecasts(regionId)
@@ -54,7 +58,6 @@ export class PollenService {
       forecasts: forecasts
     }).pipe(
       map((data: any) => {
-          console.log(data)
         const mappedPollenTypes = this.mapOPAPollenTypes(data.pollenTypes)
         const mappedRegions = this.mapOPARegion(data.regions)
         const mappedForecastData = {
@@ -76,16 +79,14 @@ export class PollenService {
   }
 
   private getForecasts(regionId: string = "all"): Observable<IOPAForecastDto> {
-    const endpoint = "forecasts"
-    const regionParam = regionId === "all" ? "" : "&region_id=" + regionId
-    const currentParam = "current=true"
-    const quaryParams = `${currentParam}${regionParam}`
-    const url = `${this.BASE_URL}/${endpoint}?${quaryParams}`
     const forecast = this.getForecastStore(regionId)
+
+    const urlBuilder = new UrlBuilder(this.BASE_URL, "forecasts").addQueryParam("current", "true")
+    if (regionId !== "all") urlBuilder.addQueryParam("region_id", regionId)
     if (forecast) {
       return of<IOPAForecastDto>(forecast)
     }
-    return this.http.get<IOPAForecastDto>(url).pipe(
+    return this.http.get<IOPAForecastDto>(urlBuilder.url).pipe(
       tap(data => this.setForecastStore(regionId, data)),
       catchError(error => {
         console.log(error)
@@ -118,6 +119,7 @@ export class PollenService {
     regions: IPollenRegion[],
     dateInForecast?: Date
   }): IPollenForecast {
+    console.log(data.forecast)
     const innerData = data.forecast.items[0]
     const today = new Date()
     today.setHours(0)
@@ -131,8 +133,6 @@ export class PollenService {
           date: new Date(date)
         }
       })
-    console.log(innerData)
-    console.log(data.pollenTypes)
     const forecast: IPollenForecast = {
       id: innerData.id,
       fetchDate: new Date(),
@@ -151,7 +151,6 @@ export class PollenService {
           levelName: (data.pollenTypes.find((pollenType: IPollenType) => pollenType.id === levelSerie.pollenId) as IPollenType).name,
           time: new Date(levelSerie.time)
         }
-        console.log(res)
         return res
       })
     }
