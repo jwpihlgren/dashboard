@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Observable, mergeMap, catchError, EMPTY, retry, shareReplay } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { environment } from 'src/environments/environment';
 
@@ -8,11 +8,11 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class UserService {
+  protected authService: AuthService = inject(AuthService)
+  protected httpClient: HttpClient = inject(HttpClient)
 
   constructor(
-    private authService: AuthService,
-    private httpClient: HttpClient
-    ) { }
+  ) { }
 
   getUserMetadata(): Observable<any> {
     return this.getUser().pipe(

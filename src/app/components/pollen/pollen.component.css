@@ -1,0 +1,9 @@
+.pollen-regions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--small);
+}
+
+.pollen-regions--region {
+  list-style: none;
+}

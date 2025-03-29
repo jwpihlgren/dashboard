@@ -17,6 +17,7 @@ export class ProfileComponent {
   userMetaData: Signal<any> = signal(undefined)
   idTokenClaims: Signal<any> = signal(undefined)
   user: Signal<any> = signal(undefined)
+  test: Signal<any> = signal(undefined)
 
   protected userService: UserService = inject(UserService)
   protected localStorageService: LocalStorageService = inject(LocalStorageService)
@@ -26,6 +27,7 @@ export class ProfileComponent {
   constructor() {
     this.userMetaData = toSignal(this.userService.getUserMetadata())
     this.idTokenClaims = toSignal(this.auth.idTokenClaims$)
+    this.test = toSignal(this.userService.getUser())
     this.user = toSignal(this.auth.user$)
   }
 
@@ -34,6 +36,7 @@ export class ProfileComponent {
     console.log("userMetaData", this.userMetaData())
     console.log("idTokenClaims", this.idTokenClaims())
     console.log("user", this.user())
+    console.log("test", this.test())
     setTimeout(() => { event.target.innerText = "Logga användare" }, 3000)
   }
 

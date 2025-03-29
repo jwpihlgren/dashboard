@@ -42,6 +42,14 @@ export class PollenService {
     this.query$.next({ region: regionId, date: date })
   }
 
+  getPollenRegions(): Observable<IPollenRegion[]> {
+    return this.getRegions().pipe(
+      map(data => {
+        return this.mapOPARegion(data)
+      })
+    )
+  }
+
   private request(regionId: string, date: Date): Observable<IPollenForecast> {
     return this.generateDetailedForecast(regionId, date).pipe()
   }
@@ -241,12 +249,12 @@ export class PollenService {
 }
 
 
-interface IPollenRegion {
+export interface IPollenRegion {
   id: string
   name: string
 }
 
-interface IPollenType {
+ export interface IPollenType {
   id: string,
   name: string
 }
