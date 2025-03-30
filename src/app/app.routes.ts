@@ -15,7 +15,6 @@ import { HydrologicalPeriodComponent } from "./components/hydrological-observati
 import { HydrologicalDetailedStationComponent } from "./components/hydrological-observations/hydrological-detailed-station/hydrological-detailed-station.component";
 import { HydrologicalStationListComponent } from "./components/hydrological-observations/hydrological-station-list/hydrological-station-list.component";
 import { PollenComponent } from "./components/pollen/pollen.component";
-import { PollenForecastComponent } from "./shared/components/pollen-forecast/pollen-forecast.component";
 import { PollenRegionComponent } from "./components/pollen-region/pollen-region.component";
 
 export const routes: Routes = [

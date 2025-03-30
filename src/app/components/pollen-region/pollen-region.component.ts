@@ -1,11 +1,12 @@
 import { Component, inject, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { map, tap } from 'rxjs';
+import { first, map, tap } from 'rxjs';
 import { PollenForecastComponent } from 'src/app/shared/components/pollen-forecast/pollen-forecast.component';
 import { ColumnComponent } from 'src/app/shared/layouts/column/column.component';
 import { IPollenForecast } from 'src/app/shared/models/interfaces/pollenrapporten/pollen-forecast';
 import { IPollenRegion, PollenService } from 'src/app/shared/services/pollen.service';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-pollen-region',
@@ -16,6 +17,8 @@ import { IPollenRegion, PollenService } from 'src/app/shared/services/pollen.ser
 export class PollenRegionComponent {
   protected pollenService: PollenService = inject(PollenService)
   protected activatedRoute: ActivatedRoute = inject(ActivatedRoute)
+  protected userService: UserService = inject(UserService)
+
   forecast: Signal<IPollenForecast | undefined>
   region: Signal<string>
 
@@ -25,11 +28,14 @@ export class PollenRegionComponent {
       map(route => {
         return route.get("id") as string
       })
-    ), {initialValue:"" })
+    ), { initialValue: "" })
 
     this.pollenService.queryPollenForecast(this.region())
   }
 
   setDefault(region: IPollenRegion): void {
+    this.userService.setUserFavoritePollenForecastLoaction(region).pipe(
+      first()
+    ).subscribe()
   }
 }

@@ -10,6 +10,8 @@ import { WeatherService } from 'src/app/shared/services/weather.service';
 import { toSignal } from '@angular/core/rxjs-interop'
 import { IForecast } from 'src/app/shared/models/forecast.interface';
 import { SearchResultComponent } from 'src/app/shared/components/search-result/search-result.component';
+import { UserService } from 'src/app/shared/services/user.service';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-weather',
@@ -21,9 +23,11 @@ export class WeatherComponent {
 
   searchResults: Signal<ILocation[] | undefined>
   forecast: Signal<IForecast | undefined>
+  location: Signal<ILocation | undefined> = signal(undefined)
 
   protected locationService: LocationService = inject(LocationService)
   protected weatherService: WeatherService = inject(WeatherService)
+  protected userService: UserService = inject(UserService)
 
   constructor() {
     this.searchResults = toSignal(this.locationService.searchResults$)
@@ -36,16 +40,28 @@ export class WeatherComponent {
 
   getForecast(location: ILocation): void {
     this.weatherService.forecastByLocation(location)
+    this.location = signal(location)
   }
 
   handleSearchClick(event: ILocation): void {
-    this.weatherService.forecastByLocation(event)
+    this.getForecast(event)
   }
+
   clearSearch(): void {
     this.locationService.clear()
   }
+
   clearForecast(): void {
     this.weatherService.clearForecast()
+    this.location = signal(undefined)
+  }
+
+  setDefault(location: ILocation | undefined): void {
+    if (location !== undefined) {
+      this.userService.setUserFavoriteWeatherForecastLocation(location).pipe(
+        first()
+      ).subscribe()
+    }
   }
 
 
