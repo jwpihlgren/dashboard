@@ -30,7 +30,7 @@ export class PollenRegionComponent {
       })
     ), { initialValue: "" })
 
-    this.pollenService.queryPollenForecast(this.region())
+    this.pollenService.pollenForecastById(this.region())
   }
 
   setDefault(region: IPollenRegion): void {

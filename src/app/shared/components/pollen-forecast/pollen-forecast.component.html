@@ -1,27 +1,27 @@
+@defer(when forecast() !== undefined) {
 <header class="flex col gap-md">
-  <h6> Pollenrapport - {{forecast().regionName}}</h6>
-  @if(!showLongDescription) {
-  <span class="description">
-        {{forecast().shortDescription}}
-        @if(forecast().description) {
-        <button class="ternary" (click)="toggleShowLongDescription()">Visa mer</button>
-    }
-  </span>
+<h6> Pollenrapport - {{forecast().regionName}}</h6>
+@if(!showLongDescription) {
+<span class="description">
+  {{forecast().shortDescription}}
+  @if(forecast().description) {
+  <button class="ternary" (click)="toggleShowLongDescription()">Visa mer</button>
   }
-  @if(forecast().description && showLongDescription) {
-  <span class="description">
-    {{forecast().description}}
-    @if(forecast().description){
-    <button class="ternary" (click)="toggleShowLongDescription()">Visa mindre</button>
-    }
-  </span>
+</span>
+}
+@if(forecast().description && showLongDescription) {
+<span class="description">
+  {{forecast().description}}
+  @if(forecast().description){
+  <button class="ternary" (click)="toggleShowLongDescription()">Visa mindre</button>
   }
+</span>
+}
 </header>
 
 <div class="button-group | flex row">
   @for(availableDate of forecast().availableDates; track $index){
-  <button
-    [ngClass]="{'active': availableDate.date.getTime() === forecast().currentDate.getTime()}"
+  <button [ngClass]="{'active': availableDate.date.getTime() === forecast().currentDate.getTime()}"
     (click)="selectDate(forecast().regionId, availableDate.date)" class="ternary">
     {{availableDate.date | dfnsSubDays: 1 | dfnsGetDay | dfnsWeekdayName}}
   </button>
@@ -60,3 +60,4 @@
     </span>
   </div>
 </footer>
+}
