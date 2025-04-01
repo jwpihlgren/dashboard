@@ -1,6 +1,7 @@
 import { Component, inject, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
+import { User } from '@auth0/auth0-angular';
 import { first, map, tap } from 'rxjs';
 import { PollenForecastComponent } from 'src/app/shared/components/pollen-forecast/pollen-forecast.component';
 import { ColumnComponent } from 'src/app/shared/layouts/column/column.component';
@@ -29,13 +30,14 @@ export class PollenRegionComponent {
         return route.get("id") as string
       })
     ), { initialValue: "" })
-
     this.pollenService.pollenForecastById(this.region())
   }
 
   setDefault(region: IPollenRegion): void {
-    this.userService.setUserFavoritePollenForecastLoaction(region).pipe(
-      first()
+    this.userService.user.pipe(
+      tap(user => {
+        this.userService.setUserFavoritePollenForecastLoaction(user!.sub!, region)
+      }), first()
     ).subscribe()
   }
 }

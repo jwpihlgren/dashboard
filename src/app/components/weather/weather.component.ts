@@ -11,7 +11,7 @@ import { toSignal } from '@angular/core/rxjs-interop'
 import { IForecast } from 'src/app/shared/models/forecast.interface';
 import { SearchResultComponent } from 'src/app/shared/components/search-result/search-result.component';
 import { UserService } from 'src/app/shared/services/user.service';
-import { first } from 'rxjs';
+import { first, tap } from 'rxjs';
 
 @Component({
   selector: 'app-weather',
@@ -58,7 +58,10 @@ export class WeatherComponent {
 
   setDefault(location: ILocation | undefined): void {
     if (location !== undefined) {
-      this.userService.setUserFavoriteWeatherForecastLocation(location).pipe(
+      this.userService.user.pipe(
+        tap(data  => {
+          this.userService.setUserFavoriteWeatherForecastLocation(data!.sub!, location)
+        }),
         first()
       ).subscribe()
     }

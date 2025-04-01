@@ -5,6 +5,7 @@ import { Component, inject, signal, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AuthService } from '@auth0/auth0-angular';
 import { ColumnComponent } from 'src/app/shared/layouts/column/column.component';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -23,8 +24,11 @@ export class ProfileComponent {
   protected auth: AuthService = inject(AuthService)
 
   constructor() {
-    this.userMetaData = toSignal(this.userService.getUserMetadata())
-    this.user = toSignal(this.userService.getUser())
+    this.user = toSignal(this.userService.getUser().pipe(
+      tap(user => {
+        this.userMetaData = toSignal(this.userService.getUserMetadata(user.sub))
+      })
+    ))
   }
 
   showuser(event: any) {

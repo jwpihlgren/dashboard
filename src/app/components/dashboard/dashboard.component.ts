@@ -41,6 +41,7 @@ export class DashboardComponent {
   userMetaData: Signal<UserMetadata | undefined> = signal(undefined)
   timer: Signal<any>
   pollenForecastPeriod: Date
+  user
 
 
   protected locationService: LocationService = inject(LocationService)
@@ -54,9 +55,13 @@ export class DashboardComponent {
     this.forecast = toSignal(this.weatherService.forecastResult$)
     this.stationWaterLevelData = toSignal(this.getPeriodData())
     this.pollenForecast = toSignal(this.pollenService.pollenForecast$)
-    this.userMetaData = toSignal(this.userService.getUserMetadata().pipe(
-      tap(metadata => {
-        this.queryObservables(metadata)
+    this.user = toSignal(this.userService.user.pipe(
+      tap(user => {
+        this.userMetaData = toSignal(this.userService.getUserMetadata(user!.sub!).pipe(
+          tap(data => {
+            this.queryObservables(data)
+          })
+        ))
       })
     ))
     this.timer = toSignal(this.getTimer())

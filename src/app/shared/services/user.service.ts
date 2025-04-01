@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, switchMap, throwError } from 'rxjs';
-import { inject, Injectable, Signal } from '@angular/core';
-import { AuthService, User } from '@auth0/auth0-angular';
+import { Observable, map, switchMap, tap, throwError } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 import { environment } from 'src/environments/environment';
 import { ILocation } from '../models/location.interface';
 import { IPollenRegion } from './pollen.service';
 import UrlBuilder from '../utils/url-builder';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
@@ -15,14 +14,9 @@ export class UserService {
   protected authService: AuthService = inject(AuthService)
   protected httpClient: HttpClient = inject(HttpClient)
 
-  user: Signal<User | undefined | null>
-
+  user$
   constructor() {
-    this.user = toSignal(this.isAuthenticated$.pipe(
-      switchMap(_ => {
-        return this.authService.user$
-      })
-    ))
+    this.user$ = this.authService.user$
   }
 
 
@@ -30,17 +24,15 @@ export class UserService {
     return this.authService.isAuthenticated$
   }
 
-  getUserMetadata(): Observable<UserMetadata> {
-    const id = this.getUserId()
-    if (id) {
-      return this.requestUserMetaData(id)
-    }
-    return throwError(`${this.user} does not have property sub`)
+  get user() {
+    return this.user$
   }
 
-  setUserFavoritePollenForecastLoaction(region: IPollenRegion): Observable<UserMetadata> {
-    const id = this.getUserId()
-    if (id) {
+  getUserMetadata(id: string): Observable<UserMetadata> {
+      return this.requestUserMetaData(id)
+  }
+
+  setUserFavoritePollenForecastLoaction(id: string, region: IPollenRegion): Observable<UserMetadata> {
       return this.requestUserMetaData(id).pipe(
         switchMap(data => {
           const metadata = data
@@ -48,28 +40,16 @@ export class UserService {
           return this.setUserMetadata(id, metadata)
         })
       )
-    }
-
-    return throwError(`${this.user} does not have property sub`)
   }
 
-  setUserFavoriteWeatherForecastLocation(location: ILocation): Observable<UserMetadata> {
-    const id = this.getUserId()
-    if(id) {
-        return this.requestUserMetaData(id).pipe(
-          switchMap(data => {
-            const metadata = data
-            metadata.favorite.weatherForecastLocation = location
-            return this.setUserMetadata(id, metadata)
-          })
-        )}
-
-    return throwError(`${this.user} does not have property sub`)
-  }
-
-  private getUserId(): string | undefined {
-    const id = this.user() && this.user()!.sub
-    return id ? id : undefined
+  setUserFavoriteWeatherForecastLocation(id: string, location: ILocation): Observable<UserMetadata> {
+      return this.requestUserMetaData(id).pipe(
+        switchMap(data => {
+          const metadata = data
+          metadata.favorite.weatherForecastLocation = location
+          return this.setUserMetadata(id, metadata)
+        })
+      )
   }
 
   private setUserMetadata(id: string, metadata: UserMetadata): Observable<UserMetadata> {
