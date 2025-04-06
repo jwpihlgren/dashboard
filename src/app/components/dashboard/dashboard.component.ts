@@ -1,10 +1,9 @@
 import { OceanographicalObservationsService } from './../../shared/services/oceanographical-observations.service';
 import { WeatherService } from './../../shared/services/weather.service';
 import { LocationService } from './../../shared/services/location.service';
-import { Observable, share, switchMap, tap, timer } from 'rxjs';
+import { first, map, Observable, share, switchMap, tap, timer } from 'rxjs';
 import { Component, signal, Signal, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ILocation } from 'src/app/shared/models/location.interface';
 import { IForecast } from 'src/app/shared/models/forecast.interface';
 import { IOceanographicalObservationsDataResponse } from 'src/app/shared/models/interfaces/smhi/oceanographical-observations-data-response';
 import { IThresholdConfig } from 'src/app/shared/models/interfaces/threshold-config';
@@ -16,6 +15,7 @@ import { PollenForecastComponent } from 'src/app/shared/components/pollen-foreca
 import { WeatherCardComponent } from 'src/app/shared/components/weather-card/weather-card.component';
 import { CurrentWeatherComponent } from 'src/app/shared/components/current-weather/current-weather.component';
 import { MasonryGridComponent } from 'src/app/shared/layouts/masonry-grid/masonry-grid.component';
+import { UserMetadata, UserService } from 'src/app/shared/services/user.service';
 
 
 @Component({
@@ -34,37 +34,43 @@ export class DashboardComponent {
   }
 
   //This changes often
-  REGION = "2a2a2a2a-2a2a-4a2a-aa2a-2a2a303a3234"
-
   forecast: Signal<IForecast | undefined> = signal(undefined)
   stationWaterLevelData: Signal<IOceanographicalObservationsDataResponse | undefined> = signal(undefined)
   pollenForecast: Signal<IPollenForecast | undefined> = signal(undefined)
-  favoriteLocation: Signal<ILocation | undefined>
+  userMetaData: Signal<UserMetadata | undefined> = signal(undefined)
+  id: string | undefined = undefined
   timer: Signal<any>
   pollenForecastPeriod: Date
+
 
   protected locationService: LocationService = inject(LocationService)
   protected weatherService: WeatherService = inject(WeatherService)
   protected oceanographicalObservationsService: OceanographicalObservationsService = inject(OceanographicalObservationsService)
   protected pollenService: PollenService = inject(PollenService)
+  protected userService: UserService = inject(UserService)
 
 
   constructor() {
     this.forecast = toSignal(this.weatherService.forecastResult$)
     this.stationWaterLevelData = toSignal(this.getPeriodData())
     this.pollenForecast = toSignal(this.pollenService.pollenForecast$)
-    this.favoriteLocation = toSignal(this.locationService.getUserFavoriteLocation().pipe(
-      tap(location => {
-        this.weatherService.forecastByLocation(location)
-      })
-    ))
     this.timer = toSignal(this.getTimer())
     this.pollenForecastPeriod = new Date()
-    this.pollenService.queryPollenForecast(this.REGION, this.pollenForecastPeriod)
+    this.userMetaData = toSignal(this.userService.getUser().pipe(
+      switchMap(user => {
+        this.id = user?.sub
+        return this.userService.getUserMetadata(user?.sub!).pipe(
+          map(metadata => {
+            this.queryObservables(metadata)
+            return metadata
+          })
+        )
+      })
+    ))
   }
 
   updatePollenData(data: { regionId: string, date: Date }): void {
-    this.pollenService.queryPollenForecast(data.regionId, data.date)
+    this.pollenService.pollenForecastById(data.regionId, data.date)
   }
 
   getTimer(): Observable<number> {
@@ -74,12 +80,19 @@ export class DashboardComponent {
 
     return timer(delay, interval).pipe(
       tap(() => {
-        if (this.favoriteLocation()) {
-          this.weatherService.forecastByLocation(this.favoriteLocation()!)
-          this.pollenService.queryPollenForecast(this.REGION, this.pollenForecastPeriod)
+        if (this.userMetaData()) {
+          this.queryObservables(this.userMetaData()!)
         }
       })
     )
+  }
+
+  queryObservables(metadata: UserMetadata): void {
+    const weatherLocation = metadata.favorite.weatherForecastLocation
+    const pollenLocation = metadata.favorite.pollenForecastLocation
+    if (weatherLocation) this.weatherService.forecastByLocation(weatherLocation)
+    if (pollenLocation) this.pollenService.pollenForecastByName(pollenLocation.name, this.pollenForecastPeriod)
+
   }
 
   getPeriodData(): Observable<IOceanographicalObservationsDataResponse> {

@@ -1,12 +1,13 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, Inject } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faRightToBracket, faSignIn, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { MenuItemComponent } from '../menu-item/menu-item.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-user-menu-item',
@@ -16,9 +17,10 @@ import { RouterLink } from '@angular/router';
 })
 export class UserMenuItemComponent {
 
-  protected auth: AuthService = inject(AuthService)
-  user = toSignal(this.auth.user$)
-  isAuthenticated = toSignal(this.auth.isAuthenticated$)
+  protected userService: UserService = inject(UserService)
+  protected authService: AuthService = inject(AuthService)
+  user = toSignal(this.userService.getUser())
+  isAuthenticated = toSignal(this.authService.isAuthenticated$)
 
   loginIcon: any = faRightToBracket;
   buttonGroup = {
@@ -35,17 +37,10 @@ export class UserMenuItemComponent {
    loginWithRedirect(event: Event) {
     event.preventDefault();
     console.log("test");
-    this.auth.loginWithRedirect({});
+    this.userService.login()
   }
 
   logout() {
-    this.auth.logout({
-      logoutParams: {}
-    })
-  }
-
-  showuser() {
-    console.log(this.user())
-  }
-
+    this.userService.logout()
+    }
 }

@@ -1,35 +1,71 @@
 import { HttpClient } from '@angular/common/http';
-import { Observable, mergeMap, catchError, EMPTY, retry, shareReplay } from 'rxjs';
-import { Injectable } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
+import { Observable, map, tap } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { AuthService, User } from '@auth0/auth0-angular';
 import { environment } from 'src/environments/environment';
+import { ILocation } from '../models/location.interface';
+import { IPollenRegion } from './pollen.service';
+import UrlBuilder from '../utils/url-builder';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  protected authService: AuthService = inject(AuthService)
+  protected httpClient: HttpClient = inject(HttpClient)
 
-  constructor(
-    private authService: AuthService,
-    private httpClient: HttpClient
-    ) { }
-
-  getUserMetadata(): Observable<any> {
-    return this.getUser().pipe(
-      mergeMap((user: any) => {
-        const url = `${environment.dev.serverUrl}/user/${user.sub}`
-        return this.httpClient.get(url)
-      }),
-      retry(3),
-      catchError((error: Error) => {
-        console.log(error);
-        return EMPTY
-      }),
-      shareReplay()
-    )
+  constructor() {
   }
 
-  getUser(): Observable<any> {
+  isAuthenticated$() {
+    return this.authService.isAuthenticated$
+  }
+
+  setUserFavoritePollenForecastLoaction(id: string, metadata: UserMetadata, region: IPollenRegion): Observable<UserMetadata> {
+    metadata.favorite!["pollenForecastLocation"] = region
+    return this.setUserMetadata(id, metadata)
+  }
+
+  setUserFavoriteWeatherForecastLocation(id: string, metadata: UserMetadata, location: ILocation): Observable<UserMetadata> {
+    metadata.favorite["weatherForecastLocation"] = location
+    return this.setUserMetadata(id, metadata)
+  }
+
+
+  getUserMetadata(id: string): Observable<UserMetadata> {
+    const builder = new UrlBuilder(environment.dev.serverUrl, `user/${id}`)
+    return this.httpClient.get<UserMetadata>(builder.url).pipe(tap(data => console.log(data)))
+  }
+
+  getUser(): Observable<User | null | undefined> {
     return this.authService.idTokenClaims$
+  }
+
+  login(): void {
+    this.authService.loginWithRedirect({});
+  }
+
+  logout(): void {
+    this.authService.logout({
+      logoutParams: {}
+    })
+
+  }
+
+  private setUserMetadata(id: string, metadata: UserMetadata): Observable<UserMetadata> {
+    const builder = new UrlBuilder(environment.dev.serverUrl, `user/${id}`)
+    return this.httpClient.patch(builder.url, { user_metadata: metadata }).pipe(
+      map((data: any) => {
+        return data.user_metadata as UserMetadata
+      })
+    )
+  }
+}
+
+
+export interface UserMetadata {
+  favorite: {
+    weatherForecastLocation?: ILocation,
+    pollenForecastLocation?: IPollenRegion
   }
 }

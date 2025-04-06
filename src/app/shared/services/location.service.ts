@@ -71,23 +71,6 @@ export class LocationService {
     );
   }
 
-
-
-  getUserFavoriteLocation(): Observable<ILocation> {
-    const ITEM_NAME = "favorite_location"
-    const previousFavorite: ILocation = this.sessionStorageService.getStoredData(ITEM_NAME) as ILocation
-    if (Object.keys(previousFavorite).length > 0) {
-      return of(previousFavorite)
-    }
-    return this.userService.getUserMetadata().pipe(
-      debounceTime(200),
-      map((response: any) => {
-        this.sessionStorageService.setStoredData(ITEM_NAME, response.favorite_location)
-        return response.favorite_location
-      })
-    )
-  }
-
   private createLocationObject(obj: ILocationResponse): ILocation {
     const location: ILocation = {
       name: obj.name,
