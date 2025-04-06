@@ -3,9 +3,9 @@ import { LocalStorageService } from './../../shared/services/local-storage.servi
 import { UserMetadata, UserService } from './../../shared/services/user.service';
 import { Component, inject, signal, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { AuthService } from '@auth0/auth0-angular';
+import { AuthService, User } from '@auth0/auth0-angular';
 import { ColumnComponent } from 'src/app/shared/layouts/column/column.component';
-import { map, switchMap } from 'rxjs';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -17,6 +17,7 @@ export class ProfileComponent {
 
   userMetaData: Signal<UserMetadata | undefined> = signal(undefined)
   id: string | undefined
+  user: User | null | undefined
   protected userService: UserService = inject(UserService)
   protected localStorageService: LocalStorageService = inject(LocalStorageService)
   protected sessionStorageService: SessionStorageService = inject(SessionStorageService)
@@ -26,6 +27,7 @@ export class ProfileComponent {
     this.userMetaData = toSignal(this.userService.getUser().pipe(
       switchMap(user => {
         this.id = user?.sub
+        this.user = user
         return this.userService.getUserMetadata(user?.sub!)
       })
     ))
@@ -33,7 +35,7 @@ export class ProfileComponent {
 
   showuser(event: any) {
     event.target.innerText = "Loggad"
-    console.log("userMetaData", this.userMetaData)
+    console.log("userMetaData", this.userMetaData())
     setTimeout(() => { event.target.innerText = "Logga användare" }, 3000)
   }
 
