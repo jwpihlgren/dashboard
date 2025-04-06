@@ -1,0 +1,4 @@
+<app-column>
+  <app-pollen-forecast [forecast]="forecast()!"></app-pollen-forecast>
+  <button (click)="setDefault({id: forecast()!.regionId, name: forecast()!.regionName})" class="primary">{{setDefaultButtonText()}}</button>
+</app-column>

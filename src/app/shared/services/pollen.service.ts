@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, EMPTY, map, Observable, of, tap, forkJoin, Subject, shareReplay, switchMap } from 'rxjs';
+import { catchError, EMPTY, map, Observable, of, tap, forkJoin, Subject, shareReplay, switchMap, throwError, first } from 'rxjs';
 import { IPollenForecast } from '../models/interfaces/pollenrapporten/pollen-forecast';
 import { LocalStorageService } from './local-storage.service';
 import UrlBuilder from '../utils/url-builder';
@@ -34,12 +34,38 @@ export class PollenService {
     )
   }
 
-  queryPollenForecast(regionId: string, date: Date = new Date()): void {
+  pollenForecastById(regionId: string, date: Date = new Date()): void {
     date.setHours(0)
     date.setMinutes(0)
     date.setSeconds(0)
     date.setMilliseconds(0)
     this.query$.next({ region: regionId, date: date })
+  }
+  pollenForecastByName(regionName: string, date: Date = new Date()): void {
+    date.setHours(0)
+    date.setMinutes(0)
+    date.setSeconds(0)
+    date.setMilliseconds(0)
+    this.getRegions().pipe(
+      tap(data => {
+        const region = data.items.find(item => item.name === regionName)
+        if (region) {
+          this.query$.next({ region: region.id, date: date })
+        }
+        else throwError(`Region: ${regionName} not found.`)
+      }),
+      first()
+    ).subscribe()
+  }
+
+
+
+  getPollenRegions(): Observable<IPollenRegion[]> {
+    return this.getRegions().pipe(
+      map(data => {
+        return this.mapOPARegion(data)
+      })
+    )
   }
 
   private request(regionId: string, date: Date): Observable<IPollenForecast> {
@@ -241,12 +267,12 @@ export class PollenService {
 }
 
 
-interface IPollenRegion {
+export interface IPollenRegion {
   id: string
   name: string
 }
 
-interface IPollenType {
+export interface IPollenType {
   id: string,
   name: string
 }
