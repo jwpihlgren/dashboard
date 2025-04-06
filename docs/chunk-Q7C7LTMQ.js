@@ -1,1 +1,0 @@
-import{jb as i}from"./chunk-CQTB3V4U.js";var a=(()=>{class t{transform(e,...r){return`${Math.round(e)} ${r[0]}`}static{this.\u0275fac=function(r){return new(r||t)}}static{this.\u0275pipe=i({name:"addUnit",type:t,pure:!0})}}return t})();export{a};
