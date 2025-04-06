@@ -7,6 +7,7 @@ import { MenuItemComponent } from '../menu-item/menu-item.component';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-user-menu-item',
@@ -17,8 +18,9 @@ import { UserService } from '../../services/user.service';
 export class UserMenuItemComponent {
 
   protected userService: UserService = inject(UserService)
-  isAuthenticated = toSignal(this.userService.isAuthenticated$)
+  protected authService: AuthService = inject(AuthService)
   user = toSignal(this.userService.getUser())
+  isAuthenticated = toSignal(this.authService.isAuthenticated$)
 
   loginIcon: any = faRightToBracket;
   buttonGroup = {

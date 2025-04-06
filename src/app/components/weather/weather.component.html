@@ -22,7 +22,7 @@
       <app-detailed-weather-table class="card card-double" [forecast]="forecast()!"></app-detailed-weather-table>
     </div>
     <button (click)="clearForecast()" class="primary">Sök på nytt</button>
-    <button (click)="setDefault(location())" class="secondary">Använd som standard</button>
+    <button (click)="setDefault(location())" class="secondary">{{setDefaultButtonText()}}</button>
     }
   </section>
 </app-column>

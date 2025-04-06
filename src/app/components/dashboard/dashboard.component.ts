@@ -1,15 +1,14 @@
 import { OceanographicalObservationsService } from './../../shared/services/oceanographical-observations.service';
 import { WeatherService } from './../../shared/services/weather.service';
 import { LocationService } from './../../shared/services/location.service';
-import { Observable, share, switchMap, tap, timer } from 'rxjs';
+import { first, map, Observable, share, switchMap, tap, timer } from 'rxjs';
 import { Component, signal, Signal, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ILocation } from 'src/app/shared/models/location.interface';
 import { IForecast } from 'src/app/shared/models/forecast.interface';
 import { IOceanographicalObservationsDataResponse } from 'src/app/shared/models/interfaces/smhi/oceanographical-observations-data-response';
 import { IThresholdConfig } from 'src/app/shared/models/interfaces/threshold-config';
 import { IPollenForecast } from 'src/app/shared/models/interfaces/pollenrapporten/pollen-forecast';
-import { IPollenRegion, PollenService } from 'src/app/shared/services/pollen.service';
+import { PollenService } from 'src/app/shared/services/pollen.service';
 import { DetailedWeatherTableComponent } from 'src/app/shared/components/detailed-weather-table/detailed-weather-table.component';
 import { SimpleWaterLevelComponent } from 'src/app/shared/components/simple-water-level/simple-water-level.component';
 import { PollenForecastComponent } from 'src/app/shared/components/pollen-forecast/pollen-forecast.component';
@@ -39,9 +38,9 @@ export class DashboardComponent {
   stationWaterLevelData: Signal<IOceanographicalObservationsDataResponse | undefined> = signal(undefined)
   pollenForecast: Signal<IPollenForecast | undefined> = signal(undefined)
   userMetaData: Signal<UserMetadata | undefined> = signal(undefined)
+  id: string | undefined = undefined
   timer: Signal<any>
   pollenForecastPeriod: Date
-  user
 
 
   protected locationService: LocationService = inject(LocationService)
@@ -55,17 +54,19 @@ export class DashboardComponent {
     this.forecast = toSignal(this.weatherService.forecastResult$)
     this.stationWaterLevelData = toSignal(this.getPeriodData())
     this.pollenForecast = toSignal(this.pollenService.pollenForecast$)
-    this.user = toSignal(this.userService.user.pipe(
-      tap(user => {
-        this.userMetaData = toSignal(this.userService.getUserMetadata(user!.sub!).pipe(
-          tap(data => {
-            this.queryObservables(data)
-          })
-        ))
-      })
-    ))
     this.timer = toSignal(this.getTimer())
     this.pollenForecastPeriod = new Date()
+    this.userMetaData = toSignal(this.userService.getUser().pipe(
+      switchMap(user => {
+        this.id = user?.sub
+        return this.userService.getUserMetadata(user?.sub!).pipe(
+          map(metadata => {
+            this.queryObservables(metadata)
+            return metadata
+          })
+        )
+      })
+    ))
   }
 
   updatePollenData(data: { regionId: string, date: Date }): void {

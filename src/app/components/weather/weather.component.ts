@@ -1,4 +1,4 @@
-import { Component, Signal, signal, inject } from '@angular/core';
+import { Component, Signal, signal, inject, WritableSignal } from '@angular/core';
 import { CurrentWeatherComponent } from 'src/app/shared/components/current-weather/current-weather.component';
 import { DetailedWeatherTableComponent } from 'src/app/shared/components/detailed-weather-table/detailed-weather-table.component';
 import { SearchComponent } from 'src/app/shared/components/search/search.component';
@@ -10,8 +10,8 @@ import { WeatherService } from 'src/app/shared/services/weather.service';
 import { toSignal } from '@angular/core/rxjs-interop'
 import { IForecast } from 'src/app/shared/models/forecast.interface';
 import { SearchResultComponent } from 'src/app/shared/components/search-result/search-result.component';
-import { UserService } from 'src/app/shared/services/user.service';
-import { first, tap } from 'rxjs';
+import { UserMetadata, UserService } from 'src/app/shared/services/user.service';
+import { finalize, first, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-weather',
@@ -29,9 +29,23 @@ export class WeatherComponent {
   protected weatherService: WeatherService = inject(WeatherService)
   protected userService: UserService = inject(UserService)
 
+  metadata: Signal<UserMetadata | undefined> = signal(undefined)
+  id: string | undefined
+
+  loading = "loading"
+  useAsDefault = "Använd som standard"
+  setDefaultButtonText: WritableSignal<string> = signal<string>(this.useAsDefault)
+
   constructor() {
     this.searchResults = toSignal(this.locationService.searchResults$)
     this.forecast = toSignal(this.weatherService.forecastResult$)
+    this.metadata = toSignal(this.userService.getUser().pipe(
+      switchMap(user => {
+        this.id = user?.sub
+        return this.userService.getUserMetadata(user?.sub!)
+      })
+    ))
+
   }
 
   getLocation(searchQuery: string): void {
@@ -57,17 +71,15 @@ export class WeatherComponent {
   }
 
   setDefault(location: ILocation | undefined): void {
-    if (location !== undefined) {
-      this.userService.user.pipe(
-        tap(data  => {
-          this.userService.setUserFavoriteWeatherForecastLocation(data!.sub!, location)
-        }),
-        first()
-      ).subscribe()
+    if (this.id && this.metadata() !== undefined) {
+      if (location) {
+        this.setDefaultButtonText.set(this.loading)
+        this.userService.setUserFavoriteWeatherForecastLocation(this.id, this.metadata()!, location).pipe(
+          finalize(() => this.setDefaultButtonText.set(this.useAsDefault)),
+          first()
+        ).subscribe()
+      }
     }
   }
-
-
-
 }
 

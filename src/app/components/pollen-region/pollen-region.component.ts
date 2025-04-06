@@ -1,13 +1,12 @@
-import { Component, inject, Signal } from '@angular/core';
+import { Component, inject, signal, Signal, WritableSignal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '@auth0/auth0-angular';
-import { first, map, tap } from 'rxjs';
+import { finalize, first, map, switchMap } from 'rxjs';
 import { PollenForecastComponent } from 'src/app/shared/components/pollen-forecast/pollen-forecast.component';
 import { ColumnComponent } from 'src/app/shared/layouts/column/column.component';
 import { IPollenForecast } from 'src/app/shared/models/interfaces/pollenrapporten/pollen-forecast';
 import { IPollenRegion, PollenService } from 'src/app/shared/services/pollen.service';
-import { UserService } from 'src/app/shared/services/user.service';
+import { UserMetadata, UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-pollen-region',
@@ -20,24 +19,36 @@ export class PollenRegionComponent {
   protected activatedRoute: ActivatedRoute = inject(ActivatedRoute)
   protected userService: UserService = inject(UserService)
 
+  useAsDefault="Använd som standrd"
+  loading = "Laddar..."
+  setDefaultButtonText: WritableSignal<string> = signal<string>(this.useAsDefault)
   forecast: Signal<IPollenForecast | undefined>
   region: Signal<string>
-
+  metadata: Signal<UserMetadata | undefined> = signal(undefined)
+  id: string | undefined
   constructor() {
-    this.forecast = toSignal(this.pollenService.pollenForecast$.pipe(tap(data => console.log(data))))
+    this.forecast = toSignal(this.pollenService.pollenForecast$)
     this.region = toSignal(this.activatedRoute.paramMap.pipe(
       map(route => {
         return route.get("id") as string
       })
     ), { initialValue: "" })
     this.pollenService.pollenForecastById(this.region())
+    this.metadata = toSignal(this.userService.getUser().pipe(
+      switchMap(user => {
+        this.id = user?.sub
+          return this.userService.getUserMetadata(user?.sub!)
+      })
+    ))
   }
 
   setDefault(region: IPollenRegion): void {
-    this.userService.user.pipe(
-      tap(user => {
-        this.userService.setUserFavoritePollenForecastLoaction(user!.sub!, region)
-      }), first()
-    ).subscribe()
+    if (this.id && this.metadata()) {
+      this.setDefaultButtonText.set(this.loading)
+      this.userService.setUserFavoritePollenForecastLoaction(this.id, this.metadata()!, region).pipe(
+        first(),
+        finalize(() => this.setDefaultButtonText.set(this.useAsDefault))
+      ).subscribe((data) => {console.log(data)})
+    }
   }
 }

@@ -1,11 +1,11 @@
 import { SessionStorageService } from './../../shared/services/session-storage.service';
 import { LocalStorageService } from './../../shared/services/local-storage.service';
-import { UserService } from './../../shared/services/user.service';
+import { UserMetadata, UserService } from './../../shared/services/user.service';
 import { Component, inject, signal, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AuthService } from '@auth0/auth0-angular';
 import { ColumnComponent } from 'src/app/shared/layouts/column/column.component';
-import { tap } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -15,26 +15,25 @@ import { tap } from 'rxjs';
 })
 export class ProfileComponent {
 
-  userMetaData: Signal<any> = signal(undefined)
-  user: Signal<any> = signal(undefined)
-
+  userMetaData: Signal<UserMetadata | undefined> = signal(undefined)
+  id: string | undefined
   protected userService: UserService = inject(UserService)
   protected localStorageService: LocalStorageService = inject(LocalStorageService)
   protected sessionStorageService: SessionStorageService = inject(SessionStorageService)
   protected auth: AuthService = inject(AuthService)
 
   constructor() {
-    this.user = toSignal(this.userService.getUser().pipe(
-      tap(user => {
-        this.userMetaData = toSignal(this.userService.getUserMetadata(user.sub))
+    this.userMetaData = toSignal(this.userService.getUser().pipe(
+      switchMap(user => {
+        this.id = user?.sub
+        return this.userService.getUserMetadata(user?.sub!)
       })
     ))
   }
 
   showuser(event: any) {
     event.target.innerText = "Loggad"
-    console.log("userMetaData", this.userMetaData())
-    console.log("user", this.user())
+    console.log("userMetaData", this.userMetaData)
     setTimeout(() => { event.target.innerText = "Logga användare" }, 3000)
   }
 
@@ -46,6 +45,4 @@ export class ProfileComponent {
     event.target.innerText = "Lagring rensad"
     setTimeout(() => { event.target.innerText = "Rensa Lagring" }, 3000)
   }
-
-
 }
