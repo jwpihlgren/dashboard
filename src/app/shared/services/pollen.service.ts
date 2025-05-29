@@ -23,7 +23,7 @@ export class PollenService {
   private POLLEN_FORECAST_STORE_KEY = "pollen_forecast"
   private MAX_CHAR_COUNT_SHORT_DESCRIPTION = 150
 
-  private query$: Subject<{ region: string, date: Date }> = new Subject()
+  private query$: Subject<{ region: string, date?: Date }> = new Subject()
   pollenForecast$: Observable<IPollenForecast>
 
   constructor() {
@@ -34,23 +34,23 @@ export class PollenService {
     )
   }
 
-  pollenForecastById(regionId: string, date: Date = new Date()): void {
-    date.setHours(0)
-    date.setMinutes(0)
-    date.setSeconds(0)
-    date.setMilliseconds(0)
+  pollenForecastById(regionId: string, date?: Date): void {
+    console.log(date)
+    if (date) {
+      date.setHours(0)
+      date.setMinutes(0)
+      date.setSeconds(0)
+      date.setMilliseconds(0)
+    }
+    console.log(date)
     this.query$.next({ region: regionId, date: date })
   }
-  pollenForecastByName(regionName: string, date: Date = new Date()): void {
-    date.setHours(0)
-    date.setMinutes(0)
-    date.setSeconds(0)
-    date.setMilliseconds(0)
+  pollenForecastByName(regionName: string, date?: Date): void {
     this.getRegions().pipe(
       tap(data => {
         const region = data.items.find(item => item.name === regionName)
         if (region) {
-          this.query$.next({ region: region.id, date: date })
+          this.pollenForecastById(region.id, date)
         }
         else throwError(`Region: ${regionName} not found.`)
       }),
@@ -68,7 +68,7 @@ export class PollenService {
     )
   }
 
-  private request(regionId: string, date: Date): Observable<IPollenForecast> {
+  private request(regionId: string, date?: Date): Observable<IPollenForecast> {
     return this.generateDetailedForecast(regionId, date).pipe()
   }
 
@@ -93,14 +93,18 @@ export class PollenService {
         }
         const mappedForecasts: IPollenForecast = this.mapOPAForecast(mappedForecastData)
         mappedForecasts.pollenLevels = [...mappedForecasts.pollenLevels].filter(pollenLevel => {
-          const pollenLevelTimeAtZweroHours = new Date(pollenLevel.time.setHours(0)).getTime()
-          const currentDateAtZeroHours = new Date(mappedForecasts.currentDate.setHours(0)).getTime()
-          return pollenLevelTimeAtZweroHours === currentDateAtZeroHours
+          const forecastDateSplit = this.splitDateToArray(pollenLevel.time)
+          const currentDateSplit = this.splitDateToArray(mappedForecasts.currentDate)
+          return forecastDateSplit.every((forecastItem, index) => forecastItem === currentDateSplit[index]  )
         })
         return mappedForecasts
       }),
       shareReplay(1)
     )
+  }
+
+  private splitDateToArray(date: Date): [number, number, number] {
+    return [date.getFullYear(), date.getMonth(), date.getDate()]
   }
 
   private getForecasts(regionId: string = "all"): Observable<IOPAForecastDto> {
