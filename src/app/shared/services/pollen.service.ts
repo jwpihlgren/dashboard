@@ -95,7 +95,7 @@ export class PollenService {
         mappedForecasts.pollenLevels = [...mappedForecasts.pollenLevels].filter(pollenLevel => {
           const forecastDateSplit = this.splitDateToArray(pollenLevel.time)
           const currentDateSplit = this.splitDateToArray(mappedForecasts.currentDate)
-          return forecastDateSplit.every((forecastItem, index) => forecastItem === currentDateSplit[index]  )
+          return this.isSplitDatesEqual(forecastDateSplit, currentDateSplit)
         })
         return mappedForecasts
       }),
@@ -105,6 +105,9 @@ export class PollenService {
 
   private splitDateToArray(date: Date): [number, number, number] {
     return [date.getFullYear(), date.getMonth(), date.getDate()]
+  }
+  private isSplitDatesEqual(date1: [number, number, number], date2: [number, number, number]) {
+    return date1.every((dateItem, index) => dateItem === date2[index])
   }
 
   private getForecasts(regionId: string = "all"): Observable<IOPAForecastDto> {
