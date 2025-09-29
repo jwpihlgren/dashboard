@@ -19,8 +19,9 @@
           "options": {
             "outputPath": {
               "base": "docs/",
-              "browser": ""
+              "browser": "",
             },
+            "baseHref": "/dashboard/",
             "index": "src/index.html",
             "polyfills": [
               "src/polyfills.ts"
