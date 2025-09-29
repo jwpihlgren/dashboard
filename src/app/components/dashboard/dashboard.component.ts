@@ -53,7 +53,7 @@ export class DashboardComponent {
   constructor() {
     this.forecast = toSignal(this.weatherService.forecastResult$)
     this.stationWaterLevelData = toSignal(this.getPeriodData())
-    this.pollenForecast = toSignal(this.pollenService.pollenForecast$)
+    //this.pollenForecast = toSignal(this.pollenService.pollenForecast$)
     this.timer = toSignal(this.getTimer())
     this.pollenForecastPeriod = new Date()
     this.userMetaData = toSignal(this.userService.getUser().pipe(
@@ -61,7 +61,7 @@ export class DashboardComponent {
         this.id = user?.sub
         return this.userService.getUserMetadata(user?.sub!).pipe(
           map(metadata => {
-            this.queryObservables(metadata)
+            //this.queryObservables(metadata)
             return metadata
           })
         )
@@ -69,9 +69,7 @@ export class DashboardComponent {
     ))
   }
 
-  updatePollenData(data: { regionId: string, date: Date }): void {
-    this.pollenService.pollenForecastById(data.regionId, data.date)
-  }
+
 
   getTimer(): Observable<number> {
     const delay = 1000 * 60 * 60 * 0.5
