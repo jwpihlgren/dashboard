@@ -21,6 +21,7 @@
               "base": "docs/",
               "browser": ""
             },
+            "baseHref": "/dashboard/",
             "index": "src/index.html",
             "polyfills": [
               "src/polyfills.ts"
