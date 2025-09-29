@@ -61,7 +61,7 @@ export class DashboardComponent {
         this.id = user?.sub
         return this.userService.getUserMetadata(user?.sub!).pipe(
           map(metadata => {
-            //this.queryObservables(metadata)
+            this.queryObservables(metadata)
             return metadata
           })
         )
@@ -89,7 +89,7 @@ export class DashboardComponent {
     const weatherLocation = metadata.favorite.weatherForecastLocation
     const pollenLocation = metadata.favorite.pollenForecastLocation
     if (weatherLocation) this.weatherService.forecastByLocation(weatherLocation)
-    if (pollenLocation) this.pollenService.pollenForecastByName(pollenLocation.name, this.pollenForecastPeriod)
+    //if (pollenLocation) this.pollenService.pollenForecastByName(pollenLocation.name, this.pollenForecastPeriod)
 
   }
 
