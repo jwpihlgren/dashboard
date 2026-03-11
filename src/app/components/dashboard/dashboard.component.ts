@@ -53,7 +53,7 @@ export class DashboardComponent {
   constructor() {
     this.forecast = toSignal(this.weatherService.forecastResult$)
     this.stationWaterLevelData = toSignal(this.getPeriodData())
-    //this.pollenForecast = toSignal(this.pollenService.pollenForecast$)
+    this.pollenForecast = toSignal(this.pollenService.pollenForecast$)
     this.timer = toSignal(this.getTimer())
     this.pollenForecastPeriod = new Date()
     this.userMetaData = toSignal(this.userService.getUser().pipe(
@@ -89,7 +89,7 @@ export class DashboardComponent {
     const weatherLocation = metadata.favorite.weatherForecastLocation
     const pollenLocation = metadata.favorite.pollenForecastLocation
     if (weatherLocation) this.weatherService.forecastByLocation(weatherLocation)
-    //if (pollenLocation) this.pollenService.pollenForecastByName(pollenLocation.name, this.pollenForecastPeriod)
+    if (pollenLocation) this.pollenService.pollenForecastByName(pollenLocation.name, this.pollenForecastPeriod)
 
   }
 
@@ -105,6 +105,9 @@ export class DashboardComponent {
               share())
           }))
       }))
+  }
+  updatePollenData(data: { regionId: string, date: Date }): void {
+    this.pollenService.pollenForecastById(data.regionId, data.date)
   }
 }
 
