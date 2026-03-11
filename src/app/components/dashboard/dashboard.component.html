@@ -14,8 +14,8 @@
   <div class="card card-double">Loading</div>
   }
   @defer(when pollenForecast() !== undefined) {
-  <!--<app-pollen-forecast [forecast]="pollenForecast()!" (requestNewData)="updatePollenData($event)"
-    class="card card-full"></app-pollen-forecast> -->
+  <app-pollen-forecast [forecast]="pollenForecast()!" (requestNewData)="updatePollenData($event)"
+    class="card card-full"></app-pollen-forecast>
   }
   @loading{
   <div class="card card-full">Loading</div>
